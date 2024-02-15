@@ -1,0 +1,28 @@
+{
+  "name": "phparch/space-traders",
+  "description": "Space Traders client in PHP",
+  "type": "project",
+  "license": "MIT",
+  "config": {
+    "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Phparch\\SpaceTradersCLI\\": "cli/",
+      "Phparch\\SpaceTraders\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Oscar Merida",
+      "email": "oscar@oscarm.org"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+      "php": ">=8.1",
+      "ext-readline": "*",
+      "ext-curl": "*",
+    "minicli/minicli": "^4.2"
+  }
+}
