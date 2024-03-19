@@ -3,29 +3,35 @@
 namespace Phparch\SpaceTradersCLI\Command\Register;
 
 use Minicli\Command\CommandController;
+use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\ServiceContainer;
 
 class DefaultController extends CommandController
 {
+    public function required(): array {
+        return ['symbol', 'faction'];
+    }
+
     public function handle(): void
     {
-        $ch = curl_init();
+        $client = ServiceContainer::get(Client::class);
 
-        $data = json_encode([
-            'symbol' => 'PHP_ARCHIE',
-            'faction' => 'COSMIC'
-        ]);
-		curl_setopt(
-            $ch, \CURLOPT_URL,
-            'https://api.spacetraders.io/v2/register'
-        );
-		curl_setopt($ch, \CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json'
-        ]);
-		curl_setopt($ch, \CURLOPT_POSTFIELDS, $data);
-		curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
+        try {
+            $symbol = $this->getParam('symbol');
+            $faction = $this->getParam('faction');
 
-		$response = curl_exec($ch);
-		$this->success($response);
+            if (!preg_match('/[[:alnum:]_]+/', $symbol)) {
+                throw new \InvalidArgumentException("Symbol can only include letters, numbers, underscores");
+            }
+
+            if (!preg_match('/[[:alnum:]_]+/', $faction)) {
+                throw new \InvalidArgumentException("Faction can only include letters, numbers, underscores");
+            }
+
+            $response = $client->register($symbol, $faction);
+            $this->success(json_encode($response, flags: JSON_PRETTY_PRINT));
+        } catch (\Throwable $e) {
+            $this->error($e->getMessage());
+        }
     }
 }
