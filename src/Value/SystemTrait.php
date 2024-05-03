@@ -11,7 +11,5 @@ class SystemTrait
         public readonly string $name,
         /** @param non-empty-string */
         public readonly string $description,
-    )
-    {
-    }
+    ) {}
 }

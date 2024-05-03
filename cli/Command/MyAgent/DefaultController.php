@@ -18,6 +18,5 @@ class DefaultController extends CommandController
         $response = $client->MyAgent();
 
         $this->outputVar($response);
-
     }
 }
