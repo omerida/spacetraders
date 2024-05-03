@@ -24,9 +24,21 @@ class Client
     public function myAgent(): object
     {
         $response = $this->get('my/agent');
+        $json = $this->decodeResponse($response);
 
-        return $response;
+        return Response\My\Agent::fromArray($json['data']);
     }
+
+    public function systemLocation(string $system, string $waypoint)
+    {
+        $response = $this->get(
+            sprintf('systems/%s/waypoints/%s', $system, $waypoint)
+        );
+        $json = $this->decodeResponse($response);
+
+        return Response\Systems\Waypoints::fromArray($json['data']);
+    }
+
 
     private function get(string $url, bool $authenticate = true)
     {
@@ -60,6 +72,11 @@ class Client
             ]
         );
 
-        return json_decode($response->getBody());
+        return $this->decodeResponse($response);
+    }
+
+    private function decodeResponse(\GuzzleHttp\Psr7\Response $response): array
+    {
+        return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 }
