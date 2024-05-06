@@ -3,14 +3,14 @@
 namespace Phparch\SpaceTraders\Response\Systems;
 
 use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Value\SystemSymbol;
+use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 class Waypoints extends Base
 {
     public function __construct(
-        /** @var non-empty-string */
-        public readonly string $systemSymbol,
-        /** @var non-empty-string */
-        public readonly string $symbol,
+        public SystemSymbol $systemSymbol,
+        public WaypointSymbol $symbol,
         /** @var non-empty-string */
         public readonly string $type,
         public readonly int $x,
