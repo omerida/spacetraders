@@ -9,9 +9,9 @@ class Contracts extends Client
 {
     public function myContracts(): object
     {
-        $response = $this->get('my/contracts');
-        $json = $this->decodeResponse($response);
-
-        return Response\My\Contracts::fromArray($json['data']);
+        return $this->convertResponse(
+            $this->get('my/contracts'),
+            Response\Contracts\Contracts::class
+        );
     }
 }

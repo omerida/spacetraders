@@ -1,13 +1,13 @@
 <?php
 
-namespace Phparch\SpaceTradersCLI\Command\My;
+namespace Phparch\SpaceTradersCLI\Command\Contracts;
 
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 
-class ContractsController extends CommandController
+class DefaultController extends CommandController
 {
     use TerminalOutputHelper;
 

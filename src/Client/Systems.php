@@ -11,8 +11,7 @@ class Systems extends \Phparch\SpaceTraders\Client
         $response = $this->get(
             sprintf('systems/%s/waypoints/%s', $system, $waypoint)
         );
-        $json = $this->decodeResponse($response);
 
-        return Response\Systems\Waypoints::fromArray($json['data']);
+        return $this->convertResponse($response, Response\Systems\Waypoints::class);
     }
 }

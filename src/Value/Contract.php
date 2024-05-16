@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Value;
 final class Contract
 {
     public function __construct(
-        /** @param non-empty-string */
+        /** @var non-empty-string */
         public readonly string $id,
         public readonly FactionSymbol $factionSymbol,
         public readonly string $type,

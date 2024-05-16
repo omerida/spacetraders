@@ -7,10 +7,10 @@ use Phparch\SpaceTraders\Response;
 class Agents extends \Phparch\SpaceTraders\Client
 {
     public function myAgent(): object {
-        $response = $this->get('my/agent');
-        $json = $this->decodeResponse($response);
-
-        return Response\Agent::fromArray($json['data']);
+        return $this->convertResponse(
+            $this->get('my/agent'),
+            Response\Agent::class
+        );
     }
 
     public function register(string $symbol, string $faction)

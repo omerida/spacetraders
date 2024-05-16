@@ -1,6 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\My;
+namespace Phparch\SpaceTraders\Response\Contracts;
 
 use Phparch\SpaceTraders\Response\Base;
 
