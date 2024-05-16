@@ -2,9 +2,10 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-class Ship
-{
+use Phparch\SpaceTraders\Response\Base;
 
+class Ship extends Base
+{
     public function __construct(
         public readonly string $symbol,
         public readonly Nav $nav,
