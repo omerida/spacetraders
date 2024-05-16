@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Command\Register;
 
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Client\Agents;
 use Phparch\SpaceTraders\ServiceContainer;
 
 class DefaultController extends CommandController
@@ -14,7 +14,7 @@ class DefaultController extends CommandController
 
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client::class);
+        $client = ServiceContainer::get(Agents::class);
 
         try {
             $symbol = $this->getParam('symbol');

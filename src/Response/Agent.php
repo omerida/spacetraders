@@ -1,8 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\My;
-
-use Phparch\SpaceTraders\Response\Base;
+namespace Phparch\SpaceTraders\Response;
 
 class Agent extends Base
 {

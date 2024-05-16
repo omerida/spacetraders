@@ -18,7 +18,7 @@ class WaypointController extends CommandController
 
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client::class);
+        $client = ServiceContainer::get(Client\Systems::class);
 
         try {
             $input = $this->getParam('waypoint');
