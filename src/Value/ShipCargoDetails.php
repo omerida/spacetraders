@@ -2,7 +2,9 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-class ShipCargoDetails
+use Phparch\SpaceTraders\Response\Base;
+
+class ShipCargoDetails extends Base
 {
     public function __construct(
         /** @var non-negative-int */

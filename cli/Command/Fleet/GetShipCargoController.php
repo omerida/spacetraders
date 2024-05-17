@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 
-class GetShipController extends CommandController
+class GetShipCargoController extends CommandController
 {
     use TerminalOutputHelper;
 
@@ -21,7 +21,8 @@ class GetShipController extends CommandController
             throw new \InvalidArgumentException("Please specify ship symbol as third parameter");
         }
 
-        $response = $client->getShip($ship);
+        $response = $client->getShipCargo($ship);
+
         $this->outputVar($response);
     }
 }
