@@ -8,7 +8,7 @@ use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Response\Fleet\ListShips;
 use Phparch\SpaceTraders\Response\Fleet\ShipMounts;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
-use Phparch\SpaceTraders\Value\ShipMount;
+use Phparch\SpaceTraders\Value\ShipCoolDown;
 
 /**
  * For endpoints under "fleet" group.
@@ -43,8 +43,8 @@ class Fleet extends Client
     public function getShipCooldown(string $ship)
     {
         return $this->convertResponse(
-            $this->get('my/ships/' . $ship . '/cargo'),
-            ShipCargoDetails::class
+            $this->get('my/ships/' . $ship . '/cooldown'),
+            ShipCoolDown::class
         );
     }
 
