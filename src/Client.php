@@ -48,11 +48,10 @@ abstract class Client
 
     /**
      * Returns the API response as a raw decoded object from JSON string
-     * @param \GuzzleHttp\Psr7\Response $response
      * @return array
      * @throws \JsonException
      */
-    protected function decodeResponse(\GuzzleHttp\Psr7\Response $response): array
+    protected function decodeResponse(\Psr\Http\Message\ResponseInterface $response): array
     {
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }

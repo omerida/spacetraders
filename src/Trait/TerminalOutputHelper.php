@@ -6,6 +6,6 @@ trait TerminalOutputHelper
 {
     public function outputVar(mixed $value): void
     {
-        $this->out(print_r($value,1));
+        $this->out(print_r($value, true));
     }
 }
