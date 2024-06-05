@@ -6,13 +6,13 @@ use CuyZ\Valinor;
 
 abstract class Base
 {
+    /**
+     * @throws Valinor\Mapper\MappingError
+     */
     public static function fromArray(mixed $data): static
     {
         try {
             return (new Valinor\MapperBuilder())
-                ->enableFlexibleCasting()
-                ->allowSuperfluousKeys()
-                ->allowPermissiveTypes()
                 ->mapper()
                 ->map(
                     static::class,
@@ -28,6 +28,8 @@ abstract class Base
             foreach ($errorMessages as $message) {
                 echo $message . PHP_EOL;
             }
+
+            throw $error;
         }
     }
 }
