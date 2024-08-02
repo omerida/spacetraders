@@ -6,7 +6,9 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
+use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
+#[HelpInfo(description: "Get ship cooldown info", params: ['ship symbol'])]
 class GetShipCooldownController extends CommandController
 {
     use TerminalOutputHelper;

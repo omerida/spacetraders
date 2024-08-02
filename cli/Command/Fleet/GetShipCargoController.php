@@ -6,7 +6,9 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
+use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
+#[HelpInfo(description: "Get cargo details for a ship", params: ['ship symbol'])]
 class GetShipCargoController extends CommandController
 {
     use TerminalOutputHelper;

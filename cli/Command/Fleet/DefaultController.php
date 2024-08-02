@@ -6,7 +6,9 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
+use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
+#[HelpInfo(description: "LIst all ships")]
 class DefaultController extends CommandController
 {
     use TerminalOutputHelper;

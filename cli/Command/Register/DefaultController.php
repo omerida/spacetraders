@@ -5,7 +5,9 @@ namespace Phparch\SpaceTradersCLI\Command\Register;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client\Agents;
 use Phparch\SpaceTraders\ServiceContainer;
+use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
+#[HelpInfo(description: "Register a new account", params: ['symbol', 'faction'])]
 class DefaultController extends CommandController
 {
     public function required(): array {
