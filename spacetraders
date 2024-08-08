@@ -22,6 +22,8 @@ $app = new \Minicli\App([
     'debug' => false,
 ], 'spacetraders');
 
+$argv[1] = $argv[1] ?? 'help';
+
 try {
     $app->runCommand($argv);
 } catch (Throwable $e) {
