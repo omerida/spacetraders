@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Client\Agents;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
-#[HelpInfo(description: "Register a new account", params: ['symbol', 'faction'])]
+#[HelpInfo(description: "Register a new account")]
 class DefaultController extends CommandController
 {
     public function required(): array {

@@ -25,10 +25,15 @@ class DefaultController extends CommandController
                 $command = $this->getCommand($classname);
                 $info = $this->getHelpInfo($classname);
 
+                if ($info->required) {
+                    $required = array_map(fn($p) => "{$p}=value",$info->required);
+                    $command .= ' ' . implode(" ", $required);
+                }
                 if ($info->params) {
                     $params = array_map(fn($p) => "<{$p}>", $info->params);
                     $command .= " " . implode(" ", $params);
-                }
+                } 
+
                 $this->display("$command\n    {$info->description}");
 
             } catch (\RuntimeException $ex) {
@@ -74,8 +79,6 @@ class DefaultController extends CommandController
         // remove "Controller" suffix
         $command = preg_replace('|Controller$|', '', $command);
         $command = str_replace('\\', ' ', $command);
-        // add space before camelcase
-        $command = preg_replace('|([a-z])([A-Z])|', '$1 $2', $command);
 
         return trim(strtolower($command));
     }
@@ -90,7 +93,17 @@ class DefaultController extends CommandController
         $attributes = $reflection->getAttributes(HelpInfo::class);
 
         if ($attributes) {
-            return $attributes[0]->newInstance();
+            $instance = $attributes[0]->newInstance();
+            
+            if (
+                !$instance->params
+                && ($method = $reflection->getMethod('required'))
+            ) {
+                $obj = new $classname();
+                $instance->required = $obj->required();
+            }
+
+            return $instance;
         }
 
         throw new \RuntimeException("No help info found for $classname");
