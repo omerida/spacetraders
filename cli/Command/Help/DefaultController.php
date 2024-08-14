@@ -22,19 +22,10 @@ class DefaultController extends CommandController
         foreach ($controllers as $file) {
             try {
                 $classname = $this->getClassName($file);
-                $command = $this->getCommand($classname);
-                $info = $this->getHelpInfo($classname);
 
-                if ($info->required) {
-                    $required = array_map(fn($p) => "{$p}=value",$info->required);
-                    $command .= ' ' . implode(" ", $required);
-                }
-                if ($info->params) {
-                    $params = array_map(fn($p) => "<{$p}>", $info->params);
-                    $command .= " " . implode(" ", $params);
-                } 
+                $output = $this->buildCommandDetails($classname);
 
-                $this->display("$command\n    {$info->description}");
+                $this->display($output);
 
             } catch (\RuntimeException $ex) {
                 $this->error($ex->getMessage());
@@ -57,31 +48,34 @@ class DefaultController extends CommandController
         return $controllers;
     }
 
+    /**
+     * Transform the filename into a fully-qualified classname (FQCN).
+     * @return class-string
+     */
     private function getClassName(\SplFileInfo $file): string
     {
-        // transform the filename into a fully-qualified classname (FQCN)
-        $path = realpath($file->getRealPath());
-        // keep from the CLI root forward and drop the extension
-        if (preg_match('|SpaceTraders/cli/(.+)\.php|', $file->getRealPath(), $match)) {
+        // Keep dirs from the CLI root forward and drop file extension
+        if (preg_match('|SpaceTraders/cli/(.+)\.php$|', $file->getRealPath(), $match)) {
             return self::BASE_NS . str_replace('/', '\\', $match[1]);
         }
-        throw new \RuntimeException("Could not find FQCN for $path");
+        throw new \RuntimeException("Could not find FQCN for " . $file->getRealPath());
     }
 
     /**
      * @param class-string $classname
      */
-    private function getCommand(string $classname): string {
-
+    private function getCommand(string $classname): string
+    {
         $ns = str_replace('\\', '\\\\', self::BASE_NS);
         // remove common namespace at beginning
         $command = preg_replace('|^' . $ns . '\\Command|', '', $classname);
-        // remove "Controller" suffix
+        // remove "Controller" suffix and trailing slash
         $command = preg_replace('|Controller$|', '', $command);
         $command = str_replace('\\', ' ', $command);
 
-        return trim(strtolower($command));
+        return strtolower(trim($command));
     }
+
     /**
      * @param class-string $classname
      * @throws \ReflectionException
@@ -107,5 +101,27 @@ class DefaultController extends CommandController
         }
 
         throw new \RuntimeException("No help info found for $classname");
+    }
+
+    /**
+     * @param class-string $classname
+     * @throws \ReflectionException
+     */
+    private function buildCommandDetails(string $classname): string
+    {
+        $command = $this->getCommand($classname);
+        $info = $this->getHelpInfo($classname);
+
+        if ($info->required) {
+            $required = array_map(fn($p) => "{$p}=value", $info->required);
+            $command .= ' ' . implode(" ", $required);
+        }
+
+        if ($info->params) {
+            $params = array_map(fn($p) => "<{$p}>", $info->params);
+            $command .= " " . implode(" ", $params);
+        }
+
+        return "$command\n    {$info->description}";
     }
 }

@@ -22,6 +22,7 @@ $app = new \Minicli\App([
     'debug' => false,
 ], 'spacetraders');
 
+// add the help command if one hasn't been specified.
 $argv[1] = $argv[1] ?? 'help';
 
 try {
