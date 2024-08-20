@@ -9,7 +9,7 @@ use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
-#[HelpInfo(description: "Show details about a waypoint", params: ['waypoint'])]
+#[HelpInfo(description: "Show details about a waypoint")]
 class WaypointController extends CommandController
 {
     use TerminalOutputHelper;

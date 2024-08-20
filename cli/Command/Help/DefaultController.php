@@ -121,7 +121,7 @@ class DefaultController extends CommandController
             $params = array_map(fn($p) => "<{$p}>", $info->params);
             $command .= " " . implode(" ", $params);
         }
-
+        
         return "$command\n    {$info->description}";
     }
 }

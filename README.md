@@ -15,3 +15,5 @@ Get Info about your agent:
 ```
 ./spacetraders myagent
 ```
+
+Add the token to `.env` file to authenticate other requests.
