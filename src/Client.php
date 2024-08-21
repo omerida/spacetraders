@@ -27,7 +27,7 @@ abstract class Client
         ]);
     }
 
-    protected function post(string $url, array $data, bool $authenticate = true)
+    protected function post(string $url, array $data = [], bool $authenticate = true)
     {
         $headers = [
             'Content-Type' => 'application/json'
@@ -39,7 +39,7 @@ abstract class Client
         $response = $this->guzzle->post(
              $this->baseURI . $url, [
                 'headers' => $headers,
-                'body' => json_encode($data)
+                'body' => $data ? json_encode($data) : null,
             ]
         );
 

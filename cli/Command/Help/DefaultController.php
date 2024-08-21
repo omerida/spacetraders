@@ -91,7 +91,7 @@ class DefaultController extends CommandController
             
             if (
                 !$instance->params
-                && ($method = $reflection->getMethod('required'))
+                && (method_exists($instance, 'required'))
             ) {
                 $obj = new $classname();
                 $instance->required = $obj->required();

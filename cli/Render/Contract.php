@@ -37,9 +37,13 @@ class Contract implements RenderInterface {
         }
 
 
-        $out [] = PHP_EOL . "  EXPIRES: " . $this->contract->expiration->format(DATE_COOKIE);
-        $out [] = "ACCEPT BY: " . $this->contract->deadlineToAccept->format(DATE_COOKIE);
+        $out[] = PHP_EOL . "  EXPIRES: " . $this->contract->expiration->format(DATE_COOKIE);
+        $out[] = "ACCEPT BY: " . $this->contract->deadlineToAccept->format(DATE_COOKIE);
 
+        if (!$this->contract->accepted) {
+            $out[] = PHP_EOL . "To accept:";
+            $out[] = PHP_EOL . "  spacetraders contracts accept " . $this->contract->id;
+        }
         return implode(PHP_EOL, $out) . PHP_EOL;
     }
 }

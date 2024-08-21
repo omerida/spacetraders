@@ -14,4 +14,14 @@ class Contracts extends Client
             Response\Contracts\Contracts::class
         );
     }
+
+    public function accept(string $id): Response\Contracts\Accept
+    {
+        $url = sprintf('my/contracts/%s/accept', $id);
+
+        return $this->convertResponse(
+            $this->post($url),
+            Response\Contracts\Accept::class
+        );
+    }
 }
