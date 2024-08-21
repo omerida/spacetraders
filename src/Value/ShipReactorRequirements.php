@@ -5,12 +5,10 @@ namespace Phparch\SpaceTraders\Value;
 class ShipReactorRequirements
 {
     public function __construct(
-        /** @var null|non-negative-int */
-        public readonly ?int $power,
         /** @var non-negative-int */
         public readonly int $crew,
-        /** @var null|non-negative-int */
-        public readonly ?int $slots,
+        public readonly ?int $power = null,
+        public readonly ?int $slots = null,
     )
     {
     }

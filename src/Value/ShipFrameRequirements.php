@@ -10,7 +10,7 @@ class ShipFrameRequirements
         /** @var non-negative-int */
         public readonly int $crew,
         /** @var null|non-negative-int */
-        public readonly ?int $slots,
+        public readonly ?int $slots = null,
     )
     {
     }

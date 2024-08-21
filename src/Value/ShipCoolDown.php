@@ -10,7 +10,7 @@ class ShipCoolDown
         public readonly int $totalSeconds,
         /** @var non-negative-int */
         public readonly int $remainingSeconds,
-        public readonly ?\DateTimeImmutable $expiration,
+        public readonly ?\DateTimeImmutable $expiration = null,
     )
     {
     }

@@ -26,7 +26,8 @@ abstract class Base
             $errorMessages = $messages->errors();
 
             foreach ($errorMessages as $message) {
-                echo $message . PHP_EOL;
+                $output = $message->withBody("{node_path}\n  {original_message}");
+                echo $output . PHP_EOL;
             }
 
             throw $error;
