@@ -7,6 +7,7 @@ use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersCLI\Render\Contract;
 
 #[HelpInfo(description: "Show My Contracts")]
 class DefaultController extends CommandController
@@ -19,6 +20,11 @@ class DefaultController extends CommandController
 
         $response = $client->MyContracts();
 
-        $this->outputVar($response);
+        foreach ($response->contracts as $contract) {
+            $renderer = new Contract($contract);
+            echo $renderer->output();
+        }
+
+//        $this->outputVar($response);
     }
 }
