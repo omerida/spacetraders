@@ -2,7 +2,9 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-final class Contract
+use Phparch\SpaceTraders\Response\Base;
+
+final class Contract extends Base
 {
     public function __construct(
         /** @var non-empty-string */
