@@ -18,19 +18,35 @@ class DefaultController extends CommandController
     public function handle(): void
     {
         $controllers = $this->findControllers();
-
+        $grouped = [];
         foreach ($controllers as $file) {
             try {
                 $classname = $this->getClassName($file);
 
-                $output = $this->buildCommandDetails($classname);
+                $detail = $this->buildCommandDetails($classname);
 
-                $this->display($output);
-
+                preg_match('/^(\w+)\s/', $detail, $match);
+                $ns = $match[1];
+                
+                $grouped[$ns][] = $detail;
+                
             } catch (\RuntimeException $ex) {
                 $this->error($ex->getMessage());
             }
         }
+
+        ksort($grouped);
+        foreach ($grouped as $group => $commands) {
+                $this->out($group, 'success_alt');
+                $this->newline();
+                foreach ($commands as $command) {
+                    $lines = explode(PHP_EOL, $command);
+                    $subc = preg_replace("/^({$group}\s+)/", '   ', $lines[0]);
+                    $this->out(sprintf('   %-35s', trim($subc)), 'info');
+                    $this->out($lines[1]);
+                    $this->newline();
+                }
+            }
     }
 
     /**
