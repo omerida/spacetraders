@@ -14,33 +14,39 @@ class Waypoint extends AbstractRenderer
     public function output(): string
     {
         $this->sprintf(
-            'SYSTEM SYMBOL: %s, %s (%d, %d)',
+            '<:BLU:>SYSTEM SYMBOL:<:DEF:> %s, <:YEL:>%s<:DEF:> (x: %d, y: %d)',
             $this->waypoint->symbol,
             $this->waypoint->type,
             $this->waypoint->x,
             $this->waypoint->y,
         );
 
+        $this->writeln('');
+
         $this->sprintf(
-            'CHART: Submitted by %s on %s',
+            '<:BLU:>CHART:<:DEF:> Submitted by <:YEL:>%s<:DEF:> on <:YEL:>%s',
             $this->waypoint->chart->submittedBy,
             $this->waypoint->chart->submittedOn->format(DATE_COOKIE),
         );
 
-        $this->writeln("", "ORBITALS");
+        $this->heading("ORBITALS");
         if ($this->waypoint->orbitals) {
-            foreach ($this->waypoint->orbitals as $orbital) {
-                // TODO render an orbital
+            foreach ($this->waypoint->orbitals as $i => $orbital) {
+                $this->sprintf(
+                    "<:GRN:>%d. %s",
+                    $i + 1,
+                    $orbital->symbol,
+                );
             }
         } else {
-            $this->writeln("None");
+            $this->writeln('None', '');
         }
 
-        $this->writeln("", "TRAITS");
+        $this->heading("TRAITS");
         if ($this->waypoint->traits) {
             foreach ($this->waypoint->traits as $i => $trait) {
                 $this->sprintf(
-                    "%d. %s (%s)",
+                    "<:GRN:>%d. %s (%s)",
                     $i + 1,
                     $trait->name,
                     $trait->symbol
@@ -48,14 +54,14 @@ class Waypoint extends AbstractRenderer
                 $this->writeln(wordwrap($trait->description, 70), "");
             }
         } else {
-            $this->writeln("   None");
+            $this->writeln('None', '');
         }
 
-        $this->writeln("MODIFIERS");
+        $this->heading("MODIFIERS");
         if ($this->waypoint->modifiers) {
             foreach ($this->waypoint->modifiers as $i => $modifier) {
                 $this->sprintf(
-                    "%d. %s (%s)",
+                    "<:GRN:>%d. %s (%s)",
                     $i + 1,
                     $modifier->name,
                     $modifier->symbol
