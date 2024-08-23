@@ -2,36 +2,45 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-class Contract implements RenderInterface {
+class Contract extends AbstractRenderer {
 
     public function __construct(
         public \Phparch\SpaceTraders\Value\Contract $contract,
     ) {}
 
     public function output(): string {
-        $out = [];
-        $out[] = sprintf(
-            '%s / %s ',
+        $this->sprintf(
+            '<:BLU:>%s<:DEF:> / <:RED:>%s ',
             (string) $this->contract->factionSymbol,
             $this->contract->id
         );
-        $out[] = sprintf(
-            "TYPE: %-15s    ACCEPTED? %s    FULFILLED? %s",
+        $this->sprintf(
+            $this->blue('TYPE:') . $this->yellow(' %-25s')
+            . '    ' . $this->blue('ACCEPTED?') . ' ' . $this->yellow('%s')
+            . '    ' . $this->blue('FULFILLED?') . ' ' . $this->yellow('%s'),
             $this->contract->type,
             $this->contract->accepted ? "Yes" : "No",
             $this->contract->fulfilled ? "Yes" : "No",
         );
-        $out[] = PHP_EOL . sprintf(
-            "Deliver by %s.\nReceive %s on acceptance and %s on fulfillment.",
+        $this->newline();
+        $this->sprintf(
+            "Deliver by ". $this->red('%s'),
             $this->contract->terms->deadline->format(DATE_COOKIE),
+        );
+        $this->sprintf(
+            "Receive " . $this->yellow('%s') . ' on acceptance and '
+            . $this->yellow('%s') .' on fulfillment.',
             number_format($this->contract->terms->payment->onAccepted),
             number_format($this->contract->terms->payment->onFulfilled),
-        ) . PHP_EOL;
+        );
 
-        $out[] = "Resource(s)              Destination  Required  Fulfilled";
-        $out[] = "----------------------------------------------------------";
+        $this->newline();
+        $this->writeln(
+            $this->blue("Resource(s)              Destination   Required  Fulfilled"),
+            $this->blue("----------------------------------------------------------"),
+        );
         foreach ($this->contract->terms->deliver as $deliver) {
-            $out[] = sprintf(
+            $this->sprintf(
                 "%-25s %-12s %8d %10d",
                 $deliver->tradeSymbol,
                 $deliver->destinationSymbol,
@@ -40,14 +49,18 @@ class Contract implements RenderInterface {
             );
         }
 
-
-        $out[] = PHP_EOL . "  EXPIRES: " . $this->contract->expiration->format(DATE_COOKIE);
-        $out[] = "ACCEPT BY: " . $this->contract->deadlineToAccept->format(DATE_COOKIE);
+        $this->newline();
+        $this->writeln(
+            $this->blue("  EXPIRES: ") . $this->red($this->contract->expiration->format(DATE_COOKIE)),
+            $this->blue("ACCEPT BY: ") . $this->yellow($this->contract->deadlineToAccept->format(DATE_COOKIE))
+        );
 
         if (!$this->contract->accepted) {
-            $out[] = PHP_EOL . "To accept:";
-            $out[] = PHP_EOL . "  spacetraders contracts accept " . $this->contract->id;
+            $this->heading("To accept:");
+            $this->writeln(
+                "  spacetraders contracts accept " . $this->contract->id
+            );
         }
-        return implode(PHP_EOL, $out) . PHP_EOL;
+        return parent::output();
     }
 }

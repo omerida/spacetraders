@@ -48,6 +48,27 @@ class AbstractRenderer implements RenderInterface
 
     private const RESET = '0';
 
+    public function black(string $in): string {
+        return $this->colorize('<:BLACK:>' . $in . '<:DEF:>');
+    }
+    public function red(string $in): string {
+        return $this->colorize('<:RED:>' . $in . '<:DEF:>');
+    }
+    public function green(string $in): string {
+        return $this->colorize('<:GRN:>' . $in . '<:DEF:>');
+    }
+    public function blue(string $in): string {
+        return $this->colorize('<:BLU:>' . $in . '<:DEF:>');
+    }
+    public function magenta(string $in): string {
+        return $this->colorize('<:MAG:>' . $in . '<:DEF:>');
+    }
+    public function yellow(string $in): string {
+        return $this->colorize('<:YEL:>' . $in . '<:DEF:>');
+    }
+    public function cyan(string $in): string {
+        return $this->colorize('<:CYN:>' . $in . '<:DEF:>');
+    }
     private function colorize(string $in): string {
         // reset the colors automaticall
         if (str_contains($in, '<:') && !str_contains($in, '<:END:>')) {
@@ -65,6 +86,10 @@ class AbstractRenderer implements RenderInterface
         if ($blankAfter) {
             $this->writeln('');
         }
+    }
+
+    public function newline() {
+        $this->writeln('');
     }
 
     protected function writeln(string ...$lines) {
