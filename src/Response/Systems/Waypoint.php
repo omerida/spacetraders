@@ -4,6 +4,7 @@ namespace Phparch\SpaceTraders\Response\Systems;
 
 use Phparch\SpaceTraders\Response\Base;
 use Phparch\SpaceTraders\Value\SystemSymbol;
+use Phparch\SpaceTraders\Value\WaypointFaction;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 class Waypoint extends Base
@@ -21,10 +22,8 @@ class Waypoint extends Base
         public readonly array $traits,
         /** @var list<\Phparch\SpaceTraders\Value\SystemTrait> */
         public readonly array $modifiers,
-        /** @var array{submittedBy: string, submittedOn: string } */
-        public readonly array $chart,
-        /** @var array{symbol: string } */
-        public readonly array $faction,
+        public readonly \Phparch\SpaceTraders\Value\SystemChart $chart,
+        public readonly WaypointFaction $faction,
         public readonly bool $isUnderConstruction
     ) {}
 }

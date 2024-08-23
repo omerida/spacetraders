@@ -20,4 +20,11 @@ class WaypointSymbol
         $this->system = $match[1] . '-' . $match[2];
         $this->waypoint = $match[1] . '-' . $match[2] . '-' . $match[3];
     }
+
+    public function __toString(): string
+    {
+        return $this->waypoint;
+    }
+
+
 }

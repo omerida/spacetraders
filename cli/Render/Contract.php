@@ -10,7 +10,11 @@ class Contract implements RenderInterface {
 
     public function output(): string {
         $out = [];
-        $out[] = (string) $this->contract->factionSymbol . ' / ' . $this->contract->id;
+        $out[] = sprintf(
+            '%s / %s ',
+            (string) $this->contract->factionSymbol,
+            $this->contract->id
+        );
         $out[] = sprintf(
             "TYPE: %-15s    ACCEPTED? %s    FULFILLED? %s",
             $this->contract->type,
