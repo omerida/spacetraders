@@ -16,7 +16,6 @@ class ShipCrew {
         public readonly int $morale,
         /** @var non-negative-int */
         public readonly int $wages,
-
     )
     {
     }

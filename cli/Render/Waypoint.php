@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Render;
 
 use \Phparch\SpaceTraders\Response;
+
 class Waypoint extends AbstractRenderer
 {
 

@@ -10,8 +10,8 @@ use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
-#[HelpInfo(description: "Show details about a waypoint")]
-class WaypointController extends CommandController
+#[HelpInfo(description: "Show details about a specific waypoint")]
+class ShipyardController extends CommandController
 {
     use TerminalOutputHelper;
 
@@ -32,8 +32,9 @@ class WaypointController extends CommandController
 
             $wp = new WaypointSymbol($id);
 
-            $waypoint = $client->systemLocation($wp->system, $wp->waypoint);
-            $r = new Render\Waypoint($waypoint);
+            $shipyard = $client->shipyard($wp->system, $wp->waypoint);
+
+            $r = new Render\Shipyard($shipyard);
             echo $r->output();
 
         } catch (\Throwable $e) {
