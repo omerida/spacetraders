@@ -41,7 +41,7 @@ class AbstractRenderer implements RenderInterface
         '<:MAG:>' => self::ESC . self::MAG . self::CLOSE,
         '<:MAGBOLD:>' => self::ESC . self::BOLD . ';'
             . self::MAG . self::CLOSE,
-        '<:CYN:>' => self::CYN . self::CYN . self::CLOSE,
+        '<:CYN:>' => self::ESC . self::CYN . self::CLOSE,
         '<:CYNBOLD:>' => self::ESC . self::BOLD . ';'
             . self::CYN . self::CLOSE,
     ];
