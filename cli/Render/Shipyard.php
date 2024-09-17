@@ -60,12 +60,10 @@ class Shipyard extends AbstractRenderer
         $this->heading("SHIPS");
         if ($this->shipyard->ships) {
             foreach ($this->shipyard->ships as $i => $ship) {
-                $this->sprintf(
-                    "<:GRN:>%d. %s %s",
-                    $i + 1,
-                    $ship->name,
-                    $ship->type,
-                );
+                $sub = new Shipyard\Ship($ship);
+                $lines = $sub->output();
+
+                $this->writeln($lines);
             }
             $this->newline();
         } else {

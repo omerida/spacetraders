@@ -17,7 +17,7 @@ class AbstractRenderer implements RenderInterface
     private const YEL = '33';
     private const BLU = '34';
     private const MAG = '35';
-    private const CYN = '35';
+    private const CYN = '36';
     private const BOLD = '1';
 
     // placeholder for ASCII terminal colors
@@ -38,10 +38,10 @@ class AbstractRenderer implements RenderInterface
         '<:BLU:>' => self::ESC . self::BLU . self::CLOSE,
         '<:BLUBOLD:>' => self::ESC . self::BOLD . ';'
             . self::BLU . self::CLOSE,
-        '<:MAG:>' => self::ESC . self::GRN . self::CLOSE,
+        '<:MAG:>' => self::ESC . self::MAG . self::CLOSE,
         '<:MAGBOLD:>' => self::ESC . self::BOLD . ';'
             . self::MAG . self::CLOSE,
-        '<:CYN:>' => self::CYN . self::RED . self::CLOSE,
+        '<:CYN:>' => self::CYN . self::CYN . self::CLOSE,
         '<:CYNBOLD:>' => self::ESC . self::BOLD . ';'
             . self::CYN . self::CLOSE,
     ];
@@ -103,5 +103,10 @@ class AbstractRenderer implements RenderInterface
     public function output(): string
     {
         return implode(PHP_EOL, $this->out) . PHP_EOL;
+    }
+
+    public function getOutput(): array
+    {
+        return $this->out;
     }
 }

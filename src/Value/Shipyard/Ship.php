@@ -11,18 +11,18 @@ class Ship
     public function __construct(
         public string $type, // enum
         public string $name,
-        public string      $description,
-        public string      $supply, // enum
-        public int         $purchasePrice,
-        public Ship\Frame   $frame,
+        public string $description,
+        public string $supply, // enum
+        public int $purchasePrice,
+        public Ship\Frame $frame,
         public Ship\Reactor $reactor,
-        public Ship\Engine  $engine,
+        public Ship\Engine $engine,
         /** @var ShipModule[] */
-        public array       $modules,
+        public array $modules,
         /** @var ShipMount[] */
-        public array       $mounts,
-        public Crew        $crew,
-        public string      $activity, // enum
+        public array $mounts,
+        public Crew $crew,
+        public string $activity, // enum
     ) {
     }
 }
