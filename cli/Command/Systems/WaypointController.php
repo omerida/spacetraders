@@ -8,6 +8,7 @@ use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersCLI\Render;
 
 #[HelpInfo(description: "Show details about a waypoint")]
 class WaypointController extends CommandController
@@ -26,8 +27,9 @@ class WaypointController extends CommandController
             $input = $this->getParam('waypoint');
             $wp = new WaypointSymbol($input);
 
-            $response = $client->systemLocation($wp->system, $wp->waypoint);
-            $this->outputVar($response);
+            $waypoint = $client->systemLocation($wp->system, $wp->waypoint);
+            $r = new Render\Waypoint($waypoint);
+            echo $r->output();
 
         } catch (\Throwable $e) {
             $this->error($e->getMessage());

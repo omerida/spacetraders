@@ -73,8 +73,7 @@ class AbstractRenderer implements RenderInterface
         // reset the colors automaticall
         if (str_contains($in, '<:') && !str_contains($in, '<:END:>')) {
             $in .= '<:DEF:>';
-        };
-
+        }
 
         return strtr($in, $this->colors);
     }

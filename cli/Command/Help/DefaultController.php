@@ -37,16 +37,16 @@ class DefaultController extends CommandController
 
         ksort($grouped);
         foreach ($grouped as $group => $commands) {
-                $this->out($group, 'success_alt');
+            $this->out($group, 'success_alt');
+            $this->newline();
+            foreach ($commands as $command) {
+                $lines = explode(PHP_EOL, $command);
+                $subc = preg_replace("/^({$group}\s+)/", '   ', $lines[0]);
+                $this->out(sprintf('   %-35s', trim($subc)), 'info');
+                $this->out($lines[1]);
                 $this->newline();
-                foreach ($commands as $command) {
-                    $lines = explode(PHP_EOL, $command);
-                    $subc = preg_replace("/^({$group}\s+)/", '   ', $lines[0]);
-                    $this->out(sprintf('   %-35s', trim($subc)), 'info');
-                    $this->out($lines[1]);
-                    $this->newline();
-                }
             }
+        }
     }
 
     /**
