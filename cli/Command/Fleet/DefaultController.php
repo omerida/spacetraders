@@ -7,6 +7,7 @@ use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersCLI\Render;
 
 #[HelpInfo(description: "List all ships")]
 class DefaultController extends CommandController
@@ -19,6 +20,13 @@ class DefaultController extends CommandController
 
         $response = $client->ListShips();
 
-        $this->outputVar($response);
+        if ($response->ships) {
+            foreach ($response->ships as $ship) {
+                $r = new Render\Ship($ship);
+                echo $r->output();
+            }
+        } else {
+            echo "No ships found.";
+        }
     }
 }

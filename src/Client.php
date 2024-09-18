@@ -2,6 +2,8 @@
 
 namespace Phparch\SpaceTraders;
 
+use Psr\Http\Message\ResponseInterface;
+
 abstract class Client
 {
     private string $baseURI = 'https://api.spacetraders.io/v2/';
@@ -27,7 +29,11 @@ abstract class Client
         ]);
     }
 
-    protected function post(string $url, array $data = [], bool $authenticate = true)
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonException
+     */
+    protected function post(string $url, array $data = [], bool $authenticate = true): ResponseInterface
     {
         $headers = [
             'Content-Type' => 'application/json'
@@ -43,7 +49,7 @@ abstract class Client
             ]
         );
 
-        return $this->decodeResponse($response);
+        return $response;
     }
 
     /**

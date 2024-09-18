@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Value\WaypointSymbol;
 class Transaction
 {
     public function __construct(
-        public WaypointSymbol $symbol,
+        public WaypointSymbol $waypointSymbol,
         public string $shipSymbol,
         public string $shipType, // enum
         /** @var non-negative-int */

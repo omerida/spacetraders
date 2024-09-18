@@ -2,13 +2,17 @@
 
 namespace Phparch\SpaceTraders\Client;
 
+use GuzzleHttp\Exception\ClientException;
+use http\Exception\RuntimeException;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Response\Fleet\PurchaseShip;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Response\Fleet\ListShips;
 use Phparch\SpaceTraders\Response\Fleet\ShipMounts;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
 use Phparch\SpaceTraders\Value\ShipCoolDown;
+use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 /**
  * For endpoints under "fleet" group.
@@ -64,5 +68,25 @@ class Fleet extends Client
         );
     }
 
+    public function purchaseShip(WaypointSymbol $waypoint, string $type)
+    {
+        try {
+            $response = $this->post(
+                'my/ships',
+                data: [
+                    'waypointSymbol' => (string) $waypoint,
+                    'shipType' => $type,
+                ],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response, PurchaseShip::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), true);
+        }
+
+
+    }
 }
 

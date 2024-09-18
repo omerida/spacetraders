@@ -18,4 +18,9 @@ class SystemSymbol
         $this->sector = $match[1];
         $this->system = $match[1] . '-' . $match[2];
     }
+
+    public function __toString(): string
+    {
+        return $this->sector . '-' . $this->system;
+    }
 }
