@@ -14,7 +14,7 @@ class Ship extends AbstractRenderer {
     public function output(): string
     {
         $this->sprintf(
-            '<:YEL:>%s<:DEF:> (%s)',
+            '<:RED:>%s<:DEF:> (%s)',
             $this->ship->name,
             $this->ship->type
         );
@@ -28,7 +28,7 @@ class Ship extends AbstractRenderer {
         $this->newline();
         // FRAME
         $this->sprintf(
-            '<:YEL:>## FRAME<:DEF:> %s (%s)',
+            '<:CYN:>## FRAME<:DEF:> %s (%s)',
             $this->ship->frame->name,
             $this->ship->frame->symbol,
         );
@@ -94,7 +94,33 @@ class Ship extends AbstractRenderer {
             $this->ship->reactor->requirements->crew ?? '-',
             $this->ship->reactor->requirements->slots ?? '-',
         );
-        $this->writeln($this->blue('.......................'));
+        $this->newline();
+        $this->writeln($this->cyan('## MOUNTS'));
+
+        if ($this->ship->mounts) {
+            foreach ($this->ship->mounts as $i => $mount) {
+                $this->sprintf(
+                    '%d. %s <:YEL:>(%s)',
+                    $i + 1,
+                    $mount->name,
+                    $mount->symbol,
+                );
+                $this->writeln($this->green('   ' . $mount->description));
+                $this->sprintf(
+                    '   <:YEL:>Strength<:DEF:> %d',
+                    $mount->strength,
+                );
+                $this->sprintf(
+            '   <:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s',
+                    $mount->requirements->power,
+                    $mount->requirements->crew,
+                );
+            }
+        } else {
+            $this->writeln('None', '');
+        }
+         $this->writeln($this->blue('.......................'));
+
         return parent::output();
     }
 }

@@ -10,7 +10,7 @@ use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
-#[HelpInfo(description: "Show details about a specific waypoint")]
+#[HelpInfo(description: "Show details about a waypoint that has a shipyard")]
 class ShipyardController extends CommandController
 {
     use TerminalOutputHelper;

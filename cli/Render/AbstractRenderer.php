@@ -92,6 +92,8 @@ class AbstractRenderer implements RenderInterface
     }
 
     protected function writeln(string ...$lines) {
+        array_walk($lines, fn($line) => $this->colorize($line));
+
         $this->out = array_merge($this->out, $lines);
     }
 
