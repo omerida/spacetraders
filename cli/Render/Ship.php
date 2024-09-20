@@ -2,10 +2,11 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-use \Phparch\SpaceTraders\Value;
+use Phparch\SpaceTraders\Value;
 
-class Ship extends AbstractRenderer {
-        public function __construct(
+class Ship extends AbstractRenderer
+{
+    public function __construct(
         public Value\Ship $ship,
     ) {
     }
@@ -34,7 +35,8 @@ class Ship extends AbstractRenderer {
         );
         $this->writeln($this->green(wordwrap($this->ship->frame->description, 80)));
         $this->sprintf(
-            '<:YEL:>Condition<:DEF:>       %3s  <:YEL:>Integrity<:DEF:>     %3s  <:YEL:>Module Slots<:DEF:> %s',
+            '<:YEL:>Condition<:DEF:>       %3s  <:YEL:>Integrity<:DEF:>     %3s  '
+            . '<:YEL:>Module Slots<:DEF:> %s',
             $this->ship->frame->condition,
             $this->ship->frame->integrity,
             $this->ship->frame->moduleSlots,
@@ -80,7 +82,8 @@ class Ship extends AbstractRenderer {
         $this->writeln($this->green(wordwrap($this->ship->reactor->description, 80)));
 
         $this->sprintf(
-            '<:YEL:>Power Output<:DEF:> %3s  <:YEL:>Condition<:DEF:> %s  <:YEL:>Integrity<:DEF:> %s',
+            '<:YEL:>Power Output<:DEF:> %3s  <:YEL:>Condition<:DEF:> %s  '
+            . '<:YEL:>Integrity<:DEF:> %s',
             $this->ship->reactor->powerOutput,
             $this->ship->reactor->condition,
             $this->ship->reactor->integrity,
@@ -109,7 +112,7 @@ class Ship extends AbstractRenderer {
                     $mount->strength,
                 );
                 $this->sprintf(
-            '   <:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s',
+                    '   <:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s',
                     $mount->requirements->power,
                     $mount->requirements->crew,
                 );
