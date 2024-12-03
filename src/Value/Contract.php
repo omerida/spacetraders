@@ -16,6 +16,6 @@ final class Contract extends Base
         public readonly bool $fulfilled,
         public readonly \DateTimeImmutable $expiration,
         public readonly \DateTimeImmutable $deadlineToAccept,
-    ) {}
-
+    ) {
+    }
 }

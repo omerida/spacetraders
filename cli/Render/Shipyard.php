@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Render;
 
 use DateTimeInterface;
-use \Phparch\SpaceTraders\Value;
+use Phparch\SpaceTraders\Value;
 
 class Shipyard extends AbstractRenderer
 {
@@ -43,11 +43,11 @@ class Shipyard extends AbstractRenderer
                 $this->sprintf(
                     "<:GRN:>%d. %s %s <:YEL:>%d<:DEF:> %s %s",
                     $i + 1,
-                    $tr->symbol,
+                    $tr->waypointSymbol,
                     $tr->shipSymbol,
                     $tr->shipType,
                     $tr->price,
-                    $tr->agentSymbol.
+                    $tr->agentSymbol .
                     $tr->timestamp->format(DateTimeInterface::ATOM),
                 );
             }

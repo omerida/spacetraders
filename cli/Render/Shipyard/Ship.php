@@ -2,11 +2,12 @@
 
 namespace Phparch\SpaceTradersCLI\Render\Shipyard;
 
-use \Phparch\SpaceTraders\Value;
-use \Phparch\SpaceTradersCLI\Render\AbstractRenderer;
+use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 
-class Ship extends AbstractRenderer {
-        public function __construct(
+class Ship extends AbstractRenderer
+{
+    public function __construct(
         public Value\Shipyard\Ship $ship,
     ) {
     }
@@ -34,7 +35,8 @@ class Ship extends AbstractRenderer {
         );
         $this->writeln($this->green(wordwrap($this->ship->frame->description, 80)));
         $this->sprintf(
-            '<:YEL:>Condition<:DEF:>       %3s  <:YEL:>Integrity<:DEF:>     %3s  <:YEL:>Module Slots<:DEF:> %s',
+            '<:YEL:>Condition<:DEF:>       %3s  <:YEL:>Integrity<:DEF:>     %3s  '
+            . '<:YEL:>Module Slots<:DEF:> %s',
             $this->ship->frame->condition,
             $this->ship->frame->integrity,
             $this->ship->frame->moduleSlots,
@@ -59,14 +61,16 @@ class Ship extends AbstractRenderer {
         );
         $this->writeln($this->green(wordwrap($this->ship->engine->description, 80)));
         $this->sprintf(
-            '<:YEL:>Speed<:DEF:> %3s  <:YEL:>Quality<:DEF:> %3s  <:YEL:>Condition<:DEF:> %s  <:YEL:>Integrity<:DEF:> %s',
+            '<:YEL:>Speed<:DEF:> %3s  <:YEL:>Quality<:DEF:> %3s  '
+            . '<:YEL:>Condition<:DEF:> %s  <:YEL:>Integrity<:DEF:> %s',
             $this->ship->engine->speed,
             $this->ship->engine->quality,
             $this->ship->engine->condition,
             $this->ship->engine->integrity,
         );
         $this->sprintf(
-            '<:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s  <:MAG:>Slots<:DEF:> %3s',
+            '<:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s  '
+            . '<:MAG:>Slots<:DEF:> %3s',
             $this->ship->engine->requirements->power,
             $this->ship->engine->requirements->crew,
             $this->ship->engine->requirements->slots ?? '-',
@@ -81,7 +85,8 @@ class Ship extends AbstractRenderer {
         $this->writeln($this->green(wordwrap($this->ship->reactor->description, 80)));
 
         $this->sprintf(
-            '<:YEL:>Power Output<:DEF:> %3s  <:YEL:>Quality<:DEF:> %3s  <:YEL:>Condition<:DEF:> %s  <:YEL:>Integrity<:DEF:> %s',
+            '<:YEL:>Power Output<:DEF:> %3s  <:YEL:>Quality<:DEF:> %3s  '
+            . '<:YEL:>Condition<:DEF:> %s  <:YEL:>Integrity<:DEF:> %s',
             $this->ship->reactor->powerOutput,
             $this->ship->reactor->quality,
             $this->ship->reactor->condition,
@@ -111,7 +116,7 @@ class Ship extends AbstractRenderer {
                     $mount->strength,
                 );
                 $this->sprintf(
-            '   <:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s',
+                    '   <:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s',
                     $mount->requirements->power,
                     $mount->requirements->crew,
                 );

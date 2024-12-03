@@ -7,6 +7,6 @@ final class Orbital
     public function __construct(
         /** @var non-empty-string */
         public readonly string $symbol,
-    ) {}
-
+    ) {
+    }
 }

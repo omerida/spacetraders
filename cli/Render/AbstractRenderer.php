@@ -48,28 +48,36 @@ class AbstractRenderer implements RenderInterface
 
     private const RESET = '0';
 
-    public function black(string $in): string {
+    public function black(string $in): string
+    {
         return $this->colorize('<:BLACK:>' . $in . '<:DEF:>');
     }
-    public function red(string $in): string {
+    public function red(string $in): string
+    {
         return $this->colorize('<:RED:>' . $in . '<:DEF:>');
     }
-    public function green(string $in): string {
+    public function green(string $in): string
+    {
         return $this->colorize('<:GRN:>' . $in . '<:DEF:>');
     }
-    public function blue(string $in): string {
+    public function blue(string $in): string
+    {
         return $this->colorize('<:BLU:>' . $in . '<:DEF:>');
     }
-    public function magenta(string $in): string {
+    public function magenta(string $in): string
+    {
         return $this->colorize('<:MAG:>' . $in . '<:DEF:>');
     }
-    public function yellow(string $in): string {
+    public function yellow(string $in): string
+    {
         return $this->colorize('<:YEL:>' . $in . '<:DEF:>');
     }
-    public function cyan(string $in): string {
+    public function cyan(string $in): string
+    {
         return $this->colorize('<:CYN:>' . $in . '<:DEF:>');
     }
-    private function colorize(string $in): string {
+    private function colorize(string $in): string
+    {
         // reset the colors automaticall
         if (str_contains($in, '<:') && !str_contains($in, '<:END:>')) {
             $in .= '<:DEF:>';
@@ -78,7 +86,8 @@ class AbstractRenderer implements RenderInterface
         return strtr($in, $this->colors);
     }
 
-    public function heading(string $heading, bool $blankAfter = false): void {
+    public function heading(string $heading, bool $blankAfter = false): void
+    {
         $this->writeln(
             $this->colorize('<:REDBOLD:>' . $heading . '<:DEF:>'),
         );
@@ -87,17 +96,20 @@ class AbstractRenderer implements RenderInterface
         }
     }
 
-    public function newline() {
+    public function newline()
+    {
         $this->writeln('');
     }
 
-    protected function writeln(string ...$lines) {
+    protected function writeln(string ...$lines)
+    {
         array_walk($lines, fn($line) => $this->colorize($line));
 
         $this->out = array_merge($this->out, $lines);
     }
 
-    protected function sprintf(...$params) {
+    protected function sprintf(...$params)
+    {
         $repl = sprintf(...$params);
         $this->out[] = $this->colorize($repl);
     }

@@ -2,13 +2,15 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-class Contract extends AbstractRenderer {
-
+class Contract extends AbstractRenderer
+{
     public function __construct(
         public \Phparch\SpaceTraders\Value\Contract $contract,
-    ) {}
+    ) {
+    }
 
-    public function output(): string {
+    public function output(): string
+    {
         $this->sprintf(
             '<:BLU:>%s<:DEF:> / <:RED:>%s ',
             (string) $this->contract->factionSymbol,
@@ -24,12 +26,12 @@ class Contract extends AbstractRenderer {
         );
         $this->newline();
         $this->sprintf(
-            "Deliver by ". $this->red('%s'),
+            "Deliver by " . $this->red('%s'),
             $this->contract->terms->deadline->format(DATE_COOKIE),
         );
         $this->sprintf(
             "Receive " . $this->yellow('%s') . ' on acceptance and '
-            . $this->yellow('%s') .' on fulfillment.',
+            . $this->yellow('%s') . ' on fulfillment.',
             number_format($this->contract->terms->payment->onAccepted),
             number_format($this->contract->terms->payment->onFulfilled),
         );
@@ -51,8 +53,10 @@ class Contract extends AbstractRenderer {
 
         $this->newline();
         $this->writeln(
-            $this->blue("  EXPIRES: ") . $this->red($this->contract->expiration->format(DATE_COOKIE)),
-            $this->blue("ACCEPT BY: ") . $this->yellow($this->contract->deadlineToAccept->format(DATE_COOKIE))
+            $this->blue("  EXPIRES: ")
+            . $this->red($this->contract->expiration->format(DATE_COOKIE)),
+            $this->blue("ACCEPT BY: ")
+            . $this->yellow($this->contract->deadlineToAccept->format(DATE_COOKIE))
         );
 
         if (!$this->contract->accepted) {

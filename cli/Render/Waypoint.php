@@ -2,11 +2,10 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-use \Phparch\SpaceTraders\Response;
+use Phparch\SpaceTraders\Response;
 
 class Waypoint extends AbstractRenderer
 {
-
     public function __construct(
         public Response\Systems\Waypoint $waypoint,
     ) {
@@ -68,7 +67,7 @@ class Waypoint extends AbstractRenderer
                     $modifier->symbol
                 );
                 $this->writeln(
-                    wordwrap($trait->description, 80),
+                    wordwrap($trait->description ?? '', 80),
                     ""
                 );
             }

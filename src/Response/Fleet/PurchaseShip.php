@@ -13,5 +13,6 @@ class PurchaseShip extends Base
         public Agent $agent,
         public Ship $ship,
         public Transaction $transaction,
-    ) {}
+    ) {
+    }
 }

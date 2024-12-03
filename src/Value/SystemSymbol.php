@@ -8,7 +8,8 @@ class SystemSymbol
     public readonly string $system;
 
     /** @see https://github.com/SpaceTradersAPI/api-docs/blob/main/models/SystemSymbol.json */
-    public function __construct(string $input) {
+    public function __construct(string $input)
+    {
         preg_match('/^([[:alnum:]]{,2})\-([[:alnum:]]{,5})$/', $input, $match);
 
         if (!$match) {

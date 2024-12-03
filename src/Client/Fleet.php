@@ -80,13 +80,11 @@ class Fleet extends Client
                 authenticate: true
             );
             return $this->convertResponse(
-                $response, PurchaseShip::class
+                $response,
+                PurchaseShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), true);
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
         }
-
-
     }
 }
-

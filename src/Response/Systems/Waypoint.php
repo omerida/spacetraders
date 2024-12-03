@@ -26,5 +26,6 @@ class Waypoint extends Base
         public readonly WaypointFaction $faction,
         public readonly bool $isUnderConstruction,
         public readonly string $orbits = "",
-    ) {}
+    ) {
+    }
 }

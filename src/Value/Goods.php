@@ -2,8 +2,8 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-class Goods {
-
+class Goods
+{
     public function __construct(
         public readonly string $symbol, // enum
         public readonly string $name,

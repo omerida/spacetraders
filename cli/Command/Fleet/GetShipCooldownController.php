@@ -16,7 +16,7 @@ class GetShipCooldownController extends CommandController
     public function handle(): void
     {
         $client = ServiceContainer::get(Client\Fleet::class);
-        
+
         $args = $this->getArgs();
         $ship = $args[3] ?? null;
         if (!$ship) {

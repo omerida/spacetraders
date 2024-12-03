@@ -11,7 +11,8 @@ abstract class Client
     public function __construct(
         private string $token,
         private \GuzzleHttp\Client $guzzle,
-    ) {}
+    ) {
+    }
 
     protected function get(string $url, bool $authenticate = true)
     {
@@ -24,17 +25,20 @@ abstract class Client
         }
 
         return $this->guzzle->get(
-            $this->baseURI . $url, [
-            'headers' => $headers
-        ]);
+            $this->baseURI . $url,
+            ['headers' => $headers]
+        );
     }
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
-    protected function post(string $url, array $data = [], bool $authenticate = true): ResponseInterface
-    {
+    protected function post(
+        string $url,
+        array $data = [],
+        bool $authenticate = true
+    ): ResponseInterface {
         $headers = [
             'Content-Type' => 'application/json'
         ];
@@ -43,7 +47,8 @@ abstract class Client
         }
 
         $response = $this->guzzle->post(
-             $this->baseURI . $url, [
+            $this->baseURI . $url,
+            [
                 'headers' => $headers,
                 'body' => $data ? json_encode($data) : null,
             ]
@@ -57,13 +62,16 @@ abstract class Client
      * @return array
      * @throws \JsonException
      */
-    protected function decodeResponse(\Psr\Http\Message\ResponseInterface $response): array
-    {
+    protected function decodeResponse(
+        \Psr\Http\Message\ResponseInterface $response
+    ): array {
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 
-    protected function convertResponse(\GuzzleHttp\Psr7\Response $response, string $responseClass)
-    {
+    protected function convertResponse(
+        \Psr\Http\Message\ResponseInterface $response,
+        string $responseClass
+    ) {
         $json = $this->decodeResponse($response);
         return $responseClass::fromArray($json['data']);
     }

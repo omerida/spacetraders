@@ -2,8 +2,8 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-class ShipCrew {
-
+class ShipCrew
+{
     public function __construct(
         /** @var non-negative-int */
         public readonly int $current,

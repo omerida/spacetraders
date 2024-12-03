@@ -29,7 +29,6 @@ class WaypointsController extends CommandController
                 $r = new Render\Waypoint($waypoint);
                 echo $r->output();
             }
-
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }

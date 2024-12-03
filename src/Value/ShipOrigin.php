@@ -1,4 +1,5 @@
 <?php
+
 namespace Phparch\SpaceTraders\Value;
 
 class ShipOrigin
@@ -11,6 +12,5 @@ class ShipOrigin
         public int $y,
     )
     {
-
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Phparch\SpaceTraders\Value;
 
 class ShipReactor
@@ -14,6 +15,5 @@ class ShipReactor
         public readonly ShipReactorRequirements $requirements
     )
     {
-
     }
 }

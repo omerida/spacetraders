@@ -36,7 +36,6 @@ class ShipyardController extends CommandController
 
             $r = new Render\Shipyard($shipyard);
             echo $r->output();
-
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }

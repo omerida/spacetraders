@@ -6,7 +6,6 @@ use Phparch\SpaceTraders\Response\Base;
 
 class ScrapTransaction extends Base
 {
-
     public function __construct(
         public readonly WaypointSymbol $waypoint,
         public readonly string $ship,

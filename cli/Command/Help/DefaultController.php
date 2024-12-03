@@ -13,7 +13,7 @@ class DefaultController extends CommandController
 {
     use TerminalOutputHelper;
 
-    const BASE_NS = '\\Phparch\\SpaceTradersCLI\\';
+    private const BASE_NS = '\\Phparch\\SpaceTradersCLI\\';
 
     public function handle(): void
     {
@@ -27,9 +27,8 @@ class DefaultController extends CommandController
 
                 preg_match('/^(\w+)\s/', $detail, $match);
                 $ns = $match[1];
-                
+
                 $grouped[$ns][] = $detail;
-                
             } catch (\RuntimeException $ex) {
                 $this->error($ex->getMessage());
             }
@@ -104,7 +103,7 @@ class DefaultController extends CommandController
 
         if ($attributes) {
             $instance = $attributes[0]->newInstance();
-            
+
             if (
                 !$instance->params
                 && (method_exists($instance, 'required'))
@@ -137,7 +136,7 @@ class DefaultController extends CommandController
             $params = array_map(fn($p) => "<{$p}>", $info->params);
             $command .= " " . implode(" ", $params);
         }
-        
+
         return "$command\n    {$info->description}";
     }
 }

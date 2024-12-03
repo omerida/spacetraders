@@ -9,7 +9,8 @@ class WaypointSymbol
     public readonly string $waypoint;
 
     /** @see https://github.com/SpaceTradersAPI/api-docs/blob/main/models/WaypointSymbol.json */
-    public function __construct(string $input) {
+    public function __construct(string $input)
+    {
         preg_match('/^([[:alnum:]]{,2})\-([[:alnum:]]{,5})\-([[:alnum:]]{,5})$/', $input, $match);
 
         if (!$match) {
@@ -25,6 +26,4 @@ class WaypointSymbol
     {
         return $this->waypoint;
     }
-
-
 }

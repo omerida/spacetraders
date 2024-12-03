@@ -8,8 +8,12 @@ use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
-#[HelpInfo(description: "Purchase a type of ship from a shipyard at a waypoint.", params: ['waypoint symbol', 'ship type'])]
-class PurchaseShipController extends CommandController {
+#[HelpInfo(
+    description: "Purchase a type of ship from a shipyard at a waypoint.",
+    params: ['waypoint symbol', 'ship type']
+)]
+class PurchaseShipController extends CommandController
+{
     public function handle(): void
     {
         $client = ServiceContainer::get(Client\Fleet::class);
@@ -21,7 +25,7 @@ class PurchaseShipController extends CommandController {
         }
 
         $waypoint = new WaypointSymbol($waypoint);
-        $type = strtoupper($args[4]) ?? null;
+        $type = strtoupper($args[4]);
         if (!$type) {
             throw new \InvalidArgumentException("Please specify type as fourth parameter");
         }

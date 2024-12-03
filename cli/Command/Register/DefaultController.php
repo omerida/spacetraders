@@ -10,7 +10,8 @@ use Phparch\SpaceTradersCLI\Command\HelpInfo;
 #[HelpInfo(description: "Register a new account")]
 class DefaultController extends CommandController
 {
-    public function required(): array {
+    public function required(): array
+    {
         return ['symbol', 'faction'];
     }
 
@@ -23,11 +24,15 @@ class DefaultController extends CommandController
             $faction = $this->getParam('faction');
 
             if (!preg_match('/[[:alnum:]_]+/', $symbol)) {
-                throw new \InvalidArgumentException("Symbol can only include letters, numbers, underscores");
+                throw new \InvalidArgumentException(
+                    "Symbol can only include letters, numbers, underscores"
+                );
             }
 
             if (!preg_match('/[[:alnum:]_]+/', $faction)) {
-                throw new \InvalidArgumentException("Faction can only include letters, numbers, underscores");
+                throw new \InvalidArgumentException(
+                    "Faction can only include letters, numbers, underscores"
+                );
             }
 
             $response = $client->register($symbol, $faction);

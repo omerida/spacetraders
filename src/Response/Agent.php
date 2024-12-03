@@ -16,5 +16,6 @@ class Agent extends Base
         public readonly string $startingFaction,
         /** @var non-negative-int */
         public readonly int $shipCount
-    ) {}
+    ) {
+    }
 }

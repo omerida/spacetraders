@@ -1,8 +1,9 @@
 <?php
+
 namespace Phparch\SpaceTraders\Value;
+
 class ShipFrame
 {
-
     public function __construct(
         public readonly string $symbol, //enum
         public readonly string $name,
@@ -18,6 +19,5 @@ class ShipFrame
         public readonly ShipFrameRequirements $requirements
     )
     {
-
     }
 }

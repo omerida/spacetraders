@@ -35,7 +35,6 @@ class WaypointController extends CommandController
             $waypoint = $client->systemLocation($wp->system, $wp->waypoint);
             $r = new Render\Waypoint($waypoint);
             echo $r->output();
-
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }

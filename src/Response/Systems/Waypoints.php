@@ -9,5 +9,6 @@ class Waypoints extends Base
     public function __construct(
         /** @var \Phparch\SpaceTraders\Response\Systems\Waypoint[] */
         public array $waypoints,
-    ) {}
+    ) {
+    }
 }

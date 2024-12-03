@@ -11,5 +11,6 @@ class Accept extends Base
     public function __construct(
         public Contract $contract,
         public Agent $agent,
-    ) {}
+    ) {
+    }
 }

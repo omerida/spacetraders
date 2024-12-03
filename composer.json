@@ -38,6 +38,9 @@
     "hooks": {
       "pre-commit": [
         "vendor/bin/phpcs --filter=GitStaged"
+      ],
+      "pre-push": [
+        "vendor/bin/phpstan"
       ]
     }
   }
