@@ -22,8 +22,21 @@ class WaypointsController extends CommandController
         $system = $args[3] ?? null;
         $type = $args[4] ?? '';
 
+        $rawArgs = $this->input->getRawArgs();
+        if (str_contains($rawArgs[4], '=')) {
+            // allow CLI to specify the query string
+            $qs = $rawArgs[4];
+            $query = [];
+            parse_str($qs, $query);
+
+            if (empty($query)) {
+                throw new \InvalidArgumentException("Invalid query");
+            }
+        } else {
+            $query = ['type' => $type];
+        }
         try {
-            $response = $client->waypoints($system, $type);
+            $response = $client->waypoints($system, $query);
 
             foreach ($response->waypoints as $waypoint) {
                 $r = new Render\Waypoint($waypoint);

@@ -4,6 +4,7 @@ namespace Phparch\SpaceTradersCLI\Command\Agent;
 
 use Minicli\Command\CommandController;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
@@ -19,6 +20,7 @@ class DefaultController extends CommandController
 
         $response = $client->MyAgent();
 
-        $this->outputVar($response);
+        $agent = new Render\Agent($response);
+        echo $agent->output();
     }
 }

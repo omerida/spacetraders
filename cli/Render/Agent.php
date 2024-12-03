@@ -14,16 +14,16 @@ class Agent extends AbstractRenderer
     {
         $this->heading("AGENT");
         $this->sprintf(
-            '<:BLU:>AGENT: <:DEF:> %s / <:YEL:>%s',
+            '<:BLU:>AGENT & HQ: <:DEF:> %s / <:YEL:>%s' .
+            '   <:BLU:>STARTING FACTION: <:DEF:> %s',
             $this->agent->symbol,
-            $this->agent->headquarters
+            $this->agent->headquarters,
+            $this->agent->startingFaction
         );
         $this->sprintf(
-            '<:BLU:>CREDITS: <:DEF:> <:RED:>%s',
-            number_format($this->agent->credits)
-        );
-        $this->sprintf(
-            '<:BLU:>SHIP COUNT: <:DEF:> <:RED:>%s',
+            '<:BLU:>CREDITS: <:DEF:> %s'
+            . '   <:BLU:>SHIP COUNT: <:DEF:> %s',
+            number_format($this->agent->credits),
             number_format($this->agent->shipCount)
         );
         $this->newline();
