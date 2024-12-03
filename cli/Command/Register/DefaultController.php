@@ -36,7 +36,7 @@ class DefaultController extends CommandController
             }
 
             $response = $client->register($symbol, $faction);
-            $this->success(json_encode($response, flags: JSON_PRETTY_PRINT));
+            $this->success(json_encode((string) $response->getBody(), flags: JSON_PRETTY_PRINT));
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }
