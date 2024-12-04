@@ -22,6 +22,6 @@ class SystemSymbol
 
     public function __toString(): string
     {
-        return $this->sector . '-' . $this->system;
+        return $this->system;
     }
 }

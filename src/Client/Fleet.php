@@ -3,7 +3,6 @@
 namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
-use http\Exception\RuntimeException;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response\Fleet\PurchaseShip;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
@@ -66,6 +65,23 @@ class Fleet extends Client
             $this->get('my/ships/' . $ship . '/scrap'),
             ScrapTransaction::class
         );
+    }
+
+    public function orbitShip(string $ship)
+    {
+        try {
+            $response = $this->post(
+                'my/ships/' . $ship . '/orbit',
+                data: [],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Ship\Nav::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
     }
 
     public function purchaseShip(WaypointSymbol $waypoint, string $type)
