@@ -20,6 +20,40 @@ class Nav extends AbstractRenderer
             $this->nav->systemSymbol,
             $this->nav->waypointSymbol,
         );
+
+        $route = $this->nav->route;
+        $this->heading("ROUTE");
+        $this->sprintf(
+            '<:BLU:>DESTINATION: <:DEF:> %s / <:YEL:>%s <:DEF:> (%s, %s)',
+            $route->destination->symbol,
+            $route->destination->type,
+            $route->destination->x,
+            $route->destination->y,
+        );
+        $this->sprintf(
+            '<:GRN:>ORIGIN: <:DEF:> %s / <:YEL:>%s <:DEF:> (%s, %s)',
+            $route->destination->symbol,
+            $route->destination->type,
+            $route->destination->x,
+            $route->destination->y,
+        );
+
+        $this->sprintf(
+            '<:YEL:>DEPARTED: <:DEF:> %s',
+            $this->formatDate($route->departureTime)
+        );
+        $this->sprintf(
+            '<:GRN:>ARRIVAL: <:DEF:> %s',
+            $this->formatDate($route->arrival)
+        );
+
+        $now = new \DateTimeImmutable();
+        $remaining = $route->arrival->diff($now);
+
+        $this->sprintf(
+            '<:YEL:>REMAINING TRAVEL TIME: <:DEF:> %s',
+            $remaining->format('%d days, %h hours, %i minutes'),
+        );
         $this->sprintf(
             '<:BLU:>STATUS: <:DEF:> %s'
             . '   <:BLU:>FLIGHT MODE: <:DEF:> %s',

@@ -54,9 +54,13 @@ class Contract extends AbstractRenderer
         $this->newline();
         $this->writeln(
             $this->blue("  EXPIRES: ")
-            . $this->red($this->contract->expiration->format(DATE_COOKIE)),
+            . $this->red(
+                $this->formatDate($this->contract->expiration)
+            ),
             $this->blue("ACCEPT BY: ")
-            . $this->yellow($this->contract->deadlineToAccept->format(DATE_COOKIE))
+            . $this->yellow(
+                $this->formatDate($this->contract->deadlineToAccept)
+            )
         );
 
         if (!$this->contract->accepted) {

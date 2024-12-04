@@ -123,4 +123,9 @@ class AbstractRenderer implements RenderInterface
     {
         return $this->out;
     }
+
+    public function formatDate(\DateTimeInterface $when): string
+    {
+        return $when->format(DATE_COOKIE);
+    }
 }

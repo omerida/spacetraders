@@ -4,11 +4,13 @@ namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Response\Fleet\ListShips;
+use Phparch\SpaceTraders\Response\Fleet\NavigateShip;
+use Phparch\SpaceTraders\Response\Fleet\OrbitShip;
 use Phparch\SpaceTraders\Response\Fleet\PurchaseShip;
+use Phparch\SpaceTraders\Response\Fleet\ShipMounts;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
-use Phparch\SpaceTraders\Response\Fleet\ListShips;
-use Phparch\SpaceTraders\Response\Fleet\ShipMounts;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
 use Phparch\SpaceTraders\Value\ShipCoolDown;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
@@ -67,6 +69,25 @@ class Fleet extends Client
         );
     }
 
+    public function navigateShip(string $ship, WaypointSymbol $waypointSymbol)
+    {
+        try {
+            $response = $this->post(
+                'my/ships/' . $ship . '/navigate',
+                data: [
+                    'waypointSymbol' => (string) $waypointSymbol,
+                ],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                NavigateShip::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
+    }
+
     public function orbitShip(string $ship)
     {
         try {
@@ -77,7 +98,7 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                Ship\Nav::class
+                OrbitShip::class
             );
         } catch (ClientException $e) {
             throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
