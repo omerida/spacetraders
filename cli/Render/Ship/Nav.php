@@ -51,8 +51,9 @@ class Nav extends AbstractRenderer
         $remaining = $route->arrival->diff($now);
 
         $this->sprintf(
-            '<:YEL:>REMAINING TRAVEL TIME: <:DEF:> %s',
-            $remaining->format('%d days, %h hours, %i minutes'),
+            '<:YEL:>%s <:DEF:> %s',
+            $now < $route->arrival ? "REMAINING TRAVEL TIME:" : "TIME SINCE ARRIVAL:",
+            $remaining->format('%d day(s), %h hour(s), %i minute(s)'),
         );
         $this->sprintf(
             '<:BLU:>STATUS: <:DEF:> %s'

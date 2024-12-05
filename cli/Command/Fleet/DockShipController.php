@@ -10,7 +10,7 @@ use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
 #[HelpInfo(
-    description: "Dock ship at a waypoing.",
+    description: "Dock ship at a waypoint.",
     params: ['ship symbol']
 )]
 class DockShipController extends CommandController
@@ -26,7 +26,6 @@ class DockShipController extends CommandController
         }
 
         $response = $client->dockShip($shipSymbol);
-
         $nav = new Render\Ship\Nav($response->nav);
         echo $nav->output();
     }

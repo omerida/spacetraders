@@ -4,12 +4,7 @@ namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response\Fleet\DockShip;
-use Phparch\SpaceTraders\Response\Fleet\ListShips;
-use Phparch\SpaceTraders\Response\Fleet\NavigateShip;
-use Phparch\SpaceTraders\Response\Fleet\OrbitShip;
-use Phparch\SpaceTraders\Response\Fleet\PurchaseShip;
-use Phparch\SpaceTraders\Response\Fleet\ShipMounts;
+use Phparch\SpaceTraders\Response;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
@@ -26,7 +21,7 @@ class Fleet extends Client
     {
         return $this->convertResponse(
             $this->get('my/ships'),
-            ListShips::class
+            Response\Fleet\ListShips::class
         );
     }
 
@@ -40,7 +35,7 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                DockShip::class
+                Response\Fleet\DockShip::class
             );
         } catch (ClientException $e) {
             throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
@@ -75,7 +70,7 @@ class Fleet extends Client
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship . '/mounts'),
-            ShipMounts::class
+            Response\Fleet\ShipMounts::class
         );
     }
 
@@ -99,7 +94,7 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                NavigateShip::class
+                Response\Fleet\NavigateShip::class
             );
         } catch (ClientException $e) {
             throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
@@ -116,7 +111,7 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                OrbitShip::class
+                Response\Fleet\OrbitShip::class
             );
         } catch (ClientException $e) {
             throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
@@ -136,7 +131,28 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                PurchaseShip::class
+                Response\Fleet\PurchaseShip::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
+    }
+
+    public function refuelShip(string $ship, ?int $units = null, bool $fromCargo = false)
+    {
+        try {
+            $data['fromCargo'] = $fromCargo;
+            if ($units > 0) {
+                $data['units'] = $units;
+            }
+            $response = $this->post(
+                'my/ships/' . $ship . '/refuel',
+                data: $data,
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Response\Fleet\RefuelShip::class
             );
         } catch (ClientException $e) {
             throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
