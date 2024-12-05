@@ -4,6 +4,7 @@ namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Response\Fleet\DockShip;
 use Phparch\SpaceTraders\Response\Fleet\ListShips;
 use Phparch\SpaceTraders\Response\Fleet\NavigateShip;
 use Phparch\SpaceTraders\Response\Fleet\OrbitShip;
@@ -27,6 +28,23 @@ class Fleet extends Client
             $this->get('my/ships'),
             ListShips::class
         );
+    }
+
+    public function dockShip(string $ship)
+    {
+        try {
+            $response = $this->post(
+                'my/ships/' . $ship . '/dock',
+                data: [],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                DockShip::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
     }
 
     public function getShip(string $ship)

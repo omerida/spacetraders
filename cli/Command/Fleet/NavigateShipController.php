@@ -12,7 +12,7 @@ use Phparch\SpaceTradersCLI\Render;
 
 #[HelpInfo(
     description: "Send a ship to a waypoint.",
-    params: ['waypoint symbol', 'ship type']
+    params: ['ship symbol', 'waypoint symbol']
 )]
 class NavigateShipController extends CommandController
 {
@@ -32,9 +32,7 @@ class NavigateShipController extends CommandController
         }
         $waypoint = new WaypointSymbol($waypoint);
 
-        //$response = $client->navigateShip($shipSymbol, $waypoint);
-
-        $response = $this->getMock();
+        $response = $client->navigateShip($shipSymbol, $waypoint);
 
         $fuel = new Render\Ship\Fuel($response->fuel);
         echo $fuel->output();
@@ -43,7 +41,7 @@ class NavigateShipController extends CommandController
         echo $nav->output();
     }
 
-    private function getMock()
+    private function getMock() // @phpstan-ignore-line
     {
         /* @phpcs:ignore */
         $json = '{"data":{"nav":{"systemSymbol":"X1-J69","waypointSymbol":"X1-J69-AD5D","route":{"origin":{"symbol":"X1-J69-H56","type":"MOON","systemSymbol":"X1-J69","x":35,"y":-30},"destination":{"symbol":"X1-J69-AD5D","type":"ENGINEERED_ASTEROID","systemSymbol":"X1-J69","x":24,"y":-13},"arrival":"2024-12-04T04:14:24.671Z","departureTime":"2024-12-04T04:11:22.671Z"},"status":"IN_TRANSIT","flightMode":"CRUISE"},"fuel":{"current":60,"capacity":80,"consumed":{"amount":20,"timestamp":"2024-12-04T04:11:22.693Z"}},"events":[]}}';
