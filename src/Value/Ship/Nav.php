@@ -14,8 +14,8 @@ class Nav extends Base
         public readonly SystemSymbol $systemSymbol,
         public readonly WaypointSymbol $waypointSymbol,
         public readonly Route $route,
-        public readonly string $status, // ENUM
-        public readonly string $flightMode, // ENUM
+        public readonly Status $status,
+        public readonly FlightMode $flightMode,
     ) {
     }
 }

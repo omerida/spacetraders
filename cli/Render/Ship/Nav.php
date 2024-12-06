@@ -26,14 +26,14 @@ class Nav extends AbstractRenderer
         $this->sprintf(
             '<:BLU:>DESTINATION: <:DEF:> %s / <:YEL:>%s <:DEF:> (%s, %s)',
             $route->destination->symbol,
-            $route->destination->type,
+            $route->destination->type->value,
             $route->destination->x,
             $route->destination->y,
         );
         $this->sprintf(
             '<:GRN:>ORIGIN: <:DEF:> %s / <:YEL:>%s <:DEF:> (%s, %s)',
             $route->destination->symbol,
-            $route->destination->type,
+            $route->destination->type->value,
             $route->destination->x,
             $route->destination->y,
         );
@@ -58,8 +58,8 @@ class Nav extends AbstractRenderer
         $this->sprintf(
             '<:BLU:>STATUS: <:DEF:> %s'
             . '   <:BLU:>FLIGHT MODE: <:DEF:> %s',
-            $this->nav->status,
-            $this->nav->flightMode,
+            $this->nav->status->value,
+            $this->nav->flightMode->value,
         );
         $this->newline();
         return parent::output();

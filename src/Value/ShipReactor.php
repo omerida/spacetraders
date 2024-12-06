@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Value;
 class ShipReactor
 {
     public function __construct(
-        public readonly string $symbol, //enum
+        public readonly Ship\ReactorSymbol $symbol,
         public readonly string $name,
         public readonly string $description,
         public readonly float $condition, // between 0 and 1

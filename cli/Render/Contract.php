@@ -20,7 +20,7 @@ class Contract extends AbstractRenderer
             $this->blue('TYPE:') . $this->yellow(' %-25s')
             . '    ' . $this->blue('ACCEPTED?') . ' ' . $this->yellow('%s')
             . '    ' . $this->blue('FULFILLED?') . ' ' . $this->yellow('%s'),
-            $this->contract->type,
+            $this->contract->type->value,
             $this->contract->accepted ? "Yes" : "No",
             $this->contract->fulfilled ? "Yes" : "No",
         );

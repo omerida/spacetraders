@@ -20,7 +20,7 @@ class Transaction extends AbstractRenderer
         $this->sprintf(
             '<:BLU:>SHIP & TYPE: <:DEF:> <:RED:>%s/%s',
             $this->txn->shipSymbol,
-            $this->txn->shipType
+            $this->txn->shipType->value
         );
         $this->sprintf(
             '<:BLU:>PRICE: <:DEF:> <:YEL:>%s',

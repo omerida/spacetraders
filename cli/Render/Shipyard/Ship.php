@@ -108,7 +108,7 @@ class Ship extends AbstractRenderer
                     '%d. %s <:YEL:>(%s)',
                     $i + 1,
                     $mount->name,
-                    $mount->symbol,
+                    $mount->symbol->value,
                 );
                 $this->writeln($this->green('   ' . $mount->description));
                 $this->sprintf(

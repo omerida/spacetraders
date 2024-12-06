@@ -8,7 +8,7 @@ class Ship extends Base
 {
     public function __construct(
         public readonly string $symbol,
-        public readonly Nav $nav,
+        public readonly Ship\Nav $nav,
         public readonly ShipCrew $crew,
         public readonly ShipFuel $fuel,
         public readonly ShipCoolDown $cooldown,

@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Render;
 
 use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTradersCLI\Render\Ship\Nav;
 
 class Ship extends AbstractRenderer
 {
@@ -26,12 +27,15 @@ class Ship extends AbstractRenderer
             $this->ship->nav->flightMode,
         );
 
+        $nav = new Nav($this->ship->nav);
+        $nav->output();
+
         /* @todo render Crew Info */
         // FRAME
         $this->sprintf(
             '<:CYN:>## FRAME<:DEF:> %s (%s)',
             $this->ship->frame->name,
-            $this->ship->frame->symbol,
+            $this->ship->frame->symbol->value,
         );
         $this->writeln($this->green(wordwrap($this->ship->frame->description, 80)));
         $this->sprintf(
@@ -57,7 +61,7 @@ class Ship extends AbstractRenderer
         $this->sprintf(
             '<:CYN:>## ENGINE<:DEF:> %s (%s)',
             $this->ship->engine->name,
-            $this->ship->engine->symbol,
+            $this->ship->engine->symbol->value,
         );
         $this->writeln($this->green(wordwrap($this->ship->engine->description, 80)));
         $this->sprintf(
@@ -77,7 +81,7 @@ class Ship extends AbstractRenderer
         $this->sprintf(
             '<:CYN:>## REACTOR<:DEF:> %s (%s)',
             $this->ship->reactor->name,
-            $this->ship->reactor->symbol,
+            $this->ship->reactor->symbol->value,
         );
         $this->writeln($this->green(wordwrap($this->ship->reactor->description, 80)));
 
@@ -104,7 +108,7 @@ class Ship extends AbstractRenderer
                     '%d. %s <:YEL:>(%s)',
                     $i + 1,
                     $mount->name,
-                    $mount->symbol,
+                    $mount->symbol->value,
                 );
                 $this->writeln($this->green('   ' . $mount->description));
                 $this->sprintf(

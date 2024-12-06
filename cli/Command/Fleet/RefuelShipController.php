@@ -27,6 +27,7 @@ class RefuelShipController extends CommandController
 
         // TODO: allow users to specify how much to refuel
         // TODO: allow users to specify if refueling from cargo
+        // TODO: Check if waypoint has marketplace?
         $response = $client->refuelShip($shipSymbol);
 
 //        $response = $this->getMock();

@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Value;
 class ShipFrame
 {
     public function __construct(
-        public readonly string $symbol, //enum
+        public readonly Ship\FrameSymbol $symbol,
         public readonly string $name,
         public readonly string $description,
         public readonly float $condition, // between 0 and 1

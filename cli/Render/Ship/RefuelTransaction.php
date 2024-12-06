@@ -20,8 +20,8 @@ class RefuelTransaction extends AbstractRenderer
         );
         $this->sprintf(
             '<:BLU:>INFO: <:DEF:> %s, %s',
-            $this->txn->tradeSymbol,
-            $this->txn->type,
+            $this->txn->tradeSymbol->value,
+            $this->txn->type->value,
         );
         $this->sprintf(
             '<:GRN:>DETAILS: <:DEF:> %s units @ %s per unit. <:GRN:>TOTAL: %s',

@@ -29,7 +29,7 @@ class Shipyard extends AbstractRenderer
                 $this->sprintf(
                     "<:GRN:>%d. %s",
                     $i + 1,
-                    $type->type,
+                    $type->type->value,
                 );
             }
         } else {
@@ -45,7 +45,7 @@ class Shipyard extends AbstractRenderer
                     $i + 1,
                     $tr->waypointSymbol,
                     $tr->shipSymbol,
-                    $tr->shipType,
+                    $tr->shipType->value,
                     $tr->price,
                     $tr->agentSymbol .
                     $tr->timestamp->format(DateTimeInterface::ATOM),

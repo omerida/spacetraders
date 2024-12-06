@@ -2,11 +2,12 @@
 
 namespace Phparch\SpaceTraders\Value\Shipyard;
 
+use Phparch\SpaceTraders\Value\Ship;
+
 class ShipType
 {
     public function __construct(
-        // enum
-        public readonly string $type,
+        public readonly Ship\Type $type,
     ) {
     }
 }
