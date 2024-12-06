@@ -101,6 +101,11 @@ class AbstractRenderer implements RenderInterface
         $this->writeln('');
     }
 
+    public function passthru(RenderInterface $in): void
+    {
+        $this->out[] = $in->output();
+    }
+
     protected function writeln(string ...$lines)
     {
         array_walk($lines, fn($line) => $this->colorize($line));

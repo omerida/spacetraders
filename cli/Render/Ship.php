@@ -4,6 +4,7 @@ namespace Phparch\SpaceTradersCLI\Render;
 
 use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Render\Ship\Nav;
+use Phparch\SpaceTradersCLI\Render\Ship\RegistrationInfo;
 
 class Ship extends AbstractRenderer
 {
@@ -15,20 +16,10 @@ class Ship extends AbstractRenderer
     public function output(): string
     {
         $this->heading($this->ship->symbol);
-        $this->sprintf(
-            '<:CYN:>## NAV<:DEF:> %s (%s)',
-            $this->ship->nav->systemSymbol,
-            $this->ship->nav->waypointSymbol,
-        );
-        /* @todo render a route */
-        $this->sprintf(
-            '<:YEL:>Status<:DEF:> %s  <:YEL:>Flight Mode<:DEF:> %s  ',
-            $this->ship->nav->status,
-            $this->ship->nav->flightMode,
-        );
+        $this->newline();
 
         $nav = new Nav($this->ship->nav);
-        $nav->output();
+        $this->passthru($nav);
 
         /* @todo render Crew Info */
         // FRAME
@@ -124,7 +115,13 @@ class Ship extends AbstractRenderer
         } else {
             $this->writeln('None', '');
         }
-         $this->writeln($this->blue('.......................'));
+
+        $this->newline();
+        $reg = new RegistrationInfo($this->ship->registration);
+        $this->passthru($reg);
+
+        $this->writeln($this->blue('.......................'));
+
 
         return parent::output();
     }

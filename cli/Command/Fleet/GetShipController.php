@@ -7,6 +7,7 @@ use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersCLI\Render\Ship;
 
 #[HelpInfo(description: "Get ship info", params: ['ship symbol'])]
 class GetShipController extends CommandController
@@ -24,6 +25,7 @@ class GetShipController extends CommandController
         }
 
         $response = $client->getShip($ship);
-        $this->outputVar($response);
+        $ship = new Ship($response);
+        echo $ship->output();
     }
 }
