@@ -6,6 +6,15 @@ use Phparch\SpaceTraders\Response;
 
 class Systems extends \Phparch\SpaceTraders\Client
 {
+    public function market(string $system, string $waypoint)
+    {
+        $response = $this->get(
+            sprintf('systems/%s/waypoints/%s/market', $system, $waypoint)
+        );
+
+        return $this->convertResponse($response, \Phparch\SpaceTraders\Value\Market::class);
+    }
+
     public function shipyard(string $system, string $waypoint)
     {
         $response = $this->get(
