@@ -42,6 +42,23 @@ class Fleet extends Client
         }
     }
 
+    public function extractShip(string $ship)
+    {
+        try {
+            $response = $this->post(
+                'my/ships/' . $ship . '/extract',
+                data: [],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Response\Fleet\ExtractResources::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
+    }
+
     public function getShip(string $ship)
     {
         return $this->convertResponse(
