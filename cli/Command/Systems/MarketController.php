@@ -29,11 +29,11 @@ class MarketController extends CommandController
                 throw new \InvalidArgumentException("Invalid characters in waypoing ID");
             }
 
-            $wp = new WaypointSymbol($id);
-            $market = $client->market($wp->system, $wp->waypoint);
+            ##$wp = new WaypointSymbol($id);
+            ##$market = $client->market($wp->system, $wp->waypoint);
 
-            $r = new Render\Market($market);
-            echo $r->output;
+            ##$r = new Render\Market($market);
+            ##echo $r->output;
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }
