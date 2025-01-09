@@ -1,6 +1,5 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
 namespace Phparch\SpaceTraders\Value\Ship;
 
 use Phparch\SpaceTraders\Response\Base;

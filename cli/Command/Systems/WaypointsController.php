@@ -5,15 +5,13 @@ namespace Phparch\SpaceTradersCLI\Command\Systems;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 
-#[HelpInfo(description: "Search waypoints, optionally by type", params: ['systemSymbol', '?type'])]
+#[HelpInfo(description: "Search waypoints, optionally filter by query"
+    . " string (type and/or traits)", params: ['systemSymbol', '?type'])]
 class WaypointsController extends CommandController
 {
-    use TerminalOutputHelper;
-
     public function handle(): void
     {
         $client = ServiceContainer::get(Client\Systems::class);
@@ -23,16 +21,23 @@ class WaypointsController extends CommandController
         $type = $args[4] ?? '';
 
         $rawArgs = $this->input->getRawArgs();
+        $query = [];
         if (str_contains($rawArgs[4], '=')) {
             // allow CLI to specify the query string
             $qs = $rawArgs[4];
-            $query = [];
+
             parse_str($qs, $query);
+
+            $allowed = ['traits', 'type'];
+            $unknown = array_diff(array_keys($query), $allowed);
+            if ($unknown) {
+                throw new \InvalidArgumentException("Uknown query: " . join($unknown));
+            }
 
             if (empty($query)) {
                 throw new \InvalidArgumentException("Invalid query");
             }
-        } else {
+        } elseif (isset($rawArgs[4])) {
             $query = ['type' => $type];
         }
         try {

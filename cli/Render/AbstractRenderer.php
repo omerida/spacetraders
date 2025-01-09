@@ -113,6 +113,11 @@ class AbstractRenderer implements RenderInterface
         $this->out = array_merge($this->out, $lines);
     }
 
+    protected function divider(string $c = '=', int $width = 100, string $color = '<:RED:>')
+    {
+        $this->out[] = $this->colorize($color . str_repeat($c, $width));
+    }
+
     protected function sprintf(...$params)
     {
         $repl = sprintf(...$params);

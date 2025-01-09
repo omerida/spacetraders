@@ -58,6 +58,33 @@ abstract class Client
     }
 
     /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonException
+     */
+    protected function patch(
+        string $url,
+        array $data = [],
+        bool $authenticate = true
+    ): ResponseInterface {
+        $headers = [
+            'Content-Type' => 'application/json'
+        ];
+        if ($authenticate) {
+            $headers['Authorization'] = 'Bearer ' . $this->token;
+        }
+
+        $response = $this->guzzle->patch(
+            $this->baseURI . $url,
+            [
+                'headers' => $headers,
+                'body' => $data ? json_encode($data) : null,
+            ]
+        );
+
+        return $response;
+    }
+
+    /**
      * Returns the API response as a raw decoded object from JSON string
      * @return array
      * @throws \JsonException

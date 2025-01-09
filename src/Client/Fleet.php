@@ -135,6 +135,25 @@ class Fleet extends Client
         }
     }
 
+    public function setNavMode(string $ship, string $flightMode)
+    {
+        try {
+            $response = $this->patch(
+                sprintf('my/ships/%s/nav', $ship),
+                data: [
+                    'flightMode' => (string) $flightMode,
+                ],
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Ship\Nav::class
+            );
+        } catch (ClientException $e) {
+            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+        }
+    }
+
     public function purchaseShip(WaypointSymbol $waypoint, string $type)
     {
         try {

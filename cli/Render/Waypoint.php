@@ -13,6 +13,7 @@ class Waypoint extends AbstractRenderer
 
     public function output(): string
     {
+        $this->divider(color: "<:CYN:>");
         $this->sprintf(
             '<:BLU:>SYSTEM SYMBOL:<:DEF:> %s, <:YEL:>%s<:DEF:> (x: %d, y: %d)',
             $this->waypoint->symbol,
@@ -51,7 +52,7 @@ class Waypoint extends AbstractRenderer
                     $trait->name,
                     $trait->symbol
                 );
-                $this->writeln(wordwrap($trait->description, 70), "");
+                $this->writeln(wordwrap($trait->description, 100), "");
             }
         } else {
             $this->writeln('None', '');
@@ -74,7 +75,7 @@ class Waypoint extends AbstractRenderer
         } else {
             $this->writeln("None");
         }
-
+        $this->newline();
 
         return parent::output();
     }
