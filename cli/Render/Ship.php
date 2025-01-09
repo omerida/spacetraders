@@ -119,9 +119,7 @@ class Ship extends AbstractRenderer
         $this->newline();
         $reg = new RegistrationInfo($this->ship->registration);
         $this->passthru($reg);
-
-        $this->writeln($this->blue('.......................'));
-
+        $this->divider(color: '<:BLU:>');
 
         return parent::output();
     }

@@ -5,6 +5,7 @@ namespace Phparch\SpaceTraders\Value;
 use Phparch\SpaceTraders\Response\Base;
 use Phparch\SpaceTraders\Value\GoodsDetail;
 use Phparch\SpaceTraders\Value\Market\Transaction;
+use Phparch\SpaceTraders\Value\Market\TradeGoods;
 
 class Market extends Base
 {
@@ -17,8 +18,9 @@ class Market extends Base
         /** @var GoodsDetail[] */
         public array $exchange,
         /** @var Transaction[] */
-        public array $transactions,
-        public array $tradeGoods,
+        public array $transactions = [],
+        /** @var TradeGoods[] */
+        public array $tradeGoods = [],
     ) {
     }
 }

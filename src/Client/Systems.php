@@ -12,7 +12,10 @@ class Systems extends \Phparch\SpaceTraders\Client
             sprintf('systems/%s/waypoints/%s/market', $system, $waypoint)
         );
 
-        return $this->convertResponse($response, \Phparch\SpaceTraders\Value\Market::class);
+        return $this->convertResponse(
+            $response,
+            responseClass: \Phparch\SpaceTraders\Value\Market::class
+        );
     }
 
     public function shipyard(string $system, string $waypoint)
