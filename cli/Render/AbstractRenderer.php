@@ -21,6 +21,7 @@ class AbstractRenderer implements RenderInterface
     private const BOLD = '1';
 
     // placeholder for ASCII terminal colors
+    /** @var array<string, string>  */
     private array $colors = [
         '<:DEF:>' => self::ESC . self::RESET . self::CLOSE,
         '<:BLK:>' => self::ESC . self::BLK . self::CLOSE,
@@ -119,10 +120,11 @@ class AbstractRenderer implements RenderInterface
     }
 
     /**
-     * @param array<string|int|float|callable-string> ...$params
+     * @param array<int|string|float> ...$params
      */
     protected function sprintf(...$params): void
     {
+        /** @phpstan-ignore-next-line */
         $repl = sprintf(...$params);
         $this->out[] = $this->colorize($repl);
     }
@@ -132,6 +134,9 @@ class AbstractRenderer implements RenderInterface
         return implode(PHP_EOL, $this->out) . PHP_EOL;
     }
 
+    /**
+     * @return string[]
+     */
     public function getOutput(): array
     {
         return $this->out;
