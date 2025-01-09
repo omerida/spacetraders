@@ -6,7 +6,7 @@ use Phparch\SpaceTraders\Response;
 
 class Agents extends \Phparch\SpaceTraders\Client
 {
-    public function myAgent(): object
+    public function myAgent(): Response\Agent
     {
         return $this->convertResponse(
             $this->get('my/agent'),

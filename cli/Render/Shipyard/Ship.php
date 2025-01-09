@@ -17,12 +17,12 @@ class Ship extends AbstractRenderer
         $this->sprintf(
             '<:RED:>%s<:DEF:> (%s)',
             $this->ship->name,
-            $this->ship->type
+            $this->ship->type->value
         );
         $this->sprintf(
             '<:YEL:>Supply<:DEF:> %s  <:YEL:>Activity<:DEF:> %s  <:YEL:>Price<:DEF:> %s',
-            $this->ship->activity,
-            $this->ship->supply,
+            $this->ship->activity->value,
+            $this->ship->supply->value,
             number_format($this->ship->purchasePrice),
         );
         $this->writeln($this->green(wordwrap($this->ship->description, 80)));

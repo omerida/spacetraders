@@ -17,7 +17,7 @@ use Phparch\SpaceTraders\Value\WaypointSymbol;
  */
 class Fleet extends Client
 {
-    public function ListShips()
+    public function ListShips(): Response\Fleet\ListShips
     {
         return $this->convertResponse(
             $this->get('my/ships'),
@@ -25,7 +25,7 @@ class Fleet extends Client
         );
     }
 
-    public function dockShip(string $ship)
+    public function dockShip(string $ship): Response\Fleet\DockShip
     {
         try {
             $response = $this->post(
@@ -42,7 +42,7 @@ class Fleet extends Client
         }
     }
 
-    public function extractShip(string $ship)
+    public function extractShip(string $ship): Response\Fleet\ExtractResources
     {
         try {
             $response = $this->post(
@@ -59,7 +59,7 @@ class Fleet extends Client
         }
     }
 
-    public function getShip(string $ship)
+    public function getShip(string $ship): Ship
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship),
@@ -67,7 +67,7 @@ class Fleet extends Client
         );
     }
 
-    public function getShipCargo(string $ship)
+    public function getShipCargo(string $ship): ShipCargoDetails
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship . '/cargo'),
@@ -75,7 +75,7 @@ class Fleet extends Client
         );
     }
 
-    public function getShipCooldown(string $ship)
+    public function getShipCooldown(string $ship): ShipCoolDown
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship . '/cooldown'),
@@ -83,7 +83,7 @@ class Fleet extends Client
         );
     }
 
-    public function getShipMounts(string $ship)
+    public function getShipMounts(string $ship): Response\Fleet\ShipMounts
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship . '/mounts'),
@@ -91,7 +91,7 @@ class Fleet extends Client
         );
     }
 
-    public function getScrapShip(string $ship)
+    public function getScrapShip(string $ship): ScrapTransaction
     {
         return $this->convertResponse(
             $this->get('my/ships/' . $ship . '/scrap'),
@@ -99,7 +99,10 @@ class Fleet extends Client
         );
     }
 
-    public function navigateShip(string $ship, WaypointSymbol $waypointSymbol)
+    public function navigateShip(
+        string $ship,
+        WaypointSymbol $waypointSymbol
+    ): Response\Fleet\NavigateShip
     {
         try {
             $response = $this->post(
@@ -118,7 +121,7 @@ class Fleet extends Client
         }
     }
 
-    public function orbitShip(string $ship)
+    public function orbitShip(string $ship): Response\Fleet\OrbitShip
     {
         try {
             $response = $this->post(
@@ -135,7 +138,7 @@ class Fleet extends Client
         }
     }
 
-    public function setNavMode(string $ship, string $flightMode)
+    public function setNavMode(string $ship, string $flightMode): Ship\Nav
     {
         try {
             $response = $this->patch(
@@ -154,7 +157,10 @@ class Fleet extends Client
         }
     }
 
-    public function purchaseShip(WaypointSymbol $waypoint, string $type)
+    public function purchaseShip(
+        WaypointSymbol $waypoint,
+        string $type
+    ): Response\Fleet\PurchaseShip
     {
         try {
             $response = $this->post(
@@ -174,7 +180,11 @@ class Fleet extends Client
         }
     }
 
-    public function refuelShip(string $ship, ?int $units = null, bool $fromCargo = false)
+    public function refuelShip(
+        string $ship,
+        ?int $units = null,
+        bool $fromCargo = false
+    ): Response\Fleet\RefuelShip
     {
         try {
             $data['fromCargo'] = $fromCargo;

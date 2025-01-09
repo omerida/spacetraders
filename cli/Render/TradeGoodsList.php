@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Value\Market\TradeGoods;
 class TradeGoodsList extends AbstractRenderer
 {
     public function __construct(
-        /** @param TradeGoods[] */
+        /** @var TradeGoods[] */
         public array $goods,
     )
     {

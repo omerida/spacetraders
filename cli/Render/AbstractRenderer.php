@@ -96,7 +96,7 @@ class AbstractRenderer implements RenderInterface
         }
     }
 
-    public function newline()
+    public function newline(): void
     {
         $this->writeln('');
     }
@@ -106,19 +106,22 @@ class AbstractRenderer implements RenderInterface
         $this->out[] = $in->output();
     }
 
-    protected function writeln(string ...$lines)
+    protected function writeln(string ...$lines): void
     {
         array_walk($lines, fn($line) => $this->colorize($line));
 
         $this->out = array_merge($this->out, $lines);
     }
 
-    protected function divider(string $c = '=', int $width = 100, string $color = '<:RED:>')
+    protected function divider(string $c = '=', int $width = 100, string $color = '<:RED:>'): void
     {
         $this->out[] = $this->colorize($color . str_repeat($c, $width));
     }
 
-    protected function sprintf(...$params)
+    /**
+     * @param array<string|int|float|callable-string> ...$params
+     */
+    protected function sprintf(...$params): void
     {
         $repl = sprintf(...$params);
         $this->out[] = $this->colorize($repl);

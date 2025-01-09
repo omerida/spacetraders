@@ -3,10 +3,11 @@
 namespace Phparch\SpaceTraders\Client;
 
 use Phparch\SpaceTraders\Response;
+use Phparch\SpaceTraders\Value;
 
 class Systems extends \Phparch\SpaceTraders\Client
 {
-    public function market(string $system, string $waypoint)
+    public function market(string $system, string $waypoint): Value\Market
     {
         $response = $this->get(
             sprintf('systems/%s/waypoints/%s/market', $system, $waypoint)
@@ -14,20 +15,20 @@ class Systems extends \Phparch\SpaceTraders\Client
 
         return $this->convertResponse(
             $response,
-            responseClass: \Phparch\SpaceTraders\Value\Market::class
+            responseClass: Value\Market::class
         );
     }
 
-    public function shipyard(string $system, string $waypoint)
+    public function shipyard(string $system, string $waypoint): Value\Shipyard
     {
         $response = $this->get(
             sprintf('systems/%s/waypoints/%s/shipyard', $system, $waypoint)
         );
 
-        return $this->convertResponse($response, \Phparch\SpaceTraders\Value\Shipyard::class);
+        return $this->convertResponse($response, Value\Shipyard::class);
     }
 
-    public function systemLocation(string $system, string $waypoint)
+    public function systemLocation(string $system, string $waypoint): Response\Systems\Waypoint
     {
         $response = $this->get(
             sprintf('systems/%s/waypoints/%s', $system, $waypoint)
@@ -36,7 +37,7 @@ class Systems extends \Phparch\SpaceTraders\Client
         return $this->convertResponse($response, Response\Systems\Waypoint::class);
     }
 
-    public function waypoints(string $system, array $queryParams = [])
+    public function waypoints(string $system, array $queryParams = []): Response\Systems\Waypoints
     {
         $url = sprintf('systems/%s/waypoints', $system);
         if ($queryParams) {

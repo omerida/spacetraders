@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Value\GoodsDetail;
 class GoodsDetailList extends AbstractRenderer
 {
     public function __construct(
-        /** @param GoodsDetail[] */
+        /** @var GoodsDetail[] $goods */
         public array $goods,
     )
     {

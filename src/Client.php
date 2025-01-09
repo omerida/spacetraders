@@ -14,7 +14,7 @@ abstract class Client
     ) {
     }
 
-    protected function get(string $url, bool $authenticate = true)
+    protected function get(string $url, bool $authenticate = true): ResponseInterface
     {
         $headers = [
             'Content-Type' => 'application/json'

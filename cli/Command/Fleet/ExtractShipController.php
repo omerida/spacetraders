@@ -37,7 +37,7 @@ class ExtractShipController extends CommandController
         // TODO render events
     }
 
-    public function getMock()
+    public function getMock(): ExtractResources
     {
         /* @phpcs:ignore */
         $json = '{

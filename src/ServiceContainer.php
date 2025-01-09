@@ -9,7 +9,7 @@ class ServiceContainer
 {
     private static Container $container;
 
-    public static function config(array $config)
+    public static function config(array $config): void
     {
         if (!isset(self::$container)) {
             self::$container = new Container();
