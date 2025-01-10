@@ -9,6 +9,9 @@ class ServiceContainer
 {
     private static Container $container;
 
+    /**
+     * @param array<class-string, callable> $config
+     */
     public static function config(array $config): void
     {
         if (!isset(self::$container)) {

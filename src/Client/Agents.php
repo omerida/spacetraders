@@ -14,7 +14,7 @@ class Agents extends \Phparch\SpaceTraders\Client
         );
     }
 
-    public function register(string $symbol, string $faction)
+    public function register(string $symbol, string $faction): object
     {
         return $this->post(
             'register',

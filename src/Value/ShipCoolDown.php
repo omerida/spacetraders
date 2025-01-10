@@ -2,7 +2,9 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-class ShipCoolDown
+use Phparch\SpaceTraders\Response\Base;
+
+class ShipCoolDown extends Base
 {
     public function __construct(
         public readonly string $shipSymbol, // todo proper object?

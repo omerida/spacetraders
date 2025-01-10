@@ -37,6 +37,14 @@ class Systems extends \Phparch\SpaceTraders\Client
         return $this->convertResponse($response, Response\Systems\Waypoint::class);
     }
 
+    /**
+     * @param array{}|array{
+     *     'limit'?: int,
+     *     'page'?: int,
+     *     'traits'?: string,
+     *     'type'?:value-of<Value\WaypointType>
+     * } $queryParams
+     */
     public function waypoints(string $system, array $queryParams = []): Response\Systems\Waypoints
     {
         $url = sprintf('systems/%s/waypoints', $system);

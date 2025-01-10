@@ -14,6 +14,9 @@ abstract class Client
     ) {
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     protected function get(string $url, bool $authenticate = true): ResponseInterface
     {
         $headers = [
@@ -31,6 +34,7 @@ abstract class Client
     }
 
     /**
+     * @param array<string, mixed> $data
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
@@ -58,6 +62,7 @@ abstract class Client
     }
 
     /**
+     * @param array<string, mixed> $data
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \JsonException
      */
@@ -86,7 +91,7 @@ abstract class Client
 
     /**
      * Returns the API response as a raw decoded object from JSON string
-     * @return array
+     * @return array<string, mixed>
      * @throws \JsonException
      */
     protected function decodeResponse(
@@ -95,6 +100,14 @@ abstract class Client
         return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 
+    /**
+     * @todo Use an interface instead of an AbstractClass here?
+     *
+     * @template R of \Phparch\SpaceTraders\Response\Base
+     * @param class-string<R> $responseClass
+     * @return R
+     * @throws \JsonException
+     */
     protected function convertResponse(
         \Psr\Http\Message\ResponseInterface $response,
         string $responseClass
