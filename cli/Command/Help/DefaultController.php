@@ -26,9 +26,12 @@ class DefaultController extends CommandController
                 $detail = $this->buildCommandDetails($classname);
 
                 preg_match('/^(\w+)\s/', $detail, $match);
-                $ns = $match[1];
-
-                $grouped[$ns][] = $detail;
+                if (isset($match[1])) {
+                    $ns = $match[1];
+                    $grouped[$ns][] = $detail;
+                } else {
+                    trigger_error('Could not determine namespace for ' . $detail, E_USER_WARNING);
+                }
             } catch (\RuntimeException $ex) {
                 $this->error($ex->getMessage());
             }
@@ -40,10 +43,11 @@ class DefaultController extends CommandController
             $this->newline();
             foreach ($commands as $command) {
                 $lines = explode(PHP_EOL, $command);
-                $subc = preg_replace("/^({$group}\s+)/", '   ', $lines[0]);
-                $this->out(sprintf('   %-35s', trim($subc)), 'info');
-                $this->out($lines[1]);
-                $this->newline();
+                if ($subc = preg_replace("/^({$group}\s+)/", '   ', $lines[0])) {
+                    $this->out(sprintf('   %-35s', trim($subc)), 'info');
+                    $this->out($lines[1]);
+                    $this->newline();
+                }
             }
         }
     }
@@ -55,8 +59,9 @@ class DefaultController extends CommandController
     {
         $commandRoot = new \RecursiveDirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . '..');
         $controllers = [];
+        /** @var \SplFileInfo $file */
         foreach (new \RecursiveIteratorIterator($commandRoot) as $file) {
-            if (str_ends_with($file, 'Controller.php')) {
+            if (str_ends_with($file->getBasename(), 'Controller.php')) {
                 $controllers[] = $file;
             }
         }
@@ -65,27 +70,37 @@ class DefaultController extends CommandController
 
     /**
      * Transform the filename into a fully-qualified classname (FQCN).
-     * @return class-string
+     * @return class-string<CommandController>
      */
     private function getClassName(\SplFileInfo $file): string
     {
         // Keep dirs from the CLI root forward and drop file extension
         if (preg_match('|SpaceTraders/cli/(.+)\.php$|', $file->getRealPath(), $match)) {
+            /** @var class-string<CommandController> */
             return self::BASE_NS . str_replace('/', '\\', $match[1]);
         }
         throw new \RuntimeException("Could not find FQCN for " . $file->getRealPath());
     }
 
     /**
-     * @param class-string $classname
+     * @param class-string<CommandController> $classname
      */
     private function getCommand(string $classname): string
     {
         $ns = str_replace('\\', '\\\\', self::BASE_NS);
         // remove common namespace at beginning
         $command = preg_replace('|^' . $ns . '\\Command|', '', $classname);
+
+        if ($command === null) {
+            throw new \RuntimeException("Unexpected classname: . $classname");
+        }
+
         // remove "Controller" suffix and trailing slash
         $command = preg_replace('|Controller$|', '', $command);
+        if ($command === null) {
+            throw new \RuntimeException("Unexpected classname: . $classname");
+        }
+
         $command = str_replace('\\', ' ', $command);
 
         return strtolower(trim($command));
@@ -109,7 +124,10 @@ class DefaultController extends CommandController
                 && (method_exists($instance, 'required'))
             ) {
                 $obj = new $classname();
-                $instance->required = $obj->required();
+
+                if (method_exists($obj, 'required')) {
+                    $instance->required = $obj->required();
+                }
             }
 
             return $instance;
@@ -119,7 +137,7 @@ class DefaultController extends CommandController
     }
 
     /**
-     * @param class-string $classname
+     * @param class-string<CommandController> $classname
      * @throws \ReflectionException
      */
     private function buildCommandDetails(string $classname): string

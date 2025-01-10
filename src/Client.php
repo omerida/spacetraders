@@ -90,17 +90,6 @@ abstract class Client
     }
 
     /**
-     * Returns the API response as a raw decoded object from JSON string
-     * @return array<string, mixed>
-     * @throws \JsonException
-     */
-    protected function decodeResponse(
-        \Psr\Http\Message\ResponseInterface $response
-    ): array {
-        return json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
-    }
-
-    /**
      * @todo Use an interface instead of an AbstractClass here?
      *
      * @template R of \Phparch\SpaceTraders\Response\Base
@@ -112,7 +101,14 @@ abstract class Client
         \Psr\Http\Message\ResponseInterface $response,
         string $responseClass
     ) {
-        $json = $this->decodeResponse($response);
-        return $responseClass::fromArray($json['data']);
+        $json = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+        if ($json) {
+            // If we can parse a response, it'll hava a data key.
+            /** @phpstan-ignore-next-line */
+            return $responseClass::fromArray($json['data']);
+        }
+
+        throw new \RuntimeException("Could not parse JSON Response");
     }
 }

@@ -18,6 +18,11 @@ class WaypointsController extends CommandController
 
         $args = $this->getArgs();
         $system = $args[3] ?? null;
+
+        if (!$system) {
+            throw new \InvalidArgumentException("Please specify system");
+        }
+
         $type = $args[4] ?? '';
 
         $rawArgs = $this->input->getRawArgs();

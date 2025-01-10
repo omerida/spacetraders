@@ -24,7 +24,5 @@ class DefaultController extends CommandController
             $renderer = new Contract($contract);
             echo $renderer->output();
         }
-
-//        $this->outputVar($response);
     }
 }

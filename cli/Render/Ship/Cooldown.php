@@ -24,10 +24,12 @@ class Cooldown extends AbstractRenderer
             $this->cooldown->remainingSeconds,
             $this->cooldown->totalSeconds,
         );
-        $this->sprintf(
-            '<:RED:>EXPIRES: %s',
-            $this->formatDate($this->cooldown->expiration)
-        );
+        if ($this->cooldown->expiration) {
+            $this->sprintf(
+                '<:RED:>EXPIRES: %s',
+                $this->formatDate($this->cooldown->expiration)
+            );
+        }
         $this->newline();
         return parent::output();
     }

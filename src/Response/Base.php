@@ -16,7 +16,7 @@ abstract class Base
                 ->mapper()
                 ->map(
                     static::class,
-                    Valinor\Mapper\Source\Source::iterable($data)
+                    Valinor\Mapper\Source\Source::iterable($data) /* @phpstan-ignore-line */
                 );
         } catch (\CuyZ\Valinor\Mapper\MappingError $error) {
             $messages = \CuyZ\Valinor\Mapper\Tree\Message\Messages::flattenFromNode(

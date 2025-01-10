@@ -14,15 +14,20 @@ class Agents extends \Phparch\SpaceTraders\Client
         );
     }
 
-    public function register(string $symbol, string $faction): object
+    public function register(string $symbol, string $faction): Response\Register
     {
-        return $this->post(
+        $response = $this->post(
             'register',
             data: [
                 'symbol' => $symbol,
                 'faction' => $faction
             ],
             authenticate: false
+        );
+
+        return $this->convertResponse(
+            $response,
+            Response\Register::class
         );
     }
 }

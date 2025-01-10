@@ -45,7 +45,7 @@ class Ship extends AbstractRenderer
             '<:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s  <:MAG:>Slots<:DEF:> %3s',
             $this->ship->frame->requirements->power,
             $this->ship->frame->requirements->crew,
-            $this->ship->frame->requirements->slots,
+            $this->ship->frame->requirements->slots ?? 0,
         );
         $this->newline();
         // ENGINE
