@@ -19,7 +19,7 @@ class TradeGoods
         public int $purchasePrice,
         /** @var non-negative-int */
         public int $sellPrice,
-        //        public ?GoodsActivityLevel $activity = null,
+        public ?GoodsActivityLevel $activity = null,
     ) {
     }
 }

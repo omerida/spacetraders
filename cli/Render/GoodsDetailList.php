@@ -15,10 +15,10 @@ class GoodsDetailList extends AbstractRenderer
 
     public function output(): string
     {
-        $this->sprintf('<:CYN:>%-10s %-10s %-s', "Symbol", "Name", "Description");
+        $this->sprintf('<:CYN:>%-14s %-10s %-s', "Symbol", "Name", "Description");
         foreach ($this->goods as $good) {
             $this->sprintf(
-                '%-10s %-10s %-s',
+                '%-14s %-10s %-s',
                 $good->symbol->value,
                 $good->name,
                 $good->description

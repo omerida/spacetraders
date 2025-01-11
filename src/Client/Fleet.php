@@ -20,10 +20,15 @@ class Fleet extends Client
 {
     public function ListShips(): Response\Fleet\ListShips
     {
-        return $this->convertResponse(
-            $this->get('my/ships'),
-            Response\Fleet\ListShips::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships'),
+                Response\Fleet\ListShips::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function dockShip(string $ship): Response\Fleet\DockShip
@@ -39,7 +44,8 @@ class Fleet extends Client
                 Response\Fleet\DockShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 
@@ -66,42 +72,67 @@ class Fleet extends Client
 
     public function getShip(string $ship): Ship
     {
-        return $this->convertResponse(
-            $this->get('my/ships/' . $ship),
-            Ship::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships/' . $ship),
+                Ship::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function getShipCargo(string $ship): ShipCargoDetails
     {
-        return $this->convertResponse(
-            $this->get('my/ships/' . $ship . '/cargo'),
-            ShipCargoDetails::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships/' . $ship . '/cargo'),
+                ShipCargoDetails::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function getShipCooldown(string $ship): ShipCoolDown
     {
-        return $this->convertResponse(
-            $this->get('my/ships/' . $ship . '/cooldown'),
-            ShipCoolDown::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships/' . $ship . '/cooldown'),
+                ShipCoolDown::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function getShipMounts(string $ship): Response\Fleet\ShipMounts
     {
-        return $this->convertResponse(
-            $this->get('my/ships/' . $ship . '/mounts'),
-            Response\Fleet\ShipMounts::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships/' . $ship . '/mounts'),
+                Response\Fleet\ShipMounts::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function getScrapShip(string $ship): ScrapTransaction
     {
-        return $this->convertResponse(
-            $this->get('my/ships/' . $ship . '/scrap'),
-            ScrapTransaction::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/ships/' . $ship . '/scrap'),
+                ScrapTransaction::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
     }
 
     public function navigateShip(
@@ -122,7 +153,8 @@ class Fleet extends Client
                 Response\Fleet\NavigateShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 
@@ -139,7 +171,8 @@ class Fleet extends Client
                 Response\Fleet\OrbitShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 
@@ -158,7 +191,8 @@ class Fleet extends Client
                 Ship\Nav::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 
@@ -181,7 +215,8 @@ class Fleet extends Client
                 Response\Fleet\PurchaseShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 
@@ -206,7 +241,32 @@ class Fleet extends Client
                 Response\Fleet\RefuelShip::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
+        }
+    }
+
+    public function sellCargo(
+        string $ship,
+        string $cargo,
+        int $units = null,
+    ): Response\Fleet\SellCargo {
+        try {
+            $data['symbol'] = $cargo;
+            $data['units'] = $units;
+
+            $response = $this->post(
+                'my/ships/' . $ship . '/sell',
+                data: $data,
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Response\Fleet\SellCargo::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 }

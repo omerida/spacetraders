@@ -1,8 +1,9 @@
 <?php
 
-namespace Phparch\SpaceTradersCLI\Render;
+namespace Phparch\SpaceTradersCLI\Render\Market;
 
 use Phparch\SpaceTraders\Value\Market\Transaction;
+use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 
 class TransactionsList extends AbstractRenderer
 {

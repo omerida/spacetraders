@@ -4,10 +4,10 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\SpaceTradersException;
-use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTraders\Response\Fleet\ExtractResources;
 use Phparch\SpaceTraders\ServiceContainer;
+use Phparch\SpaceTraders\SpaceTradersException;
+use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
