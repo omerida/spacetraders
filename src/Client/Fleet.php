@@ -5,6 +5,7 @@ namespace Phparch\SpaceTraders\Client;
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response;
+use Phparch\SpaceTraders\SpaceTradersException;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
@@ -42,6 +43,9 @@ class Fleet extends Client
         }
     }
 
+    /**
+     * @throws \RuntimeException
+     */
     public function extractShip(string $ship): Response\Fleet\ExtractResources
     {
         try {
@@ -55,7 +59,8 @@ class Fleet extends Client
                 Response\Fleet\ExtractResources::class
             );
         } catch (ClientException $e) {
-            throw new \RuntimeException($e->getResponse()->getBody()->getContents(), 1);
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new SpaceTradersException($body);
         }
     }
 

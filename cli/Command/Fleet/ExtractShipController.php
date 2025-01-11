@@ -4,6 +4,8 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\SpaceTradersException;
+use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTraders\Response\Fleet\ExtractResources;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
@@ -25,16 +27,24 @@ class ExtractShipController extends CommandController
             throw new \InvalidArgumentException("Please specify ship symbol as third parameter");
         }
 
-        $response = $client->extractShip($shipSymbol);
-        //$response = $this->getMock();
+        try {
+            $response = $client->extractShip($shipSymbol);
+            //$response = $this->getMock();
 
-        $cooldown = new Render\Ship\Cooldown($response->cooldown);
-        echo $cooldown->output();
-        $cargo = new Render\Ship\CargoDetails($response->cargo);
-        echo $cargo->output();
-        $extraction = new Render\Ship\ExtractionDetails($response->extraction);
-        echo $extraction->output();
-        // TODO render events
+            $cooldown = new Render\Ship\Cooldown($response->cooldown);
+            echo $cooldown->output();
+            $cargo = new Render\Ship\CargoDetails($response->cargo);
+            echo $cargo->output();
+            $extraction = new Render\Ship\ExtractionDetails($response->extraction);
+            echo $extraction->output();
+            // TODO render events
+        } catch (SpaceTradersException $ex) {
+            $error = new Render\Exception($ex);
+            echo $error->output();
+            $cooldown = Value\ShipCoolDown::fromArray($ex->data['cooldown']);
+            $render = new Render\Ship\Cooldown($cooldown);
+            echo $render->output();
+        }
     }
 
     public function getMock(): ExtractResources
