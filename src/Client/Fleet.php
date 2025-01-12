@@ -269,4 +269,28 @@ class Fleet extends Client
             throw new APIException($body);
         }
     }
+
+    public function jettisonCargo(
+        string $ship,
+        string $cargo,
+        int $units = null,
+    ): Response\Fleet\JettisonCargo {
+        try {
+            $data['symbol'] = $cargo;
+            $data['units'] = $units;
+
+            $response = $this->post(
+                'my/ships/' . $ship . '/jettison',
+                data: $data,
+                authenticate: true
+            );
+            return $this->convertResponse(
+                $response,
+                Response\Fleet\JettisonCargo::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new APIException($body);
+        }
+    }
 }
