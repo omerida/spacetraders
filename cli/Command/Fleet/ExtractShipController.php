@@ -6,7 +6,7 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response\Fleet\ExtractResources;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\SpaceTradersException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
@@ -38,7 +38,7 @@ class ExtractShipController extends CommandController
             $extraction = new Render\Ship\ExtractionDetails($response->extraction);
             echo $extraction->output();
             // TODO render events
-        } catch (SpaceTradersException $ex) {
+        } catch (APIException $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
             $cooldown = Value\ShipCoolDown::fromArray($ex->data['cooldown']);

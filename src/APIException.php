@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders;
 
-class SpaceTradersException extends \Exception
+class APIException extends \Exception
 {
     /** @var array<string, mixed>  */
     public readonly array $data;

@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Client;
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response;
-use Phparch\SpaceTraders\SpaceTradersException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Value\ShipCargoDetails;
@@ -27,7 +27,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -45,7 +45,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -66,7 +66,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -79,7 +79,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -92,7 +92,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -105,7 +105,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -118,7 +118,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -131,7 +131,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -154,7 +154,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -172,7 +172,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -192,7 +192,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -216,7 +216,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -242,7 +242,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 
@@ -266,7 +266,7 @@ class Fleet extends Client
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
-            throw new SpaceTradersException($body);
+            throw new APIException($body);
         }
     }
 }

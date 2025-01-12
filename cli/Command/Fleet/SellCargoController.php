@@ -5,7 +5,7 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\SpaceTradersException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
@@ -50,7 +50,7 @@ class SellCargoController extends CommandController
 
             $out = new Render\Market\Transaction($response->transaction);
             echo $out->output();
-        } catch (SpaceTradersException $ex) {
+        } catch (APIException $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
         }
