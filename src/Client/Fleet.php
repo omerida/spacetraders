@@ -226,6 +226,7 @@ class Fleet extends Client
         bool $fromCargo = false
     ): Response\Fleet\RefuelShip
     {
+        $data = [];
         try {
             $data['fromCargo'] = $fromCargo;
             if ($units > 0) {
@@ -251,6 +252,7 @@ class Fleet extends Client
         string $cargo,
         int $units = null,
     ): Response\Fleet\SellCargo {
+        $data = [];
         try {
             $data['symbol'] = $cargo;
             $data['units'] = $units;
@@ -275,6 +277,7 @@ class Fleet extends Client
         string $cargo,
         int $units = null,
     ): Response\Fleet\JettisonCargo {
+        $data = [];
         try {
             $data['symbol'] = $cargo;
             $data['units'] = $units;

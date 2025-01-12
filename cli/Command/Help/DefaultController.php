@@ -107,7 +107,7 @@ class DefaultController extends CommandController
     }
 
     /**
-     * @param class-string $classname
+     * @param class-string<CommandController> $classname
      * @throws \ReflectionException
      */
     private function getHelpInfo(string $classname): HelpInfo
@@ -124,10 +124,7 @@ class DefaultController extends CommandController
                 && (method_exists($instance, 'required'))
             ) {
                 $obj = new $classname();
-
-                if (method_exists($obj, 'required')) {
-                    $instance->required = $obj->required();
-                }
+                $instance->required = $obj->required();
             }
 
             return $instance;
