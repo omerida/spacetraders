@@ -75,7 +75,7 @@ class DefaultController extends CommandController
     private function getClassName(\SplFileInfo $file): string
     {
         // Keep dirs from the CLI root forward and drop file extension
-        if (preg_match('|SpaceTraders/cli/(.+)\.php$|', $file->getRealPath(), $match)) {
+        if (preg_match('|cli/(.+)\.php$|', $file->getRealPath(), $match)) {
             /** @var class-string<CommandController> */
             return self::BASE_NS . str_replace('/', '\\', $match[1]);
         }

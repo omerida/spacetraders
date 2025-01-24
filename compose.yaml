@@ -1,0 +1,17 @@
+services:
+  php:
+    build:
+      context: docker/
+      dockerfile: Dockerfile-php
+    expose:
+      - 9003 # Xdebug port
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      PHP_IDE_CONFIG: "serverName=localhost"
+    env_file: .env
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www
+      - ./docker/99_php_custom.ini:/usr/local/etc/php/conf.d/99_php_custom.ini:delegated
