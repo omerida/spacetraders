@@ -1,5 +1,3 @@
 <?php
 
-$x = 1;
-
-phpinfo();
+echo "Hello World";

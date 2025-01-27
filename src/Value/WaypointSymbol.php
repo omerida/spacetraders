@@ -11,7 +11,11 @@ class WaypointSymbol
     /** @see https://github.com/SpaceTradersAPI/api-docs/blob/main/models/WaypointSymbol.json */
     public function __construct(string $input)
     {
-        preg_match('/^([[:alnum:]]{,2})\-([[:alnum:]]{,5})\-([[:alnum:]]{,5})$/', $input, $match);
+        preg_match(
+            '/^([[:alnum:]]{1,2})\-([[:alnum:]]{1,5})\-([[:alnum:]]{1,5})$/',
+            $input,
+            $match
+        );
 
         if (!$match) {
             throw new \InvalidArgumentException("Malformed waypoint string");

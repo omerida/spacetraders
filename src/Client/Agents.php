@@ -2,6 +2,8 @@
 
 namespace Phparch\SpaceTraders\Client;
 
+use GuzzleHttp\Exception\ClientException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Response;
 
 class Agents extends \Phparch\SpaceTraders\Client
@@ -16,18 +18,23 @@ class Agents extends \Phparch\SpaceTraders\Client
 
     public function register(string $symbol, string $faction): Response\Register
     {
-        $response = $this->post(
-            'register',
-            data: [
-                'symbol' => $symbol,
-                'faction' => $faction
-            ],
-            authenticate: false
-        );
+        try {
+            $response = $this->post(
+                'register',
+                data: [
+                    'symbol' => $symbol,
+                    'faction' => $faction
+                ],
+                authenticate: false
+            );
 
-        return $this->convertResponse(
-            $response,
-            Response\Register::class
-        );
+            return $this->convertResponse(
+                $response,
+                Response\Register::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new APIException($body);
+        }
     }
 }

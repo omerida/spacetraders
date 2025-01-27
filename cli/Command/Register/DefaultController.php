@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Command\Register;
 
 use Minicli\Command\CommandController;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client\Agents;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
@@ -48,8 +49,9 @@ class DefaultController extends CommandController
             $r = new Render\Agent($response->agent);
             echo $r->output();
             echo PHP_EOL . $response->token;
-        } catch (\Throwable $e) {
-            $this->error($e->getMessage());
+        } catch (APIException $ex) {
+            $error = new Render\Exception($ex);
+            echo $error->output();
         }
     }
 }

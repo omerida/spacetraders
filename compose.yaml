@@ -11,7 +11,15 @@ services:
       PHP_IDE_CONFIG: "serverName=localhost"
     env_file: .env
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - .:/var/www
       - ./docker/99_php_custom.ini:/usr/local/etc/php/conf.d/99_php_custom.ini:delegated
+  cache:
+    image: registry.redict.io/redict
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/data:/data
+      - ./docker/redict.conf:/redict.conf:delegated
+
