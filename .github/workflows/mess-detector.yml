@@ -1,8 +1,16 @@
 name: Mess Detector Report
 run-name: Run PHP Mess Detector
 on: push
+
+concurrency:
+  group: wiki
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
 jobs:
-  Run-Code-Quality-Checks:
+  Generate-PHPMD-Report:
     runs-on: ubuntu-24.04
     steps:
       - name: Setup PHP
@@ -11,7 +19,7 @@ jobs:
           php-version: '8.4'
           extensions: readline, curl, redis, mbstring, intl
           ini-values: max_memory=512M
-          tools: composer, cs2pr, phpstan, phpcs
+          tools: composer, cs2pr, phpmd
 
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -21,5 +29,18 @@ jobs:
 
       - name: Run PHPMD
         if: always()
-        run: vendor/bin/phpmd src,cli html phpmd.xml
+        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml > phpmd.html
 
+      - name: Upload report
+        uses: int128/upload-artifact-wiki-action@v1
+        id: phpmd-artifact
+        with:
+          path: phpmd.html
+
+      - name: Post report
+        uses: int128/comment-action@v1
+        with:
+          update-if-exists: replace
+          post: |
+             ## Screenshot
+             <img width="128" src="${{ steps.phpmd-artifact.outputs.url }}/screenshot.png">
