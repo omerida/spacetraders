@@ -20,9 +20,9 @@
   ],
   "minimum-stability": "stable",
   "require": {
-      "php": ">=8.1",
-      "ext-readline": "*",
-      "ext-curl": "*",
+    "php": ">=8.1",
+    "ext-readline": "*",
+    "ext-curl": "*",
     "minicli/minicli": "^4.2",
     "php-di/php-di": "^7.0",
     "guzzlehttp/guzzle": "^7.8",
