@@ -12,7 +12,7 @@ class Market extends AbstractRenderer {
     {
     }
 
-    public function output()
+    public function output(): string
     {
         $this->heading($this->market->symbol);
         $this->newline();
