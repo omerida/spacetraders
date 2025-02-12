@@ -1,0 +1,11 @@
+name: Analyze Code
+run-name: Analyze Code for SpaceTraders PHP client.
+on: [push]
+jobs:
+  Run-PHPStan:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running phpstan"
+      - name: "Run PHPStan Static Analysis"
+      - uses: actions/checkout@v4
+      - run: echo "Checked out repository"
