@@ -31,16 +31,20 @@ jobs:
         if: always()
         run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml > phpmd.html
 
+      - name: Convert HTML to Markdown
+        id: html2markdown
+        if: always()
+        uses: rknj/html2markdown@v0.1.0
+        with:
+          html-file: "phpmd.html"
+
       - name: Upload report
         uses: int128/upload-artifact-wiki-action@v1
         id: phpmd-artifact
         with:
           path: phpmd.html
 
-      - name: Post report
-        uses: int128/comment-action@v1
-        with:
-          update-if-exists: replace
-          post: |
-             ## Screenshot
-             <img width="128" src="${{ steps.phpmd-artifact.outputs.url }}/screenshot.png">
+      - name: Show URL of wiki upload
+        if: always()
+        run: |
+          cat ${{ steps.phpmd-artifact.outputs.url }}
