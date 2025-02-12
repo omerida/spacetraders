@@ -10,12 +10,13 @@ jobs:
         with:
           php-version: '8.4'
           extensions: readline, curl, redis, mbstring, intl
-          ini-values: post_max_size=256M, max_execution_time=180
-          coverage: xdebug
-          tools: composer, phpstan
+          ini-values: max_memory=512M
+          tools: composer, cs2pr, phpstan, phpcs
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Install dependencies
         run: composer install --prefer-dist
       - name: Run PHPStan
         run: phpstan analyse
+      - name: Run PHPCodeSniffer
+        run: phpcs -q --report=checkstyle src | cs2pr
