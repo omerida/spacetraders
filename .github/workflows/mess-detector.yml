@@ -2,12 +2,8 @@ name: Mess Detector Report
 run-name: Run PHP Mess Detector
 on: push
 
-concurrency:
-  group: wiki
-  cancel-in-progress: true
-
 permissions:
-  contents: write
+  issues: write
 
 jobs:
   Generate-PHPMD-Report:
@@ -28,23 +24,32 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Run PHPMD
-        if: always()
-        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml > phpmd.html
-
-      - name: Convert HTML to Markdown
-        id: html2markdown
-        if: always()
-        uses: rknj/html2markdown@v0.1.0
-        with:
-          html-file: "phpmd.html"
-
-      - name: Upload report
-        uses: int128/upload-artifact-wiki-action@v1
-        id: phpmd-artifact
-        with:
-          path: phpmd.html
-
-      - name: Show URL of wiki upload
+        id: phpmd-results
         if: always()
         run: |
-          cat ${{ steps.phpmd-artifact.outputs.url }}
+          report=`phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml` >> $GITHUB_OUTPUT
+        #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
+
+#      - name: Convert HTML to Markdown
+#        id: html2markdown
+#        if: always()
+#        uses: rknj/html2markdown@v1.1.0
+#        with:
+#          html-file: "./phpmd.html"
+#      - name: Read report contents
+#        id: phpmd-text
+#        run: echo "report=$(cat phpmd.txt)" >> $GITHUB_OUTPUT
+
+      - name: Create Issue
+        uses: dacbd/create-issue-action@main
+        id: new-issue
+        with:
+          token: ${{ github.token }}
+          title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
+          body: |
+            ${{ steps.phpmd-results.outputs.report }}
+
+      - name: Show content of generated markdown file
+        if: always()
+        run: |
+          cat ${{ steps.html2markdown.outputs.markdown-file }}
