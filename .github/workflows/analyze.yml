@@ -12,11 +12,17 @@ jobs:
           extensions: readline, curl, redis, mbstring, intl
           ini-values: max_memory=512M
           tools: composer, cs2pr, phpstan, phpcs
+
       - name: Check out repository code
         uses: actions/checkout@v4
+
       - name: Install dependencies
         run: composer install --prefer-dist
+
       - name: Run PHPStan
+        if: always()
         run: phpstan analyse --error-format=checkstyle| cs2pr
+
       - name: Run PHPCodeSniffer
+        if: always()
         run: phpcs -q --report=checkstyle cli src | cs2pr
