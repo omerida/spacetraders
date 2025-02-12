@@ -5,15 +5,14 @@ namespace Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Render\Market\TransactionsList;
 
-class Market extends AbstractRenderer
-{
+class Market extends AbstractRenderer {
     public function __construct(
         public Value\Market $market,
     )
     {
     }
 
-    public function output(): string
+    public function output()
     {
         $this->heading($this->market->symbol);
         $this->newline();
@@ -39,8 +38,8 @@ class Market extends AbstractRenderer
         }
 
         if ($this->market->tradeGoods) {
-            $this->heading("TRADE GOODS");
-            $this->passthru(new TradeGoodsList($this->market->tradeGoods));
+                    $this->heading("TRADE GOODS");
+                    $this->passthru(new TradeGoodsList($this->market->tradeGoods));
         }
         return parent::output();
     }

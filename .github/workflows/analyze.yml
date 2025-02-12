@@ -2,7 +2,7 @@ name: Analyze Code
 run-name: Analyze Code for SpaceTraders PHP client.
 on: [push]
 jobs:
-  Run-PHPStan:
+  Run-Code-Quality-Checks:
     runs-on: ubuntu-24.04
     steps:
       - name: Setup PHP
