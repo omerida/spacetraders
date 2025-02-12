@@ -7,5 +7,5 @@ jobs:
     steps:
       - run: echo "Running phpstan"
       - name: "Run PHPStan Static Analysis"
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       - run: echo "Checked out repository"
