@@ -7,7 +7,7 @@ class RegistrationInfo
     public function __construct(
         public readonly string $name,
         public readonly FactionSymbol $factionSymbol,
-        public readonly string $role, // enum
+        public readonly Ship\RegisteredRole $role,
     )
     {
     }

@@ -17,10 +17,11 @@ class AbstractRenderer implements RenderInterface
     private const YEL = '33';
     private const BLU = '34';
     private const MAG = '35';
-    private const CYN = '35';
+    private const CYN = '36';
     private const BOLD = '1';
 
     // placeholder for ASCII terminal colors
+    /** @var array<string, string>  */
     private array $colors = [
         '<:DEF:>' => self::ESC . self::RESET . self::CLOSE,
         '<:BLK:>' => self::ESC . self::BLK . self::CLOSE,
@@ -38,38 +39,46 @@ class AbstractRenderer implements RenderInterface
         '<:BLU:>' => self::ESC . self::BLU . self::CLOSE,
         '<:BLUBOLD:>' => self::ESC . self::BOLD . ';'
             . self::BLU . self::CLOSE,
-        '<:MAG:>' => self::ESC . self::GRN . self::CLOSE,
+        '<:MAG:>' => self::ESC . self::MAG . self::CLOSE,
         '<:MAGBOLD:>' => self::ESC . self::BOLD . ';'
             . self::MAG . self::CLOSE,
-        '<:CYN:>' => self::CYN . self::RED . self::CLOSE,
+        '<:CYN:>' => self::ESC . self::CYN . self::CLOSE,
         '<:CYNBOLD:>' => self::ESC . self::BOLD . ';'
             . self::CYN . self::CLOSE,
     ];
 
     private const RESET = '0';
 
-    public function black(string $in): string {
+    public function black(string $in): string
+    {
         return $this->colorize('<:BLACK:>' . $in . '<:DEF:>');
     }
-    public function red(string $in): string {
+    public function red(string $in): string
+    {
         return $this->colorize('<:RED:>' . $in . '<:DEF:>');
     }
-    public function green(string $in): string {
+    public function green(string $in): string
+    {
         return $this->colorize('<:GRN:>' . $in . '<:DEF:>');
     }
-    public function blue(string $in): string {
+    public function blue(string $in): string
+    {
         return $this->colorize('<:BLU:>' . $in . '<:DEF:>');
     }
-    public function magenta(string $in): string {
+    public function magenta(string $in): string
+    {
         return $this->colorize('<:MAG:>' . $in . '<:DEF:>');
     }
-    public function yellow(string $in): string {
+    public function yellow(string $in): string
+    {
         return $this->colorize('<:YEL:>' . $in . '<:DEF:>');
     }
-    public function cyan(string $in): string {
+    public function cyan(string $in): string
+    {
         return $this->colorize('<:CYN:>' . $in . '<:DEF:>');
     }
-    private function colorize(string $in): string {
+    private function colorize(string $in): string
+    {
         // reset the colors automaticall
         if (str_contains($in, '<:') && !str_contains($in, '<:END:>')) {
             $in .= '<:DEF:>';
@@ -78,7 +87,8 @@ class AbstractRenderer implements RenderInterface
         return strtr($in, $this->colors);
     }
 
-    public function heading(string $heading, bool $blankAfter = false): void {
+    public function heading(string $heading, bool $blankAfter = false): void
+    {
         $this->writeln(
             $this->colorize('<:REDBOLD:>' . $heading . '<:DEF:>'),
         );
@@ -87,15 +97,34 @@ class AbstractRenderer implements RenderInterface
         }
     }
 
-    public function newline() {
+    public function newline(): void
+    {
         $this->writeln('');
     }
 
-    protected function writeln(string ...$lines) {
+    public function passthru(RenderInterface $in): void
+    {
+        $this->out[] = $in->output();
+    }
+
+    protected function writeln(string ...$lines): void
+    {
+        array_walk($lines, fn($line) => $this->colorize($line));
+
         $this->out = array_merge($this->out, $lines);
     }
 
-    protected function sprintf(...$params) {
+    protected function divider(string $c = '=', int $width = 100, string $color = '<:RED:>'): void
+    {
+        $this->out[] = $this->colorize($color . str_repeat($c, $width));
+    }
+
+    /**
+     * @param array<int|string|float> ...$params
+     */
+    protected function sprintf(...$params): void
+    {
+        /** @phpstan-ignore-next-line */
         $repl = sprintf(...$params);
         $this->out[] = $this->colorize($repl);
     }
@@ -103,5 +132,18 @@ class AbstractRenderer implements RenderInterface
     public function output(): string
     {
         return implode(PHP_EOL, $this->out) . PHP_EOL;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getOutput(): array
+    {
+        return $this->out;
+    }
+
+    public function formatDate(\DateTimeInterface $when): string
+    {
+        return $when->format(DATE_COOKIE);
     }
 }

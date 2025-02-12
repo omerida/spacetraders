@@ -14,6 +14,4 @@ class WaypointFaction
     {
         return $this->symbol;
     }
-
-
 }

@@ -24,6 +24,8 @@ class Waypoint extends Base
         public readonly array $modifiers,
         public readonly \Phparch\SpaceTraders\Value\SystemChart $chart,
         public readonly WaypointFaction $faction,
-        public readonly bool $isUnderConstruction
-    ) {}
+        public readonly bool $isUnderConstruction,
+        public readonly string $orbits = "",
+    ) {
+    }
 }

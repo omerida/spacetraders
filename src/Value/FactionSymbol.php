@@ -14,6 +14,4 @@ class FactionSymbol
     {
         return $this->faction;
     }
-
-
 }

@@ -8,7 +8,7 @@ use Phparch\SpaceTraders\Value\Contract;
 
 class Contracts extends Client
 {
-    public function myContracts(): object
+    public function myContracts(): Response\Contracts\Contracts
     {
         return $this->convertResponse(
             $this->get('my/contracts'),

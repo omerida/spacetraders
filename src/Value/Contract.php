@@ -10,12 +10,12 @@ final class Contract extends Base
         /** @var non-empty-string */
         public readonly string $id,
         public readonly FactionSymbol $factionSymbol,
-        public readonly string $type, // enum
+        public readonly ContractType $type,
         public readonly ContractTerms $terms,
         public readonly bool $accepted,
         public readonly bool $fulfilled,
         public readonly \DateTimeImmutable $expiration,
         public readonly \DateTimeImmutable $deadlineToAccept,
-    ) {}
-
+    ) {
+    }
 }

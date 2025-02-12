@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<ruleset name="spacetraders" namespace="Spacetraders\CS\Standard">
+    <file>./cli/</file>
+    <file>./src/</file>
+
+    <exclude-pattern>*.(css|js)$</exclude-pattern>
+
+    <arg name="extensions" value="php" />
+
+    <rule ref="Squiz.ControlStructures.ControlSignature">
+        <properties>
+            <property name="requiredSpacesBeforeColon" value="0" />
+        </properties>
+    </rule>
+    <rule ref="PSR12">
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
+        <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="100"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <properties>
+        <property name="exact" value="true" />
+    </properties>
+</rule>
+</ruleset>

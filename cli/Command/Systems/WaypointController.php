@@ -15,22 +15,26 @@ class WaypointController extends CommandController
 {
     use TerminalOutputHelper;
 
-    public function required(): array {
-        return ['waypoint'];
-    }
-
     public function handle(): void
     {
         $client = ServiceContainer::get(Client\Systems::class);
 
         try {
-            $input = $this->getParam('waypoint');
-            $wp = new WaypointSymbol($input);
+            $args = $this->getArgs();
+            $id = $args[3] ?? null;
+            if (!$id) {
+                throw new \InvalidArgumentException("Please specify waypoint as third parameter");
+            }
+
+            if (!preg_match('/[A-Z0-9\-]+/', strtoupper($id))) {
+                throw new \InvalidArgumentException("Invalid characters in waypoing ID");
+            }
+
+            $wp = new WaypointSymbol($id);
 
             $waypoint = $client->systemLocation($wp->system, $wp->waypoint);
             $r = new Render\Waypoint($waypoint);
             echo $r->output();
-
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }
