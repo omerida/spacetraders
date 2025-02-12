@@ -1,0 +1,25 @@
+name: Mess Detector Report
+run-name: Run PHP Mess Detector
+on: push
+jobs:
+  Run-Code-Quality-Checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: readline, curl, redis, mbstring, intl
+          ini-values: max_memory=512M
+          tools: composer, cs2pr, phpstan, phpcs
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: composer install --prefer-dist
+
+      - name: Run PHPMD
+        if: always()
+        run: vendor/bin/phpmd src,cli html phpmd.xml
+
