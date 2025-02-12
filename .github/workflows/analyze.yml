@@ -17,6 +17,6 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist
       - name: Run PHPStan
-        run: phpstan analyse
+        run: phpstan analyse --error-format=checkstyle| cs2pr
       - name: Run PHPCodeSniffer
-        run: phpcs -q --report=checkstyle | cs2pr
+        run: phpcs -q --report=checkstyle cli src | cs2pr

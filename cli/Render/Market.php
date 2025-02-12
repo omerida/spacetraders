@@ -19,7 +19,7 @@ class Market extends AbstractRenderer {
 
         if ($this->market->exports) {
             $this->heading("EXPORTS");
-            $this->passthru(new GoodsDetailList($this->market->exports));
+            $this->passthru(new GoodsDetailList($this->market));
         }
 
         if ($this->market->imports) {
