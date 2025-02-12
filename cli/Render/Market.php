@@ -38,8 +38,8 @@ class Market extends AbstractRenderer {
         }
 
         if ($this->market->tradeGoods) {
-                    $this->heading("TRADE GOODS");
-                    $this->passthru(new TradeGoodsList($this->market->tradeGoods));
+            $this->heading("TRADE GOODS");
+            $this->passthru(new TradeGoodsList($this->market->tradeGoods));
         }
         return parent::output();
     }

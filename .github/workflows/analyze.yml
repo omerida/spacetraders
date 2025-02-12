@@ -1,7 +1,6 @@
 name: Analyze Code
 run-name: Analyze Code for SpaceTraders PHP client.
-on:
-  pull_request:
+on: pull_request
 jobs:
   Run-Code-Quality-Checks:
     runs-on: ubuntu-24.04
@@ -20,4 +19,4 @@ jobs:
       - name: Run PHPStan
         run: phpstan analyse
       - name: Run PHPCodeSniffer
-        run: phpcs -q --report=checkstyle src | cs2pr
+        run: phpcs -q --report=checkstyle | cs2pr

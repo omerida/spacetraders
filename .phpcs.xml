@@ -25,4 +25,10 @@
             <property name="absoluteLineLimit" value="0"/>
         </properties>
     </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+    <properties>
+        <property name="exact" value="true" />
+    </properties>
+</rule>
 </ruleset>
