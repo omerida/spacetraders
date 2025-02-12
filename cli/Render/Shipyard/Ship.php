@@ -124,7 +124,7 @@ class Ship extends AbstractRenderer
         } else {
             $this->writeln('None', '');
         }
-         $this->writeln($this->blue('.......................'));
+        $this->writeln($this->blue('.......................'));
 
         return parent::output();
     }

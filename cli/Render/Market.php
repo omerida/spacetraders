@@ -5,7 +5,8 @@ namespace Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Render\Market\TransactionsList;
 
-class Market extends AbstractRenderer {
+class Market extends AbstractRenderer
+{
     public function __construct(
         public Value\Market $market,
     )
@@ -19,7 +20,7 @@ class Market extends AbstractRenderer {
 
         if ($this->market->exports) {
             $this->heading("EXPORTS");
-            $this->passthru(new GoodsDetailList($this->market));
+            $this->passthru(new GoodsDetailList($this->market->exports));
         }
 
         if ($this->market->imports) {
