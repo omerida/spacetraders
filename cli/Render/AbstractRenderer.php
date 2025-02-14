@@ -49,42 +49,42 @@ class AbstractRenderer implements RenderInterface
 
     private const RESET = '0';
 
-    public function black(string $in): string
+    public function black(string $input): string
     {
-        return $this->colorize('<:BLACK:>' . $in . '<:DEF:>');
+        return $this->colorize('<:BLACK:>' . $input . '<:DEF:>');
     }
-    public function red(string $in): string
+    public function red(string $input): string
     {
-        return $this->colorize('<:RED:>' . $in . '<:DEF:>');
+        return $this->colorize('<:RED:>' . $input . '<:DEF:>');
     }
-    public function green(string $in): string
+    public function green(string $input): string
     {
-        return $this->colorize('<:GRN:>' . $in . '<:DEF:>');
+        return $this->colorize('<:GRN:>' . $input . '<:DEF:>');
     }
-    public function blue(string $in): string
+    public function blue(string $input): string
     {
-        return $this->colorize('<:BLU:>' . $in . '<:DEF:>');
+        return $this->colorize('<:BLU:>' . $input . '<:DEF:>');
     }
-    public function magenta(string $in): string
+    public function magenta(string $input): string
     {
-        return $this->colorize('<:MAG:>' . $in . '<:DEF:>');
+        return $this->colorize('<:MAG:>' . $input . '<:DEF:>');
     }
-    public function yellow(string $in): string
+    public function yellow(string $input): string
     {
-        return $this->colorize('<:YEL:>' . $in . '<:DEF:>');
+        return $this->colorize('<:YEL:>' . $input . '<:DEF:>');
     }
-    public function cyan(string $in): string
+    public function cyan(string $input): string
     {
-        return $this->colorize('<:CYN:>' . $in . '<:DEF:>');
+        return $this->colorize('<:CYN:>' . $input . '<:DEF:>');
     }
-    private function colorize(string $in): string
+    private function colorize(string $input): string
     {
         // reset the colors automaticall
-        if (str_contains($in, '<:') && !str_contains($in, '<:END:>')) {
-            $in .= '<:DEF:>';
+        if (str_contains($input, '<:') && !str_contains($input, '<:END:>')) {
+            $input .= '<:DEF:>';
         }
 
-        return strtr($in, $this->colors);
+        return strtr($input, $this->colors);
     }
 
     public function heading(string $heading, bool $blankAfter = false): void
@@ -102,9 +102,9 @@ class AbstractRenderer implements RenderInterface
         $this->writeln('');
     }
 
-    public function passthru(RenderInterface $in): void
+    public function passthru(RenderInterface $input): void
     {
-        $this->out[] = $in->output();
+        $this->out[] = $input->output();
     }
 
     protected function writeln(string ...$lines): void
@@ -114,9 +114,12 @@ class AbstractRenderer implements RenderInterface
         $this->out = array_merge($this->out, $lines);
     }
 
-    protected function divider(string $c = '=', int $width = 100, string $color = '<:RED:>'): void
-    {
-        $this->out[] = $this->colorize($color . str_repeat($c, $width));
+    protected function divider(
+        string $char = '=',
+        int $width = 100,
+        string $color = '<:RED:>'
+    ): void {
+        $this->out[] = $this->colorize($color . str_repeat($char, $width));
     }
 
     /**

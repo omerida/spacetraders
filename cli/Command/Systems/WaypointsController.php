@@ -30,14 +30,14 @@ class WaypointsController extends CommandController
         $query = [];
         if (str_contains($rawArgs[4], '=')) {
             // allow CLI to specify the query string
-            $qs = $rawArgs[4];
+            $querystring = $rawArgs[4];
 
-            parse_str($qs, $query);
+            parse_str($querystring, $query);
 
             $allowed = ['traits', 'type'];
             $unknown = array_diff(array_keys($query), $allowed);
             if ($unknown) {
-                throw new InvalidArgumentException("Uknown query: " . join($unknown));
+                throw new InvalidArgumentException("Unknown query: " . implode('&', $unknown));
             }
 
             if (empty($query)) {
@@ -50,8 +50,8 @@ class WaypointsController extends CommandController
             $response = $client->waypoints($system, $query);
 
             foreach ($response->waypoints as $waypoint) {
-                $r = new Render\Waypoint($waypoint);
-                echo $r->output();
+                $render = new Render\Waypoint($waypoint);
+                echo $render->output();
             }
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
