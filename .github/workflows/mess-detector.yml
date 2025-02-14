@@ -31,7 +31,7 @@ jobs:
 
       - name: Get Output
         id: phpmd-read
-        run: echo "mess=cat report.txt" > "$GITHUB_OUTPUT"
+        run: echo "mess=$(cat report.txt)" >> $GITHUB_OUTPUT
 
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
@@ -46,13 +46,14 @@ jobs:
       - name: Create Issue
         uses: dacbd/create-issue-action@main
         id: new-issue
+        if: always()
         with:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
           body: |
             ${{ steps.phpmd-read.outputs.mess }}
 
-      - name: Show content of generated markdown file
+      - name: Show content of generated report file
         if: always()
         run: |
           cat report.txt
