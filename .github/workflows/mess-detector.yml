@@ -27,21 +27,25 @@ jobs:
         id: phpmd-results
         if: always()
         run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml | tee report.html
-        #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
 
-      - name: Convert HTML to Markdown
-        id: html2markdown
-        if: always()
-        uses: rknj/html2markdown@v1.1.0
+      - name: Convert HTML to GitHub-flavored Markdown
+        uses: docker://pandoc/core:3.5
         with:
-          html-file: "./report.html"
-        #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#setting-an-output-parameter
-      - name: Get Output
-        id: phpmd-read
-        run: |
-            echo 'mess<<EOF' >> $GITHUB_OUTPUT
-            echo "${{ steps.html2markdown.outputs.markdown-content }}" >> $GITHUB_OUTPUT
-            echo 'EOF' >> $GITHUB_OUTPUT
+          args: -f html -t gfm -o mess.md report.html
+
+#      - name: Convert HTML to Markdown
+#        id: html2markdown
+#        if: always()
+#        uses: rknj/html2markdown@v1.1.0
+#        with:
+#          html-file: "./report.html"
+#        #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#setting-an-output-parameter
+#      - name: Get Output
+#        id: phpmd-read
+#        run: |
+#            echo 'mess<<EOF' >> $GITHUB_OUTPUT
+#            echo "${{ steps.html2markdown.outputs.markdown-content }}" >> $GITHUB_OUTPUT
+#            echo 'EOF' >> $GITHUB_OUTPUT
 
 #      - name: Read report contents
 #        id: phpmd-text
@@ -52,7 +56,7 @@ jobs:
         with:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
-          content-filepath: ${{ steps.html2markdown.outputs.markdown-file }}
+          content-filepath: mess.md
 
 #      - name: Show content of generated report file
 #        if: always()
