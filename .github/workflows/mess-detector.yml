@@ -55,4 +55,5 @@ jobs:
       - name: Show content of generated markdown file
         if: always()
         run: |
-          echo ${{ steps.phpmd-read.outputs.mess  }}
+          cat report.txt
+        # ${{ steps.phpmd-read.outputs.mess  }}
