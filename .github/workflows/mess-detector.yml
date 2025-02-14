@@ -26,8 +26,12 @@ jobs:
       - name: Run PHPMD
         id: phpmd-results
         if: always()
-        run: echo "mess=`phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml`" >> "$GITHUB_OUTPUT"
+        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml > report.txt
         #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
+
+      - name: Get Output
+        id: phpmd-read
+        run: echo "mess='cat report.txt'" > "$GITHUB_OUTPUT"
 
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
@@ -46,9 +50,9 @@ jobs:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
           body: |
-            ${{ steps.phpmd-results.outputs.report }}
+            ${{ steps.phpmd-read.outputs.mess }}
 
       - name: Show content of generated markdown file
         if: always()
         run: |
-          echo ${{ steps.phpmd-results.outputs.mess  }}
+          echo ${{ steps.phpmd-read.outputs.mess  }}
