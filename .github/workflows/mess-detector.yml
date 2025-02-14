@@ -33,11 +33,9 @@ jobs:
       - name: Get Output
         id: phpmd-read
         run: |
-          {
-            echo 'mess<<EOF'
-            "$(cat report.txt)"
-            EOF
-          } >> $GITHUB_OUTPUT
+            echo 'mess<<EOF' >> $GITHUB_OUTPUT
+            echo "$(cat report.txt)" >> $GITHUB_OUTPUT
+            echo 'EOF' >> $GITHUB_OUTPUT
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
 #        if: always()
