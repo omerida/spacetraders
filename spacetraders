@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use Phparch\SpaceTraders\ServiceContainer;
+
 if(php_sapi_name() !== 'cli') {
     exit;
 }
@@ -12,7 +14,7 @@ $dotenv->load();
 
 $services = require __DIR__ . '/config/services.php';
 
-\Phparch\SpaceTraders\ServiceContainer::config($services);
+ServiceContainer::config($services);
 
 $app = new \Minicli\App([
     'app_path' => [
@@ -21,6 +23,9 @@ $app = new \Minicli\App([
     'theme' => '\Unicorn',
     'debug' => false,
 ], 'spacetraders');
+
+$app->addService('services', function() { return ServiceContainer::instance();});
+
 
 // add the help command if one hasn't been specified.
 $argv[1] = $argv[1] ?? 'help';

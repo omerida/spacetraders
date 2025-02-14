@@ -10,10 +10,15 @@ class Agents extends \Phparch\SpaceTraders\Client
 {
     public function myAgent(): Response\Agent
     {
-        return $this->convertResponse(
-            $this->get('my/agent'),
-            Response\Agent::class
-        );
+        try {
+            return $this->convertResponse(
+                $this->get('my/agent'),
+                Response\Agent::class
+            );
+        } catch (ClientException $e) {
+            $body = $e->getResponse()->getBody()->getContents();
+            throw new APIException($body);
+        }
     }
 
     public function register(string $symbol, string $faction): Response\Register

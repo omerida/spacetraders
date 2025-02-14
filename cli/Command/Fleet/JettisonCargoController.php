@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
@@ -22,19 +23,19 @@ class JettisonCargoController extends CommandController
         $args = $this->getArgs();
         $shipSymbol = $args[3] ?? null;
         if (!$shipSymbol) {
-            throw new \InvalidArgumentException("Please specify ship symbol as third parameter");
+            throw new InvalidArgumentException("Please specify ship symbol as third parameter");
         }
 
         $args = $this->getArgs();
         $cargoSymbol = $args[4] ?? null;
         if (!$cargoSymbol) {
-            throw new \InvalidArgumentException("Please specify cargo symbol as fourth parameter");
+            throw new InvalidArgumentException("Please specify cargo symbol as fourth parameter");
         }
 
         $args = $this->getArgs();
         $units = (int) ($args[5] ?? null);
         if (!$units) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Please specify how many units to sell as fifth parameter"
             );
         }

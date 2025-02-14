@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Contracts;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
@@ -21,11 +22,11 @@ class GetController extends CommandController
         $args = $this->getArgs();
         $id = $args[3] ?? null;
         if (!$id) {
-            throw new \InvalidArgumentException("Please specify contract id as third parameter");
+            throw new InvalidArgumentException("Please specify contract id as third parameter");
         }
 
         if (!ctype_alnum($id)) {
-            throw new \InvalidArgumentException("Contract id should be alphanuumeric.");
+            throw new InvalidArgumentException("Contract id should be alphanuumeric.");
         }
 
         $contract = $client->details($id);

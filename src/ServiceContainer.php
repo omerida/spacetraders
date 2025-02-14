@@ -58,4 +58,9 @@ class ServiceContainer
     {
         return self::$container->make($serviceName);
     }
+
+    public static function instance(): Container
+    {
+        return self::$container;
+    }
 }
