@@ -26,12 +26,12 @@ jobs:
       - name: Run PHPMD
         id: phpmd-results
         if: always()
-        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml > report.txt
+        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml | tee report.txt
         #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
 
       - name: Get Output
         id: phpmd-read
-        run: echo "mess='cat report.txt'" > "$GITHUB_OUTPUT"
+        run: echo "mess=cat report.txt" > "$GITHUB_OUTPUT"
 
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
