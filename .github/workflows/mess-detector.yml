@@ -1,0 +1,43 @@
+name: Mess Detector Report
+run-name: Run PHP Mess Detector
+on:
+  push:
+    branches:
+      - main
+permissions:
+  issues: write
+
+jobs:
+  Generate-PHPMD-Report:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: readline, curl, redis, mbstring, intl
+          ini-values: max_memory=512M
+          tools: composer, cs2pr, phpmd
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: composer install --prefer-dist
+
+      - name: Run PHPMD
+        id: phpmd-results
+        if: always()
+        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml | tee report.html
+
+      - name: Convert HTML to GitHub-flavored Markdown
+        uses: docker://pandoc/core:3.5
+        with:
+          args: -f html -t gfm -o mess.md report.html
+
+      - name: Create Issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          token: ${{ github.token }}
+          title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
+          content-filepath: mess.md

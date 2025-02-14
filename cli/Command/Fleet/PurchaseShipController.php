@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
@@ -22,13 +23,13 @@ class PurchaseShipController extends CommandController
         $args = $this->getArgs();
         $waypoint = $args[3] ?? null;
         if (!$waypoint) {
-            throw new \InvalidArgumentException("Please specify waypoint as third parameter");
+            throw new InvalidArgumentException("Please specify waypoint as third parameter");
         }
         $waypoint = new WaypointSymbol($waypoint);
 
         $type = strtoupper($args[4]);
         if (!$type) {
-            throw new \InvalidArgumentException("Please specify type as fourth parameter");
+            throw new InvalidArgumentException("Please specify type as fourth parameter");
         }
 
         /* @TODO validate type is one of the allowed values */

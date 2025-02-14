@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Register;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client\Agents;
@@ -26,21 +27,21 @@ class DefaultController extends CommandController
             $faction = $this->getParam('faction');
 
             if (!$symbol) {
-                throw new \InvalidArgumentException("Please specify symbol: symbol=");
+                throw new InvalidArgumentException("Please specify symbol: symbol=");
             }
 
             if (!$faction) {
-                throw new \InvalidArgumentException("Please specify faction to join: faction=");
+                throw new InvalidArgumentException("Please specify faction to join: faction=");
             }
 
             if (!preg_match('/[[:alnum:]_]+/', $symbol)) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     "Symbol can only include letters, numbers, underscores"
                 );
             }
 
             if (!preg_match('/[[:alnum:]_]+/', $faction)) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     "Faction can only include letters, numbers, underscores"
                 );
             }

@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Command\Agent;
 
 use Minicli\Command\CommandController;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTraders\Client;
@@ -18,9 +19,13 @@ class DefaultController extends CommandController
     {
         $client = ServiceContainer::get(Client\Agents::class);
 
-        $response = $client->MyAgent();
-
-        $agent = new Render\Agent($response);
-        echo $agent->output();
+        try {
+            $response = $client->MyAgent();
+            $agent = new Render\Agent($response);
+            echo $agent->output();
+        } catch (APIException $ex) {
+            $error = new Render\Exception($ex);
+            echo $error->output();
+        }
     }
 }

@@ -20,13 +20,14 @@ class DefaultController extends CommandController
 
         $response = $client->ListShips();
 
-        if ($response->ships) {
-            foreach ($response->ships as $ship) {
-                $r = new Render\Ship($ship);
-                echo $r->output();
-            }
-        } else {
+        if (!$response->ships) {
             echo "No ships found.";
+            return;
+        }
+
+        foreach ($response->ships as $ship) {
+            $r = new Render\Ship($ship);
+            echo $r->output();
         }
     }
 }

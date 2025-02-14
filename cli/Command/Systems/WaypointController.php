@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Systems;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
@@ -23,11 +24,11 @@ class WaypointController extends CommandController
             $args = $this->getArgs();
             $id = $args[3] ?? null;
             if (!$id) {
-                throw new \InvalidArgumentException("Please specify waypoint as third parameter");
+                throw new InvalidArgumentException("Please specify waypoint as third parameter");
             }
 
             if (!preg_match('/[A-Z0-9\-]+/', strtoupper($id))) {
-                throw new \InvalidArgumentException("Invalid characters in waypoing ID");
+                throw new InvalidArgumentException("Invalid characters in waypoing ID");
             }
 
             $wp = new WaypointSymbol($id);

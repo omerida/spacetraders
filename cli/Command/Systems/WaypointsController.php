@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Command\Systems;
 
+use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
@@ -20,7 +21,7 @@ class WaypointsController extends CommandController
         $system = $args[3] ?? null;
 
         if (!$system) {
-            throw new \InvalidArgumentException("Please specify system");
+            throw new InvalidArgumentException("Please specify system");
         }
 
         $type = $args[4] ?? '';
@@ -36,11 +37,11 @@ class WaypointsController extends CommandController
             $allowed = ['traits', 'type'];
             $unknown = array_diff(array_keys($query), $allowed);
             if ($unknown) {
-                throw new \InvalidArgumentException("Uknown query: " . join($unknown));
+                throw new InvalidArgumentException("Uknown query: " . join($unknown));
             }
 
             if (empty($query)) {
-                throw new \InvalidArgumentException("Invalid query");
+                throw new InvalidArgumentException("Invalid query");
             }
         } elseif (isset($rawArgs[4])) {
             $query = ['type' => $type];
