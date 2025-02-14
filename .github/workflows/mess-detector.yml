@@ -29,10 +29,15 @@ jobs:
         run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml | tee report.txt
         #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
 
+        #https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#setting-an-output-parameter
       - name: Get Output
         id: phpmd-read
-        run: echo "mess=$(cat report.txt)" >> $GITHUB_OUTPUT
-
+        run: |
+          {
+            echo 'mess<<EOF'
+            "$(cat report.txt)"
+            echo EOF
+          } >> $GITHUB_OUTPUT
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
 #        if: always()
@@ -50,8 +55,7 @@ jobs:
         with:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
-          body: |
-            ${{ steps.phpmd-read.outputs.mess }}
+          body: ${{ steps.phpmd-read.outputs.mess }}
 
       - name: Show content of generated report file
         if: always()
