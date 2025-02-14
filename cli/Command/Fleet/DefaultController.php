@@ -26,8 +26,8 @@ class DefaultController extends CommandController
         }
 
         foreach ($response->ships as $ship) {
-            $r = new Render\Ship($ship);
-            echo $r->output();
+            $render = new Render\Ship($ship);
+            echo $render->output();
         }
     }
 }

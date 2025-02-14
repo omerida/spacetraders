@@ -10,10 +10,38 @@
     My custom rule set that checks my code...
   </description>
 
-  <rule ref="rulesets/codesize.xml" />
-  <rule ref="rulesets/cleancode.xml" />
+  <rule ref="rulesets/codesize.xml">
+    <exclude name="ExcessiveParameterList" />
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+    <properties>
+      <property name="minimum" value="15"><value>15</value></property>
+    </properties>
+  </rule>
+
+  <rule ref="rulesets/cleancode.xml">
+    <exclude name="StaticAccess"/>
+  </rule>
+  <rule ref="rulesets/cleancode.xml/StaticAccess">
+    <properties>
+      <property name="exceptions">
+        <value>
+            \Phparch\SpaceTraders\ServiceContainer,
+            \CuyZ\Valinor\Mapper\Source\Source,
+            \CuyZ\Valinor\Mapper\Tree\Message\Messages
+        </value>
+      </property>
+    </properties>
+  </rule>
   <rule ref="rulesets/controversial.xml" />
   <rule ref="rulesets/design.xml" />
-  <rule ref="rulesets/naming.xml" />
+  <rule ref="rulesets/naming.xml">
+    <exclude name="ShortVariable"/>
+  </rule>
+  <rule ref="rulesets/naming.xml/ShortVariable">
+    <properties>
+      <property name="exceptions" value="id,x,y" />
+    </properties>
+  </rule>
   <rule ref="rulesets/unusedcode.xml" />
 </ruleset>

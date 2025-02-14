@@ -7,6 +7,9 @@ use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
 
 #[HelpInfo(description: "Show registered commands")]
 class DefaultController extends CommandController
@@ -32,7 +35,7 @@ class DefaultController extends CommandController
                 } else {
                     trigger_error('Could not determine namespace for ' . $detail, E_USER_WARNING);
                 }
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 $this->error($ex->getMessage());
             }
         }
@@ -57,10 +60,10 @@ class DefaultController extends CommandController
      */
     private function findControllers(): array
     {
-        $commandRoot = new \RecursiveDirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . '..');
+        $commandRoot = new RecursiveDirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . '..');
         $controllers = [];
         /** @var \SplFileInfo $file */
-        foreach (new \RecursiveIteratorIterator($commandRoot) as $file) {
+        foreach (new RecursiveIteratorIterator($commandRoot) as $file) {
             if (str_ends_with($file->getBasename(), 'Controller.php')) {
                 $controllers[] = $file;
             }
@@ -79,7 +82,7 @@ class DefaultController extends CommandController
             /** @var class-string<CommandController> */
             return self::BASE_NS . str_replace('/', '\\', $match[1]);
         }
-        throw new \RuntimeException("Could not find FQCN for " . $file->getRealPath());
+        throw new RuntimeException("Could not find FQCN for " . $file->getRealPath());
     }
 
     /**
@@ -92,13 +95,13 @@ class DefaultController extends CommandController
         $command = preg_replace('|^' . $ns . '\\Command|', '', $classname);
 
         if ($command === null) {
-            throw new \RuntimeException("Unexpected classname: . $classname");
+            throw new RuntimeException("Unexpected classname: . $classname");
         }
 
         // remove "Controller" suffix and trailing slash
         $command = preg_replace('|Controller$|', '', $command);
         if ($command === null) {
-            throw new \RuntimeException("Unexpected classname: . $classname");
+            throw new RuntimeException("Unexpected classname: . $classname");
         }
 
         $command = str_replace('\\', ' ', $command);
@@ -130,7 +133,7 @@ class DefaultController extends CommandController
             return $instance;
         }
 
-        throw new \RuntimeException("No help info found for $classname");
+        throw new RuntimeException("No help info found for $classname");
     }
 
     /**

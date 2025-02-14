@@ -31,11 +31,11 @@ class WaypointController extends CommandController
                 throw new InvalidArgumentException("Invalid characters in waypoing ID");
             }
 
-            $wp = new WaypointSymbol($id);
+            $point = new WaypointSymbol($id);
 
-            $waypoint = $client->systemLocation($wp->system, $wp->waypoint);
-            $r = new Render\Waypoint($waypoint);
-            echo $r->output();
+            $point = $client->systemLocation($point->system, $point->waypoint);
+            $renderer = new Render\Waypoint($point);
+            echo $renderer->output();
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
         }

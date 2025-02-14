@@ -35,10 +35,10 @@ class ShipyardController extends CommandController
 
             $shipyard = $client->shipyard($wp->system, $wp->waypoint);
 
-            $r = new Render\Shipyard($shipyard);
-            echo $r->output();
-        } catch (\Throwable $e) {
-            $this->error($e->getMessage());
+            $renderer = new Render\Shipyard($shipyard);
+            echo $renderer->output();
+        } catch (\Throwable $exception) {
+            $this->error($exception->getMessage());
         }
     }
 }
