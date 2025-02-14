@@ -28,6 +28,7 @@ jobs:
         if: always()
         run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml | tee report.html
         #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
+
       - name: Convert HTML to Markdown
         id: html2markdown
         if: always()
@@ -47,14 +48,14 @@ jobs:
 #        run: echo "report=$(cat phpmd.txt)" >> $GITHUB_OUTPUT
 
       - name: Create Issue
-        uses: nashmaniac/create-issue-action@v1.2
+        uses: peter-evans/create-issue-from-file@v5
         with:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
-          body: ${{ steps.phpmd-read.outputs.mess }}
+          content-filepath: ${{ steps.html2markdown.outputs.markdown-file }}
 
-      - name: Show content of generated report file
-        if: always()
-        run: |
-          cat report.md
+#      - name: Show content of generated report file
+#        if: always()
+#        run: |
+#          cat report.md
         # ${{ steps.phpmd-read.outputs.mess  }}
