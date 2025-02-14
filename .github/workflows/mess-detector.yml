@@ -26,8 +26,7 @@ jobs:
       - name: Run PHPMD
         id: phpmd-results
         if: always()
-        run: |
-          report=`phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml` >> $GITHUB_OUTPUT
+        run: echo "mess=`phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml`" >> "$GITHUB_OUTPUT"
         #run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli text phpmd.xml
 
 #      - name: Convert HTML to Markdown
@@ -52,4 +51,4 @@ jobs:
       - name: Show content of generated markdown file
         if: always()
         run: |
-          cat ${{ steps.html2markdown.outputs.markdown-file }}
+          echo ${{ steps.phpmd-results.outputs.mess  }}
