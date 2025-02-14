@@ -47,9 +47,7 @@ jobs:
 #        run: echo "report=$(cat phpmd.txt)" >> $GITHUB_OUTPUT
 
       - name: Create Issue
-        uses: dacbd/create-issue-action@main
-        id: new-issue
-        if: always()
+        uses: nashmaniac/create-issue-action@v1.2
         with:
           token: ${{ github.token }}
           title: PHP Mess Detector run ${{ github.event.repository.updated_at }}
