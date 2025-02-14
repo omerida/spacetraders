@@ -9,7 +9,6 @@ permissions:
 
 on:
   workflow_dispatch: # Allow to manually deploy
-  push:
 jobs:
   build:
     runs-on: ubuntu-latest
