@@ -36,7 +36,7 @@ jobs:
           {
             echo 'mess<<EOF'
             "$(cat report.txt)"
-            echo EOF
+            EOF
           } >> $GITHUB_OUTPUT
 #      - name: Convert HTML to Markdown
 #        id: html2markdown
