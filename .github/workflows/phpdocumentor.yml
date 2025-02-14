@@ -24,30 +24,30 @@ jobs:
       # Install phpDocumentator using PHIVE
       # phpDocumentator recommends PHIVE as the preferred install strategy
       # Source: https://github.com/phpDocumentor/phpDocumentor/blob/919d5c1ef42a3c74d050e05ce99add6efa87b5a4/README.md?plain=1#L79
-      - name: Cache PHIVE tools
-        uses: actions/cache@v4
-        with:
-          path: ${{ runner.temp }}/.phive
-          key: php-phive-${{ hashFiles('.phive/phars.xml') }}
-          restore-keys: php-phive-
-      - name: Install PHIVE
-        uses: szepeviktor/phive@v1
-        with:
-          home: ${{ runner.temp }}/.phive
-          binPath: ${{ github.workspace }}/tools/phive
-
-      # TODO: confirm this is the correct GPG key
-      # Blocker: https://github.com/phpDocumentor/phpDocumentor/issues/3694
-      - name: Install phpDocumentor
-        run: ${{ github.workspace }}/tools/phive install phpDocumentor --trust-gpg-keys 6DA3ACC4991FFAE5
-
-      - name: Cache phpDocumentor build files
-        id: phpdocumentor-cache
-        uses: actions/cache@v4
-        with:
-          path: phpdoc-cache
-          key: ${{ runner.os }}-phpdocumentor-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-phpdocumentor-
+#      - name: Cache PHIVE tools
+#        uses: actions/cache@v4
+#        with:
+#          path: ${{ runner.temp }}/.phive
+#          key: php-phive-${{ hashFiles('.phive/phars.xml') }}
+#          restore-keys: php-phive-
+#      - name: Install PHIVE
+#        uses: szepeviktor/phive@v1
+#        with:
+#          home: ${{ runner.temp }}/.phive
+#          binPath: ${{ github.workspace }}/tools/phive
+#
+#      # TODO: confirm this is the correct GPG key
+#      # Blocker: https://github.com/phpDocumentor/phpDocumentor/issues/3694
+#      - name: Install phpDocumentor
+#        run: ${{ github.workspace }}/tools/phive install phpDocumentor --trust-gpg-keys 6DA3ACC4991FFAE5
+#
+#      - name: Cache phpDocumentor build files
+#        id: phpdocumentor-cache
+#        uses: actions/cache@v4
+#        with:
+#          path: phpdoc-cache
+#          key: ${{ runner.os }}-phpdocumentor-${{ github.sha }}
+#          restore-keys: ${{ runner.os }}-phpdocumentor-
 
       # Notice: -d xdebug.mode=off is required due to a bug/workaround
       # Issue: https://github.com/phpDocumentor/phpDocumentor/issues/3642#issuecomment-1912354577
