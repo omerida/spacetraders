@@ -31,7 +31,7 @@ class Fleet extends Client
         }
     }
 
-    public function dockShip(string $ship): Response\Fleet\DockShip
+    public function dockShip($ship): Response\Fleet\DockShip
     {
         try {
             $response = $this->post(
