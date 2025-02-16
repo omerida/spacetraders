@@ -20,9 +20,9 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Run PHPStan
-        if: always()
+        id: run-phpstan
         run: phpstan analyse --error-format=checkstyle| cs2pr
 
       - name: Run PHPCodeSniffer
-        if: always()
+        if: ${{ success() || steps.run-phpstan.conclusion == 'failure' }}
         run: phpcs -q --report=checkstyle cli src | cs2pr
