@@ -12,7 +12,8 @@ class ShipEngine
         public readonly float $integrity, // 0-1
         /** @var positive-int */
         public readonly int $speed,
-        public readonly ShipEngineRequirements $requirements
+        public readonly ShipEngineRequirements $requirements,
+        public readonly int $quality,
     )
     {
     }

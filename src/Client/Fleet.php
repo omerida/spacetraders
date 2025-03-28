@@ -18,7 +18,7 @@ use Phparch\SpaceTraders\Value\WaypointSymbol;
  */
 class Fleet extends Client
 {
-    public function ListShips(): Response\Fleet\ListShips
+    public function listShips(): Response\Fleet\ListShips
     {
         try {
             return $this->convertResponse(

@@ -12,7 +12,8 @@ class ShipReactor
         public readonly float $integrity, // 0-1
         /** @var non-negative-int */
         public readonly int $powerOutput,
-        public readonly ShipReactorRequirements $requirements
+        public readonly ShipReactorRequirements $requirements,
+        public readonly int $quality,
     )
     {
     }

@@ -9,7 +9,7 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
-    env_file: .env
+#    env_file: .env
     ports:
       - "80:80"
     volumes:
