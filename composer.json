@@ -52,5 +52,8 @@
         "vendor/bin/phpstan"
       ]
     }
+  },
+  "scripts": {
+    "check-code": "vendor/bin/phpcs && vendor/bin/phpstan"
   }
 }

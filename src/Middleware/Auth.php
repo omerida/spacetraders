@@ -19,6 +19,9 @@ class Auth implements MiddlewareInterface
     {
     }
 
+    /**
+     * @throws UnauthorizedException
+     */
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
@@ -27,18 +30,19 @@ class Auth implements MiddlewareInterface
         if ($this->token) {
             try {
                 $parser = new Parser(new JoseEncoder());
+                /** @var \Lcobucci\JWT\Token\Plain $token */
                 $token = $parser->parse($this->token);
+
                 if ($token->claims()->get('sub') === 'agent-token') {
                     return $handler->handle($request);
                 }
             } catch (\Exception $e) {
-//                trigger_error('Could not decode agent token '
-//                    . $e->getMessage(), E_USER_WARNING);
                 throw new UnauthorizedException(
                     'Unauthorized: ' . $e->getMessage(),
                     previous: $e
                 );
             }
         }
+        throw new UnauthorizedException('Unauthorized: No token found.');
     }
 }
