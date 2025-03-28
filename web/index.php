@@ -47,6 +47,14 @@ $router->map(
     }
 );
 
+$router->map(
+    'GET', '/my/contracts',
+    function (ServerRequestInterface $request): array {
+        $client = ServiceContainer::get(Client\Contracts::class);
+        return (array) $client->myContracts();
+    }
+);
+
 $response = $router->dispatch($request);
 
 // send the response to the browser
