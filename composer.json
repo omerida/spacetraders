@@ -20,7 +20,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": ">=8.1",
+    "php": ">=8.3",
     "ext-readline": "*",
     "ext-curl": "*",
     "minicli/minicli": "^4.2",
@@ -34,7 +34,8 @@
     "league/route": "^6.1",
     "guzzlehttp/psr7": "^2.7",
     "laminas/laminas-httphandlerrunner": "^2.11",
-    "lcobucci/jwt": "^5.5"
+    "lcobucci/jwt": "^5.5",
+    "roave/better-reflection": "6.58.x-dev"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.0",
@@ -54,6 +55,7 @@
     }
   },
   "scripts": {
-    "check-code": "vendor/bin/phpcs && vendor/bin/phpstan"
+    "check-code": "vendor/bin/phpcs && vendor/bin/phpstan",
+    "phpstan": "vendor/bin/phpstan"
   }
 }
