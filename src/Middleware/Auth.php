@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTraders\Middleware;
 
+use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Phparch\SpaceTraders\APIException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,7 +37,7 @@ class Auth implements MiddlewareInterface
                 if ($token->claims()->get('sub') === 'agent-token') {
                     return $handler->handle($request);
                 }
-            } catch (\Exception $e) {
+            } catch (InvalidTokenStructure $e) {
                 throw new UnauthorizedException(
                     'Unauthorized: ' . $e->getMessage(),
                     previous: $e

@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 
-class Agents extends RequestAwareController
+class AgentsController extends RequestAwareController
 {
     public function __construct(
         private Client\Agents $client,
