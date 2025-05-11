@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use Phparch\SpaceTraders\RequestAwareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RequestAwareController implements RequestAwareInterface
+abstract class RequestAwareController implements RequestAwareInterface
 {
     private ServerRequestInterface $request;
 

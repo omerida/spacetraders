@@ -17,7 +17,7 @@ class FleetController extends RequestAwareController
      * @return array<mixed>
      */
     #[Route(name: 'my_ships', path: '/my/ships', methods: ['GET'])]
-    public function myAgent(): array
+    public function myShips(): array
     {
         return (array) $this->client->listShips();
     }
