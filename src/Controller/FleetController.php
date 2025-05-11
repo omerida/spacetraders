@@ -5,7 +5,6 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 class FleetController extends RequestAwareController
 {

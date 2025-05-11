@@ -4,7 +4,6 @@ use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Phparch\SpaceTraders;
-use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
