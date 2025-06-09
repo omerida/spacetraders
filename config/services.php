@@ -36,6 +36,7 @@ return [
                 ]
             ],
             container: ServiceContainer::instance(),
+            useAPCu: $_ENV['USE_APCU'] === 1
         );
     }
 ];

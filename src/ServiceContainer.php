@@ -71,46 +71,58 @@ final class ServiceContainer
     public static function autodiscover(): void
     {
         $ref = new BetterReflection();
-        self::registerApiClients($ref);
+        self::registerApiClients($ref, $_ENV['USE_APCU'] === 1);
+    }
+
+    protected static function isAPIClient(ReflectionClass $class): bool
+    {
+        $name = $class->getNamespaceName();
+        if ($name !== 'Phparch\SpaceTraders\Client') {
+            return false;
+        }
+
+        if (
+            in_array(
+                needle: 'Phparch\SpaceTraders\Client',
+                haystack: $class->getParentClassNames(),
+                strict: true
+            )
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Automatically register children of \Phparch\SpaceTraders\Client
      */
-    protected static function registerApiClients(BetterReflection $ref): void
+    protected static function registerApiClients(BetterReflection $ref, bool $useAPCU): void
     {
-        $is_client = static function (ReflectionClass $class): bool {
-            $name = $class->getNamespaceName();
-            if ($name !== 'Phparch\SpaceTraders\Client') {
-                return false;
-            }
+        // Use this class and method to build the key for saved data
+        $cacheKey = __CLASS__ . '::' . __FUNCTION__;
+        // Check if we find anything and that fetch didn't fail
+        $classNames = $useAPCU ? apcu_fetch($cacheKey, $success) : [];
+        if (!$classNames || !$success) {
+            $clients = array_filter(
+                self::getSrcClasses($ref),
+                [__CLASS__, 'isAPIClient'],
+            );
+            // Can't cache BetterReflection classes. We just need their names
+            $classNames = array_map(
+                fn(ReflectionClass $client) => $client->getName(),
+                $clients
+            ) ;
+            apcu_store($cacheKey, $classNames);
+        }
 
-            if (
-                in_array(
-                    needle: 'Phparch\SpaceTraders\Client',
-                    haystack: $class->getParentClassNames(),
-                    strict: true
-                )
-            ) {
-                return true;
-            }
-
-            return false;
-        };
-
-        $clients = array_filter(
-            self::getSrcClasses($ref),
-            $is_client,
-        );
-
-        foreach ($clients as $client) {
+        foreach ($classNames as $className) {
             self::$container->set(
                 // Classname
-                $client->getName(),
+                $className,
                 // Closure to call when this class is requested.
-                function () use ($client) {
-                    $clientClass = $client->getName();
-                    return new $clientClass(
+                function () use ($className) {
+                    return new $className(
                         $_ENV['SPACETRADERS_TOKEN'],
                         self::get(\GuzzleHttp\Client::class)
                     );
