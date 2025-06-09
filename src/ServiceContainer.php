@@ -101,6 +101,7 @@ final class ServiceContainer
     {
         // Use this class and method to build the key for saved data
         $cacheKey = __CLASS__ . '::' . __FUNCTION__;
+        $success = false;
         // Check if we find anything and that fetch didn't fail
         $classNames = $useAPCU ? apcu_fetch($cacheKey, $success) : [];
         if (!$classNames || !$success) {
@@ -115,7 +116,8 @@ final class ServiceContainer
             ) ;
             apcu_store($cacheKey, $classNames);
         }
-
+        /** @var string[] $classNames */
+        /** @var string[] $classNames */
         foreach ($classNames as $className) {
             self::$container->set(
                 // Classname

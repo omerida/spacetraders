@@ -86,13 +86,18 @@ class RoutesMapper
         return $controllers;
     }
 
-    private function discoverRoutes(bool $useAPCU): array
+    /**
+     * @return RouteInfo[]
+     */
+    private function discoverRoutes(): array
     {
         // Use this class and method to build the key for saved data
         $cacheKey = __CLASS__ . '::' . __FUNCTION__;
         // Check if we find anything and that fetch didn't fail
-        $discovered = $this->useAPCU ? apcu_fetch($cacheKey, $success) : [];
+        $success = false;
+        $discovered = $this->useAPCu ? apcu_fetch($cacheKey, $success) : [];
         if ($discovered && $success) {
+            /** @var RouteInfo[] $discovered */
             return $discovered;
         }
 
