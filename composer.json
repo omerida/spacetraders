@@ -23,6 +23,7 @@
     "php": ">=8.3",
     "ext-readline": "*",
     "ext-curl": "*",
+    "ext-apcu": "*",
     "minicli/minicli": "^4.2",
     "php-di/php-di": "^7.0",
     "guzzlehttp/guzzle": "^7.8",
