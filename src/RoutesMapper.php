@@ -3,7 +3,11 @@
 namespace Phparch\SpaceTraders;
 
 use DI\Container;
+use GuzzleHttp\Psr7\HttpFactory;
+use http\Exception\InvalidArgumentException;
 use League\Route\Router;
+use League\Route\Strategy\ApplicationStrategy;
+use League\Route\Strategy\JsonStrategy;
 use Phparch\SpaceTraders\Attribute\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Roave\BetterReflection\BetterReflection;
@@ -54,7 +58,7 @@ class RoutesMapper
     ): Router {
         $controller = $this->container->get($info->class);
 
-        $router->map(
+        $route = $router->map(
             $info->httpMethods,
             $info->path,
             function (ServerRequestInterface $request) use ($controller, $info): mixed {
@@ -64,6 +68,20 @@ class RoutesMapper
                 return $controller->{$info->method}();
             }
         );
+
+        if ($info->strategy) {
+            switch ($info->strategy) {
+                case 'application':
+                    $route->setStrategy(new ApplicationStrategy());
+                    break;
+                case 'json':
+                    $responseFactory = new HttpFactory();
+                    $route->setStrategy(new JsonStrategy($responseFactory));
+                    break;
+                default:
+                    throw new InvalidArgumentException("Unknown route response strategy");
+            }
+        }
 
         return $router;
     }
@@ -137,6 +155,7 @@ class RoutesMapper
                             httpMethods: $args['methods'],
                             class: $classInfo->getName(),
                             method: $method->getName(),
+                            strategy: $args['strategy'] ?? null
                         );
                     }
                 }
