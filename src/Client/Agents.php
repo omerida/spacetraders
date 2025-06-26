@@ -21,6 +21,7 @@ class Agents extends \Phparch\SpaceTraders\Client
         }
     }
 
+    #[\Deprecated]
     public function register(string $symbol, string $faction): Response\Register
     {
         try {
@@ -30,7 +31,7 @@ class Agents extends \Phparch\SpaceTraders\Client
                     'symbol' => $symbol,
                     'faction' => $faction
                 ],
-                authenticate: false
+                authenticate: true
             );
 
             return $this->convertResponse(

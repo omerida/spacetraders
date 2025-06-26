@@ -18,7 +18,7 @@ class DefaultController extends CommandController
     {
         $client = ServiceContainer::get(Client\Fleet::class);
 
-        $response = $client->ListShips();
+        $response = $client->listShips();
 
         if (!$response->ships) {
             echo "No ships found.";

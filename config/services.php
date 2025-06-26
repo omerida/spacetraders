@@ -4,7 +4,6 @@ use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Phparch\SpaceTraders;
-use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -27,24 +26,17 @@ return [
         $stack->push(new CacheMiddleware($strategy), 'cache');
         return new GuzzleHttp\Client(['handler' => $stack]);
     },
-    Client\Agents::class => function () {
-        return new Client\Agents(
-            $_ENV['SPACETRADERS_TOKEN'],
-            ServiceContainer::get(GuzzleHttp\Client::class));
-    },
-    Client\Contracts::class => function () {
-        return new Client\Contracts(
-            $_ENV['SPACETRADERS_TOKEN'],
-            ServiceContainer::get(GuzzleHttp\Client::class));
-    },
-    Client\Fleet::class => function () {
-        return new Client\Fleet(
-            $_ENV['SPACETRADERS_TOKEN'],
-            ServiceContainer::get(GuzzleHttp\Client::class));
-    },
-    Client\Systems::class => function () {
-        return new Client\Systems(
-            $_ENV['SPACETRADERS_TOKEN'],
-            ServiceContainer::get(GuzzleHttp\Client::class));
+    SpaceTraders\RoutesMapper::class => function () {
+        return new SpaceTraders\RoutesMapper(
+            srcRootDir: dirname(__DIR__) . '/src/',
+            controllerDirs: [
+                [
+                    'namespace' => 'Phparch\\SpaceTraders',
+                    'path' => dirname(__DIR__) . '/src/Controller/'
+                ]
+            ],
+            container: ServiceContainer::instance(),
+            useAPCu: $_ENV['USE_APCU'] === 1
+        );
     }
 ];

@@ -16,7 +16,8 @@ class ShipFrame
         public readonly int $mountingPoints,
         /** @var non-negative-int */
         public readonly int $fuelCapacity,
-        public readonly ShipFrameRequirements $requirements
+        public readonly ShipFrameRequirements $requirements,
+        public readonly int $quality,
     )
     {
     }

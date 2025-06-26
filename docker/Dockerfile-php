@@ -24,6 +24,7 @@ COPY --from=ghcr.io/mlocati/php-extension-installer /usr/bin/install-php-extensi
 RUN install-php-extensions gd xdebug intl zip
 
 RUN docker-php-ext-enable opcache
+RUN install-php-extensions apcu
 
 # Not available with PHP source
 RUN install-php-extensions redis

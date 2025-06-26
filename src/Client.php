@@ -4,11 +4,18 @@ namespace Phparch\SpaceTraders;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Base class for making API calls to groups of endpoints.
+ *
+ * Any child class is automatically discovered and registered
+ * by the Service Container class as long as it is in the
+ * Client namespaces.
+ */
 abstract class Client
 {
     private string $baseURI = 'https://api.spacetraders.io/v2/';
 
-    public function __construct(
+    final public function __construct(
         private string $token,
         private \GuzzleHttp\Client $guzzle,
     ) {
@@ -78,15 +85,13 @@ abstract class Client
             $headers['Authorization'] = 'Bearer ' . $this->token;
         }
 
-        $response = $this->guzzle->patch(
+        return $this->guzzle->patch(
             $this->baseURI . $url,
             [
                 'headers' => $headers,
                 'body' => $data ? json_encode($data) : null,
             ]
         );
-
-        return $response;
     }
 
     /**
