@@ -52,7 +52,11 @@ class FleetController extends RequestAwareController
     {
         $ship = $this->getShipIdFromPost();
 
+        /**
+         * @var array{order: string} $post
+         */
         $post = (array) $this->getRequest()->getParsedBody();
+
         $order = strtolower($post['order'] ?? '');
 
         switch ($order) {

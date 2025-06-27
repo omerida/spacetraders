@@ -14,22 +14,34 @@ class ContractsController extends RequestAwareController
     ) {
     }
 
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
     #[Route(name: 'accept_contract', path: '/contract/accept', methods: ['POST'])]
-    public function AccceptContract()
+    public function AccceptContract(): array
     {
+        /**
+         * @var array{
+         *     id ?: string
+         * } $post
+         */
         $post = $this->getRequest()->getParsedBody();
-        if (!$post['id']) {
+        if (!isset($post['id']) || !$post['id']) {
             throw new BadRequestException("Contract ID is required");
         }
 
         $id = $post['id'];
 
-        return $this->client->accept($id);
+        return (array) $this->client->accept($id);
     }
 
+    /**
+     * @return array<mixed>
+    */
     #[Route(name: 'list_contracts', path: '/contracts/', methods: ['GET'])]
-    public function list()
+    public function list(): array
     {
-        return $this->client->MyContracts();
+        return (array) $this->client->MyContracts();
     }
 }

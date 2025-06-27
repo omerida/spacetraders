@@ -37,8 +37,15 @@ class WaypointController extends RequestAwareController
     #[Route(name: 'search_waypoints', path: '/systems/waypoint/search', methods: ['GET'])]
     public function systemsWaypointSearch(): array
     {
+        /**
+         * @var array{
+         *     system ?: ?string,
+         *     traits ?: ?string,
+         *     type ?: null|value-of<WaypointType>
+         * } $query
+         */
         $query = $this->getRequest()->getQueryParams();
-        $system = $query['system'] ?? null;
+        $system = $query['system'] ?? '';
 
         if (!$system || !is_string($system)) {
             throw new BadRequestException("Please specify the system");
@@ -59,7 +66,10 @@ class WaypointController extends RequestAwareController
         } else {
             $query['traits'] = strtoupper($query['traits']);
         }
-        if (isset($query['type']) && is_string($query['type'])) {
+
+        if (empty($query['type'])) {
+            unset($query['type']);
+        } else {
             $query['type'] = strtoupper($query['type']);
             // Validate the type is allowed
             if (!WaypointType::tryFrom($query['type'])) {
@@ -70,6 +80,9 @@ class WaypointController extends RequestAwareController
         return (array) $this->client->waypoints($system, $query);
     }
 
+    /**
+     * @return array<mixed>
+     */
     #[Route(name: 'view_shipyard', path: '/systems/waypoint/shipyard', methods: ['GET'])]
     public function viewShipyard(): array
     {
@@ -78,6 +91,9 @@ class WaypointController extends RequestAwareController
         return (array) $this->client->shipyard($point->system, $point->waypoint);
     }
 
+    /**
+     * @return array<mixed>
+     */
     #[Route(name: 'view_market', path: '/systems/waypoint/market', methods: ['GET'])]
     public function viewMarket(): array
     {
