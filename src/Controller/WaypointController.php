@@ -53,7 +53,10 @@ class WaypointController extends RequestAwareController
             throw new BadRequestException("Unknown query: " . implode('&', $unknown));
         }
 
-        if (isset($query['traits'])) {
+        $query['traits'] = trim($query['traits'] ?? '');
+        if (empty($query['traits'])) {
+            unset($query['traits']);
+        } else {
             $query['traits'] = strtoupper($query['traits']);
         }
         if (isset($query['type']) && is_string($query['type'])) {
@@ -81,7 +84,6 @@ class WaypointController extends RequestAwareController
         $point = $this->getWaypoint();
 
         return (array) $this->client->market($point->system, $point->waypoint);
-
     }
 
     private function getWaypoint(): WaypointSymbol

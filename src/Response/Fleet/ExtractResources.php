@@ -15,6 +15,8 @@ class ExtractResources extends Base
         public readonly ExtractionDetails $extraction,
         /** @var array<array<string, string>> */
         public readonly array $events,
+        /** @var array<array<string, string>> */
+        public readonly array $modifiers,
     ) {
     }
 }

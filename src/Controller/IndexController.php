@@ -6,13 +6,15 @@ use GuzzleHttp\Psr7\Response;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response\Agent;
+use Phparch\SpaceTraders\Response\Fleet\ListShips;
 use Phparch\SpaceTraders\Value\WaypointType;
 use Psr\Http\Message\ResponseInterface;
 
-class IndexController {
-
+class IndexController
+{
     public function __construct(
         private Client\Agents $client,
+        private Client\Fleet $fleet,
     ) {
     }
 
@@ -20,13 +22,16 @@ class IndexController {
     public function index(): ResponseInterface
     {
         $agent = $this->client->myAgent();
-
-        $response = new Response;
-        $response->getBody()->write($this->hello($agent));
+        $ships = $this->fleet->listShips();
+        $response = new Response();
+        $response->getBody()->write(
+            $this->hello($agent, $ships),
+        );
         return $response->withStatus(200);
     }
 
-    private function hello(Agent $agent): string {
+    private function hello(Agent $agent, ListShips $ships): string
+    {
 
         $credits = number_format($agent->credits);
 
@@ -35,6 +40,23 @@ class IndexController {
             $types .= '<option value="' . $type->value . '">' . $type->name . '</option>';
         }
 
+        $ship_rows = "";
+        $ship_opts = "";
+        foreach ($ships->ships as $ship) {
+            $ship_rows .= "<tr><td>{$ship->symbol}</td>";
+            $ship_rows .= "<td>{$ship->nav->waypointSymbol}</td>";
+            $ship_rows .= "<td>{$ship->nav->status->value}</td>";
+            $ship_rows .= "<td>{$ship->nav->flightMode->value}</td>";
+            $ship_rows .= "<td>{$ship->fuel->current} / {$ship->fuel->capacity}</td>";
+            $ship_rows .= "<td>{$ship->cooldown->remainingSeconds}</td>";
+            $ship_rows .= "<td><a href=\"/ship/info?ship={$ship->symbol}\" "
+            . "target='_blank'>[view]</a></td>";
+            $ship_rows .= "<td>{$ship->cargo->units} / {$ship->cargo->capacity} "
+            . "<a href=\"/ship/cargo?ship={$ship->symbol}\" target='_blank'>[cargo]</a></td>";
+            $ship_rows .= "</tr>";
+
+            $ship_opts .= "<option value='{$ship->symbol}'>{$ship->symbol}</option>";
+        }
 
         return <<<HTML
 <h1>Welcome, Captain</h1>
@@ -107,6 +129,48 @@ class IndexController {
 </form>
 
 <h2>Ships</h2>
+
+<table border="1">
+<tr>
+<th>Symbol</th>
+<th>Waypoint</th>
+<th>Status</th>
+<th>Flightmode</th>
+<th>Fuel</th>
+<th>Cooldown Remaining</th>
+<th></th>
+<th></th>
+</tr>
+{$ship_rows}
+</table>
+
+<p><a href="/my/ships" target="_blank">[Your Ships]</a></p>
+
+<h3>Ship Orders</h3>
+<form action="/ship/orders" target="_blank" method="post">
+    <select name="ship" required>
+        <option disabled>--Select Ship--</option>
+        {$ship_opts}
+    </select>
+    <select name="order" required>
+        <option disabled>--Select Order--</option>
+        <option value="orbit">Orbit</option>
+        <option value="dock">Dock</option>
+        <option value="extract">Extract</option>
+        <option value="refuel">Refuel</option>
+    </select>
+    <input type="submit" value="Issue Order">
+</form>
+
+<h3>Navigate</h3>
+<form action="/ship/navigate" target="_blank" method="post">
+    <select name="ship" required>
+        <option disabled>--Select Ship--</option>
+        {$ship_opts}
+    </select>
+    <input type="text" name="waypoint" placeholder="waypoint" required>
+    <input type="submit" value="Navigate Ship">
+</form>
 HTML;
     }
 }

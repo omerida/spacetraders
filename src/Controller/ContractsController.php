@@ -15,7 +15,8 @@ class ContractsController extends RequestAwareController
     }
 
     #[Route(name: 'accept_contract', path: '/contract/accept', methods: ['POST'])]
-    public function AccceptContract() {
+    public function AccceptContract()
+    {
         $post = $this->getRequest()->getParsedBody();
         if (!$post['id']) {
             throw new BadRequestException("Contract ID is required");
@@ -27,8 +28,8 @@ class ContractsController extends RequestAwareController
     }
 
     #[Route(name: 'list_contracts', path: '/contracts/', methods: ['GET'])]
-    public function list() {
+    public function list()
+    {
         return $this->client->MyContracts();
     }
-
 }
