@@ -53,7 +53,10 @@ class WaypointController extends RequestAwareController
             throw new BadRequestException("Unknown query: " . implode('&', $unknown));
         }
 
-        if ($query['type'] && is_string($query['type'])) {
+        if (isset($query['traits'])) {
+            $query['traits'] = strtoupper($query['traits']);
+        }
+        if (isset($query['type']) && is_string($query['type'])) {
             $query['type'] = strtoupper($query['type']);
             // Validate the type is allowed
             if (!WaypointType::tryFrom($query['type'])) {
@@ -62,6 +65,23 @@ class WaypointController extends RequestAwareController
         }
 
         return (array) $this->client->waypoints($system, $query);
+    }
+
+    #[Route(name: 'view_shipyard', path: '/systems/waypoint/shipyard', methods: ['GET'])]
+    public function viewShipyard(): array
+    {
+        $point = $this->getWaypoint();
+
+        return (array) $this->client->shipyard($point->system, $point->waypoint);
+    }
+
+    #[Route(name: 'view_market', path: '/systems/waypoint/market', methods: ['GET'])]
+    public function viewMarket(): array
+    {
+        $point = $this->getWaypoint();
+
+        return (array) $this->client->market($point->system, $point->waypoint);
+
     }
 
     private function getWaypoint(): WaypointSymbol
