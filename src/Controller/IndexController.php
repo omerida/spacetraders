@@ -7,6 +7,7 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response\Agent;
 use Phparch\SpaceTraders\Response\Fleet\ListShips;
+use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointType;
 use Psr\Http\Message\ResponseInterface;
 
@@ -38,6 +39,11 @@ class IndexController
         $types = '';
         foreach (WaypointType::cases() as $type) {
             $types .= '<option value="' . $type->value . '">' . $type->name . '</option>';
+        }
+
+        $flightmodes = '';
+        foreach(FlightMode::cases() as $mode) {
+            $flightmodes .= '<option value="' . $mode->value . '">' . $mode->name . '</option>';
         }
 
         $ship_rows = "";
@@ -165,11 +171,23 @@ class IndexController
 <h3>Navigate</h3>
 <form action="/ship/navigate" target="_blank" method="post">
     <select name="ship" required>
-        <option disabled>--Select Ship--</option>
+        <option>--Select Ship--</option>
         {$ship_opts}
     </select>
     <input type="text" name="waypoint" placeholder="waypoint" required>
     <input type="submit" value="Navigate Ship">
+</form>
+
+<h3>Set Flight ModeOrders</h3>
+<form action="/ship/set-flight-mode" target="_blank" method="post">
+    <select name="ship" required>
+        <option disabled>--Select Ship--</option>
+        {$ship_opts}
+    </select>
+    <select name="flightmode" required>
+        <option value="">--Select Flight Mode--</option>
+        {$flightmodes}
+    <input type="submit" value="Set Flight Mode">
 </form>
 HTML;
     }

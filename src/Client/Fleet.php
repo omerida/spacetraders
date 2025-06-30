@@ -176,7 +176,7 @@ class Fleet extends Client
         }
     }
 
-    public function setNavMode(string $ship, string $flightMode): Ship\Nav
+    public function setNavMode(string $ship, string $flightMode): Ship\NavPatch
     {
         try {
             $response = $this->patch(
@@ -188,7 +188,7 @@ class Fleet extends Client
             );
             return $this->convertResponse(
                 $response,
-                Ship\Nav::class
+                Ship\NavPatch::class
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();

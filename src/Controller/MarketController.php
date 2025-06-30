@@ -11,8 +11,7 @@ class MarketController extends RequestAwareController
 {
     public function __construct(
         private Client\Systems $client,
-    )
-    {
+    ) {
     }
 
     /**

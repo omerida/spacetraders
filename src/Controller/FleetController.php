@@ -5,6 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 class FleetController extends RequestAwareController
@@ -41,6 +42,29 @@ class FleetController extends RequestAwareController
     {
         $ship = $this->getShipIdFromPost();
         return (array) $this->client->dockShip($ship);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'set_ship_nav_mode', path: '/ship/set-flight-mode', methods: ['POST'])]
+    public function setShipNavMode(): array
+    {
+        $ship = $this->getShipIdFromPost();
+        /**
+         * @var array{order: string} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $flightMode = strtoupper($post['flightmode'] ?? '');
+        if (!$flightMode || !is_string($flightMode)) {
+            throw new BadRequestException("Please specify the flight mode");
+        }
+
+        if (!FlightMode::tryFrom($flightMode)) {
+            throw new BadRequestException("Unknown flight mode.");
+        }
+        return (array) $this->client->setNavMode($ship, $flightMode);
     }
 
     /**
