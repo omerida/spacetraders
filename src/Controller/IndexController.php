@@ -7,7 +7,9 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response\Agent;
 use Phparch\SpaceTraders\Response\Fleet\ListShips;
+use Phparch\SpaceTraders\Value\GoodsSymbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
+use Phparch\SpaceTraders\Value\TradegoodType;
 use Phparch\SpaceTraders\Value\WaypointType;
 use Psr\Http\Message\ResponseInterface;
 
@@ -42,8 +44,13 @@ class IndexController
         }
 
         $flightmodes = '';
-        foreach(FlightMode::cases() as $mode) {
+        foreach (FlightMode::cases() as $mode) {
             $flightmodes .= '<option value="' . $mode->value . '">' . $mode->name . '</option>';
+        }
+
+        $cargo_types = '';
+        foreach (GoodsSymbol::cases() as $good) {
+            $cargo_types .= '<option value="' . $good->value . '">' . $good->name . '</option>';
         }
 
         $ship_rows = "";
@@ -178,16 +185,44 @@ class IndexController
     <input type="submit" value="Navigate Ship">
 </form>
 
-<h3>Set Flight ModeOrders</h3>
+<h3>Set Flight Mode</h3>
 <form action="/ship/set-flight-mode" target="_blank" method="post">
     <select name="ship" required>
-        <option disabled>--Select Ship--</option>
+        <option>--Select Ship--</option>
         {$ship_opts}
     </select>
     <select name="flightmode" required>
         <option value="">--Select Flight Mode--</option>
         {$flightmodes}
     <input type="submit" value="Set Flight Mode">
+</form>
+
+<h3>Sell Goods</h3>
+<form action="/ship/sell-goods" target="_blank" method="POST">
+    <select name="ship" required>
+        <option>--Select Ship--</option>
+        {$ship_opts}
+    </select>
+    <select name="good" required>
+        <option value="">--Select Trade Good--</option>
+        {$cargo_types}
+    </select>
+    <input type="number" name="units" placeholder="units" required>    
+    <input type="submit" value="Sell">
+</form>
+
+<h3>Jettison Goods</h3>
+<form action="/ship/sell-goods" target="_blank" method="POST">
+    <select name="ship" required>
+        <option>--Select Ship--</option>
+        {$ship_opts}
+    </select>
+    <select name="good" required>
+        <option value="">--Select Trade Good--</option>
+        {$cargo_types}
+    </select>
+    <input type="number" name="units" placeholder="units" required>    
+    <input type="submit" value="Jettison">
 </form>
 HTML;
     }

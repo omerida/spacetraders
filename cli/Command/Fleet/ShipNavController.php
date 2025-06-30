@@ -33,7 +33,7 @@ class ShipNavController extends CommandController
         }
 
         $response = $client->setNavMode($ship, $mode);
-        $nav = new Render\Ship\Nav($response);
+        $nav = new Render\Ship\Nav($response->nav);
         echo $nav->output();
     }
 }

@@ -5,6 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Value\GoodsSymbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 
@@ -57,7 +58,7 @@ class FleetController extends RequestAwareController
         $post = (array) $this->getRequest()->getParsedBody();
 
         $flightMode = strtoupper($post['flightmode'] ?? '');
-        if (!$flightMode || !is_string($flightMode)) {
+        if (!$flightMode) {
             throw new BadRequestException("Please specify the flight mode");
         }
 
@@ -105,6 +106,62 @@ class FleetController extends RequestAwareController
     {
         $ship = $this->getShipIdFromPost();
         return (array) $this->client->refuelShip($ship);
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
+    #[Route(name: 'sell_goods', path: '/ship/sell-goods', methods: ['POST'])]
+    public function sellGoods(): array
+    {
+        $ship = $this->getShipIdFromPost();
+
+        /**
+         * @var array{good: string, units: int} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $good = strtoupper($post['good'] ?? '');
+        if (!$good) {
+            throw new BadRequestException("Please specify good to sell");
+        }
+
+        if (!GoodsSymbol::tryFrom($good)) {
+            throw new BadRequestException("Unknown good to sell.");
+        }
+
+        $units = $post['units'] ?? 0;
+
+        return (array) $this->client->sellCargo($ship, $good, $units);
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
+    #[Route(name: 'jettison_goods', path: '/ship/jettison-goods', methods: ['POST'])]
+    public function jettisonCargo(): array
+    {
+        $ship = $this->getShipIdFromPost();
+
+        /**
+         * @var array{good?: string, units?: int} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $good = strtoupper($post['good'] ?? '');
+        if (!$goo) {
+            throw new BadRequestException("Please specify good to sell");
+        }
+
+        if (!GoodsSymbol::tryFrom($good)) {
+            throw new BadRequestException("Unknown good to sell.");
+        }
+
+        $units = $post['units'] ?? 0;
+
+        return (array) $this->client->jettisonCargo($ship, $good, $units);
     }
 
     /**

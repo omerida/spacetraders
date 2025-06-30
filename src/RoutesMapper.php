@@ -138,7 +138,7 @@ class RoutesMapper
                          *     name: string,
                          *     path: string,
                          *     methods: string[],
-                         *     strategy ?: string,
+                         *     strategy ?: 'application'|'json',
                          * } $args
                          */
                         $args = $attr->getArguments();
