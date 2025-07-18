@@ -42,25 +42,4 @@ class IndexController extends Abstract\TwigAwareController
             'cargoTypes' => GoodsSymbol::cases(),
         ]);
     }
-
-    private function hello(Agent $agent, ListShips $ships): void
-    {
-        $ship_rows = "";
-        $ship_opts = "";
-        foreach ($ships->ships as $ship) {
-            $ship_rows .= "<tr><td>{$ship->symbol}</td>";
-            $ship_rows .= "<td>{$ship->nav->waypointSymbol}</td>";
-            $ship_rows .= "<td>{$ship->nav->status->value}</td>";
-            $ship_rows .= "<td>{$ship->nav->flightMode->value}</td>";
-            $ship_rows .= "<td>{$ship->fuel->current} / {$ship->fuel->capacity}</td>";
-            $ship_rows .= "<td>{$ship->cooldown->remainingSeconds}</td>";
-            $ship_rows .= "<td><a href=\"/ship/info?ship={$ship->symbol}\" "
-            . "target='_blank'>[view]</a></td>";
-            $ship_rows .= "<td>{$ship->cargo->units} / {$ship->cargo->capacity} "
-            . "<a href=\"/ship/cargo?ship={$ship->symbol}\" target='_blank'>[cargo]</a></td>";
-            $ship_rows .= "</tr>";
-
-            $ship_opts .= "<option value='{$ship->symbol}'>{$ship->symbol}</option>";
-        }
-    }
 }

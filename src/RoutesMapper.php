@@ -61,9 +61,10 @@ class RoutesMapper
         $controller = $this->container->get($info->class);
 
         if ($controller instanceof TwigAwareController) {
-            $controller->setTwigEnvironment(
-                $this->container->get(Environment::class)
-            );
+            $env = $this->container->get(Environment::class);
+            if ($env instanceof Environment) {
+                $controller->setTwigEnvironment($env);
+            }
         }
 
 

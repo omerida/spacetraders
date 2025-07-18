@@ -9,11 +9,14 @@ abstract class TwigAwareController
 {
     protected Environment $twig;
 
-    public function setTwigEnvironment(Environment $twig)
+    public function setTwigEnvironment(Environment $twig): void
     {
         $this->twig = $twig;
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     */
     public function render(string $template, array $parameters = [], int $status = 200): Response
     {
         $response = new Response();
