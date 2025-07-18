@@ -29,7 +29,6 @@ $router   = (new Route\Router)->setStrategy($strategy);
 $router->middleware(new Auth($_ENV["SPACETRADERS_TOKEN"] ?? ''));
 
 $mapper = ServiceContainer::get(RoutesMapper::class);
-
 $router = $mapper->registerAll($router);
 
 $router->map('GET', '/old', function (ServerRequestInterface $request): array {
