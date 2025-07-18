@@ -6,13 +6,17 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\TwigAwareInterface;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Phparch\SpaceTraders\Value\WaypointType;
+use Psr\Http\Message\ResponseInterface;
 
-class WaypointController implements RequestAwareInterface
+class WaypointController implements RequestAwareInterface, TwigAwareInterface
 {
     use RequestAwareController;
+    use TwigAwareController;
 
     public function __construct(
         private Client\Systems $client,
@@ -23,15 +27,25 @@ class WaypointController implements RequestAwareInterface
      * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'systems_waypoint', path: '/systems/waypoint', methods: ['GET'])]
-    public function systemsWaypoints(): array
+    #[Route(
+        name: 'systems_waypoint',
+        path: '/systems/waypoint',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function systemsWaypoint(): ResponseInterface
     {
         $point = $this->getWaypoint();
 
-        return (array) $this->client->systemLocation(
+        $location = $this->client->systemLocation(
             system: $point->system,
             waypoint: $point->waypoint
         );
+
+        return $this->render('systems/waypoint.html.twig', [
+            'headTitle' => 'Viewpoint Details - ' . $point,
+            'location' => $location
+        ]);
     }
 
     /**

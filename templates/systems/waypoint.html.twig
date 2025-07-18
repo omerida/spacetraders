@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <h1>{{ location.symbol }}</h1>
+
+<p><em>{{ location.type }}</em>, ({{ location.x }}, {{ location.y }})</p>
+<p>Controlled by {{ location.faction }}</p>
+{% if (location.isUnderConstruction) %}
+    <p>This location is under construction.</p>
+{% endif %}
+
+{% if (location.orbits) %}
+    <p>Orbits {{ _self.blank_link(
+                viewWaypointPath(location.orbits),
+                location.orbits
+            ) }}</p>
+{% endif %}
+
+{% if location.orbitals %}
+    <h2>Orbitals</h2>
+    <ol>
+    {% for orbital in location.orbitals %}
+        <li>{{ _self.blank_link(
+                viewWaypointPath(orbital.symbol),
+                orbital.symbol
+            ) }}</li>
+    {% endfor %}
+    </ol>
+{% endif %}
+
+{% if location.traits %}
+    <h2>Traits</h2>
+    <dl>
+        {% for trait in location.traits %}
+            <dt>{{ trait.name }} <em>{{ traid.symbol }}</em></dt>
+            <dd>{{ trait.description }}</dd>
+        {% endfor %}
+    </dl>
+{% endif %}
+
+
+{% endblock %}
