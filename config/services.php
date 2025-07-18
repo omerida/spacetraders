@@ -5,6 +5,7 @@ use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Phparch\SpaceTraders;
 use Phparch\SpaceTraders\ServiceContainer;
+use Phparch\SpaceTraders\TwigExtensions;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
@@ -40,7 +41,7 @@ return [
         );
     },
     Twig\Environment::class => function () {
-        return new Twig\Environment(
+        $twig = new Twig\Environment(
             new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/templates/'),
             [
                 'debug' => $_ENV['TWIG_DEBUG'] ?? false,
@@ -48,5 +49,9 @@ return [
                 'auto_reload' => $_ENV['TWIG_AUTORELOAD'] ?? false,
             ]
         );
+        $twig->addExtension(
+            new \Twig\Extension\AttributeExtension(TwigExtensions::class)
+        );
+        return $twig;
     }
 ];

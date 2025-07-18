@@ -5,10 +5,14 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\RequestAwareInterface;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 
-class MarketController extends RequestAwareController
+class MarketController implements RequestAwareInterface
 {
+    use RequestAwareController;
+
     public function __construct(
         private Client\Systems $client,
     ) {

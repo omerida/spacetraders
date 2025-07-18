@@ -9,7 +9,6 @@ use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
 use League\Route\Strategy\JsonStrategy;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Controller\Abstract\TwigAwareController;
 use Psr\Http\Message\ServerRequestInterface;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\DefaultReflector;
@@ -60,7 +59,7 @@ class RoutesMapper
     ): Router {
         $controller = $this->container->get($info->class);
 
-        if ($controller instanceof TwigAwareController) {
+        if ($controller instanceof TwigAwareInterface) {
             $env = $this->container->get(Environment::class);
             if ($env instanceof Environment) {
                 $controller->setTwigEnvironment($env);

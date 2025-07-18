@@ -6,6 +6,10 @@
     {% endfor %}
 {% endmacro %}
 
+{% macro blank_link(path, text) %}
+    <a href="{{ path }}" target="_blank">{{ text }}</a>
+{% endmacro %}
+
 {% block content %}
 
 <h1>Welcome, Captain</h1>
@@ -21,7 +25,7 @@
 </tr>
 <tr>
     <td>{{ agent.symbol }}</td>
-    <td>{{ agent.headquarters }}</td>
+    <td>{{ _self.blank_link(viewWaypointPath(agent.headquarters), agent.headquarters) }}</td>
     <td>{{ agent.credits | number_format }}</td>
     <td>{{ agent.startingFaction }}</td>
     <td>{{ agent.shipCount }}</td>
@@ -92,14 +96,12 @@
     </tr>
     {% for ship in ships %}
     <tr>
-        <td>{{ ship.symbol }}</td>
+        <td>{{ _self.blank_link(viewShipPath(ship.symbol), ship.symbol) }}</td>
         <td>{{ ship.nav.waypointSymbol }}</td>
         <td>{{ ship.nav.status.value }}</td>
         <td>{{ ship.nav.flightMode.value }}</td>
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
         <td>{{ ship.cooldown.remainingSeconds }}</td>
-        <td><a href="/ship/info?ship={{ ship.symbol }}"
-               target='_blank'>[view]</a></td>
         <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}
             <a href="/ship/cargo?ship={{ ship.symbol }}"
                target='_blank'>[cargo]</a></td>

@@ -5,10 +5,13 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Controller\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\RequestAwareInterface;
 
-class ContractsController extends RequestAwareController
+class ContractsController implements RequestAwareInterface
 {
+    use RequestAwareController;
+
     public function __construct(
         private Client\Contracts $client,
     ) {

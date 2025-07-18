@@ -1,11 +1,11 @@
 <?php
 
-namespace Phparch\SpaceTraders\Controller\Abstract;
+namespace Phparch\SpaceTraders\Controller\Trait;
 
 use GuzzleHttp\Psr7\Response;
 use Twig\Environment;
 
-abstract class TwigAwareController
+trait TwigAwareController
 {
     protected Environment $twig;
 

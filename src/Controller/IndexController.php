@@ -2,18 +2,18 @@
 
 namespace Phparch\SpaceTraders\Controller;
 
-use GuzzleHttp\Psr7\Response;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response\Agent;
-use Phparch\SpaceTraders\Response\Fleet\ListShips;
+use Phparch\SpaceTraders\TwigAwareInterface;
 use Phparch\SpaceTraders\Value\GoodsSymbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointType;
 use Psr\Http\Message\ResponseInterface;
 
-class IndexController extends Abstract\TwigAwareController
+class IndexController implements TwigAwareInterface
 {
+    use Trait\TwigAwareController;
+
     public function __construct(
         private Client\Agents $client,
         private Client\Fleet $fleet,
