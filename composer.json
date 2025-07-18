@@ -12,6 +12,11 @@
       "Phparch\\SpaceTraders\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Phparch\\SpaceTraders\\Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Oscar Merida",
@@ -43,7 +48,8 @@
     "brainmaestro/composer-git-hooks": "^3.0",
     "squizlabs/php_codesniffer": "^3.10",
     "phpmd/phpmd": "3.x-dev",
-    "pdepend/pdepend": "3.x-dev"
+    "pdepend/pdepend": "3.x-dev",
+    "phpbench/phpbench": "^1.4"
   },
   "extra": {
     "hooks": {
