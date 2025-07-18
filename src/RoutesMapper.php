@@ -9,10 +9,12 @@ use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
 use League\Route\Strategy\JsonStrategy;
 use Phparch\SpaceTraders\Attribute\Route;
+use Phparch\SpaceTraders\Controller\Abstract\TwigAwareController;
 use Psr\Http\Message\ServerRequestInterface;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+use Twig\Environment;
 
 /**
  * Looks recursively in $root folder for any methods with the
@@ -57,6 +59,13 @@ class RoutesMapper
         RouteInfo $info
     ): Router {
         $controller = $this->container->get($info->class);
+
+        if ($controller instanceof TwigAwareController) {
+            $controller->setTwigEnvironment(
+                $this->container->get(Environment::class)
+            );
+        }
+
 
         $route = $router->map(
             $info->httpMethods,

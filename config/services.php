@@ -38,5 +38,15 @@ return [
             container: ServiceContainer::instance(),
             useAPCu: $_ENV['USE_APCU'] === 1
         );
+    },
+    Twig\Environment::class => function () {
+        return new Twig\Environment(
+            new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/templates/'),
+            [
+                'debug' => $_ENV['TWIG_DEBUG'] ?? false,
+                'cache' => dirname(__DIR__) . '/templates_cache/',
+                'auto_reload' => $_ENV['TWIG_AUTORELOAD'] ?? false,
+            ]
+        );
     }
 ];

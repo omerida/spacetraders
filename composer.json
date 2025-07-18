@@ -41,7 +41,8 @@
     "guzzlehttp/psr7": "^2.7",
     "laminas/laminas-httphandlerrunner": "^2.11",
     "lcobucci/jwt": "^5.5",
-    "roave/better-reflection": "6.58.x-dev"
+    "roave/better-reflection": "6.58.x-dev",
+    "twig/twig": "^3.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.0",
