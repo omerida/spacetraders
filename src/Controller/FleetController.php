@@ -151,7 +151,7 @@ class FleetController extends RequestAwareController
         $post = (array) $this->getRequest()->getParsedBody();
 
         $good = strtoupper($post['good'] ?? '');
-        if (!$goo) {
+        if (!$good) {
             throw new BadRequestException("Please specify good to sell");
         }
 
