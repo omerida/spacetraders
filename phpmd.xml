@@ -7,21 +7,15 @@
          xsi:noNamespaceSchemaLocation="
                        http://phpmd.org/xml/ruleset_xml_schema_1.0.0.xsd">
   <description>
-    My custom rule set that checks my code...
+    Custom rules for SpaceTraders project
   </description>
 
-  <rule ref="rulesets/codesize.xml">
-    <exclude name="ExcessiveParameterList" />
-  </rule>
   <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
     <properties>
-      <property name="minimum" value="15"><value>15</value></property>
+      <property name="minimum" value="15"/>
     </properties>
   </rule>
 
-  <rule ref="rulesets/cleancode.xml">
-    <exclude name="StaticAccess"/>
-  </rule>
   <rule ref="rulesets/cleancode.xml/StaticAccess">
     <properties>
       <property name="exceptions">
@@ -35,9 +29,6 @@
   </rule>
   <rule ref="rulesets/controversial.xml" />
   <rule ref="rulesets/design.xml" />
-  <rule ref="rulesets/naming.xml">
-    <exclude name="ShortVariable"/>
-  </rule>
   <rule ref="rulesets/naming.xml/ShortVariable">
     <properties>
       <property name="exceptions" value="id,x,y" />

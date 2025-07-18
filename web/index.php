@@ -21,7 +21,6 @@ ServiceContainer::config($services);
 // Register dynamic services
 ServiceContainer::autodiscover();
 
-
 $request = Psr7\ServerRequest::fromGlobals();
 
 $responseFactory = new Psr7\HttpFactory();
@@ -33,13 +32,13 @@ $mapper = ServiceContainer::get(RoutesMapper::class);
 
 $router = $mapper->registerAll($router);
 
-$router->map('GET', '/', function (ServerRequestInterface $request): array {
+$router->map('GET', '/old', function (ServerRequestInterface $request): array {
     $now = new \DateTimeImmutable('now');
     return [
         'msg' => 'Hello, world.',
         'now' => $now->format(DATE_ATOM)
     ];
-});
+})->setStrategy(new Route\Strategy\ApplicationStrategy());
 
 $router->map(
     'GET', '/my/contracts',

@@ -13,7 +13,7 @@ class Waypoint extends Base
         public SystemSymbol $systemSymbol,
         public WaypointSymbol $symbol,
         /** @var non-empty-string */
-        public readonly string $type,
+        public readonly string $type, // enum?
         public readonly int $x,
         public readonly int $y,
         /** @var list<\Phparch\SpaceTraders\Value\Orbital> */

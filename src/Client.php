@@ -50,9 +50,14 @@ abstract class Client
         array $data = [],
         bool $authenticate = true
     ): ResponseInterface {
-        $headers = [
-            'Content-Type' => 'application/json'
-        ];
+
+        $headers = [];
+        if ($data) {
+            $headers = [
+                'Content-Type' => 'application/json'
+            ];
+        }
+
         if ($authenticate) {
             $headers['Authorization'] = 'Bearer ' . $this->token;
         }

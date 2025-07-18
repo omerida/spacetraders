@@ -12,8 +12,7 @@ class WaypointController extends RequestAwareController
 {
     public function __construct(
         private Client\Systems $client,
-    )
-    {
+    ) {
     }
 
     /**
@@ -38,8 +37,15 @@ class WaypointController extends RequestAwareController
     #[Route(name: 'search_waypoints', path: '/systems/waypoint/search', methods: ['GET'])]
     public function systemsWaypointSearch(): array
     {
+        /**
+         * @var array{
+         *     system ?: ?string,
+         *     traits ?: ?string,
+         *     type ?: null|value-of<WaypointType>
+         * } $query
+         */
         $query = $this->getRequest()->getQueryParams();
-        $system = $query['system'] ?? null;
+        $system = $query['system'] ?? '';
 
         if (!$system || !is_string($system)) {
             throw new BadRequestException("Please specify the system");
@@ -54,7 +60,16 @@ class WaypointController extends RequestAwareController
             throw new BadRequestException("Unknown query: " . implode('&', $unknown));
         }
 
-        if ($query['type'] && is_string($query['type'])) {
+        $query['traits'] = trim($query['traits'] ?? '');
+        if (empty($query['traits'])) {
+            unset($query['traits']);
+        } else {
+            $query['traits'] = strtoupper($query['traits']);
+        }
+
+        if (empty($query['type'])) {
+            unset($query['type']);
+        } else {
             $query['type'] = strtoupper($query['type']);
             // Validate the type is allowed
             if (!WaypointType::tryFrom($query['type'])) {
@@ -63,6 +78,28 @@ class WaypointController extends RequestAwareController
         }
 
         return (array) $this->client->waypoints($system, $query);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'view_shipyard', path: '/systems/waypoint/shipyard', methods: ['GET'])]
+    public function viewShipyard(): array
+    {
+        $point = $this->getWaypoint();
+
+        return (array) $this->client->shipyard($point->system, $point->waypoint);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'view_market', path: '/systems/waypoint/market', methods: ['GET'])]
+    public function viewMarket(): array
+    {
+        $point = $this->getWaypoint();
+
+        return (array) $this->client->market($point->system, $point->waypoint);
     }
 
     private function getWaypoint(): WaypointSymbol

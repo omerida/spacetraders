@@ -12,6 +12,10 @@ class Route
          * @var string[]
          */
         public array $methods,
+        /**
+         * @var 'application'|'json'
+         */
+        public ?string $strategy = null
     ) {
     }
 }

@@ -2,4 +2,5 @@ logs/
 vendor/
 .git
 .env
+.idea
 /docker/data/*.rdb

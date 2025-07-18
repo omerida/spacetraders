@@ -13,6 +13,10 @@ class RouteInfo
         public readonly array $httpMethods,
         public readonly string $class,
         public readonly string $method,
+        /**
+         * @var 'application' | 'json'
+         */
+        public readonly ?string $strategy = null
     ) {
     }
 }

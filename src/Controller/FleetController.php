@@ -5,6 +5,9 @@ namespace Phparch\SpaceTraders\Controller;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\Value\GoodsSymbol;
+use Phparch\SpaceTraders\Value\Ship\FlightMode;
+use Phparch\SpaceTraders\Value\WaypointSymbol;
 
 class FleetController extends RequestAwareController
 {
@@ -45,6 +48,135 @@ class FleetController extends RequestAwareController
     /**
      * @return array<mixed>
      */
+    #[Route(name: 'set_ship_nav_mode', path: '/ship/set-flight-mode', methods: ['POST'])]
+    public function setShipNavMode(): array
+    {
+        $ship = $this->getShipIdFromPost();
+        /**
+         * @var array{order: string} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $flightMode = strtoupper($post['flightmode'] ?? '');
+        if (!$flightMode) {
+            throw new BadRequestException("Please specify the flight mode");
+        }
+
+        if (!FlightMode::tryFrom($flightMode)) {
+            throw new BadRequestException("Unknown flight mode.");
+        }
+        return (array) $this->client->setNavMode($ship, $flightMode);
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
+    #[Route(name: 'order_ship', path: '/ship/orders', methods: ['POST'])]
+    public function orderShip(): array
+    {
+        $ship = $this->getShipIdFromPost();
+
+        /**
+         * @var array{order: string} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $order = strtolower($post['order'] ?? '');
+
+        switch ($order) {
+            case 'dock':
+                return (array) $this->client->dockShip($ship);
+            case 'orbit':
+                return (array) $this->client->orbitShip($ship);
+            case 'extract':
+                return (array) $this->client->extractShip($ship);
+            case 'refuel':
+                return (array) $this->client->refuelShip($ship);
+            default:
+                throw new BadRequestException("Unknown or missing order");
+        }
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'refuel_ship', path: '/ship/refuel', methods: ['POST'])]
+    public function refuelShip(): array
+    {
+        $ship = $this->getShipIdFromPost();
+        return (array) $this->client->refuelShip($ship);
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
+    #[Route(name: 'sell_goods', path: '/ship/sell-goods', methods: ['POST'])]
+    public function sellGoods(): array
+    {
+        $ship = $this->getShipIdFromPost();
+
+        /**
+         * @var array{good: string, units: int} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $good = strtoupper($post['good'] ?? '');
+        if (!$good) {
+            throw new BadRequestException("Please specify good to sell");
+        }
+
+        if (!GoodsSymbol::tryFrom($good)) {
+            throw new BadRequestException("Unknown good to sell.");
+        }
+
+        $units = $post['units'] ?? 0;
+
+        return (array) $this->client->sellCargo($ship, $good, $units);
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws BadRequestException
+     */
+    #[Route(name: 'jettison_goods', path: '/ship/jettison-goods', methods: ['POST'])]
+    public function jettisonCargo(): array
+    {
+        $ship = $this->getShipIdFromPost();
+
+        /**
+         * @var array{good?: string, units?: int} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $good = strtoupper($post['good'] ?? '');
+        if (!$goo) {
+            throw new BadRequestException("Please specify good to sell");
+        }
+
+        if (!GoodsSymbol::tryFrom($good)) {
+            throw new BadRequestException("Unknown good to sell.");
+        }
+
+        $units = $post['units'] ?? 0;
+
+        return (array) $this->client->jettisonCargo($ship, $good, $units);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'orbit_ship', path: '/ship/orbit', methods: ['POST'])]
+    public function orbitShip(): array
+    {
+        $ship = $this->getShipIdFromPost();
+        return (array) $this->client->orbitShip($ship);
+    }
+
+    /**
+     * @return array<mixed>
+     */
     #[Route(name: 'extract_ship', path: '/ship/extract', methods: ['POST'])]
     public function extractShip(): array
     {
@@ -60,6 +192,17 @@ class FleetController extends RequestAwareController
     {
         $ship = $this->getShipID();
         return (array) $this->client->getShip($ship);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(name: 'navigate_ship', path: '/ship/navigate', methods: ['POST'])]
+    public function navigateShip(): array
+    {
+        $ship = $this->getShipIdFromPost();
+        $waypoint = $this->getWaypointFromPost();
+        return (array) $this->client->navigateShip($ship, $waypoint);
     }
 
     /**
@@ -98,10 +241,22 @@ class FleetController extends RequestAwareController
         $id = $post['ship'] ?? null;
 
         if (!$id || !is_string($id)) {
-            throw new BadRequestException("Ship GET param missing");
+            throw new BadRequestException("Ship POST param missing");
         }
 
         return $id;
+    }
+
+    private function getWaypointFromPost(): WaypointSymbol
+    {
+        $post = (array) $this->getRequest()->getParsedBody();
+        $waypoint = $post['waypoint'] ?? null;
+
+        if (!$waypoint || !is_string($waypoint)) {
+            throw new BadRequestException("Waypoin param missing");
+        }
+
+        return new WaypointSymbol($waypoint);
     }
 
     private function getShipID(): string
