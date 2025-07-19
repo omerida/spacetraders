@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
 
@@ -7,7 +7,7 @@
             <div class="card card-one-fifth">
                 <h2 class="title">{{ point.symbol }}</h2>
                 <div class="info">
-                    <p>{{ point.type | machine2readable }}
+                    <p>{{ point.type|machine2readable }}
                         @ ({{ point.x }}, {{ point.y }})</p>
 
                     {% if point.orbitals is defined and point.orbitals is not empty %}
@@ -16,7 +16,7 @@
                             {% for item in point.orbitals %}
                                 <li>{{ _self.link(
                                         viewWaypointPath(item.symbol),
-                                        item.symbol
+                                        item.symbol,
                                     ) }} </li>
                             {% endfor %}
                         </ol>
@@ -43,10 +43,10 @@
                     <h3>Chart</h3>
                     <p>{{ _self.link(
                             viewWaypointPath(point.chart.waypointSymbol),
-                            point.chart.waypointSymbol
+                            point.chart.waypointSymbol,
                         ) }}
                         submitted by {{ point.chart.submittedBy }}
-                        on {{ point.submitedOn | date }}
+                        on {{ point.submitedOn|date }}
                     </p>
                     <p>Claimed by {{ point.faction.symbol }}</p>
                     {% if point.isUnderConstruction == true %}
@@ -56,7 +56,7 @@
                     {% if point.orbits is not empty %}
                         <p>Orbits {{ _self.link(
                             viewWaypointPath(point.orbits),
-                            point.orbits
+                            point.orbits,
                         ) }}</p>
                     {% endif %}
                 </div>

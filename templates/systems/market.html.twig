@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
                 {% if imports is defined and imports is not empty %}
                     <ul>
                         {% for import_item in imports %}
-                            <li>{{ import_item.name | default('N/A') }}</li>
+                            <li>{{ import_item.name|default('N/A') }}</li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -26,7 +26,7 @@
             {% if exports is defined and exports is not empty %}
                 <ol>
                     {% for export_item in exports %}
-                        <li>{{ export_item.name | default('N/A') }}</li>
+                        <li>{{ export_item.name|default('N/A') }}</li>
                     {% endfor %}
                 </ol>
             {% else %}
@@ -42,7 +42,7 @@
             <ol>
                 {% for exchange_item in exchange %}
                     <li>
-                        {{ exchange_item.symbol.value | machine2readable }}
+                        {{ exchange_item.symbol.value|machine2readable }}
                     </li>
                 {% endfor %}
             </ol>
@@ -68,10 +68,10 @@
                     <tbody>
                     {% for item in tradeGoods %}
                         <tr>
-                            <td>{{ item.symbol.value | machine2readable }}</td>
-                            <td>{{ item.type.value | machine2readable }}</td>
-                            <td>{{ item.supply.value | machine2readable }}</td>
-                            <td>{{ (item.activity.value ?: '') | machine2readable }}</td>
+                            <td>{{ item.symbol.value|machine2readable }}</td>
+                            <td>{{ item.type.value|machine2readable }}</td>
+                            <td>{{ item.supply.value|machine2readable }}</td>
+                            <td>{{ (item.activity.value ?: '')|machine2readable }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -97,12 +97,12 @@
                 <tbody>
                 {% for transaction_item in transactions %}
                     <tr>
-                        <td>{{ transaction_item.type.value | machine2readable }}</td>
+                        <td>{{ transaction_item.type.value|machine2readable }}</td>
                         <td>{{ transaction_item.shipSymbol }}</td>
-                        <td>{{ transaction_item.tradeSymbol.value | machine2readable }}</td>
-                        <td>{{ transaction_item.units | number_format }} × {{ transaction_item.pricePerUnit }}</td>
-                        <td>{{ transaction_item.totalPrice | number_format }}</td>
-                        <td>{{ transaction_item.timestamp | date }}</td>
+                        <td>{{ transaction_item.tradeSymbol.value|machine2readable }}</td>
+                        <td>{{ transaction_item.units|number_format }} × {{ transaction_item.pricePerUnit }}</td>
+                        <td>{{ transaction_item.totalPrice|number_format }}</td>
+                        <td>{{ transaction_item.timestamp|date }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

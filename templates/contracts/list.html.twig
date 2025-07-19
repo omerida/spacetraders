@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
 {% block content %}
 <h1>Contracts</h1>
@@ -25,12 +25,12 @@
         <tr>
             <td><small>{{ contract.id }}</small> <br> {{ contract.type.value }}</td>
             <td>{{ contract.factionSymbol.faction }}</td>
-            <td>{{ contract.terms.deadline.date | date }}</td>
-            <td>{{ contract.terms.payment.onAccepted | number_format }} on accepted, <br>
-            {{ contract.terms.payment.onFulfilled | number_format }} on fulfilled</td>
+            <td>{{ contract.terms.deadline.date|date }}</td>
+            <td>{{ contract.terms.payment.onAccepted|number_format }} on accepted, <br>
+            {{ contract.terms.payment.onFulfilled|number_format }} on fulfilled</td>
             <td>
                 {% for item in contract.terms.deliver %}
-                    {{ item.tradeSymbol | machine2readable }}
+                    {{ item.tradeSymbol|machine2readable }}
                     {% if not loop.last %}<br>{% endif %}
                 {% endfor %}
             </td>
@@ -38,7 +38,7 @@
                 {% for item in contract.terms.deliver %}
                     {{ _self.blank_link(
                         viewWaypointPath(item.destinationSymbol),
-                        item.destinationSymbol
+                        item.destinationSymbol,
 
                     ) }}
                     {% if not loop.last %}<br>{% endif %}
@@ -49,15 +49,15 @@
             </td>
             <td>
                 {% for item in contract.terms.deliver %}
-                    {{ item.unitsFulfilled | number_format }} /
-                    {{ item.unitsRequired | number_format }}
+                    {{ item.unitsFulfilled|number_format }} /
+                    {{ item.unitsRequired|number_format }}
                     {% if not loop.last %}<br>{% endif %}
                 {% endfor %}
             </td>
             <td>{{ contract.accepted ? 'Yes' : 'No' }}</td>
             <td>{{ contract.fulfilled ? 'Yes' : 'No' }}</td>
-            <td>{{ contract.expiration.date | date }}</td>
-            <td>{{ contract.deadlineToAccept.date | date}}</td>
+            <td>{{ contract.expiration.date|date }}</td>
+            <td>{{ contract.deadlineToAccept.date|date }}</td>
         </tr>
         {% endfor %}
     </tbody>

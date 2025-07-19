@@ -2,8 +2,8 @@
     <h3 class="title">{{ ship.name }}</h3>
     <div class="info">
         <p><em>{{ ship.description }}</em></p>
-        <p>{{ ship.supply.name | machine2readable }}, {{ ship.activity.value | machine2readable }}</p>
-        <p><b>Price:</b> {{ ship.purchasePrice | number_format }}</p>
+        <p>{{ ship.supply.name|machine2readable }}, {{ ship.activity.value|machine2readable }}</p>
+        <p><b>Price:</b> {{ ship.purchasePrice|number_format }}</p>
 
         <h4>Frame - {{ ship.frame.name }}</h4>
         <p>{{ ship.frame.dscription }}</p>
@@ -56,7 +56,7 @@
             {{ ship.reactor.requirements.power }} power, and
             {{ ship.reactor.requirements.slots }} slots. Capacity {{ mount.capacity }}
         </p>
-        
+
         <h4>Engine - {{ ship.engine.name }}</h4>
         <p>{{ ship.engine.dscription }}</p>
         <table>

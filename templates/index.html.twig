@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
 {% macro select_options(options) %}
     {% for opt in options %}
@@ -22,7 +22,7 @@
 <tr>
     <td>{{ agent.symbol }}</td>
     <td>{{ _self.blank_link(viewWaypointPath(agent.headquarters), agent.headquarters) }}</td>
-    <td>{{ agent.credits | number_format }}</td>
+    <td>{{ agent.credits|number_format }}</td>
     <td>{{ agent.startingFaction }}</td>
     <td>{{ agent.shipCount }}</td>
 </tr>
@@ -92,7 +92,7 @@
         <td>{{ _self.blank_link(viewShipPath(ship.symbol), ship.symbol) }}</td>
         <td>{{ _self.link(
             viewWaypointPath(ship.nav.waypointSymbol),
-            ship.nav.waypointSymbol
+            ship.nav.waypointSymbol,
         ) }}</td>
         <td>{{ ship.nav.status.value }}</td>
         <td>{{ ship.nav.flightMode.value }}</td>

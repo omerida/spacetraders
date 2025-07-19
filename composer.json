@@ -67,6 +67,7 @@
     "check-code": "vendor/bin/phpcs && vendor/bin/phpstan",
     "phpstan": "vendor/bin/phpstan",
     "phpcbf": "vendor/bin/phpcbf",
-    "twig-lint": "vendor/bin/twig-cs-fixer lint templates"
+    "twig-lint": "vendor/bin/twig-cs-fixer lint templates",
+    "twig-lint-fix": "vendor/bin/twig-cs-fixer lint --fix templates"
   }
 }
