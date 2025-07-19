@@ -54,8 +54,7 @@
 </form>
 
 <h3>View Shipyard</h3>
-<form method="get" action="/systems/waypoint/shipyard" target="_blank">
-
+<form method="get" action="/systems/shipyard" target="_blank">
     <input type="text" value="" name="id"
            placeholder="waypoint symbol" required>
    <input type="submit" value="View Shipyard">
@@ -63,7 +62,6 @@
 
 <h3>View Market</h3>
 <form method="get" action="/systems/waypoint/market" target="_blank">
-
     <input type="text" value="" name="id"
            placeholder="waypoint symbol" required>
    <input type="submit" value="View Market">
@@ -92,7 +90,10 @@
     {% for ship in ships %}
     <tr>
         <td>{{ _self.blank_link(viewShipPath(ship.symbol), ship.symbol) }}</td>
-        <td>{{ ship.nav.waypointSymbol }}</td>
+        <td>{{ _self.link(
+            viewWaypointPath(ship.nav.waypointSymbol),
+            ship.nav.waypointSymbol
+        ) }}</td>
         <td>{{ ship.nav.status.value }}</td>
         <td>{{ ship.nav.flightMode.value }}</td>
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>

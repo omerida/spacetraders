@@ -6,12 +6,16 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\TwigAwareInterface;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Psr\Http\Message\ResponseInterface;
 
-class ShipyardController implements RequestAwareInterface
+class ShipyardController implements RequestAwareInterface, TwigAwareInterface
 {
     use RequestAwareController;
+    use TwigAwareController;
 
     public function __construct(
         private Client\Systems $client,
@@ -20,11 +24,15 @@ class ShipyardController implements RequestAwareInterface
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'systems_shipyard', path: '/systems/shipyard', methods: ['GET'])]
-    public function systemsWaypoints(): array
+    #[Route(
+        name: 'systems_shipyard',
+        path: '/systems/shipyard',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function systemsShipyard(): ResponseInterface
     {
         $query = $this->getRequest()->getQueryParams();
         $id = $query['id'] ?? null;
@@ -40,9 +48,14 @@ class ShipyardController implements RequestAwareInterface
 
         $point = new WaypointSymbol($id);
 
-        return (array) $this->client->shipyard(
+        $result = $this->client->shipyard(
             system: $point->system,
             waypoint: $point->waypoint
         );
+
+        return $this->render('systems/shipyard.html.twig', [
+            'headTitle' => 'Shipyard at ' . $result->symbol,
+            'shipyard' => $result,
+        ]);
     }
 }

@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
+<h1>Contracts</h1>
+
+{% if contracts %}
 <table>
     <thead>
         <tr>
@@ -59,5 +62,8 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+   <p>No contracts available.</p>
+{% endif %}
 
 {% endblock %}

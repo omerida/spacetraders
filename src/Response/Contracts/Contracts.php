@@ -8,7 +8,7 @@ class Contracts extends Base
 {
     public function __construct(
         /** @var list<\Phparch\SpaceTraders\Value\Contract> */
-        public array $contracts,
+        public array $contracts = [],
     ) {
     }
 }

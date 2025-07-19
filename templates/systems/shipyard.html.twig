@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+
+    <h1>{{ shipyard.symbol }}</h1>
+
+    <p><b>Modifications fee:</b> {{ shipyard.modificationsFee | number_format }}</p>
+
+    {% if shipyard.shipTypes is defined and shipyard.shipTypes is not empty %}
+        <h2>Ship Types</h2>
+        <ol>
+            {% for ship in shipyard.shipTypes %}
+                <li>{{ ship.type.value | machine2readable }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    {{ dump(shipyard.transactions) }}
+    {% if shipyard.transactions is defined and shipyard.transactions is not empty %}
+
+    {% endif %}
+
+    {% if shipyard.ships is defined and shipyard.ships is not empty %}
+        <h2>Ships</h2>
+        <div class="flex">
+            {% for ship in shipyard.ships %}
+                {% include 'partials/ship-card.html.twig' with {'ship': ship} %}
+
+            {% endfor %}
+        </div>
+
+    {% endif %}
+{% endblock %}

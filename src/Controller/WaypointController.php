@@ -108,17 +108,6 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     /**
      * @return array<mixed>
      */
-    #[Route(name: 'view_shipyard', path: '/systems/waypoint/shipyard', methods: ['GET'])]
-    public function viewShipyard(): array
-    {
-        $point = $this->getWaypoint();
-
-        return (array) $this->client->shipyard($point->system, $point->waypoint);
-    }
-
-    /**
-     * @return array<mixed>
-     */
     #[Route(name: 'view_market', path: '/systems/waypoint/market', methods: ['GET'])]
     public function viewMarket(): array
     {

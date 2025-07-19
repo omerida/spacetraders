@@ -38,7 +38,12 @@
 
         {% for trait in location.traits %}
         <tr>
-            {% if trait.symbol == 'MARKETPLACE' %}
+            {% if trait.symbol == 'SHIPYARD' %}
+                <td><b>{{ _self.blank_link(
+                viewShipyardPath(location.symbol),
+                trait.name
+            ) }}</b></td>
+            {% elseif trait.symbol == 'MARKETPLACE' %}
                 <td><b>{{ _self.blank_link(
                 viewMarketplacePath(location.symbol),
                 trait.name

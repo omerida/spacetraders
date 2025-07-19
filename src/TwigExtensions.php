@@ -27,6 +27,12 @@ class TwigExtensions
         return "/ship/info?ship=" . $id;
     }
 
+    #[AsTwigFunction('viewShipyardPath')]
+    public static function viewShipyardPath(string $id): string
+    {
+        return "/systems/shipyard?id=" . $id;
+    }
+
     #[AsTwigFunction('viewWaypointPath')]
     public static function viewWaypointPath(string $wp): string
     {
