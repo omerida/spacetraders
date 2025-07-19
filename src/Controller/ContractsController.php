@@ -52,7 +52,7 @@ class ContractsController implements RequestAwareInterface, TwigAwareInterface
     public function list(): ResponseInterface
     {
         $contracts = $this->client->MyContracts()->contracts;
-        return $this->render('listContracts.html.twig', [
+        return $this->render('contracts/list.html.twig', [
             'contracts' => $contracts,
         ]);
     }

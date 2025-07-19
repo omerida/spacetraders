@@ -3,15 +3,22 @@
 namespace Phparch\SpaceTraders;
 
 use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Attribute\AsTwigExtension;
 
 class TwigExtensions
 {
-    #[AsTwigFunction('viewWaypointPath')]
-    public static function viewWaypointPath(string $wp): string
+    #[AsTwigFunction('viewMarketplacePath')]
+    public static function viewMarketplacePath(string $id): string
     {
-        return "/systems/waypoint?id=" . $wp;
+        return "/systems/market?id=" . $id;
+    }
+
+    #[AsTwigFunction('viewShipCargoPath')]
+    public static function viewShipCargoPath(string $id): string
+    {
+        return "/ship/cargo?ship=" . $id;
     }
 
     #[AsTwigFunction('viewShipPath')]
@@ -20,13 +27,13 @@ class TwigExtensions
         return "/ship/info?ship=" . $id;
     }
 
-    #[AsTwigFunction('viewShipCargo')]
-    public static function shipLinkCargo(string $id, ?string $name): string
+    #[AsTwigFunction('viewWaypointPath')]
+    public static function viewWaypointPath(string $wp): string
     {
-        return "/ship/cargo?ship=" . $id;
+        return "/systems/waypoint?id=" . $wp;
     }
 
-    #[AsTwigFunction('machine2readable')]
+    #[AsTwigFilter('machine2readable')]
     public static function machine2readable(string $input): string
     {
         // 1. Replace underscores with spaces

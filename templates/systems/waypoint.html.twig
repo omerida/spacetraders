@@ -30,12 +30,26 @@
 
 {% if location.traits %}
     <h2>Traits</h2>
-    <dl>
+    <table>
+        <tr>
+            <th>Trait</th>
+            <th>Description</th>
+        </tr>
+
         {% for trait in location.traits %}
-            <dt>{{ trait.name }} <em>{{ traid.symbol }}</em></dt>
-            <dd>{{ trait.description }}</dd>
+        <tr>
+            {% if trait.symbol == 'MARKETPLACE' %}
+                <td><b>{{ _self.blank_link(
+                viewMarketplacePath(location.symbol),
+                trait.name
+            ) }}</b></td>
+            {% else %}
+                <td><b>{{ trait.name }}</b></td>
+            {% endif %}
+            <td>{{ trait.description }}</td>
+        </tr>
         {% endfor %}
-    </dl>
+    </table>
 {% endif %}
 
 

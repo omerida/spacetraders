@@ -24,7 +24,6 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
     #[Route(
