@@ -6,11 +6,15 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\TwigAwareInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class ContractsController implements RequestAwareInterface
+class ContractsController implements RequestAwareInterface, TwigAwareInterface
 {
     use RequestAwareController;
+    use TwigAwareController;
 
     public function __construct(
         private Client\Contracts $client,
@@ -39,12 +43,17 @@ class ContractsController implements RequestAwareInterface
         return (array) $this->client->accept($id);
     }
 
-    /**
-     * @return array<mixed>
-    */
-    #[Route(name: 'list_contracts', path: '/contracts/', methods: ['GET'])]
-    public function list(): array
+    #[Route(
+        name: 'list_contracts',
+        path: '/contracts/',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function list(): ResponseInterface
     {
-        return (array) $this->client->MyContracts();
+        $contracts = $this->client->MyContracts()->contracts;
+        return $this->render('listContracts.html.twig', [
+            'contracts' => $contracts,
+        ]);
     }
 }

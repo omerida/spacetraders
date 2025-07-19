@@ -49,6 +49,9 @@ return [
                 'auto_reload' => $_ENV['TWIG_AUTORELOAD'] ?? false,
             ]
         );
+        if ($twig->isDebug()) {
+            $twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
         $twig->addExtension(
             new \Twig\Extension\AttributeExtension(TwigExtensions::class)
         );
