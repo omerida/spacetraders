@@ -1,6 +1,11 @@
 {% macro blank_link(path, text) %}
-    <a href="{{ path }}" target="_blank">{{ text }}</a>
+    <a href="{{ path }}" target="_blank">{{ text ?: path  }}</a>
 {% endmacro %}
+
+{% macro link(path, text) %}
+    <a href="{{ path }}">{{ text ?: path }}</a>
+{% endmacro %}
+
 <!DOCTYPE html>
 <html>
     <head>

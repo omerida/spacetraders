@@ -48,11 +48,15 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'search_waypoints', path: '/systems/waypoint/search', methods: ['GET'])]
-    public function systemsWaypointSearch(): array
+    #[Route(
+        name: 'search_waypoints',
+        path: '/systems/waypoint/search',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function systemsWaypointSearch(): ResponseInterface
     {
         /**
          * @var array{
@@ -94,7 +98,11 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
             }
         }
 
-        return (array) $this->client->waypoints($system, $query);
+        $results = $this->client->waypoints($system, $query);
+
+        return $this->render('systems/search_waypoints.html.twig', [
+            'waypoints' => $results->waypoints
+        ]);
     }
 
     /**
