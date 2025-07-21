@@ -66,7 +66,6 @@ class RoutesMapper
             }
         }
 
-
         $route = $router->map(
             $info->httpMethods,
             $info->path,

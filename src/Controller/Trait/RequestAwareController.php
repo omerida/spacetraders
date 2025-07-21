@@ -2,7 +2,6 @@
 
 namespace Phparch\SpaceTraders\Controller\Trait;
 
-use Phparch\SpaceTraders\RequestAwareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 trait RequestAwareController
