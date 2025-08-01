@@ -8,13 +8,19 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="/css/style.css" />
-        {% block head %}
-            <title>{{ headTitle }} - SpaceTraders PHP Client</title>
-        {% endblock %}
-    </head>
-    <body>
-        <div id="content">{% block content %}{% endblock %}</div>
-    </body>
+<head>
+    <link rel="stylesheet" href="/css/style.css"/>
+    {% block head %}
+        <title>{{ headTitle }} - SpaceTraders PHP Client</title>
+    {% endblock %}
+</head>
+<body>
+
+{% block breadcrumb %}
+    {% include 'partials/breadcrumb.html.twig' %}
+{% endblock %}
+
+
+<div id="content">{% block content %}{% endblock %}</div>
+</body>
 </html>

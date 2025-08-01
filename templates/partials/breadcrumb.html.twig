@@ -1,0 +1,33 @@
+{#
+    This template renders an accessible breadcrumb navigation.
+
+    Usage:
+    {% include 'includes/_breadcrumb.html.twig' with {
+        breadcrumbs: [
+            { label: 'Home', url: '/' },
+            { label: 'Products', url: '/products' },
+            { label: 'Category Name' }
+        ]
+    } %}
+
+    The `breadcrumbs` variable should be an array of objects, where each object
+    has a `label` and an optional `url`.
+#}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+        <ol>
+            <li><a href="/">Start</a></li>
+            {% for item in breadcrumbs %}
+                {% if loop.last %}
+                    {# The last item is the current page, so it should not be a link #}
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ item.label }}
+                    </li>
+                {% else %}
+                    {# All other items are links #}
+                    <li class="breadcrumb-item">
+                        <a href="{{ item.url }}">{{ item.label }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </nav>
