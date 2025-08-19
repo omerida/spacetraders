@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTraders\Controller;
 
+use GuzzleHttp\Psr7\Response;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
@@ -108,12 +109,75 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     /**
      * @return array<mixed>
      */
-    #[Route(name: 'view_market', path: '/systems/waypoint/market', methods: ['GET'])]
+    #[Route(
+        name: 'view_market',
+        path: '/systems/waypoint/market',
+        methods: ['GET']
+    )]
     public function viewMarket(): array
     {
         $point = $this->getWaypoint();
 
         return (array) $this->client->market($point->system, $point->waypoint);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(
+        name: 'map_system_json',
+        path: '/systems/waypoint/map/json',
+        methods: ['GET'],
+    )]
+    public function mapSystemJSON(): array
+    {
+        /**
+         * @var array{
+         *     system ?: ?string,
+         *     traits ?: ?string,
+         *     type ?: null|value-of<WaypointType>
+         * } $query
+         */
+        $query = $this->getRequest()->getQueryParams();
+        $system = $query['system'] ?? '';
+
+        if (!$system || !is_string($system)) {
+            throw new BadRequestException("Please specify the system");
+        }
+
+        $result = $this->client->waypoints($system);
+
+        return (array) $result->waypoints;
+    }
+
+    #[Route(
+        name: 'map_system',
+        path: '/systems/waypoint/map',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function mapSystem(): Response
+    {
+        /**
+         * @var array{
+         *     system ?: ?string,
+         *     traits ?: ?string,
+         *     type ?: null|value-of<WaypointType>
+         * } $query
+         */
+        $query = $this->getRequest()->getQueryParams();
+        $system = $query['system'] ?? '';
+
+        if (!$system || !is_string($system)) {
+            throw new BadRequestException("Please specify the system");
+        }
+
+        $result = $this->client->waypoints($system);
+
+        return $this->render('systems/map_waypoints.html.twig', [
+            'system' => $system,
+            'waypoints' => $result->waypoints
+        ]);
     }
 
     private function getWaypoint(): WaypointSymbol

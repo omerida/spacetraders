@@ -56,4 +56,28 @@ class ContractsController implements RequestAwareInterface, TwigAwareInterface
             'contracts' => $contracts,
         ]);
     }
+
+    #[Route(
+        name: 'get_contract',
+        path: '/contracts/get/',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function get(): ResponseInterface
+    {
+        /**
+         * @var array{
+         *     id ?: string
+         * } $get
+         */
+        $get = $this->getRequest()->getQueryParams();
+        if (!isset($get['id']) || !$get['id']) {
+            throw new BadRequestException("Contract ID is required");
+        }
+
+        $contract = $this->client->details($get['id']);
+        return $this->render('contracts/details.html.twig', [
+            'contract' => $contract,
+        ]);
+    }
 }

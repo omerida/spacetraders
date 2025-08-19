@@ -10,17 +10,33 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/style.css"/>
+    <title>{{ headTitle }} - SpaceTraders PHP Client</title>
     {% block head %}
-        <title>{{ headTitle }} - SpaceTraders PHP Client</title>
     {% endblock %}
 </head>
 <body>
 
+<nav class="main">
+    <ul class="menubar-navigation"
+        role="menubar"
+        aria-label="Mythical University">
+      <li role="none">
+        <a role="menuitem" href="/contracts/">Contracts</a>
+      </li>
+      <li role="none">
+        <a role="menuitem" href="/my/ships">Ships</a>
+      </li>
+
+    </ul>
+</nav>
 {% block breadcrumb %}
     {% include 'partials/breadcrumb.html.twig' %}
 {% endblock %}
 
 
 <div id="content">{% block content %}{% endblock %}</div>
+
+{% block footerScripts %}
+{% endblock %}
 </body>
 </html>

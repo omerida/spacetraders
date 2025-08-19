@@ -5,7 +5,6 @@ namespace Phparch\SpaceTraders;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
-use Twig\Attribute\AsTwigExtension;
 
 class TwigExtensions
 {

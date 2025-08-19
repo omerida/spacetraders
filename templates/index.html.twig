@@ -53,28 +53,6 @@
     <input type="submit" value="Search">
 </form>
 
-<h3>View Shipyard</h3>
-<form method="get" action="/systems/shipyard" target="_blank">
-    <input type="text" value="" name="id"
-           placeholder="waypoint symbol" required>
-   <input type="submit" value="View Shipyard">
-</form>
-
-<h3>View Market</h3>
-<form method="get" action="/systems/waypoint/market" target="_blank">
-    <input type="text" value="" name="id"
-           placeholder="waypoint symbol" required>
-   <input type="submit" value="View Market">
-</form>
-<h2>Contracts</h2>
-
-<p><a href="/contracts/" target="_blank">[Available Contracts]</a></p>
-<form method="post" action="/contract/accept" target="_blank">
-    <input type="text" name="id" placeholder="contract id"
-           autocomplete="off" size="30" required="required">
-    <input type="submit" value="Accept a Contract">
-</form>
-
 <h2>Ships</h2>
 
 <table>
@@ -104,8 +82,6 @@
     </tr>
     {% endfor %}
 </table>
-
-<p><a href="/my/ships" target="_blank">[Your Ships]</a></p>
 
 <h3>Ship Orders</h3>
 <form action="/ship/orders" target="_blank" method="post">

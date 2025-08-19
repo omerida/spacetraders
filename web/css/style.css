@@ -2,6 +2,8 @@
     --color-emphasis: #333;
     --color-emphasis-alt: #efefef;
     --color-alternate: #dedede;
+    --color-nav-bg: #369;
+    --color-nav: #fff;
 }
 
 body {
@@ -32,6 +34,28 @@ h4 {
 h5 {
     font-size: 1rem;
     font-style: italic;
+}
+
+nav.main {
+    padding: 0 0 .5rem;
+}
+nav.main ul {
+    list-style-type: none;
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav.main ul > li {
+    font-size: 1.5rem;
+    background: var(--color-nav-bg);
+    padding: 0.5rem 1rem;
+}
+
+nav.main ul > li a {
+    color: var(--color-nav);
+    font-weight:bold;
 }
 
 /* from https://www.w3.org/WAI/content-assets/wai-aria-practices/patterns/breadcrumb/examples/css/breadcrumb.css */
@@ -159,4 +183,10 @@ ul.tags {
         border-radius: 0.25rem;
         margin-bottom: 0.25rem;
     }
+}
+
+#system-map {
+    outline: 2px solid red;
+    width: 800px;
+    height: 800px
 }

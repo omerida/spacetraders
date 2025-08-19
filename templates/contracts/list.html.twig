@@ -5,7 +5,7 @@
 %}
 
 {% block content %}
-<h1>Contracts</h1>
+<h1>All Contracts</h1>
 
 {% if contracts %}
 <table>
@@ -18,8 +18,8 @@
             <th>Item to Deliver</th>
             <th>Destination</th>
             <th>Units</th>
-            <th>Accepted</th>
-            <th>Fulfilled</th>
+            <th>Accepted?</th>
+            <th>Fulfilled?</th>
             <th>Expiration</th>
             <th>Deadline to Accept</th>
         </tr>
@@ -27,7 +27,9 @@
     <tbody>
         {% for contract in contracts %}
         <tr>
-            <td><small>{{ contract.id }}</small> <br> {{ contract.type.value }}</td>
+            <td><small><a href="/contracts/get/?id={{ contract.id }}">{{ contract.id }}</a></small> <br>
+                {{ contract.type.value }}
+            </td>
             <td>{{ contract.factionSymbol.faction }}</td>
             <td>{{ contract.terms.deadline.date|date }}</td>
             <td>{{ contract.terms.payment.onAccepted|number_format }} on accepted, <br>
@@ -58,7 +60,15 @@
                     {% if not loop.last %}<br>{% endif %}
                 {% endfor %}
             </td>
-            <td>{{ contract.accepted ? 'Yes' : 'No' }}</td>
+            <td>{% if contract.accepted %}
+                Yes
+                {% else %}
+                <form method="post" action="/contract/accept">
+                    <input type="hidden" name="id" value="{{ contract.id }}">
+                    <button value="accept">Accept</button>
+                </form>
+                {% endif %}
+            </td>
             <td>{{ contract.fulfilled ? 'Yes' : 'No' }}</td>
             <td>{{ contract.expiration.date|date }}</td>
             <td>{{ contract.deadlineToAccept.date|date }}</td>
