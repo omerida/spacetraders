@@ -17,6 +17,7 @@ class TwigExtensions
     ): string {
         return $path . http_build_query($params);
     }
+
     #[AsTwigFunction('viewMarketplacePath')]
     public static function viewMarketplacePath(string $id): string
     {
