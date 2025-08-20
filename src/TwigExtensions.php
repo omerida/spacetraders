@@ -11,7 +11,7 @@ class TwigExtensions
     /**
      * @param array<string, mixed> $params
      */
-    public static function pathWithParms(
+    public static function pathWithParams(
         string $path,
         array $params,
     ): string {
@@ -21,31 +21,31 @@ class TwigExtensions
     #[AsTwigFunction('viewMarketplacePath')]
     public static function viewMarketplacePath(string $id): string
     {
-        return self::pathWithParms("/systems/market?", ['id' => $id]);
+        return self::pathWithParams("/systems/market?", ['id' => $id]);
     }
 
     #[AsTwigFunction('viewShipCargoPath')]
     public static function viewShipCargoPath(string $id): string
     {
-        return self::pathWithParms("/ship/cargo?ship=", ['id' => $id]);
+        return self::pathWithParams("/ship/cargo?ship=", ['id' => $id]);
     }
 
     #[AsTwigFunction('viewShipPath')]
     public static function viewShipPath(string $id): string
     {
-        return self::pathWithParms("/ship/info?ship=", ['id' => $id]);
+        return self::pathWithParams("/ship/info?ship=", ['id' => $id]);
     }
 
     #[AsTwigFunction('viewShipyardPath')]
     public static function viewShipyardPath(string $id): string
     {
-        return self::pathWithParms("/systems/shipyard?id=", ['id' => $id]);
+        return self::pathWithParams("/systems/shipyard?id=", ['id' => $id]);
     }
 
     #[AsTwigFunction('viewWaypointPath')]
     public static function viewWaypointPath(string $wp): string
     {
-        return self::pathWithParms("/systems/waypoint?id=", ['wp' => $wp]);
+        return self::pathWithParams("/systems/waypoint?id=", ['wp' => $wp]);
     }
 
     #[AsTwigFilter('machine2readable')]
