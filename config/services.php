@@ -47,6 +47,7 @@ return [
                 'debug' => $_ENV['TWIG_DEBUG'] ?? false,
                 'cache' => dirname(__DIR__) . '/templates_cache/',
                 'auto_reload' => $_ENV['TWIG_AUTORELOAD'] ?? false,
+                'autoescape' => 'html'
             ]
         );
         if ($twig->isDebug()) {

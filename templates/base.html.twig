@@ -1,9 +1,9 @@
 {% macro blank_link(path, text) %}
-    <a href="{{ path }}" target="_blank">{{ text ?: path }}</a>
+    <a href="{{ path|escape('url') }}" target="_blank">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro link(path, text) %}
-    <a href="{{ path }}">{{ text ?: path }}</a>
+    <a href="{{ path|escape('url') }}">{{ text ?: path }}</a>
 {% endmacro %}
 
 <!DOCTYPE html>

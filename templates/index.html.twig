@@ -21,7 +21,10 @@
 </tr>
 <tr>
     <td>{{ agent.symbol }}</td>
-    <td>{{ _self.blank_link(viewWaypointPath(agent.headquarters), agent.headquarters) }}</td>
+    <td>{{ _self.blank_link(
+            viewWaypointPath(agent.headquarters),
+            agent.headquarters)
+        }}</td>
     <td>{{ agent.credits|number_format }}</td>
     <td>{{ agent.startingFaction }}</td>
     <td>{{ agent.shipCount }}</td>
@@ -67,7 +70,10 @@
     </tr>
     {% for ship in ships %}
     <tr>
-        <td>{{ _self.blank_link(viewShipPath(ship.symbol), ship.symbol) }}</td>
+        <td>{{ _self.link(
+                viewShipPath(ship.symbol),
+                ship.symbol)
+            }}</td>
         <td>{{ _self.link(
             viewWaypointPath(ship.nav.waypointSymbol),
             ship.nav.waypointSymbol,
