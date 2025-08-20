@@ -77,8 +77,11 @@
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
         <td>{{ ship.cooldown.remainingSeconds }}</td>
         <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}
-            <a href="/ship/cargo?ship={{ ship.symbol }}"
-               target='_blank'>[cargo]</a></td>
+            {{ _self.link(
+                viewShipCargoPath(ship.symbol),
+                '[cargo]'
+            ) }}
+            </td>
     </tr>
     {% endfor %}
 </table>
