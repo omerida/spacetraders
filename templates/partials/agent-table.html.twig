@@ -1,0 +1,21 @@
+{% import "macros/helpers.html.twig" as helpers %}
+
+
+<table>
+    <tr>
+        <th>Symbol</th>
+        <th>HQ</th>
+        <th>Credits</th>
+        <th>Faction</th>
+        <th>ShipCount</th>
+    </tr>
+    <tr>
+        <td>{{ agent.symbol }}</td>
+        <td>{{ helpers.blank_link(
+                viewWaypointPath(agent.headquarters),
+                agent.headquarters) }}</td>
+        <td>{{ agent.credits|number_format }}</td>
+        <td>{{ agent.startingFaction }}</td>
+        <td>{{ agent.shipCount }}</td>
+    </tr>
+</table>

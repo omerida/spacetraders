@@ -6,6 +6,23 @@
     --color-nav: #fff;
 }
 
+/* screen layout */
+.game-container {
+    display: grid;
+    grid-template-areas: "game-aside game-main";
+    grid-template-columns: max(300px, 25vw) auto;
+    grid-gap: 0.5rem;
+    aside {
+        grid-area: game-aside;
+    }
+
+    main {
+        grid-area: game-main;
+    }
+}
+
+
+
 body {
     font-size: 16px;
 }

@@ -1,0 +1,14 @@
+{% import "macros/helpers.html.twig" as helpers %}
+<ol>
+    {% for contract in contracts %}
+        <li>{{ contract.type.value }},
+            <b>Due:</b> {{ contract.terms.deadline.date|date }} <br>
+            <b>Total:</b> {{ (contract.terms.payment.onAccepted+contract.terms.payment.onFulfilled)|number_format }}
+            total,
+            <b>Accepted?</b> {{ contract.accepted ? 'Yes' : 'No' }}<br>
+            <a href="/contracts/get/?id={{ contract.id }}"
+               up-target=".contract-card"
+            >view</a>
+        </li>
+    {% endfor %}
+</ol>

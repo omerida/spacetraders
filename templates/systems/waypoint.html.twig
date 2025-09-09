@@ -1,3 +1,4 @@
+{% import "macros/helpers.html.twig" as helpers %}
 {% extends 'base.html.twig' %}
 
 {% block content %}
@@ -10,7 +11,7 @@
 {% endif %}
 
 {% if (location.orbits) %}
-    <p>Orbits {{ _self.blank_link(
+    <p>Orbits {{ helpers.blank_link(
                 viewWaypointPath(location.orbits),
                 location.orbits,
             ) }}</p>
@@ -20,7 +21,7 @@
     <h2>Orbitals</h2>
     <ol>
     {% for orbital in location.orbitals %}
-        <li>{{ _self.blank_link(
+        <li>{{ helpers.blank_link(
                 viewWaypointPath(orbital.symbol),
                 orbital.symbol,
             ) }}</li>
@@ -39,12 +40,12 @@
         {% for trait in location.traits %}
         <tr>
             {% if trait.symbol == 'SHIPYARD' %}
-                <td><b>{{ _self.blank_link(
+                <td><b>{{ helpers.blank_link(
                 viewShipyardPath(location.symbol),
                 trait.name,
             ) }}</b></td>
             {% elseif trait.symbol == 'MARKETPLACE' %}
-                <td><b>{{ _self.blank_link(
+                <td><b>{{ helpers.blank_link(
                 viewMarketplacePath(location.symbol),
                 trait.name,
             ) }}</b></td>

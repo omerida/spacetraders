@@ -1,3 +1,4 @@
+{% import "macros/helpers.html.twig" as helpers %}
 {% extends 'base.html.twig' %}
 {% set breadcrumbs = [
     { label: 'Contracts', url: '/contracts/' },
@@ -53,7 +54,7 @@
                         {% for item in contract.terms.deliver %}
                             <li>
                                 {{ item.unitsRequired }} units of {{ item.tradeSymbol }} to
-                                {{ _self.blank_link(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
+                                {{ helpers.blank_link(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
                                 <span>(Progress: {{ item.unitsFulfilled }} / {{ item.unitsRequired }})</span>
                             </li>
                         {% endfor %}

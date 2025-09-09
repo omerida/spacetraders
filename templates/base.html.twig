@@ -1,14 +1,11 @@
-{% macro blank_link(path, text) %}
-    <a href="{{ path|escape('url') }}" target="_blank">{{ text ?: path }}</a>
-{% endmacro %}
-
-{% macro link(path, text) %}
-    <a href="{{ path|escape('url') }}">{{ text ?: path }}</a>
-{% endmacro %}
+{% import "macros/helpers.html.twig" as helpers %}
 
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/js/unpoly/unpoly.min.css" />
+    <script src="/js/unpoly/unpoly.min.js"></script>
+
     <link rel="stylesheet" href="/css/style.css"/>
     <title>{{ headTitle }} - SpaceTraders PHP Client</title>
     {% block head %}
