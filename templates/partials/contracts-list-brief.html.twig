@@ -8,6 +8,8 @@
             <b>Accepted?</b> {{ contract.accepted ? 'Yes' : 'No' }}<br>
             <a href="/contracts/get/?id={{ contract.id }}"
                up-target=".contract-card"
+               up-transition="move-down"
+               up-history="true"
             >view</a>
         </li>
     {% endfor %}

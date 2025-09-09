@@ -4,58 +4,58 @@
 {% block content %}
     <h1>{{ location.symbol }}</h1>
 
-<p><em>{{ location.type }}</em>, ({{ location.x }}, {{ location.y }})</p>
-<p>Controlled by {{ location.faction }}</p>
-{% if (location.isUnderConstruction) %}
-    <p>This location is under construction.</p>
-{% endif %}
+    <p><em>{{ location.type }}</em>, ({{ location.x }}, {{ location.y }})</p>
+    <p>Controlled by {{ location.faction }}</p>
+    {% if (location.isUnderConstruction) %}
+        <p>This location is under construction.</p>
+    {% endif %}
 
-{% if (location.orbits) %}
-    <p>Orbits {{ helpers.blank_link(
+    {% if (location.orbits) %}
+        <p>Orbits {{ helpers.drawer_link_grow(
                 viewWaypointPath(location.orbits),
                 location.orbits,
             ) }}</p>
-{% endif %}
+    {% endif %}
 
-{% if location.orbitals %}
-    <h2>Orbitals</h2>
-    <ol>
-    {% for orbital in location.orbitals %}
-        <li>{{ helpers.blank_link(
-                viewWaypointPath(orbital.symbol),
-                orbital.symbol,
-            ) }}</li>
-    {% endfor %}
-    </ol>
-{% endif %}
+    {% if location.orbitals %}
+        <h2>Orbitals</h2>
+        <ol>
+            {% for orbital in location.orbitals %}
+                <li>{{ helpers.drawer_link_grow(
+                        viewWaypointPath(orbital.symbol),
+                        orbital.symbol,
+                    ) }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
 
-{% if location.traits %}
-    <h2>Traits</h2>
-    <table>
-        <tr>
-            <th>Trait</th>
-            <th>Description</th>
-        </tr>
+    {% if location.traits %}
+        <h2>Traits</h2>
+        <table>
+            <tr>
+                <th>Trait</th>
+                <th>Description</th>
+            </tr>
 
-        {% for trait in location.traits %}
-        <tr>
-            {% if trait.symbol == 'SHIPYARD' %}
-                <td><b>{{ helpers.blank_link(
-                viewShipyardPath(location.symbol),
-                trait.name,
-            ) }}</b></td>
-            {% elseif trait.symbol == 'MARKETPLACE' %}
-                <td><b>{{ helpers.blank_link(
-                viewMarketplacePath(location.symbol),
-                trait.name,
-            ) }}</b></td>
-            {% else %}
-                <td><b>{{ trait.name }}</b></td>
-            {% endif %}
-            <td>{{ trait.description }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-{% endif %}
+            {% for trait in location.traits %}
+                <tr>
+                    {% if trait.symbol == 'SHIPYARD' %}
+                        <td><b>{{ helpers.blank_link(
+                                    viewShipyardPath(location.symbol),
+                                    trait.name,
+                                ) }}</b></td>
+                    {% elseif trait.symbol == 'MARKETPLACE' %}
+                        <td><b>{{ helpers.blank_link(
+                                    viewMarketplacePath(location.symbol),
+                                    trait.name,
+                                ) }}</b></td>
+                    {% else %}
+                        <td><b>{{ trait.name }}</b></td>
+                    {% endif %}
+                    <td>{{ trait.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 
 {% endblock %}

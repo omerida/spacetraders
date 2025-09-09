@@ -2,6 +2,35 @@
     <a href="{{ path }}" target="_blank">{{ text ?: path }}</a>
 {% endmacro %}
 
+{% macro modal_link(path, text) %}
+    <a href="{{ path }}" up-target=".content" up-layer="new">{{ text ?: path }}</a>
+{% endmacro %}
+
+{% macro modal_link_grow(path, text) %}
+    <a href="{{ path }}"
+       up-target=".content"
+       up-size="grow"
+       up-layer="new">{{ text ?: path }}</a>
+{% endmacro %}
+
+{% macro drawer_link(path, text) %}
+    <a href="{{ path }}" up-target=".content" up-layer="new drawer">{{ text ?: path }}</a>
+{% endmacro %}
+
+{% macro drawer_link_grow(path, text) %}
+    <a href="{{ path }}"
+       up-target=".content"
+       up-size="grow"
+       up-layer="new drawer">{{ text ?: path }}</a>
+{% endmacro %}
+
+{% macro drawer_link_large(path, text) %}
+    <a href="{{ path }}"
+       up-target=".content"
+       up-size="large"
+       up-layer="new drawer">{{ text ?: path }}</a>
+{% endmacro %}
+
 {% macro link(path, text) %}
     <a href="{{ path }}">{{ text ?: path }}</a>
 {% endmacro %}
