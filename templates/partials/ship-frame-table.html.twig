@@ -1,0 +1,28 @@
+<table>
+    <tr>
+        <th>Module Slots</th>
+        <th>Mounting Points</th>
+        <th>Fuel Capactiy</th>
+    </tr>
+    <tr>
+        <td>{{ ship.frame.moduleSlots }}</td>
+        <td>{{ ship.frame.mountingPoints }}</td>
+        <td>{{ ship.frame.fuelCapacity }}</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th>Quality</th>
+        <th>Condition</th>
+        <th>Integrity</th>
+    </tr>
+    <tr>
+        <td>{{ ship.frame.quality }}</td>
+        <td>{{ ship.frame.condition }}</td>
+        <td>{{ ship.frame.integrity }}</td>
+    </tr>
+</table>
+<p>Requires {{ ship.frame.requirements.crew }} crew,
+    {{ ship.frame.requirements.power }} power, and
+    {{ ship.frame.requirements.slots }} slots.
+</p>

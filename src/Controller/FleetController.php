@@ -6,14 +6,18 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\TwigAwareInterface;
 use Phparch\SpaceTraders\Value\GoodsSymbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Psr\Http\Message\ResponseInterface;
 
-class FleetController implements RequestAwareInterface
+class FleetController implements RequestAwareInterface, TwigAwareInterface
 {
     use RequestAwareController;
+    use TwigAwareController;
 
     public function __construct(
         private Client\Fleet $client,
@@ -188,14 +192,19 @@ class FleetController implements RequestAwareInterface
         return (array) $this->client->extractShip($ship);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'ship_info', path: '/ship/info', methods: ['GET'])]
-    public function shipInfo(): array
+    #[Route(
+        name: 'ship_info',
+        path: '/ship/info',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function shipInfo(): ResponseInterface
     {
-        $ship = $this->getShipID();
-        return (array) $this->client->getShip($ship);
+        $ID = $this->getShipID();
+        $ship = $this->client->getShip($ID);
+        return $this->render('ships/info.html.twig', [
+            'ship' => $ship
+        ]);
     }
 
     /**

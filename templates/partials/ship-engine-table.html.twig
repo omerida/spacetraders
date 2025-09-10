@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>Speed</th>
+        <th>Quality</th>
+        <th>Condition</th>
+        <th>Integrity</th>
+    </tr>
+    <tr>
+        <td>{{ ship.engine.speed }}</td>
+        <td>{{ ship.engine.quality }}</td>
+        <td>{{ ship.engine.condition }}</td>
+        <td>{{ ship.engine.integrity }}</td>
+    </tr>
+</table>
+<p>Requires {{ ship.engine.requirements.crew }} crew,
+    {{ ship.engine.requirements.power }} power, and
+    {{ ship.engine.requirements.slots }} slots. Capacity {{ mount.capacity }}
+</p>

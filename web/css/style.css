@@ -180,11 +180,16 @@ tr:nth-child(even) {
 }
 
 .card-one-third {
-    max-width: 33vw;
+    width: 32%;
 }
 
+.card-two-thirds {
+    width: 65%;
+}
+
+
 .card-one-fifth {
-    max-width: 20vw;
+    max-width: 20%;
 }
 
 ul.tags {
@@ -203,7 +208,7 @@ ul.tags {
 }
 
 #system-map {
-    outline: 2px solid red;
+    border: 5px inset #ccc;
     width: 800px;
     height: 800px
 }

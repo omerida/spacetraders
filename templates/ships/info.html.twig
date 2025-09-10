@@ -1,0 +1,143 @@
+{% import "macros/helpers.html.twig" as helpers %}
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ ship.symbol }}</h1>
+    <div class="flex">
+        <div class="card card-one-third">
+            <h2 class="title">Navigation</h2>
+            <div class="info">
+                <p><b>Waypoint:</b> {{ ship.nav.waypointSymbol }}</p>
+                <h3>Route</h3>
+
+                <dl>
+                    <dt>Current Status</dt>
+                    <dd><b>{{ ship.nav.status.value|machine2readable }}</b></dd>
+                    <dt>Flight Mode</dt>
+                    <dd><b>{{ ship.nav.flightMode.value|machine2readable }}</b></dd>
+                    <dt>Destination</dt>
+                    <dd>{{ ship.nav.route.destination.symbol }}
+                        ({{ ship.nav.route.destination.type.value }})
+                    </dd>
+                    <dt>Origin</dt>
+                    <dd>{{ ship.nav.route.origin.symbol }}
+                        ({{ ship.nav.route.origin.type.value }})
+                    </dd>
+                    <dt>Departure Time</dt>
+                    <dd>{{ ship.nav.departureTime.date|date }}</dd>
+                    <dt>Arrival Time</dt>
+                    <dd>{{ ship.nav.departureTime.date|date }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Data</h2>
+            <div class="info">
+                <h3>Fuel</h3>
+                <table>
+                    <tr>
+                        <th>Current</th>
+                        <th>Capacity</th>
+                    </tr>
+                    <tr>
+                        <td>{{ ship.fuel.current|number_format }}</td>
+                        <td>{{ ship.fuel.capacity|number_format }}</td>
+                    </tr>
+                </table>
+
+                <h3>Cooldown</h3>
+                <table>
+                    <tr>
+                        <th>Total</th>
+                        <th>Remaining</th>
+                    </tr>
+                    <tr>
+                        <td>{{ ship.cooldown.totalSeconds|number_format }}</td>
+                        <td>{{ ship.cooldown.remaining|number_format }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card card-one-third">
+            <h2 class="title">Crew</h2>
+            <div class="info">
+                <table>
+                    <tr>
+                        <th>Current</th>
+                        <th>Capacity</th>
+                        <th>Required</th>
+                    </tr>
+                    <tr>
+                        <td>{{ ship.crew.current }}</td>
+                        <td>{{ ship.crew.capacity }}</td>
+                        <td>{{ ship.crew.required }}</td>
+                    </tr>
+                    <tr>
+                        <th>Morale</th>
+                        <th>Wages</th>
+                        <th>Rotation</th>
+                    </tr>
+                    <tr>
+                        <td>{{ ship.crew.morale }}</td>
+                        <td>{{ ship.crew.wages|number_format }}</td>
+                        <td>{{ ship.crew.rotation.value|machine2readable }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card card-one-third">
+            <h2 class="title">Frame - {{ ship.frame.name }}</h2>
+            <p>{{ ship.frame.description }}</p>
+            <div class="info">
+                {% include 'partials/ship-frame-table.html.twig'
+                    with {'ship' : ship} %}
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Reactor - {{ ship.reactor.name }}</h2>
+            <p>{{ ship.reactor.description }}</p>
+            <div class="info">
+                {% include 'partials/ship-reactor-table.html.twig'
+                    with {'ship' : ship} %}
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Engine - {{ ship.engine.name }}</h2>
+            <p>{{ ship.engine.description }}</p>
+            <div class="info">
+                {% include 'partials/ship-engine-table.html.twig'
+                    with {'ship' : ship} %}
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Modules</h2>
+            <div class="info">
+                {% for modules in ship.modules %}
+                    <h3>{{ modules.name }}</h3>
+                    <p>{{ modules.description }}</p>
+                    <p><em>Requires {{ modules.requirements.crew }} crew,
+                        {{ modules.requirements.power }} power, and
+                            {{ modules.requirements.slots }} slots. Capacity {{ modules.capacity }}</em>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Mounts</h2>
+            <div class="info">
+                {% for mount in ship.mounts %}
+                    <h3>{{ mount.name }}</h3>
+                    <p>{{ mount.description }}</p>
+                    <p><em>Requires {{ mount.requirements.crew }} crew and
+                            {{ mount.requirements.power }} power. Strength {{ mount.strength }}</em>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

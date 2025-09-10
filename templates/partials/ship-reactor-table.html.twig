@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>Power Output</th>
+        <th>Quality</th>
+        <th>Condition</th>
+        <th>Integrity</th>
+    </tr>
+    <tr>
+        <td>{{ ship.reactor.powerOutput }}</td>
+        <td>{{ ship.reactor.quality }}</td>
+        <td>{{ ship.reactor.condition }}</td>
+        <td>{{ ship.reactor.integrity }}</td>
+    </tr>
+</table>
+<p>Requires {{ ship.reactor.requirements.crew }} crew,
+    {{ ship.reactor.requirements.power }} power, and
+    {{ ship.reactor.requirements.slots }} slots. Capacity {{ mount.capacity }}
+</p>
