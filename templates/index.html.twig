@@ -14,8 +14,17 @@
             with {'ships': ships} %}
     </aside>
     <main>
+        <button data-system-id="X1-RY28"
+            onclick="renderSystemMap(this)"
+        >View System</button>
 
+        <a href="/systems/waypoint/map?system=X1-RY28"
+           up-target=".system-map"
+           up-preload="insert"
+           up-on-rendered="renderSystemMap()"
+        >View System</a>
 
+        <div id="system-map"></div>
     </main>
 </div>
 
@@ -43,10 +52,6 @@
     </select>
     <input type="submit" value="Search">
 </form>
-
-
-
-
 
 <h3>Ship Orders</h3>
 <form action="/ship/orders" target="_blank" method="post">
@@ -115,4 +120,9 @@
     <input type="submit" value="Jettison">
 </form>
 
+{% endblock %}
+
+{% block footerScripts %}
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    <script src="/js/system-map.js"></script>
 {% endblock %}
