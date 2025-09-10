@@ -207,3 +207,9 @@ ul.tags {
     width: 800px;
     height: 800px
 }
+
+.well {
+    padding: 1rem;
+    border: 5px inset #ccc;
+    margin: 0.5rem 0 1rem;
+}

@@ -263,15 +263,13 @@ function getMapData(systemID) {
         });
 }
 
-function renderSystemMap(element) {
-    let systemID = element.getAttribute('data-system-id')
+function renderSystemMap(systemID) {
     if (systemID) {
         getMapData(systemID);
     }
 }
 
 function showDrawer(waypoint) {
-    console.log(waypoint)
     let layer = up.layer.open({
         url: '/systems/waypoint?id=' + waypoint,
         target: '.content',

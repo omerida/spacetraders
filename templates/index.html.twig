@@ -14,15 +14,14 @@
             with {'ships': ships} %}
     </aside>
     <main>
-        <button data-system-id="X1-RY28"
-            onclick="renderSystemMap(this)"
-        >View System</button>
-
-        <a href="/systems/waypoint/map?system=X1-RY28"
-           up-target=".system-map"
-           up-preload="insert"
-           up-on-rendered="renderSystemMap()"
-        >View System</a>
+        <div class="well">
+            <select id="systemsSelect">
+                <option value="">Select System</option>
+                {{ helpers.select_options(systems) }}
+            </select>
+            <button onclick="renderSystemMap(document.getElementById('systemsSelect').value)"
+            >View System</button>
+        </div>
 
         <div id="system-map"></div>
     </main>
