@@ -143,23 +143,27 @@ function drawMap(waypoints) {
         pointsLayer.add(symbol)
     }
 
-    console.log(allLabels)
     // Prevent overlap of labels
-    allLabels = simulatedAnnealing(allLabels, 45)
-    console.log(allLabels)
+    allLabels = simulatedAnnealing(allLabels, 30)
     for (let i = 0; i < allLabels.length; i++) {
         const label = new Konva.Label({
             x: allLabels[i].x,
             y: allLabels[i].y
         })
-        label.add(new Konva.Tag({fill: 'black'}));
-        console.log(allLabels[i])
+        label.add(new Konva.Tag({fill: 'black', opacity: 0.55}));
+
+        // Strip out the system from the waypoint to keep
+        // point labels small
+        const regex = /[^-]+$/;
         label.add(new Konva.Text({
-            text: allLabels[i].value,
+            text: allLabels[i].value.match(regex),
             fontSize: 12,
             padding: 5,
-            fill: 'white'
+            fill: 'green'
         }))
+        label.on('click', () => {
+            showDrawer(allLabels[i].value)
+        })
         pointsLayer.add(label)
     }
     stage.add(pointsLayer)
@@ -173,7 +177,7 @@ function getMapSymbol(point) {
     const map_x = point.x + 400;
     const map_y = 800 - (point.y + 400);
     var label = new WaypointLabel(
-        map_x - 25,
+        map_x + 5,
         map_y + (Math.random() < 0.5 ? -1 : 1) * 25,
         point.symbol.waypoint
     )
@@ -229,7 +233,7 @@ function getMapSymbol(point) {
     }
 
     symbol.on('click', () => {
-        console.log('click ' + point.symbol.waypoint)
+        showDrawer(point.symbol.waypoint)
     })
 
 
@@ -264,4 +268,16 @@ function renderSystemMap(element) {
     if (systemID) {
         getMapData(systemID);
     }
+}
+
+function showDrawer(waypoint) {
+    console.log(waypoint)
+    let layer = up.layer.open({
+        url: '/systems/waypoint?id=' + waypoint,
+        target: '.content',
+        layer: 'swap',
+        mode: 'drawer',
+        size: 'grow'
+    })
+
 }
