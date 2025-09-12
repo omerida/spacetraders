@@ -255,14 +255,21 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
         ]);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'ship_cargo', path: '/ship/cargo', methods: ['GET'])]
-    public function shipCargo(): array
+    #[Route(
+        name: 'ship_cargo',
+        path: '/ship/cargo',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function shipCargo(): ResponseInterface
     {
         $ship = $this->getShipID();
-        return (array) $this->client->getShipCargo($ship);
+
+        $response = $this->client->getShipCargo($ship);
+        return $this->render('ships/cargo.html.twig', [
+            'ship' => $ship,
+            'cargo_details' => $response,
+        ]);
     }
 
     /**

@@ -17,6 +17,8 @@
                 <form action="/ship/orders" method="post"
                     up-submit
                     up-target=".ship-nav-status, .ship-cooldown"
+                    up-fail-target=".errors"
+                    up-fail-layer="new"
                     up-transition="cross-fade"
                 >
                     <input type="hidden" name="ship" value="{{ ship.symbol }}">
@@ -55,6 +57,14 @@
                     </select>
                     <input type="submit" value="Set Flight Mode">
                 </form>
+            </div>
+        </div>
+
+        <div class="card card-one-third">
+            <h2 class="title">Cargo</h2>
+            <div class="info">
+                {% include 'partials/ship-cargo-table.html.twig'
+                    with {'cargo_details': ship.cargo } %}
             </div>
         </div>
 

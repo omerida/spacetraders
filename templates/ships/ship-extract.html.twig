@@ -1,11 +1,11 @@
-{% include 'partials/ship-cooldown-table.html'
+{% include 'partials/ship-cooldown-table.html.twig'
     with {'cooldown': cooldown }
 %}
 
-{% include 'partials/ship-cargo-table.html'
-    with {'cargo': cargo }
+{% include 'partials/ship-cargo-table.html.twig'
+    with {'cargo_details': cargo }
 %}
 
-{% include 'partials/ship-extraction-table.html'
-    with {'extraction': extraction }
+{% include 'partials/ship-extraction-table.html.twig'
+    with {'extraction': extraction.extraction }
 %}

@@ -1,0 +1,13 @@
+<table class="ship-extract">
+    <tr>
+        <th>Good</th>
+        <th>Units</th>
+    </tr>
+    {{ dump(extraction) }}
+    {% for item in extraction.yield %}
+    <tr>
+        <td class="left"><b>{{ item.symbol.valuename }}</td>
+        <td>{{ item.units }}</td>
+    </tr>
+    {% endfor %}
+</table>

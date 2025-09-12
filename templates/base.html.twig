@@ -30,8 +30,13 @@
     {% include 'partials/breadcrumb.html.twig' %}
 {% endblock %}
 
+{% block errors %}
+    <div class="errors"></div>
+{% endblock %}
+
 
 <div id="content" class="content">{% block content %}{% endblock %}</div>
+
 
 {% block footerScripts %}
 {% endblock %}
