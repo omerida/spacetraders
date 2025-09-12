@@ -9,25 +9,52 @@
             <div class="info">
                 <p><b>Waypoint:</b> {{ ship.nav.waypointSymbol }}</p>
                 <h3>Route</h3>
+                {% include 'partials/ship-nav-table.html.twig'
+                    with {'nav' : ship.nav} %}
 
-                <dl>
-                    <dt>Current Status</dt>
-                    <dd><b>{{ ship.nav.status.value|machine2readable }}</b></dd>
-                    <dt>Flight Mode</dt>
-                    <dd><b>{{ ship.nav.flightMode.value|machine2readable }}</b></dd>
-                    <dt>Destination</dt>
-                    <dd>{{ ship.nav.route.destination.symbol }}
-                        ({{ ship.nav.route.destination.type.value }})
-                    </dd>
-                    <dt>Origin</dt>
-                    <dd>{{ ship.nav.route.origin.symbol }}
-                        ({{ ship.nav.route.origin.type.value }})
-                    </dd>
-                    <dt>Departure Time</dt>
-                    <dd>{{ ship.nav.departureTime.date|date }}</dd>
-                    <dt>Arrival Time</dt>
-                    <dd>{{ ship.nav.departureTime.date|date }}</dd>
-                </dl>
+                <h3>Ship Orders</h3>
+
+                <form action="/ship/orders" method="post"
+                    up-submit
+                    up-target=".ship-nav-status, .ship-cooldown"
+                    up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <select name="order" required>
+                        <option disabled>--Select Order--</option>
+                        <option value="orbit">Orbit</option>
+                        <option value="dock">Dock</option>
+                        <option value="extract">Extract</option>
+                        <option value="refuel">Refuel</option>
+                    </select>
+                    <input type="submit" value="Issue Order">
+                </form>
+
+                <h3>Navigate</h3>
+                <form action="/ship/navigate" target="_blank" method="post"
+                    up-submit
+                    up-target=".ship-nav-status, .ship-fuel"
+                    up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <input type="text" name="waypoint"
+                           placeholder="waypoint" required>
+                    <input type="submit" value="Navigate Ship">
+                </form>
+
+                <h3>Set Flight Mode</h3>
+                <form action="/ship/set-flight-mode" method="post"
+                    up-submit
+                    up-target=".ship-nav-status, .ship-fuel"
+                    up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <select name="flightmode" required>
+                        <option value="">--Select Flight Mode--</option>
+                        {{ helpers.select_options(flightModes) }}
+                    </select>
+                    <input type="submit" value="Set Flight Mode">
+                </form>
             </div>
         </div>
 
@@ -35,28 +62,13 @@
             <h2 class="title">Data</h2>
             <div class="info">
                 <h3>Fuel</h3>
-                <table>
-                    <tr>
-                        <th>Current</th>
-                        <th>Capacity</th>
-                    </tr>
-                    <tr>
-                        <td>{{ ship.fuel.current|number_format }}</td>
-                        <td>{{ ship.fuel.capacity|number_format }}</td>
-                    </tr>
-                </table>
+                {% include 'partials/ship-fuel-table.html.twig'
+                    with {'fuel' : ship.fuel} %}
 
                 <h3>Cooldown</h3>
-                <table>
-                    <tr>
-                        <th>Total</th>
-                        <th>Remaining</th>
-                    </tr>
-                    <tr>
-                        <td>{{ ship.cooldown.totalSeconds|number_format }}</td>
-                        <td>{{ ship.cooldown.remaining|number_format }}</td>
-                    </tr>
-                </table>
+                {% include 'partials/ship-cooldown-table.html.twig'
+                    with {'cooldown': ship.cooldown }
+                %}
             </div>
         </div>
         <div class="card card-one-third">
@@ -120,7 +132,7 @@
                     <h3>{{ modules.name }}</h3>
                     <p>{{ modules.description }}</p>
                     <p><em>Requires {{ modules.requirements.crew }} crew,
-                        {{ modules.requirements.power }} power, and
+                            {{ modules.requirements.power }} power, and
                             {{ modules.requirements.slots }} slots. Capacity {{ modules.capacity }}</em>
                     </p>
                 {% endfor %}

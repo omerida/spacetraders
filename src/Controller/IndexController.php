@@ -20,10 +20,18 @@ class IndexController implements TwigAwareInterface
     ) {
     }
 
-    #[Route(name: 'homepage', path: '/', methods: ['GET'], strategy: 'application')]
+    #[Route(
+        name: 'homepage',
+        path: '/',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
     public function index(): ResponseInterface
     {
         $agent = $this->client->myAgent();
+
+        $systems = [];
+
         $systems[$agent->headquarters->system] = [
             'name' => $agent->headquarters->system,
             'value' => $agent->headquarters->system,
@@ -51,7 +59,6 @@ class IndexController implements TwigAwareInterface
             'shipOpts' => $shipOpts,
             'systems' => $systems,
             'types' => WaypointType::cases(),
-            'flightModes' => FlightMode::cases(),
             'cargoTypes' => GoodsSymbol::cases(),
         ]);
     }

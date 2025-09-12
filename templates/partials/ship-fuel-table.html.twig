@@ -1,0 +1,12 @@
+<table class="ship-fuel">
+    <tr>
+        <th>Current</th>
+        <th>Capacity</th>
+        <th>Consumed</th>
+    </tr>
+    <tr>
+        <td>{{ fuel.current|number_format }}</td>
+        <td>{{ fuel.capacity|number_format }}</td>
+        <td>{{ fuel.consumed.amount|number_format }}</td>
+    </tr>
+</table>

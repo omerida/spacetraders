@@ -3,11 +3,17 @@
 namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Response;
 
 class Agents extends \Phparch\SpaceTraders\Client
 {
+    /**
+     * @throws GuzzleException
+     * @throws APIException
+     * @throws \JsonException
+     */
     public function myAgent(): Response\Agent
     {
         try {

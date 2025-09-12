@@ -1,0 +1,30 @@
+<table class="ship-nav-status">
+    <tr>
+        <th>Current Status</th>
+        <th>Flight Mode</th>
+    </tr>
+    <tr>
+        <td><b>{{ nav.status.value|machine2readable }}</b></td>
+        <td><b>{{ nav.flightMode.value|machine2readable }}</b></td>
+    </tr>
+    <tr>
+        <th>Destination</th>
+        <th>Origin</th>
+    </tr>
+    <tr>
+        <td>{{ nav.route.destination.symbol }}
+            ({{ nav.route.destination.type.value }})
+        </td>
+        <td>{{ nav.route.origin.symbol }}
+            ({{ nav.route.origin.type.value }})
+        </td>
+    </tr>
+    <tr>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+    </tr>
+    <tr>
+        <td>{{ nav.route.departureTime.date|date }}</td>
+        <td>{{ nav.route.arrival.date|date }}</td>
+    </tr>
+</table>

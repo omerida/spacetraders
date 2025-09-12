@@ -52,45 +52,6 @@
     <input type="submit" value="Search">
 </form>
 
-<h3>Ship Orders</h3>
-<form action="/ship/orders" target="_blank" method="post">
-    <select name="ship" required>
-        <option disabled>--Select Ship--</option>
-        {{ helpers.select_options(shipOpts) }}
-    </select>
-    <select name="order" required>
-        <option disabled>--Select Order--</option>
-        <option value="orbit">Orbit</option>
-        <option value="dock">Dock</option>
-        <option value="extract">Extract</option>
-        <option value="refuel">Refuel</option>
-    </select>
-    <input type="submit" value="Issue Order">
-</form>
-
-<h3>Navigate</h3>
-<form action="/ship/navigate" target="_blank" method="post">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ helpers.select_options(shipOpts) }}
-    </select>
-    <input type="text" name="waypoint" placeholder="waypoint" required>
-    <input type="submit" value="Navigate Ship">
-</form>
-
-<h3>Set Flight Mode</h3>
-<form action="/ship/set-flight-mode" target="_blank" method="post">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ helpers.select_options(shipOpts) }}
-    </select>
-    <select name="flightmode" required>
-        <option value="">--Select Flight Mode--</option>
-        {{ helpers.select_options(flightModes) }}
-    </select>
-    <input type="submit" value="Set Flight Mode">
-</form>
-
 <h3>Sell Goods</h3>
 <form action="/ship/sell-goods" target="_blank" method="POST">
     <select name="ship" required>
@@ -106,7 +67,7 @@
 </form>
 
 <h3>Jettison Goods</h3>
-<form action="/ship/sell-goods" target="_blank" method="POST">
+<form action="/ship/jettison-goods" target="_blank" method="POST">
     <select name="ship" required>
         <option>--Select Ship--</option>
         {{ helpers.select_options(shipOpts) }}
