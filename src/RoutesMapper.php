@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+use Twig\Environment;
 
 /**
  * Looks recursively in $root folder for any methods with the
@@ -57,6 +58,13 @@ class RoutesMapper
         RouteInfo $info
     ): Router {
         $controller = $this->container->get($info->class);
+
+        if ($controller instanceof TwigAwareInterface) {
+            $env = $this->container->get(Environment::class);
+            if ($env instanceof Environment) {
+                $controller->setTwigEnvironment($env);
+            }
+        }
 
         $route = $router->map(
             $info->httpMethods,

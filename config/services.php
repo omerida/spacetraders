@@ -5,6 +5,7 @@ use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Phparch\SpaceTraders;
 use Phparch\SpaceTraders\ServiceContainer;
+use Phparch\SpaceTraders\TwigExtensions;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
@@ -38,5 +39,23 @@ return [
             container: ServiceContainer::instance(),
             useAPCu: $_ENV['USE_APCU'] === 1
         );
+    },
+    Twig\Environment::class => function () {
+        $twig = new Twig\Environment(
+            new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/templates/'),
+            [
+                'debug' => $_ENV['TWIG_DEBUG'] ?? false,
+                'cache' => dirname(__DIR__) . '/templates_cache/',
+                'auto_reload' => $_ENV['TWIG_AUTORELOAD'] ?? false,
+                'autoescape' => 'html'
+            ]
+        );
+        if ($twig->isDebug()) {
+            $twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
+        $twig->addExtension(
+            new \Twig\Extension\AttributeExtension(TwigExtensions::class)
+        );
+        return $twig;
     }
 ];

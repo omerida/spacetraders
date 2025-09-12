@@ -1,0 +1,28 @@
+<?php
+
+namespace Phparch\SpaceTraders\Controller\Trait;
+
+use GuzzleHttp\Psr7\Response;
+use Twig\Environment;
+
+trait TwigAwareController
+{
+    protected Environment $twig;
+
+    public function setTwigEnvironment(Environment $twig): void
+    {
+        $this->twig = $twig;
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function render(string $template, array $parameters = [], int $status = 200): Response
+    {
+        $response = new Response();
+        $response->getBody()->write(
+            $this->twig->render($template, $parameters)
+        );
+        return $response->withStatus($status);
+    }
+}

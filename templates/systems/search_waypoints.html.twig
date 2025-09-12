@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <div class="flex">
+        {% for point in waypoints %}
+            <div class="card card-one-fifth">
+                <h2 class="title">{{ point.symbol }}</h2>
+                <div class="info">
+                    <p>{{ point.type|machine2readable }}
+                        @ ({{ point.x }}, {{ point.y }})</p>
+
+                    {% if point.orbitals is defined and point.orbitals is not empty %}
+                        <h3>Orbitals</h3>
+                        <ol>
+                            {% for item in point.orbitals %}
+                                <li>{{ _self.link(
+                                        viewWaypointPath(item.symbol),
+                                        item.symbol,
+                                    ) }} </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+
+                    {% if point.traits is defined and point.traits is not empty %}
+                        <h3>Traits</h3>
+                        <ul class="tags">
+                            {% for item in point.traits %}
+                                <li>{{ item.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if point.modifiers is defined and point.modifiers is not empty %}
+                        <h3>Modifiers</h3>
+                        <ul>
+                            {% for item in point.modifiers %}
+                                <li>{{ item.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <h3>Chart</h3>
+                    <p>{{ _self.link(
+                            viewWaypointPath(point.chart.waypointSymbol),
+                            point.chart.waypointSymbol,
+                        ) }}
+                        submitted by {{ point.chart.submittedBy }}
+                        on {{ point.submitedOn|date }}
+                    </p>
+                    <p>Claimed by {{ point.faction.symbol }}</p>
+                    {% if point.isUnderConstruction == true %}
+                        <p>This waypoint is under construction</p>
+                    {% endif %}
+
+                    {% if point.orbits is not empty %}
+                        <p>Orbits {{ _self.link(
+                            viewWaypointPath(point.orbits),
+                            point.orbits,
+                        ) }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -5,3 +5,4 @@ vendor/
 .idea
 /docker/data/*.rdb
 tmp/
+/.twig-cs-fixer.cache

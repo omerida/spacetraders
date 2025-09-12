@@ -31,22 +31,6 @@ $router->middleware(new Auth($_ENV["SPACETRADERS_TOKEN"] ?? ''));
 $mapper = ServiceContainer::get(RoutesMapper::class);
 $router = $mapper->registerAll($router);
 
-$router->map('GET', '/old', function (ServerRequestInterface $request): array {
-    $now = new \DateTimeImmutable('now');
-    return [
-        'msg' => 'Hello, world.',
-        'now' => $now->format(DATE_ATOM)
-    ];
-})->setStrategy(new Route\Strategy\ApplicationStrategy());
-
-$router->map(
-    'GET', '/my/contracts',
-    function (ServerRequestInterface $request): array {
-        $client = ServiceContainer::get(Client\Contracts::class);
-        return (array) $client->myContracts();
-    }
-);
-
 $response = $router->dispatch($request);
 
 // send the response to the browser

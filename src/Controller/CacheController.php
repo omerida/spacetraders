@@ -3,9 +3,13 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use Phparch\SpaceTraders\Attribute\Route;
+use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\RequestAwareInterface;
 
-class CacheController extends RequestAwareController
+class CacheController implements RequestAwareInterface
 {
+    use RequestAwareController;
+
     /**
      * @return array<string, mixed>
      */
@@ -14,7 +18,6 @@ class CacheController extends RequestAwareController
     {
         return apcu_cache_info();
     }
-
 
     /**
      * @return array{success: bool}

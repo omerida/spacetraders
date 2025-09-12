@@ -1,0 +1,101 @@
+<div class="card card-one-third">
+    <h3 class="title">{{ ship.name }}</h3>
+    <div class="info">
+        <p><em>{{ ship.description }}</em></p>
+        <p>{{ ship.supply.name|machine2readable }}, {{ ship.activity.value|machine2readable }}</p>
+        <p><b>Price:</b> {{ ship.purchasePrice|number_format }}</p>
+
+        <h4>Frame - {{ ship.frame.name }}</h4>
+        <p>{{ ship.frame.dscription }}</p>
+        <table>
+            <tr>
+                <th>Module Slots</th>
+                <th>Mounting Points</th>
+                <th>Fuel Capactiy</th>
+            </tr>
+            <tr>
+                <td>{{ ship.frame.moduleSlots }}</td>
+                <td>{{ ship.frame.mountingPoints }}</td>
+                <td>{{ ship.frame.fuelCapacity }}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Quality</th>
+                <th>Condition</th>
+                <th>Integrity</th>
+            </tr>
+            <tr>
+                <td>{{ ship.frame.quality }}</td>
+                <td>{{ ship.frame.condition }}</td>
+                <td>{{ ship.frame.integrity }}</td>
+            </tr>
+        </table>
+        <p>Requires {{ ship.frame.requirements.crew }} crew,
+            {{ ship.frame.requirements.power }} power, and
+            {{ ship.frame.requirements.slots }} slots.
+        </p>
+
+        <h4>Reactor - {{ ship.reactor.name }}</h4>
+        <p>{{ ship.reactor.dscription }}</p>
+        <table>
+            <tr>
+                <th>Power Output</th>
+                <th>Quality</th>
+                <th>Condition</th>
+                <th>Integrity</th>
+            </tr>
+            <tr>
+                <td>{{ ship.reactor.powerOutput }}</td>
+                <td>{{ ship.reactor.quality }}</td>
+                <td>{{ ship.reactor.condition }}</td>
+                <td>{{ ship.reactor.integrity }}</td>
+            </tr>
+        </table>
+        <p>Requires {{ ship.reactor.requirements.crew }} crew,
+            {{ ship.reactor.requirements.power }} power, and
+            {{ ship.reactor.requirements.slots }} slots. Capacity {{ mount.capacity }}
+        </p>
+
+        <h4>Engine - {{ ship.engine.name }}</h4>
+        <p>{{ ship.engine.dscription }}</p>
+        <table>
+            <tr>
+                <th>Speed</th>
+                <th>Quality</th>
+                <th>Condition</th>
+                <th>Integrity</th>
+            </tr>
+            <tr>
+                <td>{{ ship.engine.speed }}</td>
+                <td>{{ ship.engine.quality }}</td>
+                <td>{{ ship.engine.condition }}</td>
+                <td>{{ ship.engine.integrity }}</td>
+            </tr>
+        </table>
+        <p>Requires {{ ship.engine.requirements.crew }} crew,
+            {{ ship.engine.requirements.power }} power, and
+            {{ ship.engine.requirements.slots }} slots. Capacity {{ mount.capacity }}
+        </p>
+
+        <h4>Modules</h4>
+        {% for modules in ship.modules %}
+            <h5>{{ modules.name }}</h5>
+            <p>{{ modules.description }}</p>
+            <p>Requires {{ modules.requirements.crew }} crew,
+                {{ modules.requirements.power }} power, and
+                {{ modules.requirements.slots }} slots. Capacity {{ mount.capacity }}
+            </p>
+        {% endfor %}
+        <h4>Mounts</h4>
+        {% for mount in ship.mounts %}
+            <h5>{{ mount.name }}</h5>
+            <p>{{ mount.description }}</p>
+            <p>Requires {{ mount.requirements.crew }} crew and
+                {{ mount.requirements.power }} power. Strength {{ mount.strenght }}
+            </p>
+        {% endfor %}
+        <h4>Crew</h4>
+        <p>Required: {{ ship.crew.required }}, Capacity {{ ship.crew.capacity }}</p>
+    </div>
+</div>

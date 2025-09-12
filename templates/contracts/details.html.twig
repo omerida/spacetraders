@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% set breadcrumbs = [
+    { label: 'Contracts', url: '/contracts/' },
+    { label: contract.id}
+] %}
+
+{% block content %}
+
+{% if contract.fulfilled %}
+    {% set state="Fulfilled" %}
+{% elseif contract.accepted %}
+    {% set state="Accepted" %}
+{% else %}
+    {% set state="Pending" %}
+{% endif %}
+<h1></h1>
+
+<div class="card card-one-third contract-card">
+    <h1 class="title">Contract {{ contract.id }}</h1>
+    <div class="info">
+        <p>{{ contract.type.value }} | <b><span class="state">{{ state }}</b></p>
+        <p><b>Faction:</b> {{ contract.factionSymbol.faction }}</p>
+        <p><b>Deadline:</b> {{ contract.terms.deadline.date|date }}</p>
+        <p><b>Expires:</b> {{ contract.expiration|date }}</span></p>
+        {% if not contract.accepted %}
+            <p>
+                <b>Deadline to Accept:</b>
+                {{ contract.deadlineToAccept|date }}
+            </p>
+            <form method="post" action="/contract/accept/">
+                <input type="hidden" name="id" value="{{ contract.id }}">
+                <button value="accept">Accept</button>
+            </form>
+        {% endif %}
+
+        <h3>Terms</h3>
+        <div>
+            <div>
+                <p>Payment</p>
+                <ul>
+                    <li>
+                        On Acceptance: <span>{{ contract.terms.payment.onAccepted|number_format }}</span> credits
+                    </li>
+                    <li>
+                        On Fulfillment: <span>{{ contract.terms.payment.onFulfilled|number_format }}</span> credits
+                    </li>
+                </ul>
+            </div>
+            {% if contract.terms.deliver is defined and contract.terms.deliver is not empty %}
+                <div>
+                    <p>Deliver Items</p>
+                    <ul>
+                        {% for item in contract.terms.deliver %}
+                            <li>
+                                {{ item.unitsRequired }} units of {{ item.tradeSymbol }} to
+                                {{ _self.blank_link(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
+                                <span>(Progress: {{ item.unitsFulfilled }} / {{ item.unitsRequired }})</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
