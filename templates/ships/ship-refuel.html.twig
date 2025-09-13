@@ -1,0 +1,32 @@
+{% include 'partials/ship-fuel-table.html.twig'
+    with {'fuel': fuel }
+%}
+
+<div class="order-result">
+    <table>
+        <tr>
+            <th>Goods</th>
+            <td>{{ transaction.tradeSymbol.value }}</td>
+        </tr>
+        <tr>
+            <th>Txn</th>
+            <td>{{ transaction.type.value }}</td>
+        </tr>
+        <tr>
+            <th>Units</th>
+            <td>{{ transaction.units }}</td>
+        </tr>
+        <tr>
+            <th>per Unit</th>
+            <td>{{ transaction.pricePerUnit|number_format }}</td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td>{{ transaction.totalPrice|number_format }}</td>
+        </tr>
+        <tr>
+            <th>Time</th>
+            <td>{{ transaction.timestamp|date }}</td>
+        </tr>
+    </table>
+</div>

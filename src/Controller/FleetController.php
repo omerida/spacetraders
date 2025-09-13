@@ -126,7 +126,9 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             case 'refuel':
                 $response = $this->client->refuelShip($ship);
                 return $this->render('ships/ship-refuel.html.twig', [
-
+                    'agent' => $response->agent,
+                    'fuel' => $response->fuel,
+                    'transaction' => $response->transaction
                 ]);
             default:
                 throw new BadRequestException("Unknown or missing order");
@@ -230,9 +232,15 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
         $ID = $this->getShipID();
         $ship = $this->client->getShip($ID);
 
+        $atFuelStation = (
+            $ship->nav->route->destination->isFuelStation()
+            && !$ship->nav->isInTransit()
+        );
+
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,
             'flightModes' => FlightMode::cases(),
+            'atFuelStation' => $atFuelStation,
         ]);
     }
 
@@ -285,7 +293,11 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
     /**
      * @return array<mixed>
      */
-    #[Route(name: 'ship_mounts', path: '/ship/mounts', methods: ['GET'])]
+    #[Route(
+        name: 'ship_mounts',
+        path: '/ship/mounts',
+        methods: ['GET']
+    )]
     public function shipMounts(): array
     {
         $ship = $this->getShipID();

@@ -1,6 +1,5 @@
 {% import "macros/helpers.html.twig" as helpers %}
 
-
 <table>
     <tr>
         <th>Symbol</th>
@@ -11,7 +10,7 @@
     </tr>
     <tr>
         <td>{{ agent.symbol }}</td>
-        <td>{{ helpers.drawer_link_Grow(
+        <td>{{ helpers.drawer_link_grow(
                 viewWaypointPath(agent.headquarters),
                 agent.headquarters) }}</td>
         <td>{{ agent.credits|number_format }}</td>

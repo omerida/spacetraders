@@ -1,3 +1,5 @@
+{% import "macros/helpers.html.twig" as helpers %}
+
 <table class="ship-nav-status">
     <tr>
         <th>Current Status</th>
@@ -12,11 +14,16 @@
         <th>Origin</th>
     </tr>
     <tr>
-        <td>{{ nav.route.destination.symbol }}
-            ({{ nav.route.destination.type.value }})
+        <td>{{ helpers.drawer_link_grow(
+                viewWaypointPath(nav.route.destination.symbol),
+                nav.route.destination.symbol) }}
+            <em>{{ nav.route.destination.type.value }}</em>
         </td>
-        <td>{{ nav.route.origin.symbol }}
-            ({{ nav.route.origin.type.value }})
+        <td>
+            {{ helpers.drawer_link_grow(
+                viewWaypointPath(nav.route.origin.symbol),
+                nav.route.origin.symbol) }}
+            <em>{{ nav.route.origin.type.value }})</em>
         </td>
     </tr>
     <tr>

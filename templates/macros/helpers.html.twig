@@ -1,35 +1,43 @@
 {% macro blank_link(path, text) %}
-    <a href="{{ path|e('html_attr') }}" target="_blank">{{ text ?: path }}</a>
+    <a href="{{ path|e('html_attr') }}"
+       target="_blank">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro modal_link(path, text) %}
-    <a href="{{ path|e('html_attr') }}" up-target=".content"
+{% macro modal_link(path, text, cache) %}
+    <a href="{{ path|e('html_attr') }}"
+       up-target=".content"
+       up-cache="{{ cache ? 'true': 'false' }}"
        up-layer="new">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro modal_link_grow(path, text) %}
+{% macro modal_link_grow(path, text, cache) %}
     <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="grow"
+       up-cache="{{ cache ? 'true': 'false' }}"
        up-layer="new">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro drawer_link(path, text) %}
-    <a href="{{ path|e('html_attr') }}" up-target=".content"
+{% macro drawer_link(path, text, cache) %}
+    <a href="{{ path|e('html_attr') }}"
+       up-target=".content"
+       up-cache="{{ cache ? 'true': 'false' }}"
        up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro drawer_link_grow(path, text) %}
+{% macro drawer_link_grow(path, text, cache) %}
     <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="grow"
+       up-cache="{{ cache ? 'true': 'false' }}"
        up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro drawer_link_large(path, text) %}
+{% macro drawer_link_large(path, text, cache) %}
     <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="large"
+       up-cache="{{ cache ? 'true': 'false' }}"
        up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 

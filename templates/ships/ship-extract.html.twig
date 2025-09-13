@@ -6,6 +6,8 @@
     with {'cargo_details': cargo }
 %}
 
-{% include 'partials/ship-extraction-table.html.twig'
-    with {'extraction': extraction.extraction }
-%}
+<div class="order-result">
+    {% include 'partials/ship-extraction-table.html.twig'
+        with {'extraction': extraction.extraction }
+    %}
+</div>

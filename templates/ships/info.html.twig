@@ -7,7 +7,10 @@
         <div class="card">
             <h2 class="title">Navigation</h2>
             <div class="info">
-                <p><b>Waypoint:</b> {{ ship.nav.waypointSymbol }}</p>
+                <h3>Current Waypoint</h3>
+                {{ helpers.drawer_link_grow(
+                    viewWaypointPath(ship.nav.waypointSymbol),
+                    ship.nav.waypointSymbol) }}
                 <h3>Route</h3>
                 {% include 'partials/ship-nav-table.html.twig'
                     with {'nav' : ship.nav} %}
@@ -78,7 +81,6 @@
                     <input type="number" name="units" placeholder="units" required>
                     <input type="submit" value="Jettison">
                 </form>
-
             </div>
         </div>
 
@@ -87,7 +89,8 @@
             <div class="info">
                 <form action="/ship/orders" method="post"
                       up-submit
-                      up-target=".ship-nav-status, .ship-cooldown"
+                      up-target=".ship-nav-status:maybe, .ship-cooldown:maybe,
+                        .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe"
                       up-fail-target=".errors"
                       up-fail-layer="new"
                       up-transition="cross-fade"
@@ -95,7 +98,7 @@
                     <input type="hidden" name="ship"
                            value="{{ ship.symbol|e('html_attr') }}">
                     <select name="order" required>
-                        <option disabled>--Select Order--</option>
+                        <option value="">--Select Order--</option>
                         <option value="orbit">Orbit</option>
                         <option value="dock">Dock</option>
                         <option value="extract">Extract</option>
@@ -105,9 +108,9 @@
                 </form>
 
                 <h3>Navigate</h3>
-                <form action="/ship/navigate" target="_blank" method="post"
+                <form action="/ship/navigate" method="post"
                       up-submit
-                      up-target=".ship-nav-status, .ship-fuel"
+                      up-target=".ship-nav-status"
                       up-transition="cross-fade"
                 >
                     <input type="hidden" name="ship"
@@ -120,7 +123,7 @@
                 <h3>Set Flight Mode</h3>
                 <form action="/ship/set-flight-mode" method="post"
                       up-submit
-                      up-target=".ship-nav-status, .ship-fuel"
+                      up-target=".ship-nav-status"
                       up-transition="cross-fade"
                 >
                     <input type="hidden" name="ship" value="{{ ship.symbol }}">
@@ -130,6 +133,8 @@
                     </select>
                     <input type="submit" value="Set Flight Mode">
                 </form>
+
+                <div class="order-result"></div>
             </div>
         </div>
 
