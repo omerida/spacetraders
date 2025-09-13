@@ -1,0 +1,10 @@
+<form action="{{ action }}" method="post"
+      up-submit
+      up-target="{{ up_target }}"
+      up-fail-target=".errors"
+      up-fail-layer="new"
+      up-transition="cross-fade"
+>
+    {% block form_body %}
+    {% endblock %}
+</form>
