@@ -40,12 +40,12 @@
             {% for trait in location.traits %}
                 <tr>
                     {% if trait.symbol == 'SHIPYARD' %}
-                        <td><b>{{ helpers.blank_link(
+                        <td><b>{{ helpers.drawer_link_grow(
                                     viewShipyardPath(location.symbol),
                                     trait.name,
                                 ) }}</b></td>
                     {% elseif trait.symbol == 'MARKETPLACE' %}
-                        <td><b>{{ helpers.blank_link(
+                        <td><b>{{ helpers.drawer_link_grow(
                                     viewMarketplacePath(location.symbol),
                                     trait.name,
                                 ) }}</b></td>

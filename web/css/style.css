@@ -113,7 +113,8 @@ nav.breadcrumb [aria-current="page"] {
 table {
     border-collapse: collapse;
     border: 1px solid var(--color-emphasis);
-
+    max-height: 45vh;
+    overflow: auto;
     th {
         padding: 0.5rem 1.25rem;
         background-color: var(--color-emphasis);
@@ -144,26 +145,29 @@ table {
     }
 }
 
-/* Basic Card */
-.card {
-    border: 1px solid var(--color-emphasis);
-}
 
 
-/* Basic Flex layout */
 
+/* Flex layout for putting children in rows that wrap */
 .flex {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1rem;
-    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom:1rem;
+    align-content: stretch;
+
+    /* Expand children to fill width
+     */
+    > * {
+        flex-grow: 1;
+    }
 }
 
 /* A simple card */
 .card {
     border-radius: 0 0 .5rem .5rem;
-
+    border: 1px solid var(--color-emphasis);
     .title {
         padding: 0.5rem 1rem;
         background-color: var(--color-emphasis);
@@ -174,13 +178,12 @@ table {
     }
 
     .info {
-
-        padding: 0.25rem 0.5rem 1rem;
+        padding: 0.5rem 0.75rem 0.5rem;
 
         h3, h4, h4 {
             background-color: var(--color-emphasis-alt);
-            margin: 1rem -.5rem 0.5rem;
-            padding: 0.5rem 0.75rem;
+            margin: 1rem -.75rem 0.5rem;
+            padding: 0.5rem 1rem;
         }
 
         table {
@@ -198,17 +201,17 @@ table {
     }
 }
 
-.card-one-third {
-    width: 32%;
+.one-third {
+    max-width: max(32%, 32vw);
 }
 
-.card-two-thirds {
-    width: 65%;
+.two-thirds {
+    max-width: max(65%, 65vw);
+
 }
 
-
-.card-one-fifth {
-    max-width: 20%;
+.one-fifth {
+    max-width: max(19%, 19vw);
 }
 
 ul.tags {

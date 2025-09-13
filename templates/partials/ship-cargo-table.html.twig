@@ -5,8 +5,8 @@
     </tr>
     {% for item in cargo_details.inventory %}
     <tr>
-        <td class="left"><b>{{ item.name }}, </b><br>
-            <small>{{ item.description }} <em>{{ item.symbol.value }}</em></small>
+        <td class="left"><b>{{ item.name }}</b><br>
+            {{ item.description }} <em>{{ item.symbol.value }}</em>
         </td>
         <td>{{ item.units }}</td>
     </tr>

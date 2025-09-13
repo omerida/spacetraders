@@ -1,31 +1,33 @@
 {% macro blank_link(path, text) %}
-    <a href="{{ path }}" target="_blank">{{ text ?: path }}</a>
+    <a href="{{ path|e('html_attr') }}" target="_blank">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro modal_link(path, text) %}
-    <a href="{{ path }}" up-target=".content" up-layer="new">{{ text ?: path }}</a>
+    <a href="{{ path|e('html_attr') }}" up-target=".content"
+       up-layer="new">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro modal_link_grow(path, text) %}
-    <a href="{{ path }}"
+    <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="grow"
        up-layer="new">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro drawer_link(path, text) %}
-    <a href="{{ path }}" up-target=".content" up-layer="new drawer">{{ text ?: path }}</a>
+    <a href="{{ path|e('html_attr') }}" up-target=".content"
+       up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro drawer_link_grow(path, text) %}
-    <a href="{{ path }}"
+    <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="grow"
        up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro drawer_link_large(path, text) %}
-    <a href="{{ path }}"
+    <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-size="large"
        up-layer="new drawer">{{ text ?: path }}</a>
@@ -37,6 +39,6 @@
 
 {% macro select_options(options) %}
     {% for opt in options %}
-      <option value="{{ opt.value }}"> {{ opt.name }} </option>
+      <option value="{{ opt.value|e('html_attr') }}">{{ opt.name }}</option>
     {% endfor %}
 {% endmacro %}

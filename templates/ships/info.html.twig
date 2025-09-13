@@ -4,7 +4,7 @@
 {% block content %}
     <h1>{{ ship.symbol }}</h1>
     <div class="flex">
-        <div class="card card-one-third">
+        <div class="card">
             <h2 class="title">Navigation</h2>
             <div class="info">
                 <p><b>Waypoint:</b> {{ ship.nav.waypointSymbol }}</p>
@@ -12,63 +12,10 @@
                 {% include 'partials/ship-nav-table.html.twig'
                     with {'nav' : ship.nav} %}
 
-                <h3>Ship Orders</h3>
-
-                <form action="/ship/orders" method="post"
-                    up-submit
-                    up-target=".ship-nav-status, .ship-cooldown"
-                    up-fail-target=".errors"
-                    up-fail-layer="new"
-                    up-transition="cross-fade"
-                >
-                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                    <select name="order" required>
-                        <option disabled>--Select Order--</option>
-                        <option value="orbit">Orbit</option>
-                        <option value="dock">Dock</option>
-                        <option value="extract">Extract</option>
-                        <option value="refuel">Refuel</option>
-                    </select>
-                    <input type="submit" value="Issue Order">
-                </form>
-
-                <h3>Navigate</h3>
-                <form action="/ship/navigate" target="_blank" method="post"
-                    up-submit
-                    up-target=".ship-nav-status, .ship-fuel"
-                    up-transition="cross-fade"
-                >
-                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                    <input type="text" name="waypoint"
-                           placeholder="waypoint" required>
-                    <input type="submit" value="Navigate Ship">
-                </form>
-
-                <h3>Set Flight Mode</h3>
-                <form action="/ship/set-flight-mode" method="post"
-                    up-submit
-                    up-target=".ship-nav-status, .ship-fuel"
-                    up-transition="cross-fade"
-                >
-                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                    <select name="flightmode" required>
-                        <option value="">--Select Flight Mode--</option>
-                        {{ helpers.select_options(flightModes) }}
-                    </select>
-                    <input type="submit" value="Set Flight Mode">
-                </form>
             </div>
         </div>
 
-        <div class="card card-one-third">
-            <h2 class="title">Cargo</h2>
-            <div class="info">
-                {% include 'partials/ship-cargo-table.html.twig'
-                    with {'cargo_details': ship.cargo } %}
-            </div>
-        </div>
-
-        <div class="card card-one-third">
+        <div class="card">
             <h2 class="title">Data</h2>
             <div class="info">
                 <h3>Fuel</h3>
@@ -77,11 +24,11 @@
 
                 <h3>Cooldown</h3>
                 {% include 'partials/ship-cooldown-table.html.twig'
-                    with {'cooldown': ship.cooldown }
-                %}
+                    with {'cooldown': ship.cooldown } %}
             </div>
         </div>
-        <div class="card card-one-third">
+
+        <div class="card">
             <h2 class="title">Crew</h2>
             <div class="info">
                 <table>
@@ -108,7 +55,85 @@
                 </table>
             </div>
         </div>
-        <div class="card card-one-third">
+
+        <div class="card two-thirds">
+            <h2 class="title">Cargo</h2>
+            <div class="info">
+                {% include 'partials/ship-cargo-table.html.twig'
+                    with {'cargo_details': ship.cargo } %}
+                <h3>Jettison Goods</h3>
+                <form action="/ship/jettison-goods"
+                      target="_blank"
+                      method="POST"
+                >
+                    <input type="hidden" name="ship" value="{{ ship.symbol|e('html_attr') }}">
+                    <select name="good" required>
+                        <option value="">--Select Trade Good--</option>
+                        {% for item in ship.cargo.inventory %}
+                            <option value="{{ item.symbol.value|e('html_attr') }}">
+                                {{ item.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="units" placeholder="units" required>
+                    <input type="submit" value="Jettison">
+                </form>
+
+            </div>
+        </div>
+
+        <div class="card one-third">
+            <h2 class="title">Ship Orders</h2>
+            <div class="info">
+                <form action="/ship/orders" method="post"
+                      up-submit
+                      up-target=".ship-nav-status, .ship-cooldown"
+                      up-fail-target=".errors"
+                      up-fail-layer="new"
+                      up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <select name="order" required>
+                        <option disabled>--Select Order--</option>
+                        <option value="orbit">Orbit</option>
+                        <option value="dock">Dock</option>
+                        <option value="extract">Extract</option>
+                        <option value="refuel">Refuel</option>
+                    </select>
+                    <input type="submit" value="Issue Order">
+                </form>
+
+                <h3>Navigate</h3>
+                <form action="/ship/navigate" target="_blank" method="post"
+                      up-submit
+                      up-target=".ship-nav-status, .ship-fuel"
+                      up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <input type="text" name="waypoint"
+                           placeholder="waypoint" required>
+                    <input type="submit" value="Navigate Ship">
+                </form>
+
+                <h3>Set Flight Mode</h3>
+                <form action="/ship/set-flight-mode" method="post"
+                      up-submit
+                      up-target=".ship-nav-status, .ship-fuel"
+                      up-transition="cross-fade"
+                >
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <select name="flightmode" required>
+                        <option value="">--Select Flight Mode--</option>
+                        {{ helpers.select_options(flightModes) }}
+                    </select>
+                    <input type="submit" value="Set Flight Mode">
+                </form>
+            </div>
+        </div>
+
+        <div class="card one-third">
             <h2 class="title">Frame - {{ ship.frame.name }}</h2>
             <p>{{ ship.frame.description }}</p>
             <div class="info">
@@ -117,25 +142,25 @@
             </div>
         </div>
 
-        <div class="card card-one-third">
+        <div class="card one-third">
             <h2 class="title">Reactor - {{ ship.reactor.name }}</h2>
-            <p>{{ ship.reactor.description }}</p>
             <div class="info">
+                <p>{{ ship.reactor.description }}</p>
                 {% include 'partials/ship-reactor-table.html.twig'
                     with {'ship' : ship} %}
             </div>
         </div>
 
-        <div class="card card-one-third">
+        <div class="card one-third">
             <h2 class="title">Engine - {{ ship.engine.name }}</h2>
-            <p>{{ ship.engine.description }}</p>
             <div class="info">
+                <p>{{ ship.engine.description }}</p>
                 {% include 'partials/ship-engine-table.html.twig'
                     with {'ship' : ship} %}
             </div>
         </div>
 
-        <div class="card card-one-third">
+        <div class="card one-third">
             <h2 class="title">Modules</h2>
             <div class="info">
                 {% for modules in ship.modules %}
@@ -149,7 +174,7 @@
             </div>
         </div>
 
-        <div class="card card-one-third">
+        <div class="card one-third">
             <h2 class="title">Mounts</h2>
             <div class="info">
                 {% for mount in ship.mounts %}
