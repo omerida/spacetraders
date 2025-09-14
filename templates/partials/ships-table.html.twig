@@ -10,7 +10,7 @@
     </tr>
     {% for ship in ships %}
     <tr>
-        <td>{{ helpers.link(
+        <td>{{ helpers.modal_link_grow(
                 viewShipPath(ship.symbol),
                 ship.symbol)
             }}
@@ -19,7 +19,7 @@
             viewWaypointPath(ship.nav.waypointSymbol),
             ship.nav.waypointSymbol,
         ) }}</td>
-        <td>{{ ship.nav.status.value }}<br>{{ ship.nav.flightMode.value }}</td>
+        <td>{{ ship.nav.status.value|machine2readable }}<br>{{ ship.nav.flightMode.value|machine2readable }}</td>
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
         <td>{{ ship.cooldown.remainingSeconds }}</td>
         <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}

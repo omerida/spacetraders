@@ -21,6 +21,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
 
     public function __construct(
         private Client\Fleet $client,
+        private Client\Systems $systems,
     ) {
     }
 
@@ -237,10 +238,24 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             && !$ship->nav->isInTransit()
         );
 
+        $wp = $this->systems->systemLocation(
+            system: $ship->nav->route->destination->systemSymbol,
+            waypoint: $ship->nav->route->destination->symbol
+        );
+
+        $flightModes = [];
+        foreach (FlightMode::cases() as $case) {
+            $flightModes[] = [
+                'value' => $case->value,
+                'name' => $case->name,
+            ];
+        }
+
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,
-            'flightModes' => FlightMode::cases(),
+            'flightModes' => $flightModes,
             'atFuelStation' => $atFuelStation,
+            'atMarket' => $wp->hasMarket(),
         ]);
     }
 

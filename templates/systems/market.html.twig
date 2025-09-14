@@ -3,27 +3,27 @@
 
 {% block content %}
 
-    <h1>{{ symbol }}</h1>
+<h1>{{ symbol }}</h1>
 
-    <div class="flex">
-        <div class="card">
-            <h2 class="title">Imports</h2>
-            <div class="info">
-                {% if imports is defined and imports is not empty %}
-                    <ul>
-                        {% for import_item in imports %}
-                            <li>{{ import_item.name|default('N/A') }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>None.</p>
-                {% endif %}
-            </div>
+<div class="flex">
+    <div class="card">
+        <h2 class="title">Imports</h2>
+        <div class="info">
+            {% if imports is defined and imports is not empty %}
+                <ul>
+                    {% for import_item in imports %}
+                        <li>{{ import_item.name|default('N/A') }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>None.</p>
+            {% endif %}
         </div>
+    </div>
 
-        <div class="card">
-            <h2 class="title">Exports</h2>
-            <div class="info">
+    <div class="card">
+        <h2 class="title">Exports</h2>
+        <div class="info">
             {% if exports is defined and exports is not empty %}
                 <ol>
                     {% for export_item in exports %}
@@ -33,30 +33,30 @@
             {% else %}
                 <p>None.</p>
             {% endif %}
-            </div>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card">
         {% if exchange is defined and exchange is not empty %}
             <h2 class="title">Exchange</h2>
             <div class="info">
-            <ol>
-                {% for exchange_item in exchange %}
-                    <li>
-                        {{ exchange_item.symbol.value|machine2readable }}
-                    </li>
-                {% endfor %}
-            </ol>
+                <ol>
+                    {% for exchange_item in exchange %}
+                        <li>
+                            {{ exchange_item.symbol.value|machine2readable }}
+                        </li>
+                    {% endfor %}
+                </ol>
             </div>
         {% else %}
             <p>None.</p>
         {% endif %}
-        </div>
     </div>
-    <div class="flex">
-        <div class="card">
-            <h2 class="title">Trade Goods</h2>
-            <div class="info">
+</div>
+<div class="flex">
+    <div class="card">
+        <h2 class="title">Trade Goods</h2>
+        <div class="info">
             {% if tradeGoods is defined and tradeGoods is not empty %}
                 <table>
                     <thead>
@@ -79,38 +79,38 @@
                     </tbody>
                 </table>
             {% endif %}
-            </div>
         </div>
-        <div class="card">
+    </div>
+    <div class="card">
+        <h2 class="title">Transactions</h2>
         {% if transactions is defined and transactions is not empty %}
-            <h2 class="title">Transactions</h2>
             <div class="info">
-            <table>
-                <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Ship</th>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for transaction_item in transactions %}
+                <table>
+                    <thead>
                     <tr>
-                        <td>{{ transaction_item.type.value|machine2readable }}</td>
-                        <td>{{ transaction_item.shipSymbol }}</td>
-                        <td>{{ transaction_item.tradeSymbol.value|machine2readable }}</td>
-                        <td>{{ transaction_item.units|number_format }} × {{ transaction_item.pricePerUnit }}</td>
-                        <td>{{ transaction_item.totalPrice|number_format }}</td>
-                        <td>{{ transaction_item.timestamp|date }}</td>
+                        <th>Type</th>
+                        <th>Ship</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Date</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for transaction_item in transactions %}
+                        <tr>
+                            <td>{{ transaction_item.type.value|machine2readable }}</td>
+                            <td>{{ transaction_item.shipSymbol }}</td>
+                            <td>{{ transaction_item.tradeSymbol.value|machine2readable }}</td>
+                            <td>{{ transaction_item.units|number_format }} × {{ transaction_item.pricePerUnit }}</td>
+                            <td>{{ transaction_item.totalPrice|number_format }}</td>
+                            <td>{{ transaction_item.timestamp|date }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         {% endif %}
-        </div>
+    </div>
 
-{% endblock %}
+    {% endblock %}

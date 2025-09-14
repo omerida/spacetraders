@@ -28,4 +28,19 @@ class Waypoint extends Base
         public readonly string $orbits = "",
     ) {
     }
+
+    private function hasSystemTrait(string $symbol): bool
+    {
+        foreach ($this->traits as $trait) {
+            if ($trait->symbol === $symbol) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public function hasMarket(): bool
+    {
+        return $this->hasSystemTrait('MARKETPLACE');
+    }
 }

@@ -52,19 +52,7 @@
     <input type="submit" value="Search">
 </form>
 
-<h3>Sell Goods</h3>
-<form action="/ship/sell-goods" target="_blank" method="POST">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ helpers.select_options(shipOpts) }}
-    </select>
-    <select name="good" required>
-        <option value="">--Select Trade Good--</option>
-        {{ helpers.select_options(cargoTypes) }}
-    </select>
-    <input type="number" name="units" placeholder="units" required>
-    <input type="submit" value="Sell">
-</form>
+
 {% endblock %}
 
 {% block footerScripts %}

@@ -7,7 +7,7 @@
     <a href="{{ path|e('html_attr') }}"
        up-target=".content"
        up-cache="{{ cache ? 'true': 'false' }}"
-       up-layer="new">{{ text ?: path }}</a>
+       up-layer="new modal">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro modal_link_grow(path, text, cache) %}
@@ -15,7 +15,7 @@
        up-target=".content"
        up-size="grow"
        up-cache="{{ cache ? 'true': 'false' }}"
-       up-layer="new">{{ text ?: path }}</a>
+       up-layer="new modal">{{ text ?: path }}</a>
 {% endmacro %}
 
 {% macro drawer_link(path, text, cache) %}
