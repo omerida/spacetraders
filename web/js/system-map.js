@@ -41,7 +41,7 @@ function simulatedAnnealing(initialLabels, minDistance) {
         );
 
         // Perturb the label's position
-        const maxMoveDistance = 50;
+        const maxMoveDistance = 5;
         newLabel.x += (Math.random() - 0.5) * maxMoveDistance;
         newLabel.y += (Math.random() - 0.5) * maxMoveDistance;
 
@@ -150,7 +150,7 @@ function drawMap(waypoints) {
             x: allLabels[i].x,
             y: allLabels[i].y
         })
-        label.add(new Konva.Tag({fill: 'black', opacity: 0.55}));
+        label.add(new Konva.Tag({fill: 'black', opacity: 0.75}));
 
         // Strip out the system from the waypoint to keep
         // point labels small
@@ -187,7 +187,7 @@ function getMapSymbol(point) {
             var imageObj = new Image();
             imageObj.src = '/assets/world.svg'
             var symbol = new Konva.Image({
-                height: 40,
+                height: 30,
                 width: 40,
                 image: imageObj,
             });
@@ -201,9 +201,29 @@ function getMapSymbol(point) {
                 image: imageObj,
             });
             break;
+
+        case 'JUMP_GATE':
+            var imageObj = new Image();
+            imageObj.src = '/assets/warp-gate.svg'
+            var symbol = new Konva.Image({
+                height: 25,
+                width: 25,
+                image: imageObj,
+            });
+            break;
         case 'FUEL_STATION':
             var imageObj = new Image();
             imageObj.src = '/assets/apollo-capsule-blue.svg'
+            var symbol = new Konva.Image({
+                height: 25,
+                width: 25,
+                image: imageObj,
+            });
+            break;
+
+        case 'ORBITAL_STATION':
+            var imageObj = new Image();
+            imageObj.src = '/assets/orbital-station.svg'
             var symbol = new Konva.Image({
                 height: 25,
                 width: 25,
@@ -228,8 +248,35 @@ function getMapSymbol(point) {
                 image: imageObj,
             });
             break;
+        case 'GAS_GIANT':
+            var imageObj = new Image();
+            imageObj.src = '/assets/gas-giant.svg'
+            var symbol = new Konva.Image({
+                height: 35,
+                width: 35,
+                image: imageObj,
+            });
+            break;
+
+        case 'MOON':
+            var imageObj = new Image();
+            imageObj.src = '/assets/moon.svg'
+            var symbol = new Konva.Image({
+                height: 20,
+                width: 20,
+                image: imageObj,
+            });
+            break;
         default:
             console.log(point.type)
+            var imageObj = new Image();
+            imageObj.src = '/assets/uncertainty.svg'
+            var symbol = new Konva.Image({
+                height: 25,
+                width: 25,
+                image: imageObj,
+            });
+            break;
     }
 
     symbol.on('click', () => {
