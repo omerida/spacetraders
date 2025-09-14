@@ -41,7 +41,7 @@ function simulatedAnnealing(initialLabels, minDistance) {
         );
 
         // Perturb the label's position
-        const maxMoveDistance = 5;
+        const maxMoveDistance = 10;
         newLabel.x += (Math.random() - 0.5) * maxMoveDistance;
         newLabel.y += (Math.random() - 0.5) * maxMoveDistance;
 
@@ -88,8 +88,8 @@ function calculateEnergy(labels, minDistance) {
 function drawMap(waypoints) {
     const stage = new Konva.Stage({
         container: 'system-map', // id of container <div>
-        width: 800,
-        height: 800,
+        width: 1200,
+        height: 1200,
         fill: 'black'
     });
 
@@ -103,8 +103,10 @@ function drawMap(waypoints) {
     }));
     stage.add(background);
 
+
     const grid = new Konva.Layer();
-    for (let i = 100; i < stage.width(); i = i + 100) {
+
+    for (let i = 150; i < stage.width(); i = (i + 150)) {
         grid.add(new Konva.Line({
             points: [i, 0, i, stage.height()],
             stroke: '#666',
@@ -131,8 +133,6 @@ function drawMap(waypoints) {
         stroke: '#999',
         strokeWidth: 2,
     }))
-
-
     stage.add(grid)
 
     const pointsLayer = new Konva.Layer();
@@ -144,7 +144,7 @@ function drawMap(waypoints) {
     }
 
     // Prevent overlap of labels
-    allLabels = simulatedAnnealing(allLabels, 30)
+    allLabels = simulatedAnnealing(allLabels, 40)
     for (let i = 0; i < allLabels.length; i++) {
         const label = new Konva.Label({
             x: allLabels[i].x,
@@ -174,11 +174,12 @@ function getMapSymbol(point) {
     // canvas coordinates go 0-800
     // sector coordinates go from -400 to 400 (assumption)
     // This makes life easier, we just need to add 400
-    const map_x = point.x + 400;
-    const map_y = 800 - (point.y + 400);
+    // The 10/8 is to scale this 800x800 grid to a 1000x1000 output
+    const map_x = 12/8 * (point.x + 400);
+    const map_y = 12/8 * (800 - (point.y + 400));
     var label = new WaypointLabel(
         map_x + 5,
-        map_y + (Math.random() < 0.5 ? -1 : 1) * 25,
+        map_y + 25,
         point.symbol.waypoint
     )
 

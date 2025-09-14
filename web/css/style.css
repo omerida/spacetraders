@@ -232,7 +232,8 @@ ul.tags {
 #system-map {
     border: 5px inset #ccc;
     width: 800px;
-    height: 800px
+    height: 75vh;
+    overflow: auto;
 }
 
 .errors:empty {
