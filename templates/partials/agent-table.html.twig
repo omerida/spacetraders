@@ -6,11 +6,11 @@
         <th>HQ</th>
         <th>Credits</th>
         <th>Faction</th>
-        <th>ShipCount</th>
+        <th>Ship Count</th>
     </tr>
     <tr>
         <td>{{ agent.symbol }}</td>
-        <td>{{ helpers.drawer_link_grow(
+        <td class="nowrap">{{ helpers.modal_link_large(
                 viewWaypointPath(agent.headquarters),
                 agent.headquarters) }}</td>
         <td>{{ agent.credits|number_format }}</td>
