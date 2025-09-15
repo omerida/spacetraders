@@ -26,9 +26,9 @@ $strategy = new Route\Strategy\JsonStrategy($responseFactory);
 $router   = (new Route\Router)->setStrategy($strategy);
 // Register Middleware Components
 $router->middleware(new Middleware\Auth($_ENV["SPACETRADERS_TOKEN"] ?? ''));
-//$router->middleware(new Middleware\ExceptionDecorator(
-//    ServiceContainer::get(\Twig\Environment::class)
-//));
+$router->middleware(new Middleware\ExceptionDecorator(
+    ServiceContainer::get(\Twig\Environment::class)
+));
 
 $mapper = ServiceContainer::get(RoutesMapper::class);
 $router = $mapper->registerAll($router);

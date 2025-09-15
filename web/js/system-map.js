@@ -318,12 +318,11 @@ function renderSystemMap(systemID) {
 }
 
 function showDrawer(waypoint) {
-    let layer = up.layer.open({
+    up.layer.open({
         url: '/systems/waypoint?id=' + waypoint,
         target: '.content',
         layer: 'swap',
         mode: 'drawer',
-        size: 'grow'
+        size: 'large'
     })
-
 }
