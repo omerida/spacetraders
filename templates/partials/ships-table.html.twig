@@ -15,10 +15,10 @@
                 ship.symbol)
             }}
             <br>
-            {{ helpers.drawer_link_large(
-            viewWaypointPath(ship.nav.waypointSymbol),
-            ship.nav.waypointSymbol,
-        ) }}</td>
+            {{ helpers.modal_link_large(
+                viewWaypointPath(ship.nav.waypointSymbol),
+                ship.nav.waypointSymbol
+            ) }}</td>
         <td>{{ ship.nav.status.value|machine2readable }}<br>{{ ship.nav.flightMode.value|machine2readable }}</td>
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
         <td>{{ ship.cooldown.remainingSeconds }}</td>
