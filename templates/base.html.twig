@@ -23,9 +23,9 @@
       <li role="none">
         <a role="menuitem" href="/my/ships">Ships</a>
       </li>
-
     </ul>
 </nav>
+
 {% block breadcrumb %}
     {% include 'partials/breadcrumb.html.twig' %}
 {% endblock %}
@@ -34,8 +34,7 @@
     <div class="errors"></div>
 {% endblock %}
 
-
-<div id="content" class="content">{% block content %}{% endblock %}</div>
+    <div id="content" class="content">{% block content %}{% endblock %}</div>
 
 
 {% block footerScripts %}

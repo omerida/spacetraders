@@ -35,6 +35,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     )]
     public function systemsWaypoint(): ResponseInterface
     {
+        throw new \InvalidArgumentException("Simulated error message.");
         $point = $this->getWaypoint();
 
         $location = $this->client->systemLocation(

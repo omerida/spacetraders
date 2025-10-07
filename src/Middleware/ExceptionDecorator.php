@@ -33,13 +33,36 @@ class ExceptionDecorator implements MiddlewareInterface
             $message = $e->getMessage();
             $status = 500;
         }
-        $response = new Response();
+
+        // If the response was for a modal or drawer container,
+        // then display the error in the same way.
+        $mode = null;
+        if ($request->hasHeader('X-Up-Mode')) {
+            $mode = $request->getHeaderLine('X-Up-Mode');
+        }
+
+        $headers = [];
+        $minimalTemplate = false;
+        if (in_array($mode, ['modal', 'drawer'])) {
+            $headers['X-Up-Open-Layer'] = json_encode([
+               'target' => '.errors',
+               'mode' => $mode,
+            ]);
+            $minimalTemplate = true;
+        }
+
+        $response = new Response(
+            headers: $headers,
+            status: $status
+        );
+
 
         $response->getBody()->write(
             $this->twig->render('error-message.html.twig', [
-                'message' => $message
+                'message' => $message,
+                'minimalTemplate' => $minimalTemplate,
             ])
         );
-        return $response->withStatus($status);
+        return $response;
     }
 }
