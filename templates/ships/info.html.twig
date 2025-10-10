@@ -4,225 +4,214 @@
 {% block content %}
     <h1>{{ ship.symbol }}</h1>
     <div class="flex">
-        <div class="card">
-            <h2 class="title">Navigation</h2>
-            <div class="info">
-                <h3>Current Waypoint</h3>
-                {{ helpers.drawer_link_grow(
-                    viewWaypointPath(ship.nav.waypointSymbol),
-                    ship.nav.waypointSymbol) }}
-                <h3>Route</h3>
-                {% include 'partials/ship-nav-table.html.twig'
-                    with {'nav' : ship.nav} %}
+        <details class="card one-third" open="open">
+            <summary>Navigation</summary>
+            <h3>Current Waypoint</h3>
+            {{ helpers.drawer_link_grow(
+                viewWaypointPath(ship.nav.waypointSymbol),
+                ship.nav.waypointSymbol) }}
+            <h3>Route</h3>
+            {% include 'partials/ship-nav-table.html.twig'
+                with {'nav' : ship.nav} %}
+        </details>
 
-            </div>
-        </div>
+        <details class="card one-third" open="open">
+            <summary>Data</summary>
+            <h3>Fuel</h3>
+            {% include 'partials/ship-fuel-table.html.twig'
+                with {'fuel' : ship.fuel} %}
 
-        <div class="card">
-            <h2 class="title">Data</h2>
-            <div class="info">
-                <h3>Fuel</h3>
-                {% include 'partials/ship-fuel-table.html.twig'
-                    with {'fuel' : ship.fuel} %}
+            <h3>Cooldown</h3>
+            {% include 'partials/ship-cooldown-table.html.twig'
+                with {'cooldown': ship.cooldown } %}
+        </details>
+        <details class="card one-third" open="open">
+            <summary>Crew</summary>
+            <table>
+                <tr>
+                    <th>Current</th>
+                    <th>Capacity</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.current }}</td>
+                    <td>{{ ship.crew.capacity }}</td>
+                    <td>{{ ship.crew.required }}</td>
+                </tr>
+                <tr>
+                    <th>Morale</th>
+                    <th>Wages</th>
+                    <th>Rotation</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.morale }}</td>
+                    <td>{{ ship.crew.wages|number_format }}</td>
+                    <td>{{ ship.crew.rotation.value|machine2readable }}</td>
+                </tr>
+            </table>
+        </details>
+    </div>
+    <div class="flex">
+        <details class="card one-third" open="open">
+            <summary>Ship Orders</summary>
 
-                <h3>Cooldown</h3>
-                {% include 'partials/ship-cooldown-table.html.twig'
-                    with {'cooldown': ship.cooldown } %}
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 class="title">Crew</h2>
-            <div class="info">
-                <table>
-                    <tr>
-                        <th>Current</th>
-                        <th>Capacity</th>
-                        <th>Required</th>
-                    </tr>
-                    <tr>
-                        <td>{{ ship.crew.current }}</td>
-                        <td>{{ ship.crew.capacity }}</td>
-                        <td>{{ ship.crew.required }}</td>
-                    </tr>
-                    <tr>
-                        <th>Morale</th>
-                        <th>Wages</th>
-                        <th>Rotation</th>
-                    </tr>
-                    <tr>
-                        <td>{{ ship.crew.morale }}</td>
-                        <td>{{ ship.crew.wages|number_format }}</td>
-                        <td>{{ ship.crew.rotation.value|machine2readable }}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="card two-thirds">
-            <h2 class="title">Cargo</h2>
-            <div class="info">
-                {% include 'partials/ship-cargo-table.html.twig'
-                    with {'cargo_details': ship.cargo } %}
-                <h3>Jettison Goods</h3>
-
-                {% embed "forms/unpoly-form.html.twig"
-                    with {
-                    'action': '/ship/jettison-goods',
-                    'up_target': '.ship-cargo'
-                } %}
-                    {% block form_body %}
-
-                        <input type="hidden" name="ship"
-                               value="{{ ship.symbol|e('html_attr') }}">
-                        <select name="good" required>
-                            <option value="">--Select Trade Good--</option>
-                            {% for item in ship.cargo.inventory %}
-                                <option value="{{ item.symbol.value|e('html_attr') }}">
-                                    {{ item.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <input type="number" name="units" placeholder="units" required>
-                        <input type="submit" value="Jettison">
-                    {% endblock %}
-                {% endembed %}
-
-                {% if atMarket %}
-                    <h3>Marketplace</h3>
-                    <h4>Sell Goods</h4>
-                    <form action="/ship/sell-goods" target="_blank" method="POST">
-                        <input type="hidden" name="ship"
-                               value="{{ ship.symbol|e('html_attr') }}">
-                        <select name="good" required>
-                            <option value="">--Select Trade Good--</option>
-                            {% for item in ship.cargo.inventory %}
-                                <option value="{{ item.symbol.value|e('html_attr') }}">
-                                    {{ item.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <input type="number" name="units" placeholder="units" required>
-                        <input type="submit" value="Sell">
-                    </form>
-                {% endif %}
-                </form>
-            </div>
-        </div>
-
-        <div class="card one-third">
-            <h2 class="title">Ship Orders</h2>
-            <div class="info">
-                {% embed "forms/unpoly-form.html.twig"
-                    with {
-                    'action': '/ship/orders',
-                    'up_target': '.ship-nav-status:maybe, .ship-cooldown:maybe,
+            {% embed "forms/unpoly-form.html.twig"
+                with {
+                'action': '/ship/orders',
+                'up_target': '.ship-nav-status:maybe, .ship-cooldown:maybe,
                         .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe'
-                } %}
-                    {% block form_body %}
-                        <input type="hidden" name="ship"
-                               value="{{ ship.symbol|e('html_attr') }}">
-                        <select name="order" required>
-                            <option value="">--Select Order--</option>
-                            <option value="orbit">Orbit</option>
-                            <option value="dock">Dock</option>
-                            <option value="extract">Extract</option>
-                            <option value="refuel">Refuel</option>
-                        </select>
-                        <input type="submit" value="Issue Order">
+            } %}
+                {% block form_body %}
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <select name="order" required>
+                        <option value="">--Select Order--</option>
+                        <option value="orbit">Orbit</option>
+                        <option value="dock">Dock</option>
+                        <option value="extract">Extract</option>
+                        <option value="refuel">Refuel</option>
+                    </select>
+                    <input type="submit" value="Issue Order">
 
-                    {% endblock %}
-                {% endembed %}
+                {% endblock %}
+            {% endembed %}
 
-                <h3>Navigate</h3>
+            <h3>Navigate</h3>
 
-                {% embed "forms/unpoly-form.html.twig"
-                    with {
-                    'action': '/ship/navigate',
-                    'up_target': '.ship-nav-status'
-                } %}
-                    {% block form_body %}
-                        <input type="hidden" name="ship"
-                               value="{{ ship.symbol|e('html_attr') }}">
-                        <input type="text" name="waypoint"
-                               placeholder="waypoint" required>
-                        <input type="submit" value="Navigate Ship">
-                    {% endblock %}
-                {% endembed %}
+            {% embed "forms/unpoly-form.html.twig"
+                with {
+                'action': '/ship/navigate',
+                'up_target': '.ship-nav-status'
+            } %}
+                {% block form_body %}
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <input type="text" name="waypoint"
+                           placeholder="waypoint" required>
+                    <input type="submit" value="Navigate Ship">
+                {% endblock %}
+            {% endembed %}
 
-                <h3>Set Flight Mode</h3>
-                {% embed "forms/unpoly-form.html.twig"
-                    with {
-                    'action': '/ship/set-flight-mode',
-                    'up_target': '.ship-nav-status',
-                } %}
-                    {% block form_body %}
-                        {% import "macros/helpers.html.twig" as helpers %}
-                        <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                        <select name="flightmode" required>
-                            <option value="">--Select Flight Mode--</option>
-                            {{ helpers.select_options(flightModes) }}
-                        </select>
-                        <input type="submit" value="Set Flight Mode">
-                    {% endblock %}
-                {% endembed %}
+            <h3>Set Flight Mode</h3>
+            {% embed "forms/unpoly-form.html.twig"
+                with {
+                'action': '/ship/set-flight-mode',
+                'up_target': '.ship-nav-status',
+            } %}
+                {% block form_body %}
+                    {% import "macros/helpers.html.twig" as helpers %}
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <select name="flightmode" required>
+                        <option value="">--Select Flight Mode--</option>
+                        {{ helpers.select_options(flightModes) }}
+                    </select>
+                    <input type="submit" value="Set Flight Mode">
+                {% endblock %}
+            {% endembed %}
 
-                <div class="order-result"></div>
-            </div>
-        </div>
+            <div class="order-result"></div>
+        </details>
 
-        <div class="card one-third">
-            <h2 class="title">Frame - {{ ship.frame.name }}</h2>
+        <details class="card two-thirds" open="open">
+            <summary>Cargo</summary>
+
+            {% include 'partials/ship-cargo-table.html.twig'
+                with {'cargo_details': ship.cargo } %}
+            <h3>Jettison Goods</h3>
+
+            {% embed "forms/unpoly-form.html.twig"
+                with {
+                'action': '/ship/jettison-goods',
+                'up_target': '.ship-cargo'
+            } %}
+                {% block form_body %}
+
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <select name="good" required>
+                        <option value="">--Select Trade Good--</option>
+                        {% for item in ship.cargo.inventory %}
+                            <option value="{{ item.symbol.value|e('html_attr') }}">
+                                {{ item.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="units" placeholder="units" required>
+                    <input type="submit" value="Jettison">
+                {% endblock %}
+            {% endembed %}
+
+            {% if atMarket %}
+                <h3>Marketplace</h3>
+                <h4>Sell Goods</h4>
+                <form action="/ship/sell-goods" target="_blank" method="POST">
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <select name="good" required>
+                        <option value="">--Select Trade Good--</option>
+                        {% for item in ship.cargo.inventory %}
+                            <option value="{{ item.symbol.value|e('html_attr') }}">
+                                {{ item.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="units" placeholder="units" required>
+                    <input type="submit" value="Sell">
+                </form>
+            {% endif %}
+            </form>
+
+        </details>
+
+
+    </div>
+    <div class="flex">
+        <details class="card one-third" name="ship-specs">
+            <summary>Frame - {{ ship.frame.name }}</summary>
             <p>{{ ship.frame.description }}</p>
             <div class="info">
                 {% include 'partials/ship-frame-table.html.twig'
                     with {'ship' : ship} %}
             </div>
-        </div>
+        </details>
 
-        <div class="card one-third">
-            <h2 class="title">Reactor - {{ ship.reactor.name }}</h2>
+        <details class="card one-third" name="ship-specs">
+            <summary>Reactor - {{ ship.reactor.name }}</summary>
             <div class="info">
                 <p>{{ ship.reactor.description }}</p>
                 {% include 'partials/ship-reactor-table.html.twig'
                     with {'ship' : ship} %}
             </div>
-        </div>
+        </details>
 
-        <div class="card one-third">
-            <h2 class="title">Engine - {{ ship.engine.name }}</h2>
-            <div class="info">
-                <p>{{ ship.engine.description }}</p>
-                {% include 'partials/ship-engine-table.html.twig'
-                    with {'ship' : ship} %}
-            </div>
-        </div>
+        <details class="card one-third" name="ship-specs">
+            <summary>Engine - {{ ship.engine.name }}</summary>
+            <p>{{ ship.engine.description }}</p>
+            {% include 'partials/ship-engine-table.html.twig'
+                with {'ship' : ship} %}
+        </details>
 
-        <div class="card one-third">
-            <h2 class="title">Modules</h2>
-            <div class="info">
-                {% for modules in ship.modules %}
-                    <h3>{{ modules.name }}</h3>
-                    <p>{{ modules.description }}</p>
-                    <p><em>Requires {{ modules.requirements.crew }} crew,
-                            {{ modules.requirements.power }} power, and
-                            {{ modules.requirements.slots }} slots. Capacity {{ modules.capacity }}</em>
-                    </p>
-                {% endfor %}
-            </div>
-        </div>
+        <details class="card one-third" name="ship-specs">
+            <summary>Modules</summary>
+            {% for modules in ship.modules %}
+                <h3>{{ modules.name }}</h3>
+                <p>{{ modules.description }}</p>
+                <p><em>Requires {{ modules.requirements.crew }} crew,
+                        {{ modules.requirements.power }} power, and
+                        {{ modules.requirements.slots }} slots. Capacity {{ modules.capacity }}</em>
+                </p>
+            {% endfor %}
+        </details>
 
-        <div class="card one-third">
-            <h2 class="title">Mounts</h2>
-            <div class="info">
-                {% for mount in ship.mounts %}
-                    <h3>{{ mount.name }}</h3>
-                    <p>{{ mount.description }}</p>
-                    <p><em>Requires {{ mount.requirements.crew }} crew and
-                            {{ mount.requirements.power }} power. Strength {{ mount.strength }}</em>
-                    </p>
-                {% endfor %}
-            </div>
-        </div>
+        <details class="card one-third" name="ship-specs">
+            <summary>Mounts</summary>
+            {% for mount in ship.mounts %}
+                <h3>{{ mount.name }}</h3>
+                <p>{{ mount.description }}</p>
+                <p><em>Requires {{ mount.requirements.crew }} crew and
+                        {{ mount.requirements.power }} power. Strength {{ mount.strength }}</em>
+                </p>
+            {% endfor %}
+        </details>
     </div>
 {% endblock %}

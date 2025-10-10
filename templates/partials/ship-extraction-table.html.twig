@@ -6,7 +6,7 @@
     {{ dump(extraction) }}
     {% for item in extraction.yield %}
     <tr>
-        <td class="left"><b>{{ item.symbol.valuename }}</td>
+        <td class="left"><b>{{ item.symbol.value|machine2readable }}</td>
         <td>{{ item.units }}</td>
     </tr>
     {% endfor %}

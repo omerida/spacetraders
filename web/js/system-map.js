@@ -86,11 +86,70 @@ function calculateEnergy(labels, minDistance) {
 }
 
 function drawMap(waypoints) {
+    // 1600 for cordinates + 50px padding on each side
+    const canvas_width = 1700;
+    const canvas_height = 1600;
+
     const stage = new Konva.Stage({
         container: 'system-map', // id of container <div>
-        width: 1200,
-        height: 1200,
-        fill: 'black'
+        width: canvas_width,
+        height: canvas_height,
+        draggable: true,
+        fill: 'black',
+        x: -300,
+        y: -600,
+        scaleX: 1.2,
+        scaleY: 1.2
+    });
+
+    const scaleBy = 1.1; // How much to zoom on each step
+    // Adding zoom on scroll-wheel
+    stage.on('wheel', (e) => {
+      // 1. Prevent default scroll
+      e.evt.preventDefault();
+
+      const stage = e.target.getStage();
+      const oldScale = stage.scaleX();
+      const pointer = stage.getPointerPosition();
+
+      // 3. Find the point-to-zoom (relative to the unscaled stage)
+      const mousePointTo = {
+        x: (pointer.x - stage.x()) / oldScale,
+        y: (pointer.y - stage.y()) / oldScale,
+      };
+
+      // 2. Determine zoom direction and calculate new scale
+      let direction = e.evt.deltaY > 0 ? -1 : 1;
+      const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+      // Set the new scale
+      stage.scale({ x: newScale, y: newScale });
+
+      // 4. Calculate new position to keep the zoom point stationary
+      const newPos = {
+        x: pointer.x - mousePointTo.x * newScale,
+        y: pointer.y - mousePointTo.y * newScale,
+      };
+
+      // Set the new position
+      stage.position(newPos);
+
+      // --- Label Size Compensation Logic ---
+      const inverseScale = 1 / newScale;
+      pointsLayer.find('Text').forEach(textNode => {
+        textNode.scale({ x: inverseScale, y: inverseScale });
+      });
+
+      pointsLayer.find('Image').forEach((image) => {
+        image.scale({ x: inverseScale, y: inverseScale });
+      });
+
+      pointsLayer.find('Tag').forEach((tag) => {
+        tag.scale({ x: inverseScale, y: inverseScale });
+      });
+
+
+      stage.batchDraw(); // Redraw the stage efficiently
     });
 
     const background = new Konva.Layer();
@@ -99,24 +158,40 @@ function drawMap(waypoints) {
         y: 0,
         width: stage.width(),
         height: stage.height(),
-        fill: '#222'
+        fill: '#000'
     }));
-    stage.add(background);
 
+    // Decorate with stars
+   const numStars = 300;
+    const minOpacity = 0.4;
+    const maxOpacity = 0.7;
+
+    for (let i =0; i < numStars; i++) {
+        const star = new Konva.Circle({
+            x: Math.random() * canvas_width,
+            y: Math.random() * canvas_height,
+            radius: 1.5,
+            fill: '#ccc',
+            opacity: minOpacity + (Math.random() * (maxOpacity - minOpacity))
+        })
+        background.add(star)
+    }
+
+    stage.add(background);
 
     const grid = new Konva.Layer();
 
-    for (let i = 150; i < stage.width(); i = (i + 150)) {
+    for (let i = 50; i < stage.width(); i = (i + 100)) {
         grid.add(new Konva.Line({
             points: [i, 0, i, stage.height()],
-            stroke: '#666',
+            stroke: '#777',
             strokeWidth: 1,
             dash: [6, 6]
         }))
 
         grid.add(new Konva.Line({
-            points: [0, i, stage.width(), i],
-            stroke: '#666',
+            points: [0, i + 50 , stage.width(), i + 50],
+            stroke: '#777',
             strokeWidth: 1,
             dash: [6, 6]
         }))
@@ -144,13 +219,13 @@ function drawMap(waypoints) {
     }
 
     // Prevent overlap of labels
-    allLabels = simulatedAnnealing(allLabels, 40)
+    allLabels = simulatedAnnealing(allLabels, 2)
     for (let i = 0; i < allLabels.length; i++) {
         const label = new Konva.Label({
             x: allLabels[i].x,
             y: allLabels[i].y
         })
-        label.add(new Konva.Tag({fill: 'black', opacity: 0.75}));
+        label.add(new Konva.Tag({fill: 'black', opacity: 0.25}));
 
         // Strip out the system from the waypoint to keep
         // point labels small
@@ -171,15 +246,15 @@ function drawMap(waypoints) {
 
 function getMapSymbol(point) {
     // convert coordinates to canvas
-    // canvas coordinates go 0-800
-    // sector coordinates go from -400 to 400 (assumption)
-    // This makes life easier, we just need to add 400
-    // The 10/8 is to scale this 800x800 grid to a 1000x1000 output
-    const map_x = 12/8 * (point.x + 400);
-    const map_y = 12/8 * (800 - (point.y + 400));
+    // canvas coordinates go 0-1600
+    // sector coordinates go from -800 to 800 (assumption)
+    // This makes life easier, we just need to add 800
+    const padding = 50;
+    const map_x = (point.x + 800) + padding;
+    const map_y = (1600 - (point.y + 800)) + padding;
     var label = new WaypointLabel(
-        map_x + 5,
-        map_y + 25,
+        map_x + 10,
+        map_y - 3,
         point.symbol.waypoint
     )
 
