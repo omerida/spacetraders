@@ -170,6 +170,16 @@ table {
     border: 1px solid var(--color-emphasis);
     padding: 0.5rem 1rem;
 
+    /* Used when you don't have a details container */
+    .title {
+        padding: 0.5rem 1rem;
+        background-color: var(--color-emphasis);
+        color: var(--color-emphasis-alt);
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        border-top: none;
+    }
+
     summary::marker {
       color: #fff;
       font-size: 1.2em;
@@ -207,8 +217,10 @@ table {
             padding-left: 0;
         }
     }
+}
 
-
+div.card {
+    padding: 0;
 }
 
 .one-fourth {
