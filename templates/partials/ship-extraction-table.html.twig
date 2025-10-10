@@ -3,11 +3,8 @@
         <th>Good</th>
         <th>Units</th>
     </tr>
-    {{ dump(extraction) }}
-    {% for item in extraction.yield %}
     <tr>
-        <td class="left"><b>{{ item.symbol.value|machine2readable }}</td>
-        <td>{{ item.units }}</td>
+        <td class="left"><b>{{ extraction.yield .symbol.value|machine2readable }}</td>
+        <td>{{ extraction.yield .units }}</td>
     </tr>
-    {% endfor %}
 </table>

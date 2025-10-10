@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
@@ -147,11 +148,15 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
+     * @throws APIException
      */
-    #[Route(name: 'sell_goods', path: '/ship/sell-goods', methods: ['POST'])]
-    public function sellGoods(): array
+    #[Route(
+        name: 'sell_goods',
+        path: '/ship/sell-goods',
+        methods: ['POST']
+    )]
+    public function sellGoods(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
 
@@ -171,14 +176,24 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
 
         $units = $post['units'] ?? 0;
 
-        return (array) $this->client->sellCargo($ship, $good, $units);
+        $response = $this->client->sellCargo($ship, $good, $units);
+
+        return $this->render('ships/ship-sell-goods.html.twig', [
+            'cargo' => $response->cargo,
+            'transaction' => $response->transaction,
+            'agent' => $response->agent
+        ]);
     }
 
     /**
      * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'jettison_goods', path: '/ship/jettison-goods', methods: ['POST'])]
+    #[Route(
+        name: 'jettison_goods',
+        path: '/ship/jettison-goods',
+        methods: ['POST']
+    )]
     public function jettisonCargo(): array
     {
         $ship = $this->getShipIdFromPost();

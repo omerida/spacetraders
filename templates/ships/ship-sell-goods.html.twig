@@ -1,0 +1,9 @@
+{% include 'partials/ship-cargo-table.html.twig'
+    with {'cargo_details': cargo }
+%}
+
+<div class="cargo-result">
+    {% include 'partials/marketplace-transaction-table.html.twig'
+        with {'transaction': transaction }
+    %}
+</div>

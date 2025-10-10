@@ -144,23 +144,35 @@
             {% if atMarket %}
                 <h3>Marketplace</h3>
                 <h4>Sell Goods</h4>
-                <form action="/ship/sell-goods" target="_blank" method="POST">
-                    <input type="hidden" name="ship"
-                           value="{{ ship.symbol|e('html_attr') }}">
-                    <select name="good" required>
-                        <option value="">--Select Trade Good--</option>
-                        {% for item in ship.cargo.inventory %}
-                            <option value="{{ item.symbol.value|e('html_attr') }}">
-                                {{ item.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <input type="number" name="units" placeholder="units" required>
-                    <input type="submit" value="Sell">
-                </form>
+
+                {% embed "forms/unpoly-form.html.twig"
+                    with {
+                    'action': '/ship/sell-goods',
+                    'up_target': '.ship-cargo, .cargo-result'
+                } %}
+                    {% block form_body %}
+
+                        <input type="hidden" name="ship"
+                               value="{{ ship.symbol|e('html_attr') }}">
+                        <select name="good" required>
+                            <option value="">--Select Trade Good--</option>
+                            {% for item in ship.cargo.inventory %}
+                                <option value="{{ item.symbol.value|e('html_attr') }}">
+                                    {{ item.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input type="number"
+                               name="units"
+                               placeholder="units"
+                               required>
+                        <input type="submit" value="Sell">
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
             </form>
 
+            <div class="cargo-result"></div>
         </details>
 
 

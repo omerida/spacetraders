@@ -1,0 +1,18 @@
+<table class="marketplace-transaction">
+    <tr>
+        <th>Goods</th>
+        <th>Transaction Type</th>
+        <th>Units</th>
+        <th>Price per unit</th>
+        <th>Total Price</th>
+        <th>Timestamp</th>
+    </tr>
+    <tr>
+        <td class="left"><b>{{ transaction.tradeSymbol.name|machine2readable }}</td>
+        <td><b>{{ transaction.type.name|machine2readable }}</td>
+        <td><b>{{ transaction.units|number_format }}</td>
+        <td><b>{{ transaction.pricePerUnit|number_format }}</td>
+        <td><b>{{ transaction.totalPrice|number_format }}</td>
+        <td><b>{{ transaction.timestamp|date }}</td>
+    </tr>
+</table>
