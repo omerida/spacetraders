@@ -44,10 +44,14 @@ class ExceptionDecorator implements MiddlewareInterface
         $headers = [];
         $minimalTemplate = false;
         if (in_array($mode, ['modal', 'drawer'])) {
-            $headers['X-Up-Open-Layer'] = json_encode([
-               'target' => '.errors',
-               'mode' => $mode,
-            ]);
+            if (
+                $val = json_encode([
+                'target' => '.errors',
+                'mode' => $mode,
+                ])
+            ) {
+                $headers['X-Up-Open-Layer'] = $val;
+            }
             $minimalTemplate = true;
         }
 
