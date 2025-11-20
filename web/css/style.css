@@ -258,9 +258,8 @@ ul.tags {
 #system-map {
     border: 5px inset #ccc;
     background-color: #000;
-    width: 100%;
     height: 75vh;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .errors:empty {
