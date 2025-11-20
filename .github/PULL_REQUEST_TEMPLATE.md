@@ -1,9 +1,3 @@
-name: Standard Code Review
-about: Use this template for all new feature, bug fix, and maintenance pull requests.
-title: "[TYPE-ISSUE_ID] Description of Change"
-labels: ready-for-review
-assignees:
-
 ## Linked Issue(s)
 
 Please include the issue number that this PR addresses. This helps track the completion of the original task.
