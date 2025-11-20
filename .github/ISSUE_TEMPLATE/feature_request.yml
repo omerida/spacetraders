@@ -57,7 +57,7 @@ body:
     attributes:
       label: Affected Component/Area
       description: Which part of the codebase or application will be affected?
-      placeholder:
+      options:
         - Spacetraders.io integration
         - Gameplay Automation
         - User Experience
