@@ -1,0 +1,72 @@
+name: ✨ Feature Request
+description: Suggest a new feature, enhancement, or capability for the application.
+title: "[FEATURE] Concise description of the proposed feature"
+labels: ["feature", "enhancement", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the form below to help us understand the scope and value of your suggested feature.
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: 💡 Problem or Opportunity Statement
+      description: |
+        Describe the context and *why* this feature is needed.
+        (e.g., "Our current user search is slow when dealing with over 10,000 records.")
+      placeholder: Describe the need here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 📝 Proposed Solution or High-Level Design
+      description: |
+        How would you propose solving this? Be specific about the desired behavior, new routes, or changes to existing functionality.
+      placeholder: Describe the desired feature/solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: |
+        What defines "done"?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: game-value
+    attributes:
+      label: Value / Impact
+      description: How critical is this feature for users or the game?
+      options:
+        - Critical (Major workflow or game feature)
+        - High (Significant improvement/efficiency gain)
+        - Medium (Nice-to-have, adds marginal value)
+        - Low (Trivial improvement)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: Affected Component/Area
+      description: Which part of the codebase or application will be affected?
+      placeholder:
+        - Spacetraders.io integration
+        - Gameplay Automation
+        - User Experience
+        - Player options
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 📎 Additional Context or Mockups
+      description: Add any other context, links to mockups, or related information.

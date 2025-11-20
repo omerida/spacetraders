@@ -1,0 +1,80 @@
+name: 🛠 Maintenance Task / Refactoring
+description: Log tasks related to technical debt, dependency upgrades, performance cleanup, or planned refactoring.
+title: "[MAINT] Concise description of the planned maintenance work"
+labels: ["maintenance", "technical-debt", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for planned, non-user-facing work that improves the health, stability, or security of the application.
+
+  - type: dropdown
+    id: task-type
+    attributes:
+      label: Type of Maintenance
+      description: What category does this task fall under?
+      options:
+        - Dependency Update (e.g., Composer update, library update)
+        - Refactoring / Code Cleanup
+        - Performance Optimization
+        - PHP  Upgrade (e.g., PHP 8.2 to 8.3)
+        - Security / Compliance Cleanup
+        - CI/CD or Infrastructure Improvement
+        - Documentation Update (Internal/Technical)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal-and-justification
+    attributes:
+      label: Goal and Justification (The "Why")
+      description: |
+        What is the specific goal of this task, and why is it important now?
+        (e.g., "Updating library X to fix a known CVE," "Simplifying a controller to reduce cyclomatic complexity and improve readability.")
+      placeholder: Describe the goal and justification for the work.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope-of-work
+    attributes:
+      label: Scope of Work
+      description: |
+        Outline the major steps required to complete the task. Specify the components, files, or services that will be affected.
+      placeholder: List the steps and affected areas.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: estimated-effort
+    attributes:
+      label: Estimated Effort
+      description: How much time (in hours) do you estimate this task will require?
+      options:
+        - Low (up to a day)
+        - Medium (3-4 days)
+        - High (1-2 weeks)
+        - Very High (months, break this up?)
+    validations:
+      required: true
+
+  - type: textarea
+    id: potential-risks
+    attributes:
+      label: Potential Risks / Required Breaking Changes
+      description: |
+        Are there any known risks, breaking changes required, or related functionality that needs careful testing after this maintenance?
+      placeholder: List potential risks and mitigation strategies.
+    validations:
+      required: false
+
+  - type: textarea
+    id: testing-requirements
+    attributes:
+      label: Verification / Testing Requirements
+      description: What steps should be taken to confirm the maintenance task was successful and did not introduce regressions?
+      placeholder: e.g., "Run all unit tests," "Manually verify database connection is still functional."
+    validations:
+      required: true
