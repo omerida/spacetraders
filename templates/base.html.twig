@@ -1,14 +1,11 @@
-{% macro blank_link(path, text) %}
-    <a href="{{ path|escape('url') }}" target="_blank">{{ text ?: path }}</a>
-{% endmacro %}
-
-{% macro link(path, text) %}
-    <a href="{{ path|escape('url') }}">{{ text ?: path }}</a>
-{% endmacro %}
+{% import "macros/helpers.html.twig" as helpers %}
 
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/js/unpoly/unpoly.min.css" />
+    <script src="/js/unpoly/unpoly.min.js"></script>
+
     <link rel="stylesheet" href="/css/style.css"/>
     <title>{{ headTitle }} - SpaceTraders PHP Client</title>
     {% block head %}
@@ -26,15 +23,19 @@
       <li role="none">
         <a role="menuitem" href="/my/ships">Ships</a>
       </li>
-
     </ul>
 </nav>
+
 {% block breadcrumb %}
     {% include 'partials/breadcrumb.html.twig' %}
 {% endblock %}
 
+{% block errors %}
+    <div class="errors"></div>
+{% endblock %}
 
-<div id="content">{% block content %}{% endblock %}</div>
+    <div id="content" class="content">{% block content %}{% endblock %}</div>
+
 
 {% block footerScripts %}
 {% endblock %}

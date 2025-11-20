@@ -3,20 +3,26 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
+use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\TwigAwareInterface;
 use Phparch\SpaceTraders\Value\GoodsSymbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Psr\Http\Message\ResponseInterface;
 
-class FleetController implements RequestAwareInterface
+class FleetController implements RequestAwareInterface, TwigAwareInterface
 {
     use RequestAwareController;
+    use TwigAwareController;
 
     public function __construct(
         private Client\Fleet $client,
+        private Client\Systems $systems,
     ) {
     }
 
@@ -49,11 +55,13 @@ class FleetController implements RequestAwareInterface
         return (array) $this->client->dockShip($ship);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'set_ship_nav_mode', path: '/ship/set-flight-mode', methods: ['POST'])]
-    public function setShipNavMode(): array
+    #[Route(
+        name: 'set_ship_nav_mode',
+        path: '/ship/set-flight-mode',
+        methods: ['POST'],
+        strategy: 'application'
+    )]
+    public function setShipNavMode(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
         /**
@@ -69,15 +77,24 @@ class FleetController implements RequestAwareInterface
         if (!FlightMode::tryFrom($flightMode)) {
             throw new BadRequestException("Unknown flight mode.");
         }
-        return (array) $this->client->setNavMode($ship, $flightMode);
+
+        $response = $this->client->setNavMode($ship, $flightMode);
+        return $this->render('ships/set-nav-mode.html.twig', [
+            'nav' => $response->nav,
+            'fuel' => $response->fuel,
+        ]);
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'order_ship', path: '/ship/orders', methods: ['POST'])]
-    public function orderShip(): array
+    #[Route(
+        name: 'order_ship',
+        path: '/ship/orders',
+        methods: ['POST'],
+        strategy: 'application'
+    )]
+    public function orderShip(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
 
@@ -90,13 +107,31 @@ class FleetController implements RequestAwareInterface
 
         switch ($order) {
             case 'dock':
-                return (array) $this->client->dockShip($ship);
+                $response = $this->client->dockShip($ship);
+                return $this->render('partials/ship-nav-table.html.twig', [
+                    'nav' => $response->nav,
+                ]);
+
             case 'orbit':
-                return (array) $this->client->orbitShip($ship);
+                $response = $this->client->orbitShip($ship);
+                return $this->render('partials/ship-nav-table.html.twig', [
+                    'nav' => $response->nav,
+                ]);
+
             case 'extract':
-                return (array) $this->client->extractShip($ship);
+                $response = $this->client->extractShip($ship);
+                return $this->render('ships/ship-extract.html.twig', [
+                    'cooldown' => $response->cooldown,
+                    'cargo' => $response->cargo,
+                    'extraction' => $response->extraction,
+                ]);
             case 'refuel':
-                return (array) $this->client->refuelShip($ship);
+                $response = $this->client->refuelShip($ship);
+                return $this->render('ships/ship-refuel.html.twig', [
+                    'agent' => $response->agent,
+                    'fuel' => $response->fuel,
+                    'transaction' => $response->transaction
+                ]);
             default:
                 throw new BadRequestException("Unknown or missing order");
         }
@@ -113,11 +148,15 @@ class FleetController implements RequestAwareInterface
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
+     * @throws APIException
      */
-    #[Route(name: 'sell_goods', path: '/ship/sell-goods', methods: ['POST'])]
-    public function sellGoods(): array
+    #[Route(
+        name: 'sell_goods',
+        path: '/ship/sell-goods',
+        methods: ['POST']
+    )]
+    public function sellGoods(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
 
@@ -137,14 +176,24 @@ class FleetController implements RequestAwareInterface
 
         $units = $post['units'] ?? 0;
 
-        return (array) $this->client->sellCargo($ship, $good, $units);
+        $response = $this->client->sellCargo($ship, $good, $units);
+
+        return $this->render('ships/ship-sell-goods.html.twig', [
+            'cargo' => $response->cargo,
+            'transaction' => $response->transaction,
+            'agent' => $response->agent
+        ]);
     }
 
     /**
      * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'jettison_goods', path: '/ship/jettison-goods', methods: ['POST'])]
+    #[Route(
+        name: 'jettison_goods',
+        path: '/ship/jettison-goods',
+        methods: ['POST']
+    )]
     public function jettisonCargo(): array
     {
         $ship = $this->getShipIdFromPost();
@@ -188,35 +237,77 @@ class FleetController implements RequestAwareInterface
         return (array) $this->client->extractShip($ship);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'ship_info', path: '/ship/info', methods: ['GET'])]
-    public function shipInfo(): array
+    #[Route(
+        name: 'ship_info',
+        path: '/ship/info',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function shipInfo(): ResponseInterface
     {
-        $ship = $this->getShipID();
-        return (array) $this->client->getShip($ship);
+        $ID = $this->getShipID();
+        $ship = $this->client->getShip($ID);
+
+        $atFuelStation = (
+            $ship->nav->route->destination->isFuelStation()
+            && !$ship->nav->isInTransit()
+        );
+
+        $wp = $this->systems->systemLocation(
+            system: $ship->nav->route->destination->systemSymbol,
+            waypoint: $ship->nav->route->destination->symbol
+        );
+
+        $flightModes = [];
+        foreach (FlightMode::cases() as $case) {
+            $flightModes[] = [
+                'value' => $case->value,
+                'name' => $case->name,
+            ];
+        }
+
+        return $this->render('ships/info.html.twig', [
+            'ship' => $ship,
+            'flightModes' => $flightModes,
+            'atFuelStation' => $atFuelStation,
+            'atMarket' => $wp->hasMarket(),
+        ]);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'navigate_ship', path: '/ship/navigate', methods: ['POST'])]
-    public function navigateShip(): array
+    #[Route(
+        name: 'navigate_ship',
+        path: '/ship/navigate',
+        methods: ['POST'],
+        strategy: 'application'
+    )]
+    public function navigateShip(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
         $waypoint = $this->getWaypointFromPost();
-        return (array) $this->client->navigateShip($ship, $waypoint);
+        $response =  $this->client->navigateShip($ship, $waypoint);
+
+        return $this->render('ships/navigate-ship.html.twig', [
+            'nav' => $response->nav,
+            'fuel' => $response->fuel,
+            'events' => $response->events,
+        ]);
     }
 
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'ship_cargo', path: '/ship/cargo', methods: ['GET'])]
-    public function shipCargo(): array
+    #[Route(
+        name: 'ship_cargo',
+        path: '/ship/cargo',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function shipCargo(): ResponseInterface
     {
         $ship = $this->getShipID();
-        return (array) $this->client->getShipCargo($ship);
+
+        $response = $this->client->getShipCargo($ship);
+        return $this->render('ships/cargo.html.twig', [
+            'ship' => $ship,
+            'cargo_details' => $response,
+        ]);
     }
 
     /**
@@ -232,7 +323,11 @@ class FleetController implements RequestAwareInterface
     /**
      * @return array<mixed>
      */
-    #[Route(name: 'ship_mounts', path: '/ship/mounts', methods: ['GET'])]
+    #[Route(
+        name: 'ship_mounts',
+        path: '/ship/mounts',
+        methods: ['GET']
+    )]
     public function shipMounts(): array
     {
         $ship = $this->getShipID();
@@ -257,7 +352,7 @@ class FleetController implements RequestAwareInterface
         $waypoint = $post['waypoint'] ?? null;
 
         if (!$waypoint || !is_string($waypoint)) {
-            throw new BadRequestException("Waypoin param missing");
+            throw new BadRequestException("Waypoint param missing");
         }
 
         return new WaypointSymbol($waypoint);

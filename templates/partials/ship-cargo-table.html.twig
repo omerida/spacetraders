@@ -1,0 +1,18 @@
+<table class="ship-cargo">
+    <tr>
+        <th>Good</th>
+        <th>Units</th>
+    </tr>
+    {% for item in cargo_details.inventory %}
+    <tr>
+        <td class="left"><b>{{ item.name }}</b><br>
+            {{ item.description }} <em>{{ item.symbol.value }}</em>
+        </td>
+        <td>{{ item.units }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <th class="right">Capacity</th>
+        <th class="nowrap">{{ cargo_details.units }} / {{ cargo_details.capacity }}</th>
+    </tr>
+</table>

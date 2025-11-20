@@ -1,0 +1,10 @@
+{% import "macros/helpers.html.twig" as helpers %}
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<h1>Cargo on {{ ship }}</h1>
+
+{% include 'partials/ship-cargo-table.html.twig'
+    with {'cargo_details': cargo_details } %}
+
+{%  endblock %}

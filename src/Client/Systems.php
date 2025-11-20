@@ -47,11 +47,17 @@ class Systems extends \Phparch\SpaceTraders\Client
      */
     public function waypoints(string $system, array $queryParams = []): Response\Systems\Waypoints
     {
+        $default = [
+            'page' => 1,
+            'limit' => 20,
+        ];
+
+        $queryParams = array_merge($default, $queryParams);
         $url = sprintf('systems/%s/waypoints', $system);
         if ($queryParams) {
             $url .= '?' . http_build_query($queryParams);
         }
-        $response = $this->get($url);
+        $response = $this->getAllPages($url, limit: $queryParams['limit']);
         return $this->convertResponse($response, Response\Systems\Waypoints::class);
     }
 }

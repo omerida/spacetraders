@@ -20,10 +20,30 @@ class IndexController implements TwigAwareInterface
     ) {
     }
 
-    #[Route(name: 'homepage', path: '/', methods: ['GET'], strategy: 'application')]
+    #[Route(
+        name: 'homepage',
+        path: '/',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
     public function index(): ResponseInterface
     {
+        $agent = $this->client->myAgent();
+
+        $systems = [];
+
+        $systems[$agent->headquarters->system] = [
+            'name' => $agent->headquarters->system,
+            'value' => $agent->headquarters->system,
+        ];
+
         $ships = $this->fleet->listShips();
+        foreach ($ships->ships as $ship) {
+            $systems[$ship->nav->systemSymbol->system] = [
+                'name' => $ship->nav->systemSymbol->system,
+                'value' => $ship->nav->systemSymbol->system
+            ];
+        }
 
         $shipOpts = [];
         foreach ($ships->ships as $ship) {
@@ -34,11 +54,11 @@ class IndexController implements TwigAwareInterface
         }
         return $this->render('index.html.twig', [
             'headTitle' => 'Space Traders Client',
-            'agent' => $this->client->myAgent(),
+            'agent' => $agent,
             'ships' => $ships->ships,
             'shipOpts' => $shipOpts,
+            'systems' => $systems,
             'types' => WaypointType::cases(),
-            'flightModes' => FlightMode::cases(),
             'cargoTypes' => GoodsSymbol::cases(),
         ]);
     }

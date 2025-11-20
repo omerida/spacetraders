@@ -1,0 +1,13 @@
+{% include 'partials/ship-cooldown-table.html.twig'
+    with {'cooldown': cooldown }
+%}
+
+{% include 'partials/ship-cargo-table.html.twig'
+    with {'cargo_details': cargo }
+%}
+
+<div class="order-result">
+    {% include 'partials/ship-extraction-table.html.twig'
+        with {'extraction': extraction }
+    %}
+</div>

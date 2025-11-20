@@ -2,6 +2,8 @@
 
 namespace Phparch\SpaceTraders;
 
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -38,6 +40,79 @@ abstract class Client
             $this->baseURI . $url,
             ['headers' => $headers]
         );
+    }
+
+    public function getAllPages(
+        string $url,
+        int $limit = 10,
+        bool $authenticate = true
+    ): ResponseInterface {
+        $headers = [
+            'Content-Type' => 'application/json'
+        ];
+
+        if ($authenticate) {
+            $headers['Authorization'] = 'Bearer ' . $this->token;
+        }
+
+        $keepFetching = true;
+        $i = 0;
+        $data = [];
+        $max = null;
+        $page = 1;
+        while ($keepFetching && $i < 100) {
+            // "rebuild" the params
+            $parts = parse_url($url);
+
+            if (!isset($parts['path'])) {
+                throw new \InvalidArgumentException("URL path is missing");
+            }
+
+            if (isset($parts['query'])) {
+                parse_str($parts['query'], $parts['query']);
+            } else {
+                $parts['query'] = [];
+            }
+
+            $parts['query']['limit'] = $limit;
+            $parts['query']['page'] = $page;
+
+            $currUrl = $parts['path'] . '?' . http_build_query($parts['query']);
+            $response = $this->guzzle->get(
+                $this->baseURI . $currUrl,
+                ['headers' => $headers]
+            );
+
+            /**
+             * @var array{data: array<mixed>, meta: array{total: int}} $json
+             */
+            $json = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+
+            if (!$max) {
+                $max = $json['meta']['total'];
+            }
+
+            $data = array_merge($data, $json['data']);
+
+            if (count($data) >= $max) {
+                $keepFetching = false;
+            }
+
+            $i++;
+            $page++;
+        }
+
+        // Amalgamate our responses as if it was one data key
+        $raw = [
+            'data' => $data,
+        ];
+
+        $response = new Response();
+        $response = $response->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(
+            json_encode($raw, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+        );
+        return $response;
     }
 
     /**

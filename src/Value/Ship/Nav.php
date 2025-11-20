@@ -17,4 +17,19 @@ class Nav extends Base
         public readonly FlightMode $flightMode,
     ) {
     }
+
+    public function isInTransit(): bool
+    {
+        return $this->status === Status::IN_TRANSIT;
+    }
+
+    public function isInOrbit(): bool
+    {
+        return $this->status === Status::IN_ORBIT;
+    }
+
+    public function isDocked(): bool
+    {
+        return $this->status === Status::DOCKED;
+    }
 }

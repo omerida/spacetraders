@@ -4,7 +4,26 @@
     --color-alternate: #dedede;
     --color-nav-bg: #369;
     --color-nav: #fff;
+    --color-error: #900;
+    --color-error-bg:#fee;
 }
+
+/* screen layout */
+.game-container {
+    display: grid;
+    grid-template-areas: "game-aside game-main";
+    grid-template-columns: max(300px, 25vw) auto;
+    grid-gap: 0.5rem;
+    aside {
+        grid-area: game-aside;
+    }
+
+    main {
+        grid-area: game-main;
+    }
+}
+
+
 
 body {
     font-size: 16px;
@@ -94,63 +113,101 @@ nav.breadcrumb [aria-current="page"] {
 table {
     border-collapse: collapse;
     border: 1px solid var(--color-emphasis);
+    max-height: 45vh;
+    overflow: auto;
+    th {
+        padding: 0.5rem 1.25rem;
+        background-color: var(--color-emphasis);
+        color: var(--color-emphasis-alt);
+        border: 1px solid white;
+    }
+
+    td {
+        padding: 0.5rem 0.5rem 0.25rem;
+        text-align: center;
+        border: 1px solid white;
+    }
+
+    th.left, td.left {
+        text-align: left;
+    }
+
+    th.right, td.right {
+        text-align: right;
+    }
+
+    th.nowrap, td.nowrap {
+        white-space: nowrap;
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--color-alternate);
+    }
 }
 
-table th {
-    padding: 0.5rem 1.25rem;
-    background-color: var(--color-emphasis);
-    color: var(--color-emphasis-alt);
-}
-
-table td {
-    padding: 0.5rem 0.5rem 0.25rem;
-}
-
-tr:nth-child(even) {
-  background-color: var(--color-alternate);
-}
-
-/* Basic Card */
-.card {
-    border: 1px solid var(--color-emphasis);
-}
 
 
-/* Basic Flex layout */
 
+/* Flex layout for putting children in rows that wrap */
 .flex {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1rem;
-    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom:1rem;
+    align-content: stretch;
+
+    /* Expand children to fill width
+     */
+    > * {
+        flex-grow: 1;
+    }
 }
 
-/* A simple card */
+/* A simple card to be used with details element*/
 .card {
     border-radius: 0 0 .5rem .5rem;
+    border: 1px solid var(--color-emphasis);
+    padding: 0.5rem 1rem;
 
+    /* Used when you don't have a details container */
     .title {
         padding: 0.5rem 1rem;
         background-color: var(--color-emphasis);
         color: var(--color-emphasis-alt);
         margin-top: 0;
         margin-bottom: 0.5rem;
+        border-top: none;
+    }
+
+    summary::marker {
+      color: #fff;
+      font-size: 1.2em;
+    }
+
+    summary {
+        margin: -.5rem -1.05rem 1rem;
+        padding: 0.5rem 1rem;
+        background-color: var(--color-emphasis);
+        color: var(--color-emphasis-alt);
+        border-top: none;
+        font-size: 1.2rem;
+        font-weight: bold;
     }
 
     .info {
+        padding: 0.5rem 0.75rem 0.5rem;
 
         h3, h4, h4 {
             background-color: var(--color-emphasis-alt);
-            margin: 0 -.5rem;
-            padding: 0.5rem 0.75rem;
-        }
-        padding: 0.25rem 0.5rem 1rem;
-
-        > *:first-child {
-            margin: 0;
+            margin: 1rem -.75rem 0.5rem;
+            padding: 0.5rem 1rem;
         }
 
+        table {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
         ul, ol {
             padding-left: 1.5rem;
             margin-top: 0.25rem;
@@ -162,12 +219,25 @@ tr:nth-child(even) {
     }
 }
 
-.card-one-third {
-    max-width: 33vw;
+div.card {
+    padding: 0;
 }
 
-.card-one-fifth {
-    max-width: 20vw;
+.one-fourth {
+    max-width: max(24%, 24vw);
+}
+
+.one-third {
+    max-width: max(32%, 32vw);
+}
+
+.two-thirds {
+    max-width: max(65%, 65vw);
+
+}
+
+.one-fifth {
+    max-width: max(19%, 19vw);
 }
 
 ul.tags {
@@ -186,7 +256,28 @@ ul.tags {
 }
 
 #system-map {
-    outline: 2px solid red;
-    width: 800px;
-    height: 800px
+    border: 5px inset #ccc;
+    background-color: #000;
+    height: 75vh;
+    overflow: hidden;
 }
+
+.errors:empty {
+    display: none;
+}
+
+.errors{
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+    background: var(--color-error-bg);
+    padding:1rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.well {
+    padding: 1rem;
+    border: 5px inset #ccc;
+    margin: 0.5rem 0 1rem;
+}
+

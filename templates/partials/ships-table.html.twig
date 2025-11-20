@@ -1,0 +1,33 @@
+{% import "macros/helpers.html.twig" as helpers %}
+
+<table>
+    <tr>
+        <th>Symbol & Waypoint</th>
+        <th>Status & Flight Mode</th>
+        <th>Fuel</th>
+        <th>Cooldown Remaining</th>
+        <th>Cargo</th>
+    </tr>
+    {% for ship in ships %}
+    <tr>
+        <td>{{ helpers.modal_link_grow(
+                viewShipPath(ship.symbol),
+                ship.symbol)
+            }}
+            <br>
+            {{ helpers.modal_link_large(
+                viewWaypointPath(ship.nav.waypointSymbol),
+                ship.nav.waypointSymbol
+            ) }}</td>
+        <td>{{ ship.nav.status.value|machine2readable }}<br>{{ ship.nav.flightMode.value|machine2readable }}</td>
+        <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
+        <td>{{ ship.cooldown.remainingSeconds }}</td>
+        <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}
+            {{ helpers.link(
+                viewShipCargoPath(ship.symbol),
+                '[cargo]'
+            ) }}
+            </td>
+    </tr>
+    {% endfor %}
+</table>

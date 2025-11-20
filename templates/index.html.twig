@@ -1,38 +1,34 @@
+{% import "macros/helpers.html.twig" as helpers %}
 {% extends 'base.html.twig' %}
 
-{% macro select_options(options) %}
-    {% for opt in options %}
-      <option value="{{ opt.value }}"> {{ opt.name }} </option>
-    {% endfor %}
-{% endmacro %}
-
 {% block content %}
+<div class="game-container">
+    <aside>
+        <h1>Welcome, Captain</h1>
+        <h2>Your Agent</h2>
+        {%  include 'partials/agent-table.html.twig'
+            with {'agent': agent} %}
 
-<h1>Welcome, Captain</h1>
+        <h2>Ships</h2>
+        {% include 'partials/ships-table.html.twig'
+            with {'ships': ships} %}
+    </aside>
+    <main>
+        <div class="well">
+            <select id="systemsSelect">
+                <option value="">Select System</option>
+                {{ helpers.select_options(systems) }}
+            </select>
+            <button onclick="renderSystemMap(document.getElementById('systemsSelect').value)"
+            >View System</button>
+        </div>
 
-<h2>Your Agent</h2>
-<table>
-<tr>
-    <th>Symbol</th>
-    <th>HQ</th>
-    <th>Credits</th>
-    <th>Faction</th>
-    <th>ShipCount</th>
-</tr>
-<tr>
-    <td>{{ agent.symbol }}</td>
-    <td>{{ _self.blank_link(
-            viewWaypointPath(agent.headquarters),
-            agent.headquarters)
-        }}</td>
-    <td>{{ agent.credits|number_format }}</td>
-    <td>{{ agent.startingFaction }}</td>
-    <td>{{ agent.shipCount }}</td>
-</tr>
-</table>
+        <div id="system-map"></div>
+    </main>
+</div>
+
 
 <h2>Waypoints</h2>
-
 <p>Quickstart suggests viewing your starting location</p>
 <h3>View a Waypoint</h3>
 <form method="get" action="/systems/waypoint" target="_blank">
@@ -51,112 +47,15 @@
            name="traits" >
     <select name="type">
         <option value="">Any type</option>
-        {{ _self.select_options(types) }}
+        {{ helpers.select_options(types) }}
     </select>
     <input type="submit" value="Search">
 </form>
 
-<h2>Ships</h2>
 
-<table>
-    <tr>
-        <th>Symbol</th>
-        <th>Waypoint</th>
-        <th>Status</th>
-        <th>Flightmode</th>
-        <th>Fuel</th>
-        <th>Cooldown Remaining</th>
-        <th>Cargo</th>
-    </tr>
-    {% for ship in ships %}
-    <tr>
-        <td>{{ _self.link(
-                viewShipPath(ship.symbol),
-                ship.symbol)
-            }}</td>
-        <td>{{ _self.link(
-            viewWaypointPath(ship.nav.waypointSymbol),
-            ship.nav.waypointSymbol,
-        ) }}</td>
-        <td>{{ ship.nav.status.value }}</td>
-        <td>{{ ship.nav.flightMode.value }}</td>
-        <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
-        <td>{{ ship.cooldown.remainingSeconds }}</td>
-        <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}
-            {{ _self.link(
-                viewShipCargoPath(ship.symbol),
-                '[cargo]'
-            ) }}
-            </td>
-    </tr>
-    {% endfor %}
-</table>
+{% endblock %}
 
-<h3>Ship Orders</h3>
-<form action="/ship/orders" target="_blank" method="post">
-    <select name="ship" required>
-        <option disabled>--Select Ship--</option>
-        {{ _self.select_options(shipOpts) }}
-    </select>
-    <select name="order" required>
-        <option disabled>--Select Order--</option>
-        <option value="orbit">Orbit</option>
-        <option value="dock">Dock</option>
-        <option value="extract">Extract</option>
-        <option value="refuel">Refuel</option>
-    </select>
-    <input type="submit" value="Issue Order">
-</form>
-
-<h3>Navigate</h3>
-<form action="/ship/navigate" target="_blank" method="post">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ _self.select_options(shipOpts) }}
-    </select>
-    <input type="text" name="waypoint" placeholder="waypoint" required>
-    <input type="submit" value="Navigate Ship">
-</form>
-
-<h3>Set Flight Mode</h3>
-<form action="/ship/set-flight-mode" target="_blank" method="post">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ _self.select_options(shipOpts) }}
-    </select>
-    <select name="flightmode" required>
-        <option value="">--Select Flight Mode--</option>
-        {{ _self.select_options(flightModes) }}
-    </select>
-    <input type="submit" value="Set Flight Mode">
-</form>
-
-<h3>Sell Goods</h3>
-<form action="/ship/sell-goods" target="_blank" method="POST">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ _self.select_options(shipOpts) }}
-    </select>
-    <select name="good" required>
-        <option value="">--Select Trade Good--</option>
-        {{ _self.select_options(cargoTypes) }}
-    </select>
-    <input type="number" name="units" placeholder="units" required>
-    <input type="submit" value="Sell">
-</form>
-
-<h3>Jettison Goods</h3>
-<form action="/ship/sell-goods" target="_blank" method="POST">
-    <select name="ship" required>
-        <option>--Select Ship--</option>
-        {{ _self.select_options(shipOpts) }}
-    </select>
-    <select name="good" required>
-        <option value="">--Select Trade Good--</option>
-        {{ _self.select_options(cargoTypes) }}
-    </select>
-    <input type="number" name="units" placeholder="units" required>
-    <input type="submit" value="Jettison">
-</form>
-
+{% block footerScripts %}
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    <script src="/js/system-map.js"></script>
 {% endblock %}

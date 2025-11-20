@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ headTitle }} - SpaceTraders PHP Client</title>
+    {% block head %}
+    {% endblock %}
+
+</head>
+<body>
+
+{% block errors %}
+    <div class="errors"></div>
+{% endblock %}
+
+    <div id="content" class="content">{% block content %}{% endblock %}</div>
+
+</body>
+</html>

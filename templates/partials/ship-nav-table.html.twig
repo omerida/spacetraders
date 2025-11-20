@@ -1,0 +1,37 @@
+{% import "macros/helpers.html.twig" as helpers %}
+
+<table class="ship-nav-status">
+    <tr>
+        <th>Current Status</th>
+        <th>Flight Mode</th>
+    </tr>
+    <tr>
+        <td><b>{{ nav.status.value|machine2readable }}</b></td>
+        <td><b>{{ nav.flightMode.value|machine2readable }}</b></td>
+    </tr>
+    <tr>
+        <th>Destination</th>
+        <th>Origin</th>
+    </tr>
+    <tr>
+        <td>{{ helpers.drawer_link_grow(
+                viewWaypointPath(nav.route.destination.symbol),
+                nav.route.destination.symbol) }}
+            <em>{{ nav.route.destination.type.value }}</em>
+        </td>
+        <td>
+            {{ helpers.drawer_link_grow(
+                viewWaypointPath(nav.route.origin.symbol),
+                nav.route.origin.symbol) }}
+            <em>{{ nav.route.origin.type.value }}</em>
+        </td>
+    </tr>
+    <tr>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+    </tr>
+    <tr>
+        <td>{{ nav.route.departureTime.date|date }}</td>
+        <td>{{ nav.route.arrival.date|date }}</td>
+    </tr>
+</table>

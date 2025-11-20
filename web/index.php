@@ -3,10 +3,8 @@
 use GuzzleHttp\Psr7;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route;
-use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Middleware\Auth;
+use Phparch\SpaceTraders\Middleware;
 use Phparch\SpaceTraders\RoutesMapper;
-use Psr\Http\Message\ServerRequestInterface;
 use Phparch\SpaceTraders\ServiceContainer;
 
 // include the Composer autoloader
@@ -26,7 +24,11 @@ $request = Psr7\ServerRequest::fromGlobals();
 $responseFactory = new Psr7\HttpFactory();
 $strategy = new Route\Strategy\JsonStrategy($responseFactory);
 $router   = (new Route\Router)->setStrategy($strategy);
-$router->middleware(new Auth($_ENV["SPACETRADERS_TOKEN"] ?? ''));
+// Register Middleware Components
+$router->middleware(new Middleware\Auth($_ENV["SPACETRADERS_TOKEN"] ?? ''));
+$router->middleware(new Middleware\ExceptionDecorator(
+    ServiceContainer::get(\Twig\Environment::class)
+));
 
 $mapper = ServiceContainer::get(RoutesMapper::class);
 $router = $mapper->registerAll($router);
