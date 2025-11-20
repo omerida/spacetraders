@@ -55,6 +55,9 @@
   },
   "extra": {
     "hooks": {
+      "config": {
+        "stop-on-failure": ["pre-push"]
+      },
       "pre-commit": [
         "vendor/bin/phpcs --filter=GitStaged"
       ],
