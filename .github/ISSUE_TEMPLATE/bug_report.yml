@@ -6,9 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please provide the following details  us to fix it quickly 
-        and efficiently, please complete all sections below to 
-        helps reproduce the issue faster.
+        Please complete all sections below to helps reproduce the issue faster.
   - type: textarea
     id: description
     attributes:
