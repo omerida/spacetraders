@@ -59,6 +59,7 @@
         "vendor/bin/phpcs --filter=GitStaged"
       ],
       "pre-push": [
+        "scripts/pre-push-branch-check.sh",
         "vendor/bin/phpstan"
       ]
     }
