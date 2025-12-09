@@ -3,7 +3,6 @@
 namespace Phparch\SpaceTraders;
 
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -56,11 +55,11 @@ abstract class Client
         }
 
         $keepFetching = true;
-        $i = 0;
+        $iter = 0;
         $data = [];
         $max = null;
         $page = 1;
-        while ($keepFetching && $i < 100) {
+        while ($keepFetching && $iter < 100) {
             // "rebuild" the params
             $parts = parse_url($url);
 
@@ -98,7 +97,7 @@ abstract class Client
                 $keepFetching = false;
             }
 
-            $i++;
+            $iter++;
             $page++;
         }
 
