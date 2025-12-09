@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile-php
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    user: "1000:1000" # Runs the container processes as user 1000 and group 1000
     environment:
       PHP_IDE_CONFIG: "serverName=localhost"
     ports:
