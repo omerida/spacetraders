@@ -9,9 +9,17 @@ use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 
+/**
+ * @phpstan-type Environment array{
+ *     USE_APCU: bool,
+ *     SPACETRADERS_TOKEN: string
+ * }
+ */
 final class ServiceContainer
 {
     private static Container $container;
+    /** @var Environment */
+    private static array $env;
 
     /**
      * @param array<class-string, callable> $config
@@ -71,7 +79,15 @@ final class ServiceContainer
     public static function autodiscover(): void
     {
         $ref = new BetterReflection();
-        self::registerApiClients($ref, $_ENV['USE_APCU'] === 1);
+        self::registerApiClients($ref, self::$env['USE_APCU'] === 1);
+    }
+
+    /**
+     * @param Environment $env
+     */
+    public static function setEnv(array $env): void
+    {
+        self::$env = $env;
     }
 
     protected static function isAPIClient(ReflectionClass $class): bool
@@ -125,7 +141,7 @@ final class ServiceContainer
                 // Closure to call when this class is requested.
                 function () use ($className) {
                     return new $className(
-                        $_ENV['SPACETRADERS_TOKEN'],
+                        self::$env['SPACETRADERS_TOKEN'],
                         self::get(\GuzzleHttp\Client::class)
                     );
                 }

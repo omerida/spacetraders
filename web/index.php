@@ -15,7 +15,7 @@ $dotenv->load();
 // Get our configured service container
 $services = require_once __DIR__ . '/../config/services.php';
 ServiceContainer::config($services);
-
+ServiceContainer::setEnv($_ENV);
 // Register dynamic services
 ServiceContainer::autodiscover();
 
