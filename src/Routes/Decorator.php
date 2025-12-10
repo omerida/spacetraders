@@ -38,6 +38,10 @@ class Decorator
                         "Unknown route response strategy"
                     );
             }
+            return;
         }
+
+        $responseFactory = new HttpFactory();
+        $route->setStrategy(new JsonStrategy($responseFactory));
     }
 }

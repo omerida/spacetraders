@@ -27,7 +27,7 @@
                 <b>Deadline to Accept:</b>
                 {{ contract.deadlineToAccept|date }}
             </p>
-            <form method="post" action="/contract/accept/">
+            <form method="post" action="/contract/accept">
                 <input type="hidden" name="id" value="{{ contract.id }}">
                 <button value="accept">Accept</button>
             </form>
