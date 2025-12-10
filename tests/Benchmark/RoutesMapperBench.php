@@ -5,7 +5,7 @@ namespace Phparch\SpaceTraders\Tests\Benchmark;
 use Dotenv\Dotenv;
 use GuzzleHttp\Psr7;
 use League\Route;
-use Phparch\SpaceTraders\RoutesMapper;
+use Phparch\SpaceTraders\Routes\Mapper;
 use Phparch\SpaceTraders\ServiceContainer;
 
 class RoutesMapperBench {
@@ -15,7 +15,7 @@ class RoutesMapperBench {
         $dotenv = Dotenv::createImmutable($root);
         $dotenv->load();
 
-        $mapper = new RoutesMapper(
+        $mapper = new Mapper(
             srcRootDir: $root . '/src/',
             controllerDirs: [
                 [
@@ -30,7 +30,7 @@ class RoutesMapperBench {
         $responseFactory = new Psr7\HttpFactory();
         $strategy = new Route\Strategy\JsonStrategy($responseFactory);
         $router   = (new Route\Router)->setStrategy($strategy);
-        $mapper = ServiceContainer::get(RoutesMapper::class);
+        $mapper = ServiceContainer::get(Mapper::class);
         $router = $mapper->registerAll($router);
     }
 
@@ -40,7 +40,7 @@ class RoutesMapperBench {
         $dotenv = Dotenv::createMutable($root);
         $dotenv->load();
 
-        $mapper = new RoutesMapper(
+        $mapper = new Mapper(
             srcRootDir: $root . '/src/',
             controllerDirs: [
                 [

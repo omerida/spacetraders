@@ -4,7 +4,7 @@ use GuzzleHttp\Psr7;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route;
 use Phparch\SpaceTraders\Middleware;
-use Phparch\SpaceTraders\RoutesMapper;
+use Phparch\SpaceTraders\Routes\Mapper;
 use Phparch\SpaceTraders\ServiceContainer;
 
 // include the Composer autoloader
@@ -30,7 +30,7 @@ $router->middleware(new Middleware\ExceptionDecorator(
     ServiceContainer::get(\Twig\Environment::class)
 ));
 
-$mapper = ServiceContainer::get(RoutesMapper::class);
+$mapper = ServiceContainer::get(Mapper::class);
 $router = $mapper->registerAll($router);
 
 $response = $router->dispatch($request);
