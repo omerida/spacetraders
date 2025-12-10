@@ -127,7 +127,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
     #[Route(
         name: 'map_system_json',
         path: '/systems/waypoint/map/json',
-        methods: ['GET'],
+        methods: ['GET']
     )]
     public function mapSystemJSON(): array
     {
