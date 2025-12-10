@@ -26,7 +26,7 @@ class ContractsController implements RequestAwareInterface, TwigAwareInterface
      * @throws BadRequestException
      */
     #[Route(name: 'accept_contract', path: '/contract/accept', methods: ['POST'])]
-    public function AccceptContract(): array
+    public function accceptContract(): array
     {
         /**
          * @var array{

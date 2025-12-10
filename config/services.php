@@ -4,15 +4,16 @@ use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use Phparch\SpaceTraders;
+use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
-    Predis\Client::class => function () {
+    Predis\Client::class => static function () {
         return new Predis\Client($_ENV['REDIS_URI']);
     },
-    GuzzleHttp\Client::class => function () {
+    GuzzleHttp\Client::class => static function () {
         $adapter = new RedisAdapter(
             redis: ServiceContainer::get(Predis\Client::class),
             namespace: '',
@@ -27,20 +28,35 @@ return [
         $stack->push(new CacheMiddleware($strategy), 'cache');
         return new GuzzleHttp\Client(['handler' => $stack]);
     },
-    SpaceTraders\RoutesMapper::class => function () {
-        return new SpaceTraders\RoutesMapper(
-            srcRootDir: dirname(__DIR__) . '/src/',
+    Routes\Scanner::class => static function () {
+        return new Routes\Scanner(
             controllerDirs: [
                 [
                     'namespace' => 'Phparch\\SpaceTraders',
                     'path' => dirname(__DIR__) . '/src/Controller/'
                 ]
             ],
-            container: ServiceContainer::instance(),
-            useAPCu: $_ENV['USE_APCU'] === 1
+            ref: ServiceContainer::get(
+                \Roave\BetterReflection\BetterReflection::class
+            ),
+            useAPCu: $_ENV['USE_APCU'] === 1,
         );
     },
-    Twig\Environment::class => function () {
+    Routes\Mapper::class => static function () {
+        return new SpaceTraders\Routes\Mapper(
+            scanner: ServiceContainer::get(Routes\Scanner::class),
+            registry: ServiceContainer::get(Routes\Registry::class),
+        );
+    },
+    Routes\Registry::class => static function () {
+        return new Routes\Registry(
+            container: ServiceContainer::instance(),
+            router: ServiceContainer::get(League\Route\Router::class),
+            decorator: ServiceContainer::get(Routes\Decorator::class)
+        );
+
+    },
+    Twig\Environment::class => static function () {
         $twig = new Twig\Environment(
             new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/templates/'),
             [

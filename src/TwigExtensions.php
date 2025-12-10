@@ -31,9 +31,9 @@ class TwigExtensions
     }
 
     #[AsTwigFunction('viewShipPath')]
-    public static function viewShipPath(string $id): string
+    public static function viewShipPath(string $shipID): string
     {
-        return self::pathWithParams("/ship/info", ['ship' => $id]);
+        return self::pathWithParams("/ship/info", ['ship' => $shipID]);
     }
 
     #[AsTwigFunction('viewShipyardPath')]
@@ -43,9 +43,9 @@ class TwigExtensions
     }
 
     #[AsTwigFunction('viewWaypointPath')]
-    public static function viewWaypointPath(string $wp): string
+    public static function viewWaypointPath(string $waypointID): string
     {
-        return self::pathWithParams("/systems/waypoint", ['id' => $wp]);
+        return self::pathWithParams("/systems/waypoint", ['id' => $waypointID]);
     }
 
     #[AsTwigFilter('machine2readable')]

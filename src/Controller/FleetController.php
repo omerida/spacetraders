@@ -245,15 +245,15 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
     )]
     public function shipInfo(): ResponseInterface
     {
-        $ID = $this->getShipID();
-        $ship = $this->client->getShip($ID);
+        $shipID = $this->getShipID();
+        $ship = $this->client->getShip($shipID);
 
         $atFuelStation = (
             $ship->nav->route->destination->isFuelStation()
             && !$ship->nav->isInTransit()
         );
 
-        $wp = $this->systems->systemLocation(
+        $waypoint = $this->systems->systemLocation(
             system: $ship->nav->route->destination->systemSymbol,
             waypoint: $ship->nav->route->destination->symbol
         );
@@ -270,7 +270,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             'ship' => $ship,
             'flightModes' => $flightModes,
             'atFuelStation' => $atFuelStation,
-            'atMarket' => $wp->hasMarket(),
+            'atMarket' => $waypoint->hasMarket(),
         ]);
     }
 
