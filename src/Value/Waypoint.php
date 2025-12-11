@@ -1,11 +1,10 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\Systems;
+namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
-use Phparch\SpaceTraders\Value\SystemSymbol;
-use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 use Phparch\SpaceTraders\Value\Waypoint\Faction;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
 class Waypoint
 {

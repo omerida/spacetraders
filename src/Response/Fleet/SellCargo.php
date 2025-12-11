@@ -2,8 +2,8 @@
 
 namespace Phparch\SpaceTraders\Response\Fleet;
 
-use Phparch\SpaceTraders\Response\Agent;
 use Phparch\SpaceTraders\Trait\MapFromArray;
+use Phparch\SpaceTraders\Value\Agent;
 use Phparch\SpaceTraders\Value\Market\Transaction;
 use Phparch\SpaceTraders\Value\Ship\CargoDetails;
 

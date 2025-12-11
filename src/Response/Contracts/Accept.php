@@ -2,8 +2,8 @@
 
 namespace Phparch\SpaceTraders\Response\Contracts;
 
-use Phparch\SpaceTraders\Response\Agent;
 use Phparch\SpaceTraders\Trait\MapFromArray;
+use Phparch\SpaceTraders\Value\Agent;
 use Phparch\SpaceTraders\Value\Contract;
 
 class Accept

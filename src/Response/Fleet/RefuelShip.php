@@ -2,10 +2,10 @@
 
 namespace Phparch\SpaceTraders\Response\Fleet;
 
-use Phparch\SpaceTraders\Response\Agent;
 use Phparch\SpaceTraders\Trait\MapFromArray;
-use Phparch\SpaceTraders\Value\Ship\RefuelTransaction;
+use Phparch\SpaceTraders\Value\Agent;
 use Phparch\SpaceTraders\Value\Ship\Fuel;
+use Phparch\SpaceTraders\Value\Ship\RefuelTransaction;
 
 class RefuelShip
 {

@@ -1,9 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response;
+namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
-use Phparch\SpaceTraders\Value\Waypoint;
 
 class Agent
 {
