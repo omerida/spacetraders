@@ -2,10 +2,12 @@
 
 namespace Phparch\SpaceTraders\Response\Fleet;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class ListShips extends Base
+class ListShips
 {
+    use MapFromArray;
+
     public function __construct(
         /** @var \Phparch\SpaceTraders\Value\Ship[] */
         public array $ships,

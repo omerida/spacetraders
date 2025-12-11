@@ -2,14 +2,16 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\Goods\Detail;
 use Phparch\SpaceTraders\Value\Market\TradeGoods;
 use Phparch\SpaceTraders\Value\Market\Transaction;
 use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
-class Market extends Base
+class Market
 {
+    use MapFromArray;
+
     public function __construct(
         public Symbol $symbol,
         /** @var Detail[] */

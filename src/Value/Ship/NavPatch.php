@@ -2,10 +2,12 @@
 
 namespace Phparch\SpaceTraders\Value\Ship;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class NavPatch extends Base
+class NavPatch
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly Nav $nav,
         public readonly Fuel $fuel,

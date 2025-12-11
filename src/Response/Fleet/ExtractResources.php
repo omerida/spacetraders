@@ -2,13 +2,15 @@
 
 namespace Phparch\SpaceTraders\Response\Fleet;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\Ship\CargoDetails;
 use Phparch\SpaceTraders\Value\Ship\CoolDown;
 use Phparch\SpaceTraders\Value\Ship\Extraction\Details;
 
-class ExtractResources extends Base
+class ExtractResources
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly CoolDown $cooldown,
         public readonly CargoDetails $cargo,

@@ -2,10 +2,12 @@
 
 namespace Phparch\SpaceTraders\Response\Systems;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class Waypoints extends Base
+class Waypoints
 {
+    use MapFromArray;
+
     public function __construct(
         /** @var \Phparch\SpaceTraders\Response\Systems\Waypoint[] */
         public array $waypoints,

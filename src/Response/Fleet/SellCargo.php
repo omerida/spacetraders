@@ -3,12 +3,14 @@
 namespace Phparch\SpaceTraders\Response\Fleet;
 
 use Phparch\SpaceTraders\Response\Agent;
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\Market\Transaction;
 use Phparch\SpaceTraders\Value\Ship\CargoDetails;
 
-class SellCargo extends Base
+class SellCargo
 {
+    use MapFromArray;
+
     public function __construct(
         public Agent $agent,
         public CargoDetails $cargo,

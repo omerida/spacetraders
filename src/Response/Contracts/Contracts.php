@@ -2,10 +2,12 @@
 
 namespace Phparch\SpaceTraders\Response\Contracts;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class Contracts extends Base
+class Contracts
 {
+    use MapFromArray;
+
     public function __construct(
         /** @var list<\Phparch\SpaceTraders\Value\Contract> */
         public array $contracts = [],

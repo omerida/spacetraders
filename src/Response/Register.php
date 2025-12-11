@@ -2,10 +2,13 @@
 
 namespace Phparch\SpaceTraders\Response;
 
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value;
 
-class Register extends Base
+class Register
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly Agent $agent,
         public readonly Value\Contract $contract,

@@ -2,11 +2,13 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
-class Shipyard extends Base
+class Shipyard
 {
+    use MapFromArray;
+
     public function __construct(
         public Symbol $symbol,
         public int $modificationsFee,

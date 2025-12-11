@@ -2,13 +2,15 @@
 
 namespace Phparch\SpaceTraders\Response\Systems;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\SystemSymbol;
-use Phparch\SpaceTraders\Value\Waypoint\Faction;
 use Phparch\SpaceTraders\Value\Waypoint\Symbol;
+use Phparch\SpaceTraders\Value\Waypoint\Faction;
 
-class Waypoint extends Base
+class Waypoint
 {
+    use MapFromArray;
+
     public function __construct(
         public SystemSymbol $systemSymbol,
         public Symbol $symbol,

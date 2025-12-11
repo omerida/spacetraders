@@ -2,10 +2,12 @@
 
 namespace Phparch\SpaceTraders\Value\Ship;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class CoolDown extends Base
+class CoolDown
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly string $shipSymbol, // todo proper object?
         /** @var non-negative-int */
