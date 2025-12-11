@@ -8,13 +8,13 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
-use Phparch\SpaceTraders\RequestAwareInterface;
-use Phparch\SpaceTraders\TwigAwareInterface;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
-use Phparch\SpaceTraders\Value\WaypointType;
+use Phparch\SpaceTraders\Interface\RequestAware;
+use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
+use Phparch\SpaceTraders\Value\Waypoint\Type;
 use Psr\Http\Message\ResponseInterface;
 
-class WaypointController implements RequestAwareInterface, TwigAwareInterface
+class WaypointController implements RequestAware, TwigAware
 {
     use RequestAwareController;
     use TwigAwareController;
@@ -63,7 +63,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
          * @var array{
          *     system ?: ?string,
          *     traits ?: ?string,
-         *     type ?: null|value-of<WaypointType>
+         *     type ?: null|value-of<Type>
          * } $query
          */
         $query = $this->getRequest()->getQueryParams();
@@ -94,7 +94,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
         } else {
             $query['type'] = strtoupper($query['type']);
             // Validate the type is allowed
-            if (!WaypointType::tryFrom($query['type'])) {
+            if (!Type::tryFrom($query['type'])) {
                 throw new BadRequestException("Unknown waypoint type.");
             }
         }
@@ -135,7 +135,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
          * @var array{
          *     system ?: ?string,
          *     traits ?: ?string,
-         *     type ?: null|value-of<WaypointType>
+         *     type ?: null|value-of<Type>
          * } $query
          */
         $query = $this->getRequest()->getQueryParams();
@@ -162,7 +162,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
          * @var array{
          *     system ?: ?string,
          *     traits ?: ?string,
-         *     type ?: null|value-of<WaypointType>
+         *     type ?: null|value-of<Type>
          * } $query
          */
         $query = $this->getRequest()->getQueryParams();
@@ -180,7 +180,7 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
         ]);
     }
 
-    private function getWaypoint(): WaypointSymbol
+    private function getWaypoint(): Symbol
     {
         $query = $this->getRequest()->getQueryParams();
         $id = $query['id'] ?? null;
@@ -194,6 +194,6 @@ class WaypointController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Invalid characters in waypoing ID");
         }
 
-        return new WaypointSymbol($id);
+        return new Symbol($id);
     }
 }

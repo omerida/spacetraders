@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\Shipyard\Ship;
 
-use Phparch\SpaceTraders\Value\ShipFrameRequirements;
+use Phparch\SpaceTraders\Value\Ship\Frame\Requirements;
 
 class Frame
 {
@@ -16,7 +16,7 @@ class Frame
         public readonly float $quality,
         public readonly float $condition,
         public readonly float $integrity,
-        public ShipFrameRequirements $requirements,
+        public Requirements $requirements,
     ) {
     }
 }

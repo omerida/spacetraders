@@ -3,12 +3,12 @@
 namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Response\Base;
-use Phparch\SpaceTraders\Value\ShipTypes;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
 class Shipyard extends Base
 {
     public function __construct(
-        public WaypointSymbol $symbol,
+        public Symbol $symbol,
         public int $modificationsFee,
         /** @var Shipyard\ShipType[] */
         public array $shipTypes,

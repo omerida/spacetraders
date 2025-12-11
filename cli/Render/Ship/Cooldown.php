@@ -2,13 +2,13 @@
 
 namespace Phparch\SpaceTradersCLI\Render\Ship;
 
-use Phparch\SpaceTraders\Value\ShipCoolDown;
+use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 
 class Cooldown extends AbstractRenderer
 {
     public function __construct(
-        public ShipCoolDown $cooldown,
+        public Ship\CoolDown $cooldown,
     ) {
     }
 

@@ -3,14 +3,14 @@
 namespace Phparch\SpaceTraders\Client;
 
 use GuzzleHttp\Exception\ClientException;
+use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Response;
-use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
-use Phparch\SpaceTraders\Value\ShipCargoDetails;
-use Phparch\SpaceTraders\Value\ShipCoolDown;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Ship\CargoDetails;
+use Phparch\SpaceTraders\Value\Ship\CoolDown;
+use Phparch\SpaceTraders\Value\Waypoint;
 
 /**
  * For endpoints under "fleet" group.
@@ -83,12 +83,12 @@ class Fleet extends Client
         }
     }
 
-    public function getShipCargo(string $ship): ShipCargoDetails
+    public function getShipCargo(string $ship): CargoDetails
     {
         try {
             return $this->convertResponse(
                 $this->get('my/ships/' . $ship . '/cargo'),
-                ShipCargoDetails::class
+                CargoDetails::class
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
@@ -96,12 +96,12 @@ class Fleet extends Client
         }
     }
 
-    public function getShipCooldown(string $ship): ShipCoolDown
+    public function getShipCooldown(string $ship): CoolDown
     {
         try {
             return $this->convertResponse(
                 $this->get('my/ships/' . $ship . '/cooldown'),
-                ShipCoolDown::class
+                CoolDown::class
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
@@ -137,7 +137,7 @@ class Fleet extends Client
 
     public function navigateShip(
         string $ship,
-        WaypointSymbol $waypointSymbol
+        Waypoint\Symbol $waypointSymbol
     ): Response\Fleet\NavigateShip
     {
         try {
@@ -197,7 +197,7 @@ class Fleet extends Client
     }
 
     public function purchaseShip(
-        WaypointSymbol $waypoint,
+        Waypoint\Symbol $waypoint,
         string $type
     ): Response\Fleet\PurchaseShip
     {

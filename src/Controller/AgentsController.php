@@ -5,9 +5,9 @@ namespace Phparch\SpaceTraders\Controller;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
-use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\Interface\RequestAware;
 
-class AgentsController implements RequestAwareInterface
+class AgentsController implements RequestAware
 {
     use RequestAwareController;
 

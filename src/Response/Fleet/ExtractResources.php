@@ -3,16 +3,16 @@
 namespace Phparch\SpaceTraders\Response\Fleet;
 
 use Phparch\SpaceTraders\Response\Base;
-use Phparch\SpaceTraders\Value\Ship\ExtractionDetails;
-use Phparch\SpaceTraders\Value\ShipCargoDetails;
-use Phparch\SpaceTraders\Value\ShipCoolDown;
+use Phparch\SpaceTraders\Value\Ship\CargoDetails;
+use Phparch\SpaceTraders\Value\Ship\CoolDown;
+use Phparch\SpaceTraders\Value\Ship\Extraction\Details;
 
 class ExtractResources extends Base
 {
     public function __construct(
-        public readonly ShipCoolDown $cooldown,
-        public readonly ShipCargoDetails $cargo,
-        public readonly ExtractionDetails $extraction,
+        public readonly CoolDown $cooldown,
+        public readonly CargoDetails $cargo,
+        public readonly Details $extraction,
         /** @var array<array<string, string>> */
         public readonly array $events,
         /** @var array<array<string, string>> */

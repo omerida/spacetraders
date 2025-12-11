@@ -7,11 +7,11 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
-use Phparch\SpaceTraders\RequestAwareInterface;
-use Phparch\SpaceTraders\TwigAwareInterface;
+use Phparch\SpaceTraders\Interface\RequestAware;
+use Phparch\SpaceTraders\Interface\TwigAware;
 use Psr\Http\Message\ResponseInterface;
 
-class ContractsController implements RequestAwareInterface, TwigAwareInterface
+class ContractsController implements RequestAware, TwigAware
 {
     use RequestAwareController;
     use TwigAwareController;

@@ -42,7 +42,7 @@ class Systems extends \Phparch\SpaceTraders\Client
      *     'limit'?: int,
      *     'page'?: int,
      *     'traits'?: string,
-     *     'type'?:value-of<Value\WaypointType>
+     *     'type'?:value-of<\Phparch\SpaceTraders\Value\Waypoint\Type>
      * } $queryParams
      */
     public function waypoints(string $system, array $queryParams = []): Response\Systems\Waypoints

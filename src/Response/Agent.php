@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Response;
 
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
 class Agent extends Base
 {
@@ -11,7 +11,7 @@ class Agent extends Base
         public readonly string $accountId,
         /** @var non-empty-string */
         public readonly string $symbol,
-        public readonly WaypointSymbol $headquarters,
+        public readonly Symbol $headquarters,
         public readonly int $credits,
         /** @var non-empty-string */
         public readonly string $startingFaction,

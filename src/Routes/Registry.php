@@ -3,14 +3,9 @@
 namespace Phparch\SpaceTraders\Routes;
 
 use DI\Container;
-use GuzzleHttp\Psr7\HttpFactory;
-use http\Exception\InvalidArgumentException;
 use League\Route\Router;
-use League\Route\Strategy\ApplicationStrategy;
-use League\Route\Strategy\JsonStrategy;
-use Phparch\SpaceTraders\RequestAwareInterface;
+use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\RouteInfo;
-use Phparch\SpaceTraders\TwigAwareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Twig\Environment;
 
@@ -54,7 +49,7 @@ class Registry
             $info->httpMethods,
             $info->path,
             function (ServerRequestInterface $request) use ($controller, $info): mixed {
-                if ($controller instanceof RequestAwareInterface) {
+                if ($controller instanceof RequestAware) {
                     $controller->setRequest($request);
                 }
                 return $controller->{$info->method}();

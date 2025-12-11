@@ -4,14 +4,14 @@ namespace Phparch\SpaceTraders\Response\Systems;
 
 use Phparch\SpaceTraders\Response\Base;
 use Phparch\SpaceTraders\Value\SystemSymbol;
-use Phparch\SpaceTraders\Value\WaypointFaction;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint\Faction;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
 class Waypoint extends Base
 {
     public function __construct(
         public SystemSymbol $systemSymbol,
-        public WaypointSymbol $symbol,
+        public Symbol $symbol,
         /** @var non-empty-string */
         public readonly string $type, // enum?
         public readonly int $x,
@@ -23,7 +23,7 @@ class Waypoint extends Base
         /** @var list<\Phparch\SpaceTraders\Value\SystemTrait> */
         public readonly array $modifiers,
         public readonly \Phparch\SpaceTraders\Value\SystemChart $chart,
-        public readonly WaypointFaction $faction,
+        public readonly Faction $faction,
         public readonly bool $isUnderConstruction,
         public readonly string $orbits = "",
     ) {
