@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\System;
 
-class SystemSymbol
+class Symbol
 {
     public readonly string $sector;
     public readonly string $system;

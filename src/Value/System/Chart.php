@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\System;
 
-class SystemChart
+class Chart
 {
     public function __construct(
         public readonly string $waypointSymbol,

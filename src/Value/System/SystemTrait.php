@@ -1,6 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\System;
 
 class SystemTrait
 {

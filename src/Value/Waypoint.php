@@ -3,28 +3,26 @@
 namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
-use Phparch\SpaceTraders\Value\Waypoint\Faction;
-use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 
 class Waypoint
 {
     use MapFromArray;
 
     public function __construct(
-        public SystemSymbol $systemSymbol,
-        public Symbol $symbol,
+        public System\Symbol $systemSymbol,
+        public Waypoint\Symbol $symbol,
         /** @var non-empty-string */
         public readonly string $type, // enum?
         public readonly int $x,
         public readonly int $y,
         /** @var list<\Phparch\SpaceTraders\Value\Orbital> */
         public readonly array $orbitals,
-        /** @var list<\Phparch\SpaceTraders\Value\SystemTrait> */
+        /** @var list<\Phparch\SpaceTraders\Value\System\SystemTrait> */
         public readonly array $traits,
-        /** @var list<\Phparch\SpaceTraders\Value\SystemTrait> */
+        /** @var list<\Phparch\SpaceTraders\Value\System\SystemTrait> */
         public readonly array $modifiers,
-        public readonly \Phparch\SpaceTraders\Value\SystemChart $chart,
-        public readonly Faction $faction,
+        public readonly System\Chart $chart,
+        public readonly Waypoint\Faction $faction,
         public readonly bool $isUnderConstruction,
         public readonly string $orbits = "",
     ) {
