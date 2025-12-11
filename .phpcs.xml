@@ -4,10 +4,6 @@
     <file>./cli/</file>
     <file>./src/</file>
 
-    <exclude-pattern>*.(css|js)$</exclude-pattern>
-
-    <arg name="extensions" value="php" />
-
     <rule ref="Squiz.ControlStructures.ControlSignature">
         <properties>
             <property name="requiredSpacesBeforeColon" value="0" />
