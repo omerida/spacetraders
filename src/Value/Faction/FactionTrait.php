@@ -1,11 +1,11 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Faction;
 
-class GoodsDetail
+class FactionTrait
 {
     public function __construct(
-        public readonly GoodsSymbol $symbol,
+        public readonly FactionTraitSymbol $symbol,
         public readonly string $name,
         public readonly string $description,
     )

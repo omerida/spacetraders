@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Goods;
 
-enum GoodsSymbol: string
+enum Symbol: string
 {
     case PRECIOUS_STONES = "PRECIOUS_STONES";
     case QUARTZ_SAND = "QUARTZ_SAND";

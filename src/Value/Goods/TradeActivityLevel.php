@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Goods;
 
-enum GoodsActivityLevel: string
+enum TradeActivityLevel: string
 {
     case WEAK = "WEAK";
     case GROWING = "GROWING";

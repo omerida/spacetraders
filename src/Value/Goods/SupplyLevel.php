@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Goods;
 
-enum GoodsSupplyLevel: string
+enum SupplyLevel: string
 {
     case SCARCE = "SCARCE";
     case LIMITED = "LIMITED";

@@ -10,7 +10,7 @@ use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\RequestAwareInterface;
 use Phparch\SpaceTraders\TwigAwareInterface;
-use Phparch\SpaceTraders\Value\GoodsSymbol;
+use Phparch\SpaceTraders\Value\Goods\Symbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
 use Phparch\SpaceTraders\Value\WaypointSymbol;
 use Psr\Http\Message\ResponseInterface;
@@ -170,7 +170,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Please specify good to sell");
         }
 
-        if (!GoodsSymbol::tryFrom($good)) {
+        if (!Symbol::tryFrom($good)) {
             throw new BadRequestException("Unknown good to sell.");
         }
 
@@ -208,7 +208,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Please specify good to sell");
         }
 
-        if (!GoodsSymbol::tryFrom($good)) {
+        if (!Symbol::tryFrom($good)) {
             throw new BadRequestException("Unknown good to sell.");
         }
 

@@ -1,13 +1,15 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Contract;
 
-class ContractTerms
+use Phparch\SpaceTraders\Value\PaymentTerms;
+
+class Terms
 {
     public function __construct(
         public readonly \DateTimeImmutable $deadline,
         public readonly PaymentTerms $payment,
-        /** @var ContractDeliver[] */
+        /** @var Deliver[] */
         public readonly array $deliver,
     )
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Contract;
 
-enum ContractType: string
+enum Type: string
 {
     case PROCUREMENT = "PROCUREMENT";
     case TRANSPORT = "TRANSPORT";

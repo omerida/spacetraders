@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Contract;
 
-class ContractDeliver
+class Deliver
 {
     public function __construct(
         public readonly string $tradeSymbol,

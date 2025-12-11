@@ -1,6 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Faction;
 
 enum FactionTraitSymbol: string
 {

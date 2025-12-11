@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Value;
+namespace Phparch\SpaceTraders\Value\Faction;
 
-class FactionSymbol
+class Symbol
 {
     public function __construct(
         public readonly string $faction

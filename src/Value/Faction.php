@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Value\Faction\FactionTrait;
 
 class Faction extends Base
 {

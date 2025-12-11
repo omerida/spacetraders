@@ -5,8 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\TwigAwareInterface;
-use Phparch\SpaceTraders\Value\GoodsSymbol;
-use Phparch\SpaceTraders\Value\Ship\FlightMode;
+use Phparch\SpaceTraders\Value\Goods\Symbol;
 use Phparch\SpaceTraders\Value\WaypointType;
 use Psr\Http\Message\ResponseInterface;
 
@@ -59,7 +58,7 @@ class IndexController implements TwigAwareInterface
             'shipOpts' => $shipOpts,
             'systems' => $systems,
             'types' => WaypointType::cases(),
-            'cargoTypes' => GoodsSymbol::cases(),
+            'cargoTypes' => Symbol::cases(),
         ]);
     }
 }
