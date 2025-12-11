@@ -5,7 +5,7 @@ namespace Phparch\SpaceTradersCLI\Render;
 class Agent extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Response\Agent $agent,
+        public \Phparch\SpaceTraders\Value\Agent $agent,
     )
     {
     }

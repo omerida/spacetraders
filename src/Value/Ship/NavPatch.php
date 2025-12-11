@@ -2,18 +2,15 @@
 
 namespace Phparch\SpaceTraders\Value\Ship;
 
-use Phparch\SpaceTraders\Response\Base;
-use Phparch\SpaceTraders\Value\Route;
-use Phparch\SpaceTraders\Value\ShipFuel;
-use Phparch\SpaceTraders\Value\SystemSymbol;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
-use Phparch\SpaceTradersCLI\Render\Ship\Fuel;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class NavPatch extends Base
+class NavPatch
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly Nav $nav,
-        public readonly ShipFuel $fuel,
+        public readonly Fuel $fuel,
         /** @var array<string, string> */
         public readonly array $events,
     ) {

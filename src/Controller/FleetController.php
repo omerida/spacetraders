@@ -8,14 +8,14 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
-use Phparch\SpaceTraders\RequestAwareInterface;
-use Phparch\SpaceTraders\TwigAwareInterface;
-use Phparch\SpaceTraders\Value\GoodsSymbol;
+use Phparch\SpaceTraders\Interface\RequestAware;
+use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Value\Goods\Symbol;
 use Phparch\SpaceTraders\Value\Ship\FlightMode;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint;
 use Psr\Http\Message\ResponseInterface;
 
-class FleetController implements RequestAwareInterface, TwigAwareInterface
+class FleetController implements RequestAware, TwigAware
 {
     use RequestAwareController;
     use TwigAwareController;
@@ -170,7 +170,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Please specify good to sell");
         }
 
-        if (!GoodsSymbol::tryFrom($good)) {
+        if (!Symbol::tryFrom($good)) {
             throw new BadRequestException("Unknown good to sell.");
         }
 
@@ -208,7 +208,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Please specify good to sell");
         }
 
-        if (!GoodsSymbol::tryFrom($good)) {
+        if (!Symbol::tryFrom($good)) {
             throw new BadRequestException("Unknown good to sell.");
         }
 
@@ -346,7 +346,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
         return $id;
     }
 
-    private function getWaypointFromPost(): WaypointSymbol
+    private function getWaypointFromPost(): Waypoint\Symbol
     {
         $post = (array) $this->getRequest()->getParsedBody();
         $waypoint = $post['waypoint'] ?? null;
@@ -355,7 +355,7 @@ class FleetController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Waypoint param missing");
         }
 
-        return new WaypointSymbol($waypoint);
+        return new Waypoint\Symbol($waypoint);
     }
 
     private function getShipID(): string

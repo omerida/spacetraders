@@ -7,8 +7,8 @@ use InvalidArgumentException;
 use League\Route\Route;
 use League\Route\Strategy\ApplicationStrategy;
 use League\Route\Strategy\JsonStrategy;
+use Phparch\SpaceTraders\Interface\TwigAware;
 use Phparch\SpaceTraders\RouteInfo;
-use Phparch\SpaceTraders\TwigAwareInterface;
 use Twig\Environment;
 
 class Decorator
@@ -17,7 +17,7 @@ class Decorator
         object $controller,
         Environment $twig,
     ): void {
-        if ($controller instanceof TwigAwareInterface) {
+        if ($controller instanceof TwigAware) {
             $controller->setTwigEnvironment($twig);
         }
     }

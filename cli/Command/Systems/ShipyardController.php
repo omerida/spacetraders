@@ -7,7 +7,7 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
@@ -31,7 +31,7 @@ class ShipyardController extends CommandController
                 throw new InvalidArgumentException("Invalid characters in waypoing ID");
             }
 
-            $wp = new WaypointSymbol($id);
+            $wp = new Waypoint\Symbol($id);
 
             $shipyard = $client->shipyard($wp->system, $wp->waypoint);
 

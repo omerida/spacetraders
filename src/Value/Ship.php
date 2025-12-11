@@ -2,25 +2,27 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
 
-class Ship extends Base
+class Ship
 {
+    use MapFromArray;
+
     public function __construct(
         public readonly string $symbol,
         public readonly Ship\Nav $nav,
-        public readonly ShipCrew $crew,
-        public readonly ShipFuel $fuel,
-        public readonly ShipCoolDown $cooldown,
-        public readonly ShipFrame $frame,
-        public readonly ShipReactor $reactor,
-        public readonly ShipEngine $engine,
-        /** @var ShipModule[]  */
+        public readonly Ship\Crew\Details $crew,
+        public readonly Ship\Fuel $fuel,
+        public readonly Ship\CoolDown $cooldown,
+        public readonly Ship\Frame $frame,
+        public readonly Ship\Reactor $reactor,
+        public readonly Ship\Engine $engine,
+        /** @var Ship\Module[]  */
         public readonly array $modules,
-        /** @var ShipMount[] */
+        /** @var Ship\Mount[] */
         public readonly array $mounts,
         public readonly RegistrationInfo $registration,
-        public readonly ShipCargoDetails $cargo,
+        public readonly Ship\CargoDetails $cargo,
     ) {
     }
 }

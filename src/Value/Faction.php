@@ -2,10 +2,13 @@
 
 namespace Phparch\SpaceTraders\Value;
 
-use Phparch\SpaceTraders\Response\Base;
+use Phparch\SpaceTraders\Trait\MapFromArray;
+use Phparch\SpaceTraders\Value\Faction\FactionTrait;
 
-class Faction extends Base
+class Faction
 {
+    use MapFromArray;
+
     /**
      * @param FactionTrait[] $traits
      */

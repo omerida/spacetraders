@@ -69,9 +69,9 @@
     }
   },
   "scripts": {
-    "check-code": "vendor/bin/phpcs && vendor/bin/phpstan --memory-limit=1G",
+    "check-code": ["@phpcs",  "@phpstan"],
     "phpmd": "vendor/bin/phpmd --ignore-violations-on-exit --ignore-errors-on-exit src text phpmd.xml" ,
-    "phpstan": "vendor/bin/phpstan",
+    "phpstan": "vendor/bin/phpstan --memory-limit=1G",
     "phpcs": "vendor/bin/phpcs",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",

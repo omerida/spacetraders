@@ -2,16 +2,16 @@
 
 namespace Phparch\SpaceTraders\Value\Market;
 
-use Phparch\SpaceTraders\Value\GoodsSymbol;
+use Phparch\SpaceTraders\Value\Goods;
 use Phparch\SpaceTraders\Value\TransactionType;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint;
 
 class Transaction
 {
     public function __construct(
-        public WaypointSymbol $waypointSymbol,
+        public Waypoint\Symbol $waypointSymbol,
         public string $shipSymbol,
-        public GoodsSymbol $tradeSymbol,
+        public Goods\Symbol $tradeSymbol,
         public TransactionType $type,
         /** @var non-negative-int */
         public int $units,

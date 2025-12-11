@@ -28,13 +28,13 @@ class Systems extends \Phparch\SpaceTraders\Client
         return $this->convertResponse($response, Value\Shipyard::class);
     }
 
-    public function systemLocation(string $system, string $waypoint): Response\Systems\Waypoint
+    public function systemLocation(string $system, string $waypoint): Value\Waypoint
     {
         $response = $this->get(
             sprintf('systems/%s/waypoints/%s', $system, $waypoint)
         );
 
-        return $this->convertResponse($response, Response\Systems\Waypoint::class);
+        return $this->convertResponse($response, Value\Waypoint::class);
     }
 
     /**
@@ -42,10 +42,10 @@ class Systems extends \Phparch\SpaceTraders\Client
      *     'limit'?: int,
      *     'page'?: int,
      *     'traits'?: string,
-     *     'type'?:value-of<Value\WaypointType>
+     *     'type'?:value-of<\Phparch\SpaceTraders\Value\Waypoint\Type>
      * } $queryParams
      */
-    public function waypoints(string $system, array $queryParams = []): Response\Systems\Waypoints
+    public function waypoints(string $system, array $queryParams = []): Value\Waypoints
     {
         $default = [
             'page' => 1,
@@ -58,6 +58,6 @@ class Systems extends \Phparch\SpaceTraders\Client
             $url .= '?' . http_build_query($queryParams);
         }
         $response = $this->getAllPages($url, limit: $queryParams['limit']);
-        return $this->convertResponse($response, Response\Systems\Waypoints::class);
+        return $this->convertResponse($response, Value\Waypoints::class);
     }
 }

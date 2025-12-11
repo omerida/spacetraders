@@ -14,12 +14,12 @@ class Agents extends \Phparch\SpaceTraders\Client
      * @throws APIException
      * @throws \JsonException
      */
-    public function myAgent(): Response\Agent
+    public function myAgent(): \Phparch\SpaceTraders\Value\Agent
     {
         try {
             return $this->convertResponse(
                 $this->get('my/agent'),
-                Response\Agent::class
+                \Phparch\SpaceTraders\Value\Agent::class
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();
@@ -28,7 +28,7 @@ class Agents extends \Phparch\SpaceTraders\Client
     }
 
     #[\Deprecated]
-    public function register(string $symbol, string $faction): Response\Register
+    public function register(string $symbol, string $faction): \Phparch\SpaceTraders\Value\Register
     {
         try {
             $response = $this->post(
@@ -42,7 +42,7 @@ class Agents extends \Phparch\SpaceTraders\Client
 
             return $this->convertResponse(
                 $response,
-                Response\Register::class
+                \Phparch\SpaceTraders\Value\Register::class
             );
         } catch (ClientException $e) {
             $body = $e->getResponse()->getBody()->getContents();

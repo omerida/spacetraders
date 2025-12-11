@@ -7,12 +7,12 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
-use Phparch\SpaceTraders\RequestAwareInterface;
-use Phparch\SpaceTraders\TwigAwareInterface;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Interface\RequestAware;
+use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Value\Waypoint\Symbol;
 use Psr\Http\Message\ResponseInterface;
 
-class ShipyardController implements RequestAwareInterface, TwigAwareInterface
+class ShipyardController implements RequestAware, TwigAware
 {
     use RequestAwareController;
     use TwigAwareController;
@@ -46,7 +46,7 @@ class ShipyardController implements RequestAwareInterface, TwigAwareInterface
             throw new BadRequestException("Invalid characters in waypoing ID");
         }
 
-        $point = new WaypointSymbol($id);
+        $point = new Symbol($id);
 
         $result = $this->client->shipyard(
             system: $point->system,

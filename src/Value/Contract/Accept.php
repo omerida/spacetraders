@@ -1,0 +1,18 @@
+<?php
+
+namespace Phparch\SpaceTraders\Value\Contract;
+
+use Phparch\SpaceTraders\Trait\MapFromArray;
+use Phparch\SpaceTraders\Value\Agent;
+use Phparch\SpaceTraders\Value\Contract;
+
+class Accept
+{
+    use MapFromArray;
+
+    public function __construct(
+        public Contract $contract,
+        public Agent $agent,
+    ) {
+    }
+}

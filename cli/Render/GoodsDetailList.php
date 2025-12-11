@@ -2,12 +2,12 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-use Phparch\SpaceTraders\Value\GoodsDetail;
+use Phparch\SpaceTraders\Value\Goods\Detail;
 
 class GoodsDetailList extends AbstractRenderer
 {
     public function __construct(
-        /** @var GoodsDetail[] $goods */
+        /** @var Detail[] $goods */
         public array $goods,
     )
     {

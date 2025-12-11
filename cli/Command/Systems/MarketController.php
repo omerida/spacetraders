@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Value\WaypointSymbol;
+use Phparch\SpaceTraders\Value\Waypoint;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
@@ -31,7 +31,7 @@ class MarketController extends CommandController
                 throw new InvalidArgumentException("Invalid characters in waypoing ID");
             }
 
-            $wp = new WaypointSymbol($id);
+            $wp = new Waypoint\Symbol($id);
             $market = $client->market($wp->system, $wp->waypoint);
 
             $r = new Render\Market($market);

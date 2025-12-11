@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Response;
 class Waypoint extends AbstractRenderer
 {
     public function __construct(
-        public Response\Systems\Waypoint $waypoint,
+        public \Phparch\SpaceTraders\Value\Waypoint $waypoint,
     ) {
     }
 

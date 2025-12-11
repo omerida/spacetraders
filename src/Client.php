@@ -176,9 +176,9 @@ abstract class Client
     /**
      * @todo Use an interface instead of an AbstractClass here?
      *
-     * @template R of \Phparch\SpaceTraders\Response\Base
-     * @param class-string<R> $responseClass
-     * @return R
+     * @template T of object
+     * @param class-string<T> $responseClass
+     * @return T
      * @throws \JsonException
      */
     protected function convertResponse(

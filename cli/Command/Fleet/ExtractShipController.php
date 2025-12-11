@@ -4,11 +4,11 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response\Fleet\ExtractResources;
-use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\APIException;
+use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTraders\Value\Fleet\ExtractResources;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
@@ -42,7 +42,7 @@ class ExtractShipController extends CommandController
         } catch (APIException $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
-            $cooldown = Value\ShipCoolDown::fromArray($ex->data['cooldown']);
+            $cooldown = Value\Ship\CoolDown::fromArray($ex->data['cooldown']);
             $render = new Render\Ship\Cooldown($cooldown);
             echo $render->output();
         }

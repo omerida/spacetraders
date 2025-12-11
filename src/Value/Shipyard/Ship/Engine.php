@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\Shipyard\Ship;
 
-use Phparch\SpaceTraders\Value\ShipEngineRequirements;
+use Phparch\SpaceTraders\Value\Ship\Engine\Requirements;
 
 class Engine
 {
@@ -14,7 +14,7 @@ class Engine
         public readonly float $quality,
         public readonly float $condition,
         public readonly float $integrity,
-        public ShipEngineRequirements $requirements,
+        public Requirements $requirements,
     ) {
     }
 }
