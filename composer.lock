@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42291fc24e8d16f26572bf951ce239c6",
+    "content-hash": "21433aee69f8d237547fe291686190d2",
     "packages": [
         {
             "name": "cuyz/valinor",
@@ -1892,34 +1892,35 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "6.58.x-dev",
+            "version": "6.67.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "df75befa67aca818bedb90f6aaa22c98efa7307e"
+                "reference": "1ff82079ba9b7758c79b7b644a6c8fab0171f8bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/df75befa67aca818bedb90f6aaa22c98efa7307e",
-                "reference": "df75befa67aca818bedb90f6aaa22c98efa7307e",
+                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/1ff82079ba9b7758c79b7b644a6c8fab0171f8bb",
+                "reference": "1ff82079ba9b7758c79b7b644a6c8fab0171f8bb",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "jetbrains/phpstorm-stubs": "2024.3",
-                "nikic/php-parser": "^5.4.0",
-                "php": "~8.2.0 || ~8.3.2 || ~8.4.1"
+                "nikic/php-parser": "^5.7.0",
+                "php": "~8.3.2 || ~8.4.1 || ~8.5.0"
             },
             "conflict": {
                 "thecodingmachine/safe": "<1.1.3"
             },
             "require-dev": {
-                "phpbench/phpbench": "^1.4.1",
-                "phpunit/phpunit": "^11.5.21"
+                "phpbench/phpbench": "^1.4.3",
+                "phpunit/phpunit": "^11.5.46"
             },
             "suggest": {
                 "composer/composer": "Required to use the ComposerSourceLocator"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1955,9 +1956,9 @@
             "description": "Better Reflection - an improved code reflection API",
             "support": {
                 "issues": "https://github.com/Roave/BetterReflection/issues",
-                "source": "https://github.com/Roave/BetterReflection/tree/6.58.0"
+                "source": "https://github.com/Roave/BetterReflection/tree/6.67.x"
             },
-            "time": "2025-05-27T20:20:42+00:00"
+            "time": "2025-12-10T16:39:39+00:00"
         },
         {
             "name": "symfony/cache",
