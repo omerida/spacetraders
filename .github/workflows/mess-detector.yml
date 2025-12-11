@@ -1,9 +1,9 @@
 name: Mess Detector Report
 run-name: Run PHP Mess Detector
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - published
 permissions:
   issues: write
 
