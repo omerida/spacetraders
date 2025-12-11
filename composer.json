@@ -47,7 +47,7 @@
   "require-dev": {
     "phpstan/phpstan": "^2.0",
     "brainmaestro/composer-git-hooks": "^3.0",
-    "squizlabs/php_codesniffer": "^3.10",
+    "squizlabs/php_codesniffer": "^4.0",
     "phpmd/phpmd": "3.x-dev",
     "pdepend/pdepend": "3.x-dev",
     "phpbench/phpbench": "^1.4",
@@ -72,6 +72,7 @@
     "check-code": "vendor/bin/phpcs && vendor/bin/phpstan",
     "phpmd": "vendor/bin/phpmd --ignore-violations-on-exit --ignore-errors-on-exit src text phpmd.xml" ,
     "phpstan": "vendor/bin/phpstan",
+    "phpcs": "vendor/bin/phpcs",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",
     "twig-lint": "vendor/bin/twig-cs-fixer lint templates",
