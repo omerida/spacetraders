@@ -1,6 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\Fleet;
+namespace Phparch\SpaceTraders\Value\Fleet;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
 

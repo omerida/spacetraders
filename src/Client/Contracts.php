@@ -8,21 +8,21 @@ use Phparch\SpaceTraders\Value\Contract;
 
 class Contracts extends Client
 {
-    public function myContracts(): Response\Contracts\Contracts
+    public function myContracts(): \Phparch\SpaceTraders\Value\Contracts
     {
         return $this->convertResponse(
             $this->get('my/contracts'),
-            Response\Contracts\Contracts::class
+            \Phparch\SpaceTraders\Value\Contracts::class
         );
     }
 
-    public function accept(string $id): Response\Contracts\Accept
+    public function accept(string $id): Contract\Accept
     {
         $url = sprintf('my/contracts/%s/accept', $id);
 
         return $this->convertResponse(
             $this->post($url),
-            Response\Contracts\Accept::class
+            Contract\Accept::class
         );
     }
 

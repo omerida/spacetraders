@@ -6,9 +6,9 @@ use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response\Fleet\ExtractResources;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTraders\Value\Fleet\ExtractResources;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 

@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Response\Fleet\OrbitShip;
+use Phparch\SpaceTraders\Value\Fleet\OrbitShip;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 

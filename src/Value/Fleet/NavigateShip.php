@@ -1,10 +1,10 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\Fleet;
+namespace Phparch\SpaceTraders\Value\Fleet;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
-use Phparch\SpaceTraders\Value\Ship\Nav;
 use Phparch\SpaceTraders\Value\Ship\Fuel;
+use Phparch\SpaceTraders\Value\Ship\Nav;
 
 class NavigateShip
 {

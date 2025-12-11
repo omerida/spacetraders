@@ -1,6 +1,6 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\Contracts;
+namespace Phparch\SpaceTraders\Value;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
 

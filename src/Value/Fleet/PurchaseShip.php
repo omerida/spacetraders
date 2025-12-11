@@ -1,19 +1,19 @@
 <?php
 
-namespace Phparch\SpaceTraders\Response\Fleet;
+namespace Phparch\SpaceTraders\Value\Fleet;
 
 use Phparch\SpaceTraders\Trait\MapFromArray;
 use Phparch\SpaceTraders\Value\Agent;
-use Phparch\SpaceTraders\Value\Market\Transaction;
-use Phparch\SpaceTraders\Value\Ship\CargoDetails;
+use Phparch\SpaceTraders\Value\Ship;
+use Phparch\SpaceTraders\Value\Shipyard\Transaction;
 
-class SellCargo
+class PurchaseShip
 {
     use MapFromArray;
 
     public function __construct(
         public Agent $agent,
-        public CargoDetails $cargo,
+        public Ship $ship,
         public Transaction $transaction,
     ) {
     }
