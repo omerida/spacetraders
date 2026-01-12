@@ -45,7 +45,7 @@ RUN apk add --no-cache \
     # for redis extension
     lz4-libs \
     # for zip extension
-    libzip \
+    libzip
 
 
 # Get the extensions from build stage
