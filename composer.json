@@ -52,7 +52,8 @@
     "pdepend/pdepend": "3.x-dev",
     "phpbench/phpbench": "^1.4",
     "vincentlanglet/twig-cs-fixer": "^3.8",
-    "bmitch/churn-php": "^1.7"
+    "bmitch/churn-php": "^1.7",
+    "phparkitect/phparkitect": "^0.7.0"
   },
   "extra": {
     "hooks": {
@@ -69,12 +70,13 @@
     }
   },
   "scripts": {
-    "check-code": ["@phpcs",  "@phpstan"],
+    "check-code": ["@phpcs",  "@phpstan", "@phparkitect"],
     "phpmd": "vendor/bin/phpmd --ignore-violations-on-exit --ignore-errors-on-exit src text phpmd.xml" ,
     "phpstan": "vendor/bin/phpstan --memory-limit=1G",
     "phpcs": "vendor/bin/phpcs",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",
+    "phparkitect": "vendor/bin/phparkitect check",
     "twig-lint": "vendor/bin/twig-cs-fixer lint templates",
     "twig-lint-fix": "vendor/bin/twig-cs-fixer lint --fix templates"
   }
