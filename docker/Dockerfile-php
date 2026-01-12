@@ -42,6 +42,7 @@ RUN apk add --no-cache \
     libavif \
     libwebp \
     libxpm \
+    git \
     # for redis extension
     lz4-libs \
     # for zip extension
