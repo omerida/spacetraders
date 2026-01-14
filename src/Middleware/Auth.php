@@ -3,7 +3,6 @@
 namespace Phparch\SpaceTraders\Middleware;
 
 use Lcobucci\JWT\Token\InvalidTokenStructure;
-use Phparch\SpaceTraders\APIException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

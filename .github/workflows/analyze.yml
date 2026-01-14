@@ -26,3 +26,7 @@ jobs:
       - name: Run PHPCodeSniffer
         if: always()
         run: phpcs -q --report=checkstyle cli src | cs2pr
+
+      - name: Run PHPArkitect
+        if: always()
+        run: vendor/bin/phparkitect check --format=json
