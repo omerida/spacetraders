@@ -154,7 +154,8 @@ class FleetController implements RequestAware, TwigAware
     #[Route(
         name: 'sell_goods',
         path: '/ship/sell-goods',
-        methods: ['POST']
+        methods: ['POST'],
+        strategy: 'application'
     )]
     public function sellGoods(): ResponseInterface
     {

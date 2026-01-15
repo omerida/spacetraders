@@ -11,3 +11,9 @@ parameters:
     paths:
         - src
         - cli
+
+services:
+    -
+        class: Phparch\SpaceTraders\PHPStan\ControllerMethodSignatureRule
+        tags:
+            - phpstan.rules.rule
