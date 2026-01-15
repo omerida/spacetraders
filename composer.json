@@ -65,7 +65,8 @@
       ],
       "pre-push": [
         "scripts/pre-push-branch-check.sh",
-        "vendor/bin/phpstan"
+        "vendor/bin/phpstan",
+        "vendor/bin/phparkitect check"
       ]
     }
   },
