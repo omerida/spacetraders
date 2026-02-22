@@ -13,7 +13,7 @@ use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
 #[HelpInfo(
-    description: "Extract mininerals at a waypoint.",
+    description: "Extract minerals at a waypoint.",
     params: ['ship symbol']
 )]
 class ExtractShipController extends CommandController
@@ -30,7 +30,6 @@ class ExtractShipController extends CommandController
 
         try {
             $response = $client->extractShip($shipSymbol);
-            //$response = $this->getMock();
 
             $cooldown = new Render\Ship\Cooldown($response->cooldown);
             echo $cooldown->output();
@@ -42,7 +41,10 @@ class ExtractShipController extends CommandController
         } catch (APIException $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
-            $cooldown = Value\Ship\CoolDown::fromArray($ex->data['cooldown']);
+
+            /** @var iterable<string, mixed> $raw */
+            $raw = $ex->data['cooldown'];
+            $cooldown = Value\Ship\CoolDown::fromArray($raw);
             $render = new Render\Ship\Cooldown($cooldown);
             echo $render->output();
         }

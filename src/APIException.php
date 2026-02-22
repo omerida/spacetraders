@@ -4,7 +4,7 @@ namespace Phparch\SpaceTraders;
 
 class APIException extends \Exception
 {
-    /** @var array<string, mixed>  */
+    /** @var array<string, mixed> */
     public readonly array $data;
 
     public function __construct(string $message, ?\Throwable $previous = null)
