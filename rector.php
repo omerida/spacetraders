@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Phparch\SpaceTraders\Rector\NonNegativeIntToPromotedPropertyHook;
 use Rector\Config\RectorConfig;
 use Phparch\SpaceTraders\Rector\NonEmptyStringToPromotedPropertyHook;
 
@@ -10,9 +11,10 @@ return RectorConfig::configure()
         __DIR__ . '/src'
     ])
     // uncomment to reach your current PHP version
-//     ->withPhpSets(php85: true)
+     //->withPhpSets(php84: true)
     ->withRules([
-        NonEmptyStringToPromotedPropertyHook::class
+        NonEmptyStringToPromotedPropertyHook::class,
+        NonNegativeIntToPromotedPropertyHook::class,
     ])
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)
