@@ -6,11 +6,32 @@ class SystemTrait
 {
     public function __construct(
         /** @var non-empty-string */
-        public readonly string $symbol,
+        public string $symbol {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('symbol cannot be empty');
+                }
+                $this->symbol = $value;
+            }
+        },
         /** @var non-empty-string */
-        public readonly string $name,
+        public string $name {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('name cannot be empty');
+                }
+                $this->name = $value;
+            }
+        },
         /** @var non-empty-string */
-        public readonly string $description,
+        public string $description {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('description cannot be empty');
+                }
+                $this->description = $value;
+            }
+        },
     ) {
     }
 }

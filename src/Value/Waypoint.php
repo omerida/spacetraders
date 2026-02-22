@@ -12,7 +12,14 @@ class Waypoint
         public System\Symbol $systemSymbol,
         public Waypoint\Symbol $symbol,
         /** @var non-empty-string */
-        public readonly string $type, // enum?
+        public string $type {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('type cannot be empty');
+                }
+                $this->type = $value;
+            }
+        }, // enum?
         public readonly int $x,
         public readonly int $y,
         /** @var list<\Phparch\SpaceTraders\Value\Orbital> */

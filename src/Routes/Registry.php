@@ -12,9 +12,9 @@ use Twig\Environment;
 class Registry
 {
     public function __construct(
-        private Container $container,
+        private readonly Container $container,
         public Router $router,
-        private Decorator $decorator
+        private readonly Decorator $decorator
     ) {
     }
 

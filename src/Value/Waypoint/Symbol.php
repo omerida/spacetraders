@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\Waypoint;
 
-class Symbol
+class Symbol implements \Stringable
 {
     public readonly string $sector;
     public readonly string $system;

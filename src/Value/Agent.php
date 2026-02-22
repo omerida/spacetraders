@@ -10,13 +10,34 @@ class Agent
 
     public function __construct(
         /** @var non-empty-string */
-        public readonly string $accountId,
+        public string $accountId {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('accountId cannot be empty');
+                }
+                $this->accountId = $value;
+            }
+        },
         /** @var non-empty-string */
-        public readonly string $symbol,
+        public string $symbol {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('symbol cannot be empty');
+                }
+                $this->symbol = $value;
+            }
+        },
         public readonly Waypoint\Symbol $headquarters,
         public readonly int $credits,
         /** @var non-empty-string */
-        public readonly string $startingFaction,
+        public string $startingFaction {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('startingFaction cannot be empty');
+                }
+                $this->startingFaction = $value;
+            }
+        },
         /** @var non-negative-int */
         public readonly int $shipCount
     ) {

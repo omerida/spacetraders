@@ -10,14 +10,21 @@ final class Contract
 
     public function __construct(
         /** @var non-empty-string */
-        public readonly string $id,
-        public readonly Faction\Symbol $factionSymbol,
-        public readonly Contract\Type $type,
-        public readonly Contract\Terms $terms,
-        public readonly bool $accepted,
-        public readonly bool $fulfilled,
-        public readonly \DateTimeImmutable $expiration,
-        public readonly \DateTimeImmutable $deadlineToAccept,
+        public string $id {
+            set {
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('id cannot be empty');
+                }
+                $this->id = $value;
+            }
+        },
+        public Faction\Symbol $factionSymbol,
+        public Contract\Type $type,
+        public Contract\Terms $terms,
+        public bool $accepted,
+        public bool $fulfilled,
+        public \DateTimeImmutable $expiration,
+        public \DateTimeImmutable $deadlineToAccept,
     ) {
     }
 }

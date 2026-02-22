@@ -12,8 +12,8 @@ use League\Route\Router;
 class Mapper
 {
     public function __construct(
-        private Scanner $scanner,
-        private Registry $registry,
+        private readonly Scanner $scanner,
+        private readonly Registry $registry,
     ) {
     }
 

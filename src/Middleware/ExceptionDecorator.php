@@ -12,11 +12,8 @@ use Twig\Environment;
 
 class ExceptionDecorator implements MiddlewareInterface
 {
-    protected Environment $twig;
-
-    public function __construct(Environment $twig)
+    public function __construct(protected Environment $twig)
     {
-        $this->twig = $twig;
     }
 
     public function process(

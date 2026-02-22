@@ -93,13 +93,13 @@ final class ServiceContainer
     protected static function isAPIClient(ReflectionClass $class): bool
     {
         $name = $class->getNamespaceName();
-        if ($name !== 'Phparch\SpaceTraders\Client') {
+        if ($name !== \Phparch\SpaceTraders\Client::class) {
             return false;
         }
 
         if (
             in_array(
-                needle: 'Phparch\SpaceTraders\Client',
+                needle: \Phparch\SpaceTraders\Client::class,
                 haystack: $class->getParentClassNames(),
                 strict: true
             )
@@ -116,14 +116,14 @@ final class ServiceContainer
     protected static function registerApiClients(BetterReflection $ref, bool $useAPCU): void
     {
         // Use this class and method to build the key for saved data
-        $cacheKey = __CLASS__ . '::' . __FUNCTION__;
+        $cacheKey = self::class . '::' . __FUNCTION__;
         $success = false;
         // Check if we find anything and that fetch didn't fail
         $classNames = $useAPCU ? apcu_fetch($cacheKey, $success) : [];
         if (!$classNames || !$success) {
             $clients = array_filter(
                 self::getSrcClasses($ref),
-                [__CLASS__, 'isAPIClient'],
+                self::isAPIClient(...),
             );
             // Can't cache BetterReflection classes. We just need their names
             $classNames = array_map(
@@ -139,12 +139,10 @@ final class ServiceContainer
                 // Classname
                 $className,
                 // Closure to call when this class is requested.
-                function () use ($className) {
-                    return new $className(
-                        self::$env['SPACETRADERS_TOKEN'],
-                        self::get(\GuzzleHttp\Client::class)
-                    );
-                }
+                fn() => new $className(
+                    self::$env['SPACETRADERS_TOKEN'],
+                    self::get(\GuzzleHttp\Client::class)
+                )
             );
         }
     }

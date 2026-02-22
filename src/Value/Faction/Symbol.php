@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\Faction;
 
-class Symbol
+class Symbol implements \Stringable
 {
     public function __construct(
         public readonly string $faction

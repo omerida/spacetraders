@@ -5,7 +5,6 @@ namespace Phparch\SpaceTraders\Client;
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Value\Ship\CargoDetails;
@@ -250,7 +249,7 @@ class Fleet extends Client
     public function sellCargo(
         string $ship,
         string $cargo,
-        int $units = null,
+        ?int $units = null,
     ): \Phparch\SpaceTraders\Value\Fleet\SellCargo {
         $data = [];
         try {
@@ -275,7 +274,7 @@ class Fleet extends Client
     public function jettisonCargo(
         string $ship,
         string $cargo,
-        int $units = null,
+        ?int $units = null,
     ): \Phparch\SpaceTraders\Value\Fleet\JettisonCargo {
         $data = [];
         try {

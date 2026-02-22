@@ -25,7 +25,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "php": ">=8.3",
+    "php": ">=8.4",
     "ext-readline": "*",
     "ext-curl": "*",
     "ext-apcu": "*",
@@ -45,7 +45,7 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
-    "phpstan/phpstan": "^2.0",
+    "phpstan/phpstan": "^2.1",
     "brainmaestro/composer-git-hooks": "^3.0",
     "squizlabs/php_codesniffer": "^4.0",
     "phpmd/phpmd": "3.x-dev",
@@ -53,7 +53,8 @@
     "phpbench/phpbench": "^1.4",
     "vincentlanglet/twig-cs-fixer": "^3.8",
     "bmitch/churn-php": "^1.7",
-    "phparkitect/phparkitect": "^0.7.0"
+    "phparkitect/phparkitect": "^0.7.0",
+    "rector/rector": "^2.3"
   },
   "extra": {
     "hooks": {
