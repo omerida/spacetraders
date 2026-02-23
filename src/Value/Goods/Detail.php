@@ -8,7 +8,6 @@ class Detail
         public readonly Symbol $symbol,
         public readonly string $name,
         public readonly string $description,
-    )
-    {
+    ) {
     }
 }

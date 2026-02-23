@@ -6,8 +6,7 @@ class Transaction extends AbstractRenderer
 {
     public function __construct(
         public \Phparch\SpaceTraders\Value\Shipyard\Transaction $txn,
-    )
-    {
+    ) {
     }
 
     public function output(): string

@@ -8,16 +8,51 @@ class Details
 {
     public function __construct(
         /** @var non-negative-int */
-        public readonly int $current,
+        public int $current {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('current cannot be negative');
+                }
+                $this->current = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $capacity,
+        public int $capacity {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('capacity cannot be negative');
+                }
+                $this->capacity = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $required,
+        public int $required {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('required cannot be negative');
+                }
+                $this->required = $value;
+            }
+        },
         public readonly Ship\Crew\Rotation $rotation,
         /** @var non-negative-int */
-        public readonly int $morale,
+        public int $morale {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('morale cannot be negative');
+                }
+                $this->morale = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $wages,
+        public int $wages {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('wages cannot be negative');
+                }
+                $this->wages = $value;
+            }
+        },
     )
     {
     }

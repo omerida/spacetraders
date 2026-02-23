@@ -74,7 +74,7 @@
     "check-code": ["@phpcs",  "@phpstan", "@phparkitect"],
     "phpmd": "vendor/bin/phpmd --ignore-violations-on-exit --ignore-errors-on-exit src text phpmd.xml" ,
     "phpstan": "vendor/bin/phpstan --memory-limit=1G",
-    "phpcs": "vendor/bin/phpcs",
+    "phpcs": "vendor/bin/phpcs -s",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",
     "phparkitect": "vendor/bin/phparkitect check",

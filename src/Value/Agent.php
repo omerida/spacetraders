@@ -39,7 +39,14 @@ class Agent
             }
         },
         /** @var non-negative-int */
-        public readonly int $shipCount
+        public int $shipCount {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('shipCount cannot be negative');
+                }
+                $this->shipCount = $value;
+            }
+        }
     ) {
     }
 }

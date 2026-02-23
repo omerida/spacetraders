@@ -30,8 +30,7 @@ class NonNegativeIntToPromotedPropertyHook extends AbstractRector
 {
     public function __construct(
         protected readonly PhpDocInfoFactory $phpDocInfoFactory
-    )
-    {
+    ) {
     }
 
     public function getRuleDefinition(): RuleDefinition

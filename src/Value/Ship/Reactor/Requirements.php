@@ -6,7 +6,14 @@ class Requirements
 {
     public function __construct(
         /** @var non-negative-int */
-        public readonly int $crew,
+        public int $crew {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('crew cannot be negative');
+                }
+                $this->crew = $value;
+            }
+        },
         public readonly ?int $power = null,
         public readonly ?int $slots = null,
     )

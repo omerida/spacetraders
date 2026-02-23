@@ -10,8 +10,7 @@ class TransactionsList extends AbstractRenderer
     public function __construct(
         /** @var Transaction[] $transactions */
         public array $transactions,
-    )
-    {
+    ) {
     }
 
     public function output(): string

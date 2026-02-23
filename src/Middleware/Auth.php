@@ -15,8 +15,7 @@ class Auth implements MiddlewareInterface
 {
     public function __construct(
         private readonly ?string $token
-    )
-    {
+    ) {
     }
 
     /**
@@ -25,8 +24,7 @@ class Auth implements MiddlewareInterface
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         if ($this->token) {
             try {
                 $parser = new Parser(new JoseEncoder());

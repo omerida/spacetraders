@@ -6,8 +6,7 @@ class Agent extends AbstractRenderer
 {
     public function __construct(
         public \Phparch\SpaceTraders\Value\Agent $agent,
-    )
-    {
+    ) {
     }
 
     public function output(): string

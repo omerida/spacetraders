@@ -15,7 +15,14 @@ class ScrapTransaction
         /**
          * @var non-negative-int
          */
-        public readonly int $totalPrice,
+        public int $totalPrice {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('totalPrice cannot be negative');
+                }
+                $this->totalPrice = $value;
+            }
+        },
         public readonly \DateTimeImmutable $timestamp,
     )
     {

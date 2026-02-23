@@ -8,7 +8,6 @@ class FactionTrait
         public readonly FactionTraitSymbol $symbol,
         public readonly string $name,
         public readonly string $description,
-    )
-    {
+    ) {
     }
 }

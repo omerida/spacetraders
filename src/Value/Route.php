@@ -12,7 +12,6 @@ class Route
         public readonly Origin $origin,
         public readonly \DateTimeImmutable $departureTime,
         public readonly \DateTimeImmutable $arrival,
-    )
-    {
+    ) {
     }
 }

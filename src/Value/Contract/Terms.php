@@ -11,7 +11,6 @@ class Terms
         public readonly PaymentTerms $payment,
         /** @var Deliver[] */
         public readonly array $deliver,
-    )
-    {
+    ) {
     }
 }

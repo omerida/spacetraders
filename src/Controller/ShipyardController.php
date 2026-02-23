@@ -19,8 +19,7 @@ class ShipyardController implements RequestAware, TwigAware
 
     public function __construct(
         private Client\Systems $client,
-    )
-    {
+    ) {
     }
 
     /**

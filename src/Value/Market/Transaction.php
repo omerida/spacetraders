@@ -14,7 +14,14 @@ class Transaction
         public Goods\Symbol $tradeSymbol,
         public TransactionType $type,
         /** @var non-negative-int */
-        public int $units,
+        public int $units {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('units cannot be negative');
+                }
+                $this->units = $value;
+            }
+        },
         public int $pricePerUnit,
         public int $totalPrice,
         public readonly \DateTimeImmutable $timestamp,

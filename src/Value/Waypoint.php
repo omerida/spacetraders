@@ -37,14 +37,10 @@ class Waypoint
 
     private function hasSystemTrait(string $symbol): bool
     {
-        foreach ($this->traits as $trait) {
-            if ($trait->symbol === $symbol) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->traits, fn($trait) => $trait->symbol === $symbol);
     }
+
+
     public function hasMarket(): bool
     {
         return $this->hasSystemTrait('MARKETPLACE');

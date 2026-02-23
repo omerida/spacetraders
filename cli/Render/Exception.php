@@ -6,8 +6,7 @@ class Exception extends AbstractRenderer
 {
     public function __construct(
         public \Exception $ex,
-    )
-    {
+    ) {
     }
 
     public function output(): string

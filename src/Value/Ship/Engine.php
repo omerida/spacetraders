@@ -16,7 +16,6 @@ class Engine
         public readonly int $speed,
         public readonly Requirements $requirements,
         public readonly int $quality,
-    )
-    {
+    ) {
     }
 }

@@ -137,8 +137,7 @@ class Fleet extends Client
     public function navigateShip(
         string $ship,
         Waypoint\Symbol $waypointSymbol
-    ): \Phparch\SpaceTraders\Value\Fleet\NavigateShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\NavigateShip {
         try {
             $response = $this->post(
                 'my/ships/' . $ship . '/navigate',
@@ -198,8 +197,7 @@ class Fleet extends Client
     public function purchaseShip(
         Waypoint\Symbol $waypoint,
         string $type
-    ): \Phparch\SpaceTraders\Value\Fleet\PurchaseShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\PurchaseShip {
         try {
             $response = $this->post(
                 'my/ships',
@@ -223,8 +221,7 @@ class Fleet extends Client
         string $ship,
         ?int $units = null,
         bool $fromCargo = false
-    ): \Phparch\SpaceTraders\Value\Fleet\RefuelShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\RefuelShip {
         $data = [];
         try {
             $data['fromCargo'] = $fromCargo;

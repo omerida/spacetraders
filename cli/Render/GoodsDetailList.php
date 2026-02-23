@@ -9,8 +9,7 @@ class GoodsDetailList extends AbstractRenderer
     public function __construct(
         /** @var Detail[] $goods */
         public array $goods,
-    )
-    {
+    ) {
     }
 
     public function output(): string
