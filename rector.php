@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 use Phparch\SpaceTraders\Rector\NonNegativeIntToPromotedPropertyHook;
-use Rector\Config\RectorConfig;
 use Phparch\SpaceTraders\Rector\NonEmptyStringToPromotedPropertyHook;
+use Phparch\SpaceTraders\Rector\PositiveIntToPromotedPropertyHook;
+use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -15,6 +16,7 @@ return RectorConfig::configure()
     ->withRules([
         NonEmptyStringToPromotedPropertyHook::class,
         NonNegativeIntToPromotedPropertyHook::class,
+        PositiveIntToPromotedPropertyHook::class,
     ])
     ->withTypeCoverageLevel(0)
     ->withDeadCodeLevel(0)

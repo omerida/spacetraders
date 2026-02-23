@@ -17,7 +17,7 @@ class Waypoint extends AbstractRenderer
         $this->sprintf(
             '<:BLU:>SYSTEM SYMBOL:<:DEF:> %s, <:YEL:>%s<:DEF:> (x: %d, y: %d)',
             $this->waypoint->symbol,
-            $this->waypoint->type,
+            $this->waypoint->type->value,
             $this->waypoint->x,
             $this->waypoint->y,
         );

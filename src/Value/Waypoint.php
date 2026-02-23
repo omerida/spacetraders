@@ -11,15 +11,24 @@ class Waypoint
     public function __construct(
         public System\Symbol $systemSymbol,
         public Waypoint\Symbol $symbol,
-        /** @var non-empty-string */
-        public string $type {
-            set {
+        public Waypoint\Type $type {
+            set(string | Waypoint\Type $value) {
+                if ($value instanceof Waypoint\Type) {
+                    $this->type = $value;
+                    return;
+                }
+
                 if (empty(trim($value))) {
                     throw new \InvalidArgumentException('type cannot be empty');
                 }
-                $this->type = $value;
+
+                if ($enum = Waypoint\Type::tryFrom($value)) {
+                    $this->type = $enum;
+                } else {
+                    throw new \InvalidArgumentException('unrecognized waypoint type');
+                }
             }
-        }, // enum?
+        },
         public readonly int $x,
         public readonly int $y,
         /** @var list<\Phparch\SpaceTraders\Value\Orbital> */

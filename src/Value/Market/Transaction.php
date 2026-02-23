@@ -22,8 +22,24 @@ class Transaction
                 $this->units = $value;
             }
         },
-        public int $pricePerUnit,
-        public int $totalPrice,
+        /** @var non-negative-int */
+        public int $pricePerUnit {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('pricePerUnit cannot be negative');
+                }
+                $this->pricePerUnit = $value;
+            }
+        },
+        /** @var non-negative-int */
+        public int $totalPrice {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('totalPrice cannot be negative');
+                }
+                $this->totalPrice = $value;
+            }
+        },
         public readonly \DateTimeImmutable $timestamp,
     ) {
     }

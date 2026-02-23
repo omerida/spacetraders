@@ -15,7 +15,15 @@ class Mount
         public readonly string $name,
         public readonly string $description,
         public readonly Requirements $requirements,
-        public readonly int $strength,
+        /** @var non-negative-int */
+        public int $strength {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('strength cannot be negative');
+                }
+                $this->strength = $value;
+            }
+        },
         /**
          * @var Deposit[]
          */

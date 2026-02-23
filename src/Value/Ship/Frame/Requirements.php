@@ -24,7 +24,18 @@ class Requirements
             }
         },
         /** @var null|non-negative-int */
-        public readonly ?int $slots = null,
+        public ?int $slots = null {
+            set {
+                if (is_null($value)) {
+                    $this->slots = null;
+                    return;
+                }
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('slots cannot be negative');
+                }
+                $this->slots = $value;
+            }
+        }
     )
     {
     }

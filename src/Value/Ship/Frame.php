@@ -10,8 +10,22 @@ class Frame
         public readonly Frame\Symbol $symbol,
         public readonly string $name,
         public readonly string $description,
-        public readonly float $condition, // between 0 and 1
-        public readonly float $integrity, // 0-1
+        public float $condition {
+            set {
+                if ($value < 0 || $value > 1) {
+                    throw new \OutOfRangeException('Condition must be between 0 and 1');
+                }
+                $this->condition = $value;
+            }
+        },
+        public float $integrity {
+            set {
+                if ($value < 0 || $value > 1) {
+                    throw new \OutOfRangeException('Integrity must be between 0 and 1');
+                }
+                $this->integrity = $value;
+            }
+        },
         /** @var non-negative-int */
         public int $moduleSlots {
             set {
