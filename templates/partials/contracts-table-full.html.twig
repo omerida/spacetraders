@@ -1,4 +1,4 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 <table>
     <thead>
         <tr>
@@ -30,7 +30,7 @@
             <td>{{ contract.terms.deadline.date|date }}</td>
             <td>{{ contract.terms.payment.onAccepted|number_format }} on accepted, <br>
             {{ contract.terms.payment.onFulfilled|number_format }} on fulfilled<br>
-            <b>{{ (contract.terms.payment.onAccepted+contract.terms.payment.onFulfilled)|number_format }} total</b></td>
+            <b>{{ (contract.terms.payment.onAccepted + contract.terms.payment.onFulfilled)|number_format }} total</b></td>
             <td>
                 {% for item in contract.terms.deliver %}
                     {{ item.tradeSymbol|machine2readable }}

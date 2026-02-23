@@ -1,4 +1,4 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 {% extends 'base.html.twig' %}
 
 {% block content %}
@@ -6,12 +6,12 @@
     <aside>
         <h1>Welcome, Captain</h1>
         <h2>Your Agent</h2>
-        {%  include 'partials/agent-table.html.twig'
-            with {'agent': agent} %}
+        {{ include('partials/agent-table.html.twig'
+            , {agent: agent}) }}
 
         <h2>Ships</h2>
-        {% include 'partials/ships-table.html.twig'
-            with {'ships': ships} %}
+        {{ include('partials/ships-table.html.twig'
+            , {ships: ships}) }}
     </aside>
     <main>
         <div class="well">
@@ -26,7 +26,6 @@
         <div id="system-map"></div>
     </main>
 </div>
-
 
 <h2>Waypoints</h2>
 <p>Quickstart suggests viewing your starting location</p>
@@ -51,7 +50,6 @@
     </select>
     <input type="submit" value="Search">
 </form>
-
 
 {% endblock %}
 

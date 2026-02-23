@@ -1,4 +1,4 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
 </nav>
 
 {% block breadcrumb %}
-    {% include 'partials/breadcrumb.html.twig' %}
+    {{ include('partials/breadcrumb.html.twig') }}
 {% endblock %}
 
 {% block errors %}
@@ -35,7 +35,6 @@
 {% endblock %}
 
     <div id="content" class="content">{% block content %}{% endblock %}</div>
-
 
 {% block footerScripts %}
 {% endblock %}

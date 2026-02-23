@@ -1,4 +1,4 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 {% extends 'base.html.twig' %}
 
 {% block content %}
@@ -11,19 +11,19 @@
                 viewWaypointPath(ship.nav.waypointSymbol),
                 ship.nav.waypointSymbol) }}
             <h3>Route</h3>
-            {% include 'partials/ship-nav-table.html.twig'
-                with {'nav' : ship.nav} %}
+            {{ include('partials/ship-nav-table.html.twig'
+                , {nav: ship.nav}) }}
         </details>
 
         <details class="card one-third" open="open">
             <summary>Data</summary>
             <h3>Fuel</h3>
-            {% include 'partials/ship-fuel-table.html.twig'
-                with {'fuel' : ship.fuel} %}
+            {{ include('partials/ship-fuel-table.html.twig'
+                , {fuel: ship.fuel}) }}
 
             <h3>Cooldown</h3>
-            {% include 'partials/ship-cooldown-table.html.twig'
-                with {'cooldown': ship.cooldown } %}
+            {{ include('partials/ship-cooldown-table.html.twig'
+                , {cooldown: ship.cooldown}) }}
         </details>
         <details class="card one-third" open="open">
             <summary>Crew</summary>
@@ -55,11 +55,10 @@
         <details class="card one-third" open="open">
             <summary>Ship Orders</summary>
 
-            {% embed "forms/unpoly-form.html.twig"
-                with {
-                'action': '/ship/orders',
-                'up_target': '.ship-nav-status:maybe, .ship-cooldown:maybe,
-                        .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe'
+            {% embed 'forms/unpoly-form.html.twig' with {
+                action: '/ship/orders',
+                up_target: '.ship-nav-status:maybe, .ship-cooldown:maybe,
+                        .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe',
             } %}
                 {% block form_body %}
                     <input type="hidden" name="ship"
@@ -78,10 +77,10 @@
 
             <h3>Navigate</h3>
 
-            {% embed "forms/unpoly-form.html.twig"
+            {% embed 'forms/unpoly-form.html.twig'
                 with {
-                'action': '/ship/navigate',
-                'up_target': '.ship-nav-status'
+                action: '/ship/navigate',
+                up_target: '.ship-nav-status',
             } %}
                 {% block form_body %}
                     <input type="hidden" name="ship"
@@ -93,13 +92,13 @@
             {% endembed %}
 
             <h3>Set Flight Mode</h3>
-            {% embed "forms/unpoly-form.html.twig"
+            {% embed 'forms/unpoly-form.html.twig'
                 with {
-                'action': '/ship/set-flight-mode',
-                'up_target': '.ship-nav-status',
+                action: '/ship/set-flight-mode',
+                up_target: '.ship-nav-status',
             } %}
                 {% block form_body %}
-                    {% import "macros/helpers.html.twig" as helpers %}
+                    {% import 'macros/helpers.html.twig' as helpers %}
                     <input type="hidden" name="ship" value="{{ ship.symbol }}">
                     <select name="flightmode" required>
                         <option value="">--Select Flight Mode--</option>
@@ -115,14 +114,14 @@
         <details class="card two-thirds" open="open">
             <summary>Cargo</summary>
 
-            {% include 'partials/ship-cargo-table.html.twig'
-                with {'cargo_details': ship.cargo } %}
+            {{ include('partials/ship-cargo-table.html.twig'
+                , {cargo_details: ship.cargo}) }}
             <h3>Jettison Goods</h3>
 
-            {% embed "forms/unpoly-form.html.twig"
+            {% embed 'forms/unpoly-form.html.twig'
                 with {
-                'action': '/ship/jettison-goods',
-                'up_target': '.ship-cargo'
+                action: '/ship/jettison-goods',
+                up_target: '.ship-cargo',
             } %}
                 {% block form_body %}
 
@@ -145,10 +144,10 @@
                 <h3>Marketplace</h3>
                 <h4>Sell Goods</h4>
 
-                {% embed "forms/unpoly-form.html.twig"
+                {% embed 'forms/unpoly-form.html.twig'
                     with {
-                    'action': '/ship/sell-goods',
-                    'up_target': '.ship-cargo, .cargo-result'
+                    action: '/ship/sell-goods',
+                    up_target: '.ship-cargo, .cargo-result',
                 } %}
                     {% block form_body %}
 
@@ -175,15 +174,14 @@
             <div class="cargo-result"></div>
         </details>
 
-
     </div>
     <div class="flex">
         <details class="card one-third" name="ship-specs">
             <summary>Frame - {{ ship.frame.name }}</summary>
             <p>{{ ship.frame.description }}</p>
             <div class="info">
-                {% include 'partials/ship-frame-table.html.twig'
-                    with {'ship' : ship} %}
+                {{ include('partials/ship-frame-table.html.twig'
+                    , {ship: ship}) }}
             </div>
         </details>
 
@@ -191,16 +189,16 @@
             <summary>Reactor - {{ ship.reactor.name }}</summary>
             <div class="info">
                 <p>{{ ship.reactor.description }}</p>
-                {% include 'partials/ship-reactor-table.html.twig'
-                    with {'ship' : ship} %}
+                {{ include('partials/ship-reactor-table.html.twig'
+                    , {ship: ship}) }}
             </div>
         </details>
 
         <details class="card one-third" name="ship-specs">
             <summary>Engine - {{ ship.engine.name }}</summary>
             <p>{{ ship.engine.description }}</p>
-            {% include 'partials/ship-engine-table.html.twig'
-                with {'ship' : ship} %}
+            {{ include('partials/ship-engine-table.html.twig'
+                , {ship: ship}) }}
         </details>
 
         <details class="card one-third" name="ship-specs">

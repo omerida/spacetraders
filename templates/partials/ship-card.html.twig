@@ -8,18 +8,18 @@
         <h4>Frame - {{ ship.frame.name }}</h4>
         <p>{{ ship.frame.description }}</p>
 
-        {% include 'partials/ship-frame-table.html.twig'
-            with {'ship' : ship} %}
+        {{ include('partials/ship-frame-table.html.twig'
+            , {ship: ship}) }}
 
         <h4>Reactor - {{ ship.reactor.name }}</h4>
         <p>{{ ship.reactor.description }}</p>
-        {% include 'partials/ship-reactor-table.html.twig'
-            with {'ship' : ship} %}
+        {{ include('partials/ship-reactor-table.html.twig'
+            , {ship: ship}) }}
 
         <h4>Engine - {{ ship.engine.name }}</h4>
         <p>{{ ship.engine.description }}</p>
-        {% include 'partials/ship-engine-table.html.twig'
-            with {'ship' : ship} %}
+        {{ include('partials/ship-engine-table.html.twig'
+            , {ship: ship}) }}
 
         <h4>Modules</h4>
         {% for modules in ship.modules %}
