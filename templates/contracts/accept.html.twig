@@ -6,8 +6,12 @@
 ] %}
 
 {% block content %}
-
+<aside class="contract-list">
+    {{ include('partials/contracts-list-brief.html.twig'
+        , {contracts: contracts}) }}
+</aside>
+<main class="contract-detail">
     {{ include('partials/contract-card.html.twig'
         , {contract: contract}) }}
-
+</main>
 {% endblock %}

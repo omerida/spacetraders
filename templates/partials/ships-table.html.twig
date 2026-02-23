@@ -1,4 +1,4 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 
 <table>
     <tr>
@@ -17,7 +17,7 @@
             <br>
             {{ helpers.modal_link_large(
                 viewWaypointPath(ship.nav.waypointSymbol),
-                ship.nav.waypointSymbol
+                ship.nav.waypointSymbol,
             ) }}</td>
         <td>{{ ship.nav.status.value|machine2readable }}<br>{{ ship.nav.flightMode.value|machine2readable }}</td>
         <td>{{ ship.fuel.current }} / {{ ship.fuel.capacity }}</td>
@@ -25,7 +25,7 @@
         <td>{{ ship.cargo.units }} / {{ ship.cargo.capacity }}
             {{ helpers.link(
                 viewShipCargoPath(ship.symbol),
-                '[cargo]'
+                '[cargo]',
             ) }}
             </td>
     </tr>

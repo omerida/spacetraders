@@ -1,6 +1,6 @@
-{% include 'partials/ship-fuel-table.html.twig'
-    with {'fuel': fuel }
-%}
+{{ include('partials/ship-fuel-table.html.twig'
+    , {fuel: fuel},
+) }}
 
 <div class="order-result">
     <table>

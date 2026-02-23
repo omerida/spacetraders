@@ -22,11 +22,15 @@ class ContractsController implements RequestAware, TwigAware
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'accept_contract', path: '/contract/accept', methods: ['POST'])]
-    public function accceptContract(): array
+    #[Route(
+        name: 'accept_contract',
+        path: '/contract/accept',
+        methods: ['POST'],
+        strategy: 'application'
+    )]
+    public function accceptContract(): ResponseInterface
     {
         /**
          * @var array{
@@ -38,9 +42,13 @@ class ContractsController implements RequestAware, TwigAware
             throw new BadRequestException("Contract ID is required");
         }
 
-        $id = $post['id'];
+        $contract = $this->client->accept($post['id']);
+        $contracts = $this->client->myContracts();
 
-        return (array) $this->client->accept($id);
+        return $this->render('contracts/accept.html.twig', [
+            'contract' => $contract,
+            'contracts' => $contracts->contracts,
+        ]);
     }
 
     #[Route(

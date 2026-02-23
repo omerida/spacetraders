@@ -1,7 +1,7 @@
-{% import "macros/helpers.html.twig" as helpers %}
+{% import 'macros/helpers.html.twig' as helpers %}
 {% extends 'base.html.twig' %}
 {% set breadcrumbs = [
-        { label: 'Contracts', url: '.' },
+        {label: 'Contracts', url: '.'},
     ]
 %}
 
@@ -10,21 +10,19 @@
 
 {% if contracts %}
 <div class="game-container">
-    <aside>
-        {%  include 'partials/contracts-list-brief.html.twig'
-            with {'contracts': contracts} %}
+    <aside class="contract-list">
+        {{ include('partials/contracts-list-brief.html.twig'
+            , {contracts: contracts}) }}
     </aside>
-    <main>
+    <main class="contract-detail">
         <div class="contract-card">
         <p>Select a contract to view details.</p>
         </div>
     </main>
 </div>
 
-
 {% else %}
    <p>No contracts available.</p>
 {% endif %}
 
 {% endblock %}
-
