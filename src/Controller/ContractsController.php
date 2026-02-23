@@ -9,8 +9,6 @@ use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTraders\Value\Contract;
-use Phparch\SpaceTraders\Value\Contracts;
 use Psr\Http\Message\ResponseInterface;
 
 class ContractsController implements RequestAware, TwigAware
