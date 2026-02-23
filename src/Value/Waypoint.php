@@ -11,8 +11,24 @@ class Waypoint
     public function __construct(
         public System\Symbol $systemSymbol,
         public Waypoint\Symbol $symbol,
-        /** @var non-empty-string */
-        public readonly string $type, // enum?
+        public Waypoint\Type $type {
+            set(string | Waypoint\Type $value) {
+                if ($value instanceof Waypoint\Type) {
+                    $this->type = $value;
+                    return;
+                }
+
+                if (empty(trim($value))) {
+                    throw new \InvalidArgumentException('type cannot be empty');
+                }
+
+                if ($enum = Waypoint\Type::tryFrom($value)) {
+                    $this->type = $enum;
+                } else {
+                    throw new \InvalidArgumentException('unrecognized waypoint type');
+                }
+            }
+        },
         public readonly int $x,
         public readonly int $y,
         /** @var list<\Phparch\SpaceTraders\Value\Orbital> */
@@ -30,14 +46,10 @@ class Waypoint
 
     private function hasSystemTrait(string $symbol): bool
     {
-        foreach ($this->traits as $trait) {
-            if ($trait->symbol === $symbol) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->traits, fn($trait) => $trait->symbol === $symbol);
     }
+
+
     public function hasMarket(): bool
     {
         return $this->hasSystemTrait('MARKETPLACE');

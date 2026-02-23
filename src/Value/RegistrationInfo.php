@@ -10,7 +10,6 @@ class RegistrationInfo
         public readonly string $name,
         public readonly Symbol $factionSymbol,
         public readonly Ship\RegisteredRole $role,
-    )
-    {
+    ) {
     }
 }

@@ -11,9 +11,23 @@ class CargoDetails
 
     public function __construct(
         /** @var non-negative-int */
-        public readonly int $capacity,
+        public int $capacity {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('capacity cannot be negative');
+                }
+                $this->capacity = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $units,
+        public int $units {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('units cannot be negative');
+                }
+                $this->units = $value;
+            }
+        },
         /** @var Goods[] */
         public readonly array $inventory,
     )

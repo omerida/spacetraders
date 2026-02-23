@@ -11,7 +11,14 @@ class Goods
         public readonly string $name,
         public readonly string $description,
         /** @var non-negative-int */
-        public readonly int $units
+        public int $units {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('units cannot be negative');
+                }
+                $this->units = $value;
+            }
+        }
     )
     {
     }

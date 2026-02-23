@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\System;
 
-class Symbol
+class Symbol implements \Stringable
 {
     public readonly string $sector;
     public readonly string $system;

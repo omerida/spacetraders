@@ -16,3 +16,12 @@ Get Info about your agent:
 ```
 
 Add the token to `.env` file to authenticate other requests.
+
+## Branch Names
+
+For any PR, the commit hook will check the following requirements for a branch name:
+
+1. Must start with 'task/', 'bug/', or 'feature/'
+2. Must include an issue number (digits) followed by a dash.
+3. Must end with a descriptive slug (letters, numbers, dashes).
+

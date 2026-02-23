@@ -19,7 +19,6 @@ class Faction
         public readonly string $headquarters,
         public readonly array $traits,
         public readonly bool $isRecruiting,
-    )
-    {
+    ) {
     }
 }

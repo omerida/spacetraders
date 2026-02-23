@@ -11,9 +11,23 @@ class CoolDown
     public function __construct(
         public readonly string $shipSymbol, // todo proper object?
         /** @var non-negative-int */
-        public readonly int $totalSeconds,
+        public int $totalSeconds {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('totalSeconds cannot be negative');
+                }
+                $this->totalSeconds = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $remainingSeconds,
+        public int $remainingSeconds {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('remainingSeconds cannot be negative');
+                }
+                $this->remainingSeconds = $value;
+            }
+        },
         public readonly ?\DateTimeImmutable $expiration = null,
     )
     {

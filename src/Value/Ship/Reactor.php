@@ -10,10 +10,31 @@ class Reactor
         public readonly Reactor\Symbol $symbol,
         public readonly string $name,
         public readonly string $description,
-        public readonly float $condition, // between 0 and 1
-        public readonly float $integrity, // 0-1
+        public float $condition {
+            set {
+                if ($value < 0 || $value > 1) {
+                    throw new \OutOfRangeException('Condition must be between 0 and 1');
+                }
+                $this->condition = $value;
+            }
+        },
+        public float $integrity {
+            set {
+                if ($value < 0 || $value > 1) {
+                    throw new \OutOfRangeException('Integrity must be between 0 and 1');
+                }
+                $this->integrity = $value;
+            }
+        },
         /** @var non-negative-int */
-        public readonly int $powerOutput,
+        public int $powerOutput {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('powerOutput cannot be negative');
+                }
+                $this->powerOutput = $value;
+            }
+        },
         public readonly Requirements $requirements,
         public readonly int $quality,
     )

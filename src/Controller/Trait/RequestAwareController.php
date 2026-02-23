@@ -15,8 +15,7 @@ trait RequestAwareController
 
     public function setRequest(
         ServerRequestInterface $request
-    ): void
-    {
+    ): void {
         $this->request = $request;
     }
 }

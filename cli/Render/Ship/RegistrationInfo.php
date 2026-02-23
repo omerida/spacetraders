@@ -8,8 +8,7 @@ class RegistrationInfo extends AbstractRenderer
 {
     public function __construct(
         public \Phparch\SpaceTraders\Value\RegistrationInfo $info,
-    )
-    {
+    ) {
     }
 
     public function output(): string

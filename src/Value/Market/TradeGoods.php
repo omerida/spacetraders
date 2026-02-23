@@ -13,12 +13,33 @@ class TradeGoods
         public readonly Symbol $symbol,
         public readonly TradegoodType $type,
         /** @var non-negative-int */
-        public int $tradeVolume,
+        public int $tradeVolume {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('tradeVolume cannot be negative');
+                }
+                $this->tradeVolume = $value;
+            }
+        },
         public SupplyLevel $supply,
         /** @var non-negative-int */
-        public int $purchasePrice,
+        public int $purchasePrice {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('purchasePrice cannot be negative');
+                }
+                $this->purchasePrice = $value;
+            }
+        },
         /** @var non-negative-int */
-        public int $sellPrice,
+        public int $sellPrice {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('sellPrice cannot be negative');
+                }
+                $this->sellPrice = $value;
+            }
+        },
         public ?TradeActivityLevel $activity = null,
     ) {
     }

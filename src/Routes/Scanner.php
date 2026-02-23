@@ -33,7 +33,7 @@ class Scanner
     public function discoverRoutes(): array
     {
         // Use this class and method to build the key for saved data
-        $cacheKey = __CLASS__ . '::' . __FUNCTION__;
+        $cacheKey = self::class . '::' . __FUNCTION__;
         // Check if we find anything and that fetch didn't fail
         $success = false;
         $discovered = $this->useAPCu ? apcu_fetch($cacheKey, $success) : [];

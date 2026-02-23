@@ -17,8 +17,8 @@ abstract class Client
     private string $baseURI = 'https://api.spacetraders.io/v2/';
 
     final public function __construct(
-        private string $token,
-        private \GuzzleHttp\Client $guzzle,
+        private readonly string $token,
+        private readonly \GuzzleHttp\Client $guzzle,
     ) {
     }
 

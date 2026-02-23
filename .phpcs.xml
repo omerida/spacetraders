@@ -6,13 +6,22 @@
 
     <rule ref="Squiz.ControlStructures.ControlSignature">
         <properties>
-            <property name="requiredSpacesBeforeColon" value="0" />
+            <property name="requiredSpacesBeforeColon" value="1" />
         </properties>
     </rule>
+    <rule ref="PSR12.Functions.ReturnTypeDeclaration">
+        <exclude-pattern>src/Value/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.EmptyLine">
+        <exclude-pattern>src/Value/*</exclude-pattern>
+    </rule>
+
     <rule ref="PSR12">
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.NewlineBeforeOpenBrace" />
         <exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
         <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.Indent" />
+        <exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
     </rule>
 
     <rule ref="Generic.Files.LineLength">

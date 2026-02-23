@@ -9,7 +9,14 @@ class YieldResult
     public function __construct(
         public readonly Symbol $symbol,
         /** @var non-negative-int */
-        public readonly int $units,
+        public int $units {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('units cannot be negative');
+                }
+                $this->units = $value;
+            }
+        },
     ) {
     }
 }

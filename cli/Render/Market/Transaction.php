@@ -9,8 +9,7 @@ class Transaction extends AbstractRenderer
 {
     public function __construct(
         public readonly Value\Market\Transaction $transaction,
-    )
-    {
+    ) {
     }
 
     public function output(): string

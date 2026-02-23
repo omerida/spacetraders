@@ -9,8 +9,7 @@ class TradeGoodsList extends AbstractRenderer
     public function __construct(
         /** @var TradeGoods[] */
         public array $goods,
-    )
-    {
+    ) {
     }
 
     public function output(): string

@@ -5,7 +5,6 @@ namespace Phparch\SpaceTraders\Client;
 use GuzzleHttp\Exception\ClientException;
 use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\Response;
 use Phparch\SpaceTraders\Value\ScrapTransaction;
 use Phparch\SpaceTraders\Value\Ship;
 use Phparch\SpaceTraders\Value\Ship\CargoDetails;
@@ -138,8 +137,7 @@ class Fleet extends Client
     public function navigateShip(
         string $ship,
         Waypoint\Symbol $waypointSymbol
-    ): \Phparch\SpaceTraders\Value\Fleet\NavigateShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\NavigateShip {
         try {
             $response = $this->post(
                 'my/ships/' . $ship . '/navigate',
@@ -199,8 +197,7 @@ class Fleet extends Client
     public function purchaseShip(
         Waypoint\Symbol $waypoint,
         string $type
-    ): \Phparch\SpaceTraders\Value\Fleet\PurchaseShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\PurchaseShip {
         try {
             $response = $this->post(
                 'my/ships',
@@ -224,8 +221,7 @@ class Fleet extends Client
         string $ship,
         ?int $units = null,
         bool $fromCargo = false
-    ): \Phparch\SpaceTraders\Value\Fleet\RefuelShip
-    {
+    ): \Phparch\SpaceTraders\Value\Fleet\RefuelShip {
         $data = [];
         try {
             $data['fromCargo'] = $fromCargo;
@@ -250,7 +246,7 @@ class Fleet extends Client
     public function sellCargo(
         string $ship,
         string $cargo,
-        int $units = null,
+        ?int $units = null,
     ): \Phparch\SpaceTraders\Value\Fleet\SellCargo {
         $data = [];
         try {
@@ -275,7 +271,7 @@ class Fleet extends Client
     public function jettisonCargo(
         string $ship,
         string $cargo,
-        int $units = null,
+        ?int $units = null,
     ): \Phparch\SpaceTraders\Value\Fleet\JettisonCargo {
         $data = [];
         try {

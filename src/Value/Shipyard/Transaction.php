@@ -12,7 +12,14 @@ class Transaction
         public string $shipSymbol,
         public Ship\Type $shipType,
         /** @var non-negative-int */
-        public int $price,
+        public int $price {
+            set {
+                if ($value < 0) {
+                    throw new \InvalidArgumentException('price cannot be negative');
+                }
+                $this->price = $value;
+            }
+        },
         public string $agentSymbol,
         public readonly \DateTimeImmutable $timestamp,
     ) {

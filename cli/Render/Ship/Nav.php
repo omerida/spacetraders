@@ -8,8 +8,7 @@ class Nav extends AbstractRenderer
 {
     public function __construct(
         public \Phparch\SpaceTraders\Value\Ship\Nav $nav,
-    )
-    {
+    ) {
     }
 
     public function output(): string

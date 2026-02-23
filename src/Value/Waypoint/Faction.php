@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTraders\Value\Waypoint;
 
-class Faction
+class Faction implements \Stringable
 {
     public function __construct(
         public readonly string $symbol
