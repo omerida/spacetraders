@@ -48,10 +48,9 @@ RUN apk add --no-cache \
     # for zip extension
     libzip
 
-
 # Get the extensions from build stage
-# The no-debug-* dir will change with PHP versions
-COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20240924/* /usr/local/lib/php/extensions/no-debug-non-zts-20240924/
+# Copy the entire extensions folder including the sub-directory
+COPY --from=build /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions
 COPY --from=build /usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/
 
 # Install composer
