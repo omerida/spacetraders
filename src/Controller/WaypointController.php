@@ -5,13 +5,13 @@ namespace Phparch\SpaceTraders\Controller;
 use GuzzleHttp\Psr7\Response;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTraders\Value\Waypoint\Symbol;
-use Phparch\SpaceTraders\Value\Waypoint\Type;
+use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\Value\Waypoint\Symbol;
+use Phparch\SpaceTradersRest\Value\Waypoint\Type;
 use Psr\Http\Message\ResponseInterface;
 
 class WaypointController implements RequestAware, TwigAware

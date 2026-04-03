@@ -93,13 +93,13 @@ final class ServiceContainer
     protected static function isAPIClient(ReflectionClass $class): bool
     {
         $name = $class->getNamespaceName();
-        if ($name !== \Phparch\SpaceTraders\Client::class) {
+        if ($name !== \Phparch\SpaceTradersRest\Client::class) {
             return false;
         }
 
         if (
             in_array(
-                needle: \Phparch\SpaceTraders\Client::class,
+                needle: \Phparch\SpaceTradersRest\Client::class,
                 haystack: $class->getParentClassNames(),
                 strict: true
             )

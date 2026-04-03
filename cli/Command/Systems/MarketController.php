@@ -4,9 +4,9 @@ namespace Phparch\SpaceTradersCLI\Command\Systems;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Value\Waypoint;
+use Phparch\SpaceTradersRest\Value\Waypoint;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 

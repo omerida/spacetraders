@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Render\Ship;
 
-use Phparch\SpaceTraders\Value\Ship;
+use Phparch\SpaceTradersRest\Value\Ship;
 use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 
 class ExtractionDetails extends AbstractRenderer

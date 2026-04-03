@@ -4,12 +4,12 @@ namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTraders\Value\Waypoint\Symbol;
+use Phparch\SpaceTradersRest\Value\Waypoint\Symbol;
 use Psr\Http\Message\ResponseInterface;
 
 class MarketController implements RequestAware, TwigAware

@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTradersRest\Value;
 use Phparch\SpaceTradersCLI\Render\Ship\Nav;
 use Phparch\SpaceTradersCLI\Render\Ship\RegistrationInfo;
 

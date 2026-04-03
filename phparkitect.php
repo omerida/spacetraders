@@ -22,12 +22,6 @@ return static function (Config $config): void {
         ->should(new HaveNameMatching('*Controller'))
         ->because('we want uniform naming for controllers');
 
-    /* API Client Rules */
-    $rules[] = Rule::allClasses()
-        ->that(new ResideInOneOfTheseNamespaces('Phparch\SpaceTraders\Client'))
-        ->should(new IsA('Phparch\SpaceTraders\Client'))
-        ->because('we want to ensure clients behave consistently.');
-
     /* Interface Rules */
     $rules[] = Rule::allClasses()
         ->that(new ResideInOneOfTheseNamespaces('Phparch\SpaceTraders\Interface'))
@@ -46,13 +40,6 @@ return static function (Config $config): void {
         ->that(new ResideInOneOfTheseNamespaces('Phparch\SpaceTraders\Trait'))
         ->should(new IsTrait())
         ->because('we want to be sure that there are only traits in a specific namespace');
-
-    /* Value Object Rules */
-    $rules[] = Rule::allClasses()
-        ->that(new ResideInOneOfTheseNamespaces('Phparch\SpaceTraders\Value'))
-        ->should(new DependsOnlyOnTheseNamespaces(['Phparch\SpaceTraders\Value'], []))
-        ->because('we want to protect our domain from external dependencies except for Ramsey\Uuid');
-
 
     $config->add($classSet, ...$rules);
 };

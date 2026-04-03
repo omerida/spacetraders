@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Render;
 
-use Phparch\SpaceTraders\Value\Goods\Detail;
+use Phparch\SpaceTradersRest\Value\Goods\Detail;
 
 class GoodsDetailList extends AbstractRenderer
 {

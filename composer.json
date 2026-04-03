@@ -1,6 +1,6 @@
 {
-  "name": "phparch/space-traders",
-  "description": "Space Traders client in PHP",
+  "name": "phparch/spacetraders",
+  "description": "Space Traders web client in PHP",
   "type": "project",
   "license": "MIT",
   "config": {
@@ -23,7 +23,14 @@
       "email": "oscar@oscarm.org"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "https://github.com/omerida/spacetraders-rest"
+      }
+  ],
   "require": {
     "php": ">=8.4",
     "ext-readline": "*",
@@ -32,17 +39,13 @@
     "minicli/minicli": "^4.2",
     "php-di/php-di": "^7.0",
     "guzzlehttp/guzzle": "^7.8",
-    "vlucas/phpdotenv": "^5.6",
-    "cuyz/valinor": "^2.3",
-    "predis/predis": "^2.3",
-    "kevinrob/guzzle-cache-middleware": "^5.1",
-    "symfony/cache": "^7.2",
     "league/route": "^6.1",
     "guzzlehttp/psr7": "^2.7",
     "laminas/laminas-httphandlerrunner": "^2.11",
     "lcobucci/jwt": "^5.5",
     "roave/better-reflection": "6.67.x-dev",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "phparch/spacetraders-rest": "dev-main"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.1",

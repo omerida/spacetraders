@@ -2,7 +2,7 @@
 
 namespace Phparch\SpaceTradersCLI\Render\Market;
 
-use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTradersRest\Value;
 use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 
 class Transaction extends AbstractRenderer

@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\Trait\TerminalOutputHelper;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;

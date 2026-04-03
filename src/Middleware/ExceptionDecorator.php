@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTraders\Middleware;
 
 use GuzzleHttp\Psr7\Response;
-use Phparch\SpaceTraders\APIException;
+use Phparch\SpaceTradersRest\APIException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -52,8 +52,8 @@ class ExceptionDecorator implements MiddlewareInterface
         }
 
         $response = new Response(
-            headers: $headers,
-            status: $status
+            status: $status,
+            headers: $headers
         );
 
 
