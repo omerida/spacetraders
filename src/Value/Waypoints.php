@@ -9,7 +9,7 @@ class Waypoints
     use MapFromArray;
 
     public function __construct(
-        /** @var \Phparch\SpaceTraders\Value\Waypoint[] */
+        /** @var \Phparch\SpaceTradersRest\Value\Waypoint[] */
         public array $waypoints,
     ) {
     }

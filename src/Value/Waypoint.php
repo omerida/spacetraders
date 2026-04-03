@@ -31,11 +31,11 @@ class Waypoint
         },
         public readonly int $x,
         public readonly int $y,
-        /** @var list<\Phparch\SpaceTraders\Value\Orbital> */
+        /** @var list<\Phparch\SpaceTradersRest\Value\Orbital> */
         public readonly array $orbitals,
-        /** @var list<\Phparch\SpaceTraders\Value\System\SystemTrait> */
+        /** @var list<\Phparch\SpaceTradersRest\Value\System\SystemTrait> */
         public readonly array $traits,
-        /** @var list<\Phparch\SpaceTraders\Value\System\SystemTrait> */
+        /** @var list<\Phparch\SpaceTradersRest\Value\System\SystemTrait> */
         public readonly array $modifiers,
         public readonly System\Chart $chart,
         public readonly Waypoint\Faction $faction,

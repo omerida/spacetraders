@@ -9,7 +9,7 @@ class ListShips
     use MapFromArray;
 
     public function __construct(
-        /** @var \Phparch\SpaceTraders\Value\Ship[] */
+        /** @var \Phparch\SpaceTradersRest\Value\Ship[] */
         public array $ships,
     ) {
     }

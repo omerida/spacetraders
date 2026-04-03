@@ -5,7 +5,7 @@ namespace Phparch\SpaceTradersCLI\Render;
 class Transaction extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Value\Shipyard\Transaction $txn,
+        public \Phparch\SpaceTradersRest\Value\Shipyard\Transaction $txn,
     ) {
     }
 

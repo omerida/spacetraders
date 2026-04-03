@@ -7,7 +7,7 @@ use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 class RegistrationInfo extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Value\RegistrationInfo $info,
+        public \Phparch\SpaceTradersRest\Value\RegistrationInfo $info,
     ) {
     }
 

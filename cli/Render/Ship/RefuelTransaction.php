@@ -7,7 +7,7 @@ use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 class RefuelTransaction extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Value\Ship\RefuelTransaction $txn,
+        public \Phparch\SpaceTradersRest\Value\Ship\RefuelTransaction $txn,
     ) {
     }
 
