@@ -5,7 +5,7 @@ namespace Phparch\SpaceTradersCLI\Render;
 class Contract extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Value\Contract $contract,
+        public \Phparch\SpaceTradersRest\Value\Contract $contract,
     ) {
     }
 

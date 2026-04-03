@@ -79,7 +79,8 @@ final class ServiceContainer
     public static function autodiscover(): void
     {
         $ref = new BetterReflection();
-        self::registerApiClients($ref, self::$env['USE_APCU'] === 1);
+        // TODO - is there a way to do this with an external dependency?
+        //self::registerApiClients($ref, self::$env['USE_APCU'] === 1);
     }
 
     /**
@@ -90,63 +91,13 @@ final class ServiceContainer
         self::$env = $env;
     }
 
-    protected static function isAPIClient(ReflectionClass $class): bool
-    {
-        $name = $class->getNamespaceName();
-        if ($name !== \Phparch\SpaceTraders\Client::class) {
-            return false;
+    public static function getEnv(string $key): mixed {
+        if (!isset(self::$env)) {
+            return null;
         }
 
-        if (
-            in_array(
-                needle: \Phparch\SpaceTraders\Client::class,
-                haystack: $class->getParentClassNames(),
-                strict: true
-            )
-        ) {
-            return true;
-        }
-
-        return false;
+        return self::$env[$key];
     }
-
-    /**
-     * Automatically register children of \Phparch\SpaceTraders\Client
-     */
-    protected static function registerApiClients(BetterReflection $ref, bool $useAPCU): void
-    {
-        // Use this class and method to build the key for saved data
-        $cacheKey = self::class . '::' . __FUNCTION__;
-        $success = false;
-        // Check if we find anything and that fetch didn't fail
-        $classNames = $useAPCU ? apcu_fetch($cacheKey, $success) : [];
-        if (!$classNames || !$success) {
-            $clients = array_filter(
-                self::getSrcClasses($ref),
-                self::isAPIClient(...),
-            );
-            // Can't cache BetterReflection classes. We just need their names
-            $classNames = array_map(
-                fn(ReflectionClass $client) => $client->getName(),
-                $clients
-            ) ;
-            apcu_store($cacheKey, $classNames);
-        }
-        /** @var string[] $classNames */
-        /** @var string[] $classNames */
-        foreach ($classNames as $className) {
-            self::$container->set(
-                // Classname
-                $className,
-                // Closure to call when this class is requested.
-                fn() => new $className(
-                    self::$env['SPACETRADERS_TOKEN'],
-                    self::get(\GuzzleHttp\Client::class)
-                )
-            );
-        }
-    }
-
     /**
      * @return ReflectionClass[]
      */

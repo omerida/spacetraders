@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 

@@ -4,7 +4,7 @@ namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;

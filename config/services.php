@@ -7,9 +7,34 @@ use Phparch\SpaceTraders;
 use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
+use Phparch\SpaceTradersRest\Client;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
+    Client\Agents::class => static function() {
+        return new Client\Agents(
+            $_ENV['SPACETRADERS_TOKEN'],
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    Client\Contracts::class => static function() {
+        return new Client\Contracts(
+            $_ENV['SPACETRADERS_TOKEN'],
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    Client\Fleet::class => static function() {
+        return new Client\Fleet(
+            $_ENV['SPACETRADERS_TOKEN'],
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    Client\Systems::class => static function() {
+        return new Client\Systems(
+            $_ENV['SPACETRADERS_TOKEN'],
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
     Predis\Client::class => static function () {
         return new Predis\Client($_ENV['REDIS_URI']);
     },

@@ -4,11 +4,11 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\APIException;
-use Phparch\SpaceTraders\Client;
-use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Value;
-use Phparch\SpaceTraders\Value\Fleet\ExtractResources;
+use Phparch\SpaceTradersRest\APIException;
+use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\ServiceContainer;
+use Phparch\SpaceTradersRest\Value;
+use Phparch\SpaceTradersRest\Value\Fleet\ExtractResources;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 

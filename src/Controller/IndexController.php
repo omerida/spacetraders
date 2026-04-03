@@ -3,10 +3,10 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTraders\Value\Goods\Symbol;
-use Phparch\SpaceTraders\Value\Waypoint\Type;
+use Phparch\SpaceTradersRest\Value\Goods\Symbol;
+use Phparch\SpaceTradersRest\Value\Waypoint\Type;
 use Psr\Http\Message\ResponseInterface;
 
 class IndexController implements TwigAware

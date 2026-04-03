@@ -4,9 +4,9 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\Client;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTraders\Value\Fleet\OrbitShip;
+use Phparch\SpaceTradersRest\Value\Fleet\OrbitShip;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 

@@ -4,8 +4,8 @@ namespace Phparch\SpaceTradersCLI\Command\Register;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
-use Phparch\SpaceTraders\APIException;
-use Phparch\SpaceTraders\Client\Agents;
+use Phparch\SpaceTradersRest\APIException;
+use Phparch\SpaceTradersRest\Client\Agents;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;

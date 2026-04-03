@@ -2,8 +2,8 @@
 
 namespace Phparch\SpaceTradersCLI\Render\Shipyard;
 
-use Phparch\SpaceTraders\Value;
 use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
+use Phparch\SpaceTradersRest\Value;
 
 class Ship extends AbstractRenderer
 {

@@ -7,7 +7,7 @@ use Phparch\SpaceTradersCLI\Render\AbstractRenderer;
 class Nav extends AbstractRenderer
 {
     public function __construct(
-        public \Phparch\SpaceTraders\Value\Ship\Nav $nav,
+        public \Phparch\SpaceTradersRest\Value\Ship\Nav $nav,
     ) {
     }
 

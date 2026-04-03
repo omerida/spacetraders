@@ -3,16 +3,16 @@
 namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
-use Phparch\SpaceTraders\APIException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTraders\Value\Goods\Symbol;
-use Phparch\SpaceTraders\Value\Ship\FlightMode;
-use Phparch\SpaceTraders\Value\Waypoint;
+use Phparch\SpaceTradersRest\APIException;
+use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\Value\Goods\Symbol;
+use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
+use Phparch\SpaceTradersRest\Value\Waypoint;
 use Psr\Http\Message\ResponseInterface;
 
 class FleetController implements RequestAware, TwigAware

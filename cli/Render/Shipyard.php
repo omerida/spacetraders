@@ -3,7 +3,7 @@
 namespace Phparch\SpaceTradersCLI\Render;
 
 use DateTimeInterface;
-use Phparch\SpaceTraders\Value;
+use Phparch\SpaceTradersRest\Value;
 
 class Shipyard extends AbstractRenderer
 {
