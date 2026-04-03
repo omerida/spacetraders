@@ -4,12 +4,12 @@ namespace Phparch\SpaceTraders\Controller;
 
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
 use Phparch\SpaceTradersRest\APIException;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Value\Goods\Symbol;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Phparch\SpaceTradersRest\Value\Waypoint;
