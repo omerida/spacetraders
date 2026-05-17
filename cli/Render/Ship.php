@@ -87,7 +87,7 @@ class Ship extends AbstractRenderer
         $this->sprintf(
             '<:MAG:>Power<:DEF:> %3s  <:MAG:>Crew<:DEF:> %3s  <:MAG:>Slots<:DEF:> %3s',
             $this->ship->reactor->requirements->power ?? '-',
-            $this->ship->reactor->requirements->crew ?? '-',
+            $this->ship->reactor->requirements->crew,
             $this->ship->reactor->requirements->slots ?? '-',
         );
         $this->newline();

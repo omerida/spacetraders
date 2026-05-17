@@ -19,7 +19,7 @@ class NavigateShipController extends CommandController
 {
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client\Fleet::class);
+        $client = ServiceContainer::get(Client\ShipTravel::class);
 
         $args = $this->getArgs();
         $shipSymbol = $args[3] ?? null;

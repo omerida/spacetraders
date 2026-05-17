@@ -4,8 +4,8 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
+use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersRest\Client;
-use Phparch\SpaceTradersRest\ServiceContainer;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
@@ -18,7 +18,7 @@ class JettisonCargoController extends CommandController
 {
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client\Fleet::class);
+        $client = ServiceContainer::get(Client\ShipActions::class);
 
         $args = $this->getArgs();
         $shipSymbol = $args[3] ?? null;

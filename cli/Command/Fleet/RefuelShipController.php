@@ -18,7 +18,7 @@ class RefuelShipController extends CommandController
 {
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client\Fleet::class);
+        $client = ServiceContainer::get(Client\ShipActions::class);
 
         $args = $this->getArgs();
         $shipSymbol = $args[3] ?? null;
