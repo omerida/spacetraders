@@ -4,9 +4,9 @@ namespace Phparch\SpaceTradersCLI\Command\Fleet;
 
 use InvalidArgumentException;
 use Minicli\Command\CommandController;
+use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
-use Phparch\SpaceTradersRest\ServiceContainer;
 use Phparch\SpaceTradersRest\Value;
 use Phparch\SpaceTradersRest\Value\Fleet\ExtractResources;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
@@ -20,7 +20,7 @@ class ExtractShipController extends CommandController
 {
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client\Fleet::class);
+        $client = ServiceContainer::get(Client\ShipActions::class);
 
         $args = $this->getArgs();
         $shipSymbol = $args[3] ?? null;
@@ -29,7 +29,7 @@ class ExtractShipController extends CommandController
         }
 
         try {
-            $response = $client->extractShip($shipSymbol);
+            $response = $client->extractResources($shipSymbol);
 
             $cooldown = new Render\Ship\Cooldown($response->cooldown);
             echo $cooldown->output();

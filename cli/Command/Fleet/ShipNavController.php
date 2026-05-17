@@ -17,22 +17,20 @@ class ShipNavController extends CommandController
 {
     public function handle(): void
     {
-        $client = ServiceContainer::get(Client\Fleet::class);
-
+        $travel = ServiceContainer::get(Client\ShipTravel::class);
         $args = $this->getArgs();
-
         $ship = $args[3] ?? null;
         if (!$ship) {
             throw new InvalidArgumentException("Please specify ship symbol as third parameter");
         }
 
-        // TODO valiate this is an allowed mode
+        // TODO validate this is an allowed mode
         $mode = strtoupper($args[4] ?? '');
         if (!$mode) {
             throw new InvalidArgumentException("Please specify type as fourth parameter");
         }
 
-        $response = $client->setNavMode($ship, $mode);
+        $response = $travel->setNavMode($ship, $mode);
         $nav = new Render\Ship\Nav($response->nav);
         echo $nav->output();
     }

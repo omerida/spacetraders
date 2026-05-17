@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTraders\Controller;
 
+use GuzzleHttp\Exception\GuzzleException;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
@@ -21,40 +22,50 @@ class FleetController implements RequestAware, TwigAware
     use TwigAwareController;
 
     public function __construct(
-        private Client\Fleet $client,
+        private Client\ShipActions $shipActions,
+        private Client\ShipTravel $shipTravel,
+        private Client\Fleet $fleet,
         private Client\Systems $systems,
     ) {
     }
 
     /**
      * @return array<mixed>
+     * @throws APIException
      */
     #[Route(name: 'my_ships', path: '/my/ships', methods: ['GET'])]
     public function myShips(): array
     {
-        return (array) $this->client->listShips();
+        return (array) $this->fleet->listShips();
+    }
+
+    /**
+     * @return array<mixed>
+     * @throws APIException
+     */
+    #[Route(name: 'fleet_list_ships', path: '/fleet/ships', methods: ['GET'])]
+    public function listShips(): array
+    {
+        return (array) $this->fleet->listShips();
     }
 
     /**
      * @return array<mixed>
      * @throws BadRequestException
      */
-    #[Route(name: 'fleet_list_ships', path: '/fleet/ships', methods: ['GET'])]
-    public function listShips(): array
-    {
-        return (array) $this->client->listShips();
-    }
-
-    /**
-     * @return array<mixed>
-     */
     #[Route(name: 'dock_ship', path: '/ship/dock', methods: ['POST'])]
     public function dockShip(): array
     {
         $ship = $this->getShipIdFromPost();
-        return (array) $this->client->dockShip($ship);
+        return (array) $this->shipTravel->dockShip($ship);
     }
 
+    /**
+     * @throws BadRequestException
+     * @throws GuzzleException
+     * @throws APIException
+     * @throws \JsonException
+     */
     #[Route(
         name: 'set_ship_nav_mode',
         path: '/ship/set-flight-mode',
@@ -78,7 +89,7 @@ class FleetController implements RequestAware, TwigAware
             throw new BadRequestException("Unknown flight mode.");
         }
 
-        $response = $this->client->setNavMode($ship, $flightMode);
+        $response = $this->shipTravel->setNavMode($ship, $flightMode);
         return $this->render('ships/set-nav-mode.html.twig', [
             'nav' => $response->nav,
             'fuel' => $response->fuel,
@@ -107,26 +118,26 @@ class FleetController implements RequestAware, TwigAware
 
         switch ($order) {
             case 'dock':
-                $response = $this->client->dockShip($ship);
+                $response = $this->shipTravel->dockShip($ship);
                 return $this->render('partials/ship-nav-table.html.twig', [
                     'nav' => $response->nav,
                 ]);
 
             case 'orbit':
-                $response = $this->client->orbitShip($ship);
+                $response = $this->shipTravel->orbitShip($ship);
                 return $this->render('partials/ship-nav-table.html.twig', [
                     'nav' => $response->nav,
                 ]);
 
             case 'extract':
-                $response = $this->client->extractShip($ship);
+                $response = $this->shipActions->extractResources($ship);
                 return $this->render('ships/ship-extract.html.twig', [
                     'cooldown' => $response->cooldown,
                     'cargo' => $response->cargo,
                     'extraction' => $response->extraction,
                 ]);
             case 'refuel':
-                $response = $this->client->refuelShip($ship);
+                $response = $this->shipActions->refuelShip($ship);
                 return $this->render('ships/ship-refuel.html.twig', [
                     'agent' => $response->agent,
                     'fuel' => $response->fuel,
@@ -144,7 +155,7 @@ class FleetController implements RequestAware, TwigAware
     public function refuelShip(): array
     {
         $ship = $this->getShipIdFromPost();
-        return (array) $this->client->refuelShip($ship);
+        return (array) $this->shipActions->refuelShip($ship);
     }
 
     /**
@@ -177,7 +188,7 @@ class FleetController implements RequestAware, TwigAware
 
         $units = $post['units'] ?? 0;
 
-        $response = $this->client->sellCargo($ship, $good, $units);
+        $response = $this->shipActions->sellCargo($ship, $good, $units);
 
         return $this->render('ships/ship-sell-goods.html.twig', [
             'cargo' => $response->cargo,
@@ -215,7 +226,7 @@ class FleetController implements RequestAware, TwigAware
 
         $units = $post['units'] ?? 0;
 
-        return (array) $this->client->jettisonCargo($ship, $good, $units);
+        return (array) $this->shipActions->jettisonCargo($ship, $good, $units);
     }
 
     /**
@@ -225,7 +236,7 @@ class FleetController implements RequestAware, TwigAware
     public function orbitShip(): array
     {
         $ship = $this->getShipIdFromPost();
-        return (array) $this->client->orbitShip($ship);
+        return (array) $this->shipTravel->orbitShip($ship);
     }
 
     /**
@@ -235,7 +246,7 @@ class FleetController implements RequestAware, TwigAware
     public function extractShip(): array
     {
         $ship = $this->getShipIdFromPost();
-        return (array) $this->client->extractShip($ship);
+        return (array) $this->shipActions->extractResources($ship);
     }
 
     #[Route(
@@ -247,7 +258,7 @@ class FleetController implements RequestAware, TwigAware
     public function shipInfo(): ResponseInterface
     {
         $shipID = $this->getShipID();
-        $ship = $this->client->getShip($shipID);
+        $ship = $this->fleet->getShip($shipID);
 
         $atFuelStation = (
             $ship->nav->route->destination->isFuelStation()
@@ -285,7 +296,7 @@ class FleetController implements RequestAware, TwigAware
     {
         $ship = $this->getShipIdFromPost();
         $waypoint = $this->getWaypointFromPost();
-        $response =  $this->client->navigateShip($ship, $waypoint);
+        $response =  $this->shipTravel->navigateShip($ship, $waypoint);
 
         return $this->render('ships/navigate-ship.html.twig', [
             'nav' => $response->nav,
@@ -304,7 +315,7 @@ class FleetController implements RequestAware, TwigAware
     {
         $ship = $this->getShipID();
 
-        $response = $this->client->getShipCargo($ship);
+        $response = $this->fleet->getShipCargo($ship);
         return $this->render('ships/cargo.html.twig', [
             'ship' => $ship,
             'cargo_details' => $response,
@@ -318,7 +329,7 @@ class FleetController implements RequestAware, TwigAware
     public function shipCooldown(): array
     {
         $ship = $this->getShipID();
-        return (array) $this->client->getShipCooldown($ship);
+        return (array) $this->fleet->getShipCooldown($ship);
     }
 
     /**
@@ -332,7 +343,7 @@ class FleetController implements RequestAware, TwigAware
     public function shipMounts(): array
     {
         $ship = $this->getShipID();
-        return (array) $this->client->getShipMounts($ship);
+        return (array) $this->fleet->getShipMounts($ship);
     }
 
     private function getShipIdFromPost(): string
