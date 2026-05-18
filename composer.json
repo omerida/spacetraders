@@ -41,6 +41,7 @@
     "guzzlehttp/guzzle": "^7.8",
     "league/route": "^6.1",
     "guzzlehttp/psr7": "^2.7",
+    "kevinrob/guzzle-cache-middleware": "^5.1",
     "laminas/laminas-httphandlerrunner": "^2.11",
     "lcobucci/jwt": "^5.5",
     "roave/better-reflection": "6.67.x-dev",
