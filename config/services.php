@@ -10,28 +10,46 @@ use Phparch\SpaceTraders\TwigExtensions;
 use Phparch\SpaceTradersRest\Client;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
+function get_spacetraders_token(): string {
+    $token = $_ENV['SPACETRADERS_TOKEN'];
+    assert(is_string($token));
+    return $token;
+}
+
 return [
     Client\Agents::class => static function() {
         return new Client\Agents(
-            $_ENV['SPACETRADERS_TOKEN'],
+            get_spacetraders_token(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
     Client\Contracts::class => static function() {
         return new Client\Contracts(
-            $_ENV['SPACETRADERS_TOKEN'],
+            get_spacetraders_token(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
     Client\Fleet::class => static function() {
         return new Client\Fleet(
-            $_ENV['SPACETRADERS_TOKEN'],
+            get_spacetraders_token(),
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    Client\ShipActions::class => static function() {
+        return new Client\ShipActions(
+            get_spacetraders_token(),
+            ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    Client\ShipTravel::class => static function() {
+        return new Client\ShipTravel(
+            get_spacetraders_token(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
     Client\Systems::class => static function() {
         return new Client\Systems(
-            $_ENV['SPACETRADERS_TOKEN'],
+            get_spacetraders_token(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
@@ -39,10 +57,13 @@ return [
         return new Predis\Client($_ENV['REDIS_URI']);
     },
     GuzzleHttp\Client::class => static function () {
+        $ttl = $_ENV['REDIS_CACHE_TTL'] ? (int) $_ENV['REDIS_CACHE_TTL'] :900;
+        assert(is_int($ttl));
+
         $adapter = new RedisAdapter(
             redis: ServiceContainer::get(Predis\Client::class),
             namespace: '',
-            defaultLifetime: $_ENV['REDIS_CACHE_TTL'] ?? 900,
+            defaultLifetime: $ttl,
         );
 
         $strategy = new GreedyCacheStrategy(
