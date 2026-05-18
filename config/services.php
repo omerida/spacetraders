@@ -57,8 +57,11 @@ return [
         return new Predis\Client($_ENV['REDIS_URI']);
     },
     GuzzleHttp\Client::class => static function () {
-        $ttl = $_ENV['REDIS_CACHE_TTL'] ? (int) $_ENV['REDIS_CACHE_TTL'] :900;
-        assert(is_int($ttl));
+        if (isset($_ENV['REDIS_CACHE_TTL']) && ctype_digit($_ENV['REDIS_CACHE_TTL'])) {
+            $ttl = (int) $_ENV['REDIS_CACHE_TTL'];
+        } else {
+            $ttl = 900;
+        }
 
         $adapter = new RedisAdapter(
             redis: ServiceContainer::get(Predis\Client::class),
