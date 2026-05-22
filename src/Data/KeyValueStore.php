@@ -3,6 +3,7 @@
 namespace Phparch\SpaceTraders\Data;
 
 use Doctrine\DBAL;
+use Doctrine\DBAL\Exception;
 
 class KeyValueStore
 {
@@ -19,13 +20,6 @@ class KeyValueStore
     ) {
     }
 
-    private function queryTable(string $type, string $key): DBAL\Result {
-        return $this->db->executeQuery(
-            "SELECT val FROM `{$this->table_prefix}_{$type}` WHERE `name` = :key",
-            [strtolower($key)],
-            [DBAL\ParameterType::STRING]
-        );
-    }
     public function getString(string $key): ?string {
 
         if (isset($this->cache_string[$key])) {
@@ -70,6 +64,51 @@ class KeyValueStore
         return $default;
     }
 
-    public function store(string $key, mixed $value): void {
+    /**
+     * @throws Exception
+     */
+    public function storeText(string $key, string $value): int {
+        return $this->insertValue('text', $key, $value);
+    }
+
+    public function storeInt(string $key, int $value): int {
+        return $this->insertValue('int', $key, $value);
+    }
+
+    public function storeBool(string $key, bool $value): int {
+        return $this->insertValue('bool', $key, $value);
+    }
+
+    private function queryTable(string $type, string $key): DBAL\Result {
+        return $this->db->executeQuery(
+            "SELECT val FROM `{$this->table_prefix}_{$type}` WHERE `name` = :key",
+            [strtolower($key)],
+            [DBAL\ParameterType::STRING]
+        );
+    }
+
+    /**
+     * @param 'int'|'text'|'bool' $type
+     * @throws Exception
+    */
+    public function insertValue(string $type, string $key, string|bool|int $value): int {
+        $valueType = match ($type) {
+            'text' => DBAL\ParameterType::STRING,
+            'int' => DBAL\ParameterType::INTEGER,
+            'bool' => DBAL\ParameterType::BOOLEAN,
+        };
+        return (int) $this->db->executeStatement(
+            <<<SQL
+            INSERT INTO `{$this->table_prefix}_{$type}` 
+                VALUES (?, ?, null, null)
+                ON CONFLICT(`name`)
+                   DO UPDATE SET `val` = ? WHERE `name` = ?
+            SQL,
+            [
+                strtolower($key), $value, // INSERT
+                $value, strtolower($key) // UPDATE
+            ],
+            [DBAL\ParameterType::STRING, $valueType, DBAL\ParameterType::STRING, $valueType]
+        );
     }
 }

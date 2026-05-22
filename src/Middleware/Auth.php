@@ -10,6 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Token\Parser;
 use League\Route\Http\Exception\UnauthorizedException;
+use GuzzleHttp\Psr7;
 
 class Auth implements MiddlewareInterface
 {
@@ -25,6 +26,10 @@ class Auth implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
+        if ($request->getRequestTarget() === '/get-new-token') {
+            return $handler->handle($request);
+        }
+
         if ($this->token) {
             try {
                 $parser = new Parser(new JoseEncoder());
@@ -35,12 +40,17 @@ class Auth implements MiddlewareInterface
                     return $handler->handle($request);
                 }
             } catch (InvalidTokenStructure $e) {
-                throw new UnauthorizedException(
-                    'Unauthorized: ' . $e->getMessage(),
-                    previous: $e
-                );
+                // Send users to store a new token
+                return $this->redirect();
             }
         }
-        throw new UnauthorizedException('Unauthorized: No token found.');
+        return $this->redirect();
+    }
+
+    private function redirect(): ResponseInterface {
+        return new Psr7\Response(
+            status: 307,
+            headers: ['Location' => '/get-new-token']
+        );
     }
 }

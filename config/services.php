@@ -1,12 +1,14 @@
 <?php
 
-use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL;
+use GuzzleHttp\Psr7;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
-use Doctrine\DBAL;
+use League\Route;
 use Phparch\SpaceTraders;
 use Phparch\SpaceTraders\Data;
+use Phparch\SpaceTraders\Middleware;
 use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
@@ -62,7 +64,7 @@ return [
         assert(is_string($_ENV['DATABASE_DSN']));
         $dsn = $_ENV['DATABASE_DSN'];
         $dsnParser = new DBAL\Tools\DsnParser();
-        return DriverManager::getConnection($dsnParser->parse($dsn));
+        return DBAL\DriverManager::getConnection($dsnParser->parse($dsn));
     },
     Data\SystemRegistry::class => static function(): Data\SystemRegistry {
         return new Data\SystemRegistry(
@@ -73,7 +75,10 @@ return [
         return new Predis\Client($_ENV['REDIS_URI']);
     },
     GuzzleHttp\Client::class => static function () {
-        if (isset($_ENV['REDIS_CACHE_TTL']) && ctype_digit($_ENV['REDIS_CACHE_TTL'])) {
+        if (
+            isset($_ENV['REDIS_CACHE_TTL'])
+            && ctype_digit($_ENV['REDIS_CACHE_TTL'])
+        ) {
             $ttl = (int) $_ENV['REDIS_CACHE_TTL'];
         } else {
             $ttl = 900;
@@ -106,6 +111,23 @@ return [
             ),
             useAPCu: $_ENV['USE_APCU'] === 1,
         );
+    },
+    Route\Router::class => static function (): Route\Router {
+        $responseFactory = new Psr7\HttpFactory();
+        $strategy = new Route\Strategy\JsonStrategy($responseFactory);
+        $router = new Route\Router();
+        $router->setStrategy($strategy);
+        // Register Middleware Components
+        $router->middleware(
+            new Middleware\Auth(getSpaceTradersToken())
+        );
+        $router->middleware(
+            new Middleware\ExceptionDecorator(
+                ServiceContainer::get(\Twig\Environment::class)
+            )
+        );
+
+        return $router;
     },
     Routes\Mapper::class => static function () {
         return new SpaceTraders\Routes\Mapper(

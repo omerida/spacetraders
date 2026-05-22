@@ -1,0 +1,18 @@
+{% import 'macros/helpers.html.twig' as helpers %}
+{% extends 'minimal.html.twig' %}
+
+{% block content %}
+
+<h1>Please Authenticate your Agent</h1>
+<p>The SpaceTraders API token is missing or invalid.
+    Please go to<a href="https://my.spacetraders.io/agents">your Agents page</a>
+    and generate a new one.</p>
+<form method="post">
+    <input type="password"
+           placeholder="API Token"
+           name="token"
+           size="60"
+           required="required">
+    <input type="submit" value="Save Token">
+</form>
+{% endblock %}
