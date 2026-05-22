@@ -36,6 +36,9 @@
     "ext-readline": "*",
     "ext-curl": "*",
     "ext-apcu": "*",
+    "ext-pdo": "*",
+    "ext-pdo_sqlite": "*",
+    "ext-sqlite3": "*",
     "minicli/minicli": "^4.2",
     "php-di/php-di": "^7.0",
     "guzzlehttp/guzzle": "^7.8",
@@ -46,7 +49,8 @@
     "lcobucci/jwt": "^5.5",
     "roave/better-reflection": "6.67.x-dev",
     "twig/twig": "^3.0",
-    "phparch/spacetraders-rest": "0.*"
+    "phparch/spacetraders-rest": "0.*",
+    "doctrine/dbal": "^4.4"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.1",
@@ -84,6 +88,7 @@
     "churn": "vendor/bin/churn",
     "phparkitect": "vendor/bin/phparkitect check",
     "twig-lint": "vendor/bin/twig-cs-fixer lint templates",
-    "twig-lint-fix": "vendor/bin/twig-cs-fixer lint --fix templates"
+    "twig-lint-fix": "vendor/bin/twig-cs-fixer lint --fix templates",
+    "init-db": "sqlite3 data/spacetraders.sqlite < data/init-db.sql"
   }
 }

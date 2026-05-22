@@ -1,56 +1,72 @@
 <?php
 
+use Doctrine\DBAL\DriverManager;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
+use Doctrine\DBAL;
 use Phparch\SpaceTraders;
+use Phparch\SpaceTraders\Data;
 use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
 use Phparch\SpaceTradersRest\Client;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-function get_spacetraders_token(): string {
-    $token = $_ENV['SPACETRADERS_TOKEN'];
-    assert(is_string($token));
-    return $token;
+function getSpaceTradersToken(): string {
+    $registry = ServiceContainer::get(Data\SystemRegistry::class);
+    return $registry->getString('spacetraders_token') ?? '';
 }
 
 return [
-    Client\Agents::class => static function() {
+    Client\Agents::class => static function(): Client\Agents {
         return new Client\Agents(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
-    Client\Contracts::class => static function() {
+    Client\Contracts::class => static function(): Client\Contracts {
         return new Client\Contracts(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
-    Client\Fleet::class => static function() {
+    Client\Fleet::class => static function(): Client\Fleet {
         return new Client\Fleet(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
-    Client\ShipActions::class => static function() {
+    Client\ShipActions::class => static function(): Client\ShipActions {
         return new Client\ShipActions(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
-    Client\ShipTravel::class => static function() {
+    Client\ShipTravel::class => static function(): Client\ShipTravel {
         return new Client\ShipTravel(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
         );
     },
     Client\Systems::class => static function() {
         return new Client\Systems(
-            get_spacetraders_token(),
+            getSpaceTradersToken(),
             ServiceContainer::get(\GuzzleHttp\Client::class)
+        );
+    },
+    DBAL\Connection::class => static function(): DBAL\Connection {
+        if (!isset($_ENV['DATABASE_DSN'])) {
+            throw new \RuntimeException('Database DSN is not defined');
+        }
+        assert(is_string($_ENV['DATABASE_DSN']));
+        $dsn = $_ENV['DATABASE_DSN'];
+        $dsnParser = new DBAL\Tools\DsnParser();
+        return DriverManager::getConnection($dsnParser->parse($dsn));
+    },
+    Data\SystemRegistry::class => static function(): Data\SystemRegistry {
+        return new Data\SystemRegistry(
+            ServiceContainer::get(DBAL\Connection::class),
         );
     },
     Predis\Client::class => static function () {
