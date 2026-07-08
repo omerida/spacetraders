@@ -44,7 +44,7 @@ class JettisonCargoController extends CommandController
             $response = $client->jettisonCargo($shipSymbol, $cargoSymbol, $units);
             $out = new Render\Ship\CargoDetails($response->cargo);
             echo $out->output();
-        } catch (APIException $ex) {
+        } catch (\Exception $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
         }

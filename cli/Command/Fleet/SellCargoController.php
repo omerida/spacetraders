@@ -6,7 +6,6 @@ use InvalidArgumentException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\ServiceContainer;
-use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
 use Phparch\SpaceTradersCLI\Render;
 
@@ -51,7 +50,7 @@ class SellCargoController extends CommandController
 
             $out = new Render\Market\Transaction($response->transaction);
             echo $out->output();
-        } catch (APIException $ex) {
+        } catch (\Exception $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
         }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08af27fb51fcdfb8fae0ada981b33ef2",
+    "content-hash": "c2660731c41531a24de053a67e407fac",
     "packages": [
         {
             "name": "cuyz/valinor",
@@ -1345,16 +1345,16 @@
         },
         {
             "name": "phparch/spacetraders-rest",
-            "version": "0.1.1",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omerida/spacetraders-rest.git",
-                "reference": "1d2e8da5b4a97ddbc36896963ccf41e37180a3cf"
+                "reference": "ef3ea786a1e848382c9145e872c41a94ef21324f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/1d2e8da5b4a97ddbc36896963ccf41e37180a3cf",
-                "reference": "1d2e8da5b4a97ddbc36896963ccf41e37180a3cf",
+                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/ef3ea786a1e848382c9145e872c41a94ef21324f",
+                "reference": "ef3ea786a1e848382c9145e872c41a94ef21324f",
                 "shasum": ""
             },
             "require": {
@@ -1445,10 +1445,10 @@
             ],
             "description": "Space Traders API client in PHP",
             "support": {
-                "source": "https://github.com/omerida/spacetraders-rest/tree/0.1.1",
+                "source": "https://github.com/omerida/spacetraders-rest/tree/0.2.0",
                 "issues": "https://github.com/omerida/spacetraders-rest/issues"
             },
-            "time": "2026-05-22T04:50:04+00:00"
+            "time": "2026-07-08T03:20:54+00:00"
         },
         {
             "name": "phpoption/phpoption",
