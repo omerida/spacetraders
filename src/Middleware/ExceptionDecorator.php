@@ -3,7 +3,8 @@
 namespace Phparch\SpaceTraders\Middleware;
 
 use GuzzleHttp\Psr7\Response;
-use Phparch\SpaceTradersRest\APIException;
+use Phparch\SpaceTradersRest\Exception\APIAuthentication;
+use Phparch\SpaceTradersRest\Exception\APIFailure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,9 +23,14 @@ class ExceptionDecorator implements MiddlewareInterface
     ): ResponseInterface {
         try {
             return $handler->handle($request);
-        } catch (APIException $e) {
+        } catch (APIAuthentication $e) {
+            return new Response(
+                status: 307,
+                headers: ['Location' => '/get-new-token']
+            );
+        } catch (APIFailure $e) {
             $message = $e->getMessage() . ' (' . $e->getCode() . ')';
-            $status = 400;
+            $status = 500;
         } catch (\Throwable $e) {
             $message = $e->getMessage();
             $status = 500;
