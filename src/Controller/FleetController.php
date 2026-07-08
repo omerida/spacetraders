@@ -11,6 +11,8 @@ use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\Exception\APIAuthentication;
+use Phparch\SpaceTradersRest\Exception\APIFailure;
 use Phparch\SpaceTradersRest\Value\Goods\Symbol;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Phparch\SpaceTradersRest\Value\Waypoint;
@@ -31,7 +33,6 @@ class FleetController implements RequestAware, TwigAware
 
     /**
      * @return array<mixed>
-     * @throws APIException
      */
     #[Route(name: 'my_ships', path: '/my/ships', methods: ['GET'])]
     public function myShips(): array
@@ -41,7 +42,6 @@ class FleetController implements RequestAware, TwigAware
 
     /**
      * @return array<mixed>
-     * @throws APIException
      */
     #[Route(name: 'fleet_list_ships', path: '/fleet/ships', methods: ['GET'])]
     public function listShips(): array
@@ -61,9 +61,11 @@ class FleetController implements RequestAware, TwigAware
     }
 
     /**
+     * @return ResponseInterface
+     * @throws APIAuthentication
+     * @throws APIFailure
      * @throws BadRequestException
      * @throws GuzzleException
-     * @throws APIException
      * @throws \JsonException
      */
     #[Route(
@@ -98,6 +100,10 @@ class FleetController implements RequestAware, TwigAware
 
     /**
      * @throws BadRequestException
+     * @throws GuzzleException
+     * @throws \JsonException
+     * @throws APIAuthentication
+     * @throws APIFailure
      */
     #[Route(
         name: 'order_ship',
@@ -150,6 +156,11 @@ class FleetController implements RequestAware, TwigAware
 
     /**
      * @return array<mixed>
+     * @throws APIAuthentication
+     * @throws APIFailure
+     * @throws BadRequestException
+     * @throws GuzzleException
+     * @throws \JsonException
      */
     #[Route(name: 'refuel_ship', path: '/ship/refuel', methods: ['POST'])]
     public function refuelShip(): array
@@ -159,8 +170,11 @@ class FleetController implements RequestAware, TwigAware
     }
 
     /**
+     * @throws APIAuthentication
+     * @throws APIFailure
      * @throws BadRequestException
-     * @throws APIException
+     * @throws GuzzleException
+     * @throws \JsonException
      */
     #[Route(
         name: 'sell_goods',

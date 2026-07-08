@@ -7,6 +7,8 @@ use Minicli\Command\CommandController;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\Exception\APIAuthentication;
+use Phparch\SpaceTradersRest\Exception\APIFailure;
 use Phparch\SpaceTradersRest\Value;
 use Phparch\SpaceTradersRest\Value\Fleet\ExtractResources;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
@@ -38,7 +40,7 @@ class ExtractShipController extends CommandController
             $extraction = new Render\Ship\ExtractionDetails($response->extraction);
             echo $extraction->output();
             // TODO render events
-        } catch (APIException $ex) {
+        } catch (APIFailure | APIAuthentication $ex) {
             $error = new Render\Exception($ex);
             echo $error->output();
 
