@@ -3,11 +3,13 @@
 namespace Phparch\SpaceTradersCLI\Command\Systems;
 
 use InvalidArgumentException;
+use League\Route\Http\Exception\BadRequestException;
 use Minicli\Command\CommandController;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersCLI\Render;
 use Phparch\SpaceTradersCLI\Command\HelpInfo;
+use Phparch\SpaceTradersRest\Value\Waypoint\Type;
 
 #[HelpInfo(description: "Search waypoints, optionally filter by query"
     . " string (type and/or traits)", params: ['systemSymbol', '?type'])]
@@ -27,6 +29,7 @@ class WaypointsController extends CommandController
         $type = $args[4] ?? '';
 
         $rawArgs = $this->input->getRawArgs();
+
         $query = [];
         if (str_contains($rawArgs[4], '=')) {
             // allow CLI to specify the query string
@@ -46,6 +49,24 @@ class WaypointsController extends CommandController
         } elseif (isset($rawArgs[4])) {
             $query = ['type' => $type];
         }
+
+
+        /**
+         * @var array{
+         *     type ?: value-of<\Phparch\SpaceTradersRest\Value\Waypoint\Type>,
+         *     traits ?: string
+         * } $query
+         */
+        if (isset($query['type'])) {
+            $query['type'] = strtoupper($query['type']);
+            // Validate the type is allowed
+            if (!($enum = Type::tryFrom($query['type']))) {
+                throw new InvalidArgumentException("Unknown waypoint type.");
+            }
+            $query['type'] = $enum->value;
+        }
+
+
         try {
             $response = $client->waypoints($system, $query);
 
