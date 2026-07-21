@@ -13,6 +13,8 @@ use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
 use Phparch\SpaceTradersRest\Client;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 function getSpaceTradersToken(): string {
@@ -24,37 +26,43 @@ return [
     Client\Agents::class => static function(): Client\Agents {
         return new Client\Agents(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Contracts::class => static function(): Client\Contracts {
         return new Client\Contracts(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Fleet::class => static function(): Client\Fleet {
         return new Client\Fleet(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\ShipActions::class => static function(): Client\ShipActions {
         return new Client\ShipActions(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\ShipTravel::class => static function(): Client\ShipTravel {
         return new Client\ShipTravel(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Systems::class => static function() {
         return new Client\Systems(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     DBAL\Connection::class => static function(): DBAL\Connection {
@@ -69,6 +77,11 @@ return [
     Data\SystemRegistry::class => static function(): Data\SystemRegistry {
         return new Data\SystemRegistry(
             ServiceContainer::get(DBAL\Connection::class),
+        );
+    },
+    EventDispatcherInterface::class => static function(): EventDispatcherInterface {
+        return new Crell\Tukio\Dispatcher(
+            ServiceContainer::get(ListenerProviderInterface::class),
         );
     },
     Predis\Client::class => static function () {
@@ -97,6 +110,12 @@ return [
         $stack = GuzzleHttp\HandlerStack::create();
         $stack->push(new CacheMiddleware($strategy), 'cache');
         return new GuzzleHttp\Client(['handler' => $stack]);
+    },
+    ListenerProviderInterface::class => static function(): ListenerProviderInterface {
+        $provider =new \Crell\Tukio\OrderedListenerProvider();
+        // register events based on attributes on methods in ListenerService
+        $provider->listenerService(SpaceTraders\Event\ListenerService::class);
+        return $provider;
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(
@@ -160,5 +179,5 @@ return [
             new \Twig\Extension\AttributeExtension(TwigExtensions::class)
         );
         return $twig;
-    }
+    },
 ];

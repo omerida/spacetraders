@@ -49,8 +49,9 @@
     "lcobucci/jwt": "^5.5",
     "roave/better-reflection": "6.67.x-dev",
     "twig/twig": "^3.0",
-    "phparch/spacetraders-rest": "^0.2.0",
-    "doctrine/dbal": "^4.4"
+    "phparch/spacetraders-rest": "^0.3.0",
+    "doctrine/dbal": "^4.4",
+    "crell/tukio": "^2.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^2.1",
@@ -62,7 +63,8 @@
     "vincentlanglet/twig-cs-fixer": "^3.8",
     "bmitch/churn-php": "^1.7",
     "phparkitect/phparkitect": "^0.7.0",
-    "rector/rector": "^2.3"
+    "rector/rector": "^2.3",
+    "phpunit/phpunit": "^13"
   },
   "extra": {
     "hooks": {
@@ -79,10 +81,11 @@
     }
   },
   "scripts": {
-    "check-code": ["@phpcs",  "@phpstan", "@phparkitect", "@twig-lint"],
+    "check-code": ["@phpcs",  "@phpstan", "@phparkitect", "@twig-lint", "@phpunit"],
     "fix-code": ["@phpcbf", "@twig-lint-fix"],
     "phpmd": "vendor/bin/phpmd --ignore-violations-on-exit --ignore-errors-on-exit src text phpmd.xml" ,
     "phpstan": "vendor/bin/phpstan --memory-limit=1G",
+    "phpunit": "vendor/bin/phpunit tests",
     "phpcs": "vendor/bin/phpcs -s",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",
