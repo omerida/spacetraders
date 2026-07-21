@@ -49,7 +49,7 @@
     "lcobucci/jwt": "^5.5",
     "roave/better-reflection": "6.67.x-dev",
     "twig/twig": "^3.0",
-    "phparch/spacetraders-rest": "^0.2.0",
+    "phparch/spacetraders-rest": "^0.3.0",
     "doctrine/dbal": "^4.4",
     "crell/tukio": "^2.0"
   },

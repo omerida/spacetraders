@@ -26,37 +26,43 @@ return [
     Client\Agents::class => static function(): Client\Agents {
         return new Client\Agents(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Contracts::class => static function(): Client\Contracts {
         return new Client\Contracts(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Fleet::class => static function(): Client\Fleet {
         return new Client\Fleet(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\ShipActions::class => static function(): Client\ShipActions {
         return new Client\ShipActions(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\ShipTravel::class => static function(): Client\ShipTravel {
         return new Client\ShipTravel(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     Client\Systems::class => static function() {
         return new Client\Systems(
             getSpaceTradersToken(),
-            ServiceContainer::get(\GuzzleHttp\Client::class)
+            ServiceContainer::get(\GuzzleHttp\Client::class),
+            ServiceContainer::get(EventDispatcherInterface::class),
         );
     },
     DBAL\Connection::class => static function(): DBAL\Connection {
