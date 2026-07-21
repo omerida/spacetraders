@@ -112,7 +112,9 @@ return [
         return new GuzzleHttp\Client(['handler' => $stack]);
     },
     ListenerProviderInterface::class => static function(): ListenerProviderInterface {
-        $provider =new \Crell\Tukio\OrderedListenerProvider();
+        $provider =new \Crell\Tukio\OrderedListenerProvider(
+            ServiceContainer::instance()
+        );
         // register events based on attributes on methods in ListenerService
         $provider->listenerService(SpaceTraders\Event\ListenerService::class);
         return $provider;

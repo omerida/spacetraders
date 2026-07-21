@@ -100,9 +100,9 @@ class KeyValueStore
         return (int) $this->db->executeStatement(
             <<<SQL
             INSERT INTO `{$this->table_prefix}_{$type}` 
-                VALUES (?, ?, null, null)
+                VALUES (?, ?, datetime('now'), datetime('now'))
                 ON CONFLICT(`name`)
-                   DO UPDATE SET `val` = ? WHERE `name` = ?
+                   DO UPDATE SET `val` = ?, updated_at=datetime('now') WHERE `name` = ?
             SQL,
             [
                 strtolower($key), $value, // INSERT
