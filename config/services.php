@@ -13,6 +13,8 @@ use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
 use Phparch\SpaceTradersRest\Client;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 function getSpaceTradersToken(): string {
@@ -71,6 +73,11 @@ return [
             ServiceContainer::get(DBAL\Connection::class),
         );
     },
+    EventDispatcherInterface::class => static function(): EventDispatcherInterface {
+        return new Crell\Tukio\Dispatcher(
+            ServiceContainer::get(ListenerProviderInterface::class),
+        );
+    },
     Predis\Client::class => static function () {
         return new Predis\Client($_ENV['REDIS_URI']);
     },
@@ -97,6 +104,12 @@ return [
         $stack = GuzzleHttp\HandlerStack::create();
         $stack->push(new CacheMiddleware($strategy), 'cache');
         return new GuzzleHttp\Client(['handler' => $stack]);
+    },
+    ListenerProviderInterface::class => static function(): ListenerProviderInterface {
+        $provider =new \Crell\Tukio\OrderedListenerProvider();
+        // register events based on attributes on methods in ListenerService
+        $provider->listenerService(SpaceTraders\Event\ListenerService::class);
+        return $provider;
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(
@@ -160,5 +173,5 @@ return [
             new \Twig\Extension\AttributeExtension(TwigExtensions::class)
         );
         return $twig;
-    }
+    },
 ];
