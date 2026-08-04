@@ -3,6 +3,7 @@
 use Doctrine\DBAL;
 use Doctrine\ORM;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Psr7;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
@@ -121,7 +122,7 @@ return [
         $provider->addSubscriber(SpaceTraders\Event\ListenerService::class);
         return $provider;
     },
-    ORM\EntityManager::class => static function(): EntityManager {
+    ORM\EntityManagerInterface::class => static function(): EntityManager {
         $config = Doctrine\ORM\ORMSetup::createAttributeMetadataConfig(
             paths: [__DIR__ .'/../src/Entity'],
             isDevMode: true,

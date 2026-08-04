@@ -2,6 +2,8 @@
 
 namespace Phparch\SpaceTraders\Event;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Phparch\SpaceTraders\Entity\EventRecord;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
 use Crell\Tukio\Listener;
 
@@ -13,10 +15,31 @@ use Crell\Tukio\Listener;
  */
 class ListenerService
 {
-    public function __construct() {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function onContractAccepted(ContractAccepted $event): void {
-        echo "event listener called.";
+        $contract = $event->accepted->contract;
+
+        $record = new EventRecord(
+            name: "Contract Accepted",
+            source: $event::class,
+            description: <<<EOF
+            {$event->accepted->agent->symbol} accepted a {$contract->type->value} contract.
+            The contract expires on {$contract->expiration->format(\DateTime::ATOM)}.
+            EOF
+        );
+
+        $record->setDataFromArray([
+            'id' => $contract->id,
+            'terms' => $contract->terms,
+            'expiration' => $contract->expiration->format(\DateTime::ATOM),
+            'type' => $contract->type->value,
+        ]);
+
+        $this->entityManager->persist($record);
+        $this->entityManager->flush();
     }
 }

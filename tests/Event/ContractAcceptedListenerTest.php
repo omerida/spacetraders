@@ -5,13 +5,12 @@ namespace Event;
 use Crell\Tukio\Dispatcher;
 use Crell\Tukio\OrderedListenerProvider;
 use DI\Container;
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Psr7;
 use Phparch\SpaceTraders\Event\ListenerService;
-use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
 use Phparch\SpaceTradersRest\Client;
 use PHPUnit\Framework\TestCase;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * This class documents how the services should be configured to listen
@@ -25,7 +24,10 @@ class ContractAcceptedListenerTest extends TestCase
         // of our Listener service.
         $container = new Container([
             ListenerService::class => function () {
+                $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+
                 $mock = $this->getMockBuilder(ListenerService::class)
+                    ->setConstructorArgs([$entityManagerMock])
                     ->onlyMethods(['onContractAccepted'])
                     ->getMock();
                 $mock->expects($this->once())
@@ -61,7 +63,10 @@ class ContractAcceptedListenerTest extends TestCase
         // We must create the mock directly and not in the
         // container so that phpunit knows about our
         // expects() for the mocked method.
+        $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+
         $mockListener = $this->getMockBuilder(ListenerService::class)
+            ->setConstructorArgs([$entityManagerMock])
             ->onlyMethods(['onContractAccepted'])
             ->getMock();
 
