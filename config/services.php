@@ -116,7 +116,7 @@ return [
             ServiceContainer::instance()
         );
         // register events based on attributes on methods in ListenerService
-        $provider->listenerService(SpaceTraders\Event\ListenerService::class);
+        $provider->addSubscriber(SpaceTraders\Event\ListenerService::class);
         return $provider;
     },
     Routes\Scanner::class => static function () {

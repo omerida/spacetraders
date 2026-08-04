@@ -7,3 +7,4 @@ vendor/
 tmp/
 /.twig-cs-fixer.cache
 data/spacetraders.sqlite
+/.composer/

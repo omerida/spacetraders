@@ -12,6 +12,7 @@ services:
       - "80:80"
     volumes:
       - .:/var/www
+      - ./.composer:/.composer/
       - ./docker/99_php_custom.ini:/usr/local/etc/php/conf.d/99_php_custom.ini:delegated
   cache:
     image: registry.redict.io/redict
