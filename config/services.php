@@ -1,6 +1,8 @@
 <?php
 
 use Doctrine\DBAL;
+use Doctrine\ORM;
+use Doctrine\ORM\EntityManager;
 use GuzzleHttp\Psr7;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
@@ -118,6 +120,16 @@ return [
         // register events based on attributes on methods in ListenerService
         $provider->addSubscriber(SpaceTraders\Event\ListenerService::class);
         return $provider;
+    },
+    ORM\EntityManager::class => static function(): EntityManager {
+        $config = Doctrine\ORM\ORMSetup::createAttributeMetadataConfig(
+            paths: [__DIR__ .'/../src/Entity'],
+            isDevMode: true,
+        );
+        $config->enableNativeLazyObjects(true);
+
+        $connection = ServiceContainer::get(DBAL\Connection::class);
+        return new EntityManager($connection, $config);
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(
