@@ -42,3 +42,12 @@ BEGIN
     SET updated_at = CURRENT_TIMESTAMP
     WHERE name = OLD.name;
 END;
+
+CREATE TABLE event_record (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data CLOB DEFAULT NULL,
+    name VARCHAR(512) NOT NULL,
+    source VARCHAR(512) NOT NULL,
+    description CLOB DEFAULT NULL
+);

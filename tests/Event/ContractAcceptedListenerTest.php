@@ -5,14 +5,17 @@ namespace Event;
 use Crell\Tukio\Dispatcher;
 use Crell\Tukio\OrderedListenerProvider;
 use DI\Container;
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Psr7;
 use Phparch\SpaceTraders\Event\ListenerService;
-use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
 use Phparch\SpaceTradersRest\Client;
 use PHPUnit\Framework\TestCase;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * This class documents how the services should be configured to listen
+ * for a ContractAccepted even emitted by the Spacetraders REST client.
+ */
 class ContractAcceptedListenerTest extends TestCase
 {
     public function testListenerFires(): void
@@ -21,7 +24,10 @@ class ContractAcceptedListenerTest extends TestCase
         // of our Listener service.
         $container = new Container([
             ListenerService::class => function () {
+                $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+
                 $mock = $this->getMockBuilder(ListenerService::class)
+                    ->setConstructorArgs([$entityManagerMock])
                     ->onlyMethods(['onContractAccepted'])
                     ->getMock();
                 $mock->expects($this->once())
@@ -35,7 +41,7 @@ class ContractAcceptedListenerTest extends TestCase
         // just like we would in config/services.php
         $provider = new OrderedListenerProvider($container);
         // register events based on attributes on methods in ListenerService
-        $provider->listenerService(ListenerService::class);
+        $provider->addSubscriber(ListenerService::class);
         $dispatcher = new Dispatcher($provider);
 
         // Stub the API response in Guzzle
@@ -57,7 +63,10 @@ class ContractAcceptedListenerTest extends TestCase
         // We must create the mock directly and not in the
         // container so that phpunit knows about our
         // expects() for the mocked method.
+        $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+
         $mockListener = $this->getMockBuilder(ListenerService::class)
+            ->setConstructorArgs([$entityManagerMock])
             ->onlyMethods(['onContractAccepted'])
             ->getMock();
 
@@ -74,7 +83,7 @@ class ContractAcceptedListenerTest extends TestCase
         // just like we would in config/services.php
         $provider = new OrderedListenerProvider($container);
         // register events based on attributes on methods in ListenerService
-        $provider->listenerService(ListenerService::class);
+        $provider->addSubscriber(ListenerService::class);
         $dispatcher = new Dispatcher($provider);
 
         // Stub the API response in Guzzle
