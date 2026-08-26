@@ -95,14 +95,15 @@ class EventRecord
     /**
      * Gets the data property converted back into a JSON string.
      * @throws \JsonException
+     * @return array<string,mixed>
      */
-    public function getData(): ?string
+    public function getData(): array
     {
         if ($this->data === null) {
-            return null;
+            return [];
         }
 
-        return json_encode($this->data, JSON_THROW_ON_ERROR);
+        return $this->data;
     }
 
     /**

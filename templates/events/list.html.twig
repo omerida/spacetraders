@@ -1,0 +1,41 @@
+{% import 'macros/helpers.html.twig' as helpers %}
+{% extends 'base.html.twig' %}
+{% set breadcrumbs = [
+        {label: 'Events', url: '.'},
+    ]
+%}
+
+{% block content %}
+<h1>Latest Events</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in events %}
+            <tr>
+                <td>{{ record.id }}</td>
+                <td>{{ record.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    {% if record.url is not null %}
+                        {{ helpers.modal_link_large(record.url, record.name) }}
+                    {% else %}
+                        {{ record.name }}
+                    {% endif %}
+                </td>
+                <td>{{ record.description }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No event records found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
