@@ -4,8 +4,10 @@ namespace Phparch\SpaceTraders\Event;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Phparch\SpaceTraders\Entity\EventRecord;
+use Phparch\SpaceTraders\Entity\MarketTradeGoodsActivity;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
 use Crell\Tukio\Listener;
+use Phparch\SpaceTradersRest\Event\SystemMarketData;
 
 /**
  * Any public method with the #[Listener] attribute is automatically
@@ -40,6 +42,18 @@ class ListenerService
         ]);
 
         $this->entityManager->persist($record);
+        $this->entityManager->flush();
+    }
+
+    public function onSystemMarketData(SystemMarketData $marketData): void {
+        // TODO - cache trade good activity based on day or hour?
+        // TODO move this logic to a repository class
+        $goods = MarketTradeGoodsActivity::fromTradeGoodsValue($marketData->market->tradeGoods);
+        foreach ($goods as $good) {
+            $this->entityManager->persist($good);
+        }
+
+        // TODO log that we saved new market data
         $this->entityManager->flush();
     }
 }
