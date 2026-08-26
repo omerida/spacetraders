@@ -2,12 +2,15 @@
 
 namespace Phparch\SpaceTraders\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
+use Phparch\SpaceTraders\Entity\EventRecord;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Presenter\EventRecordPresenter;
 use Psr\Http\Message\ResponseInterface;
 
 class EventLogController implements RequestAware, TwigAware
@@ -16,7 +19,7 @@ class EventLogController implements RequestAware, TwigAware
     use TwigAwareController;
 
     public function __construct(
-        //private int $foo,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -31,7 +34,18 @@ class EventLogController implements RequestAware, TwigAware
     )]
     public function viewEvents(): ResponseInterface
     {
-        $events = [];
+        /** @var EventRecord[] $events */
+        $events = $this->entityManager->getRepository(EventRecord::class)
+            ->findBy(
+                criteria: [],
+                orderBy: ['id' => 'DESC'],
+                limit: 50,
+            );
+
+        $events = array_map(
+            fn(EventRecord $record) => new EventRecordPresenter($record),
+            $events
+        );
 
         return $this->render('events/list.html.twig', [
             'events' => $events,
