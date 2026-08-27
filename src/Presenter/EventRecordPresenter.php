@@ -41,11 +41,18 @@ class EventRecordPresenter
     public function getUrl(): ?string
     {
         switch ($this->event->getSource()) {
+            case 'Phparch\SpaceTraders\Event\ListenerService::onSystemMarketData':
+                if ($id = $this->event->getData()['waypointSymbol']) {
+                    assert(is_string($id));
+                    return sprintf('/systems/market?id=%s', $id);
+                }
+                break;
             case 'Phparch\SpaceTradersRest\Event\ContractAccepted':
                 if ($id = $this->event->getData()['id']) {
                     assert(is_string($id));
                     return sprintf('/contracts/get/?id=%s', $id);
                 }
+                break;
         }
 
         return null;

@@ -70,5 +70,15 @@ class ListenerService
         $this->entityManager->flush();
 
         // TODO log that we saved new market data for this waypoint
+        $log = new EventRecord(
+            name: "Saved market data ",
+            source: __CLASS__ . '::' . __FUNCTION__,
+            description: "Saved market trade good activity data for {$marketData->market->symbol}."
+        );
+        $log->setDataFromArray([
+            'waypointSymbol' => $marketData->market->symbol->waypoint
+        ]);
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
     }
 }
