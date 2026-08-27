@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Phparch\SpaceTraders\Entity\EventRecord;
 use Phparch\SpaceTraders\Entity\MarketTradeGoodsActivity;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
-use Crell\Tukio\Listener;
 use Phparch\SpaceTradersRest\Event\SystemMarketData;
 
 /**
@@ -48,12 +47,28 @@ class ListenerService
     public function onSystemMarketData(SystemMarketData $marketData): void {
         // TODO - cache trade good activity based on day or hour?
         // TODO move this logic to a repository class
-        $goods = MarketTradeGoodsActivity::fromTradeGoodsValue($marketData->market->tradeGoods);
+        $goods = MarketTradeGoodsActivity::fromTradeGoodsValue(
+            $marketData->market->symbol,
+            $marketData->market->tradeGoods,
+            new \DateTimeImmutable('now')
+        );
+        $ts = new \DateTimeImmutable('midnight today');
         foreach ($goods as $good) {
-            $this->entityManager->persist($good);
+            $exists = $this->entityManager->getRepository(MarketTradeGoodsActivity::class)
+                ->findOneBy(
+                    criteria: [
+                        'waypointSymbol' => $good->waypointSymbol->waypoint,
+                        'symbol' => $good->symbol->value,
+                        'timestamp' => $ts,
+                    ]
+                );
+            if (!$exists) {
+                $this->entityManager->persist($good);
+            }
         }
 
-        // TODO log that we saved new market data
         $this->entityManager->flush();
+
+        // TODO log that we saved new market data for this waypoint
     }
 }

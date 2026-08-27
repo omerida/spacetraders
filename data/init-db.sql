@@ -54,11 +54,13 @@ CREATE TABLE IF NOT EXISTS event_record (
 
 CREATE TABLE IF NOT EXISTS market_trade_goods_activity (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    waypointSymbol VARCHAR(256) NOT NULL,
     symbol VARCHAR(256) NOT NULL,
     type VARCHAR(256) NOT NULL,
     supply VARCHAR(256) NOT NULL,
     activity VARCHAR(256) NULL,
     tradeVolume INTEGER NOT NULL,
     purchasePrice INTEGER NOT NULL,
-    sellPrice INTEGER NOT NULL
+    sellPrice INTEGER NOT NULL,
+    timestamp DATE NOT NULL
 );
