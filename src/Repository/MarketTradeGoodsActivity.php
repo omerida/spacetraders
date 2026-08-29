@@ -43,9 +43,8 @@ class MarketTradeGoodsActivity extends EntityRepository
     /**
      * Return false if nothing saved or the count of new items
      * @param Entity\MarketTradeGoodsActivity[] $goods
-     * @return false|int
      */
-    public function saveNewData(array $goods): int
+    public function saveNewData(array $goods): false|int
     {
         $ts = new \DateTimeImmutable('midnight today');
         $saved = 0;
