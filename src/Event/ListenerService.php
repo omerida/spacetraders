@@ -3,8 +3,8 @@
 namespace Phparch\SpaceTraders\Event;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Phparch\SpaceTraders\Entity\EventRecord;
-use Phparch\SpaceTraders\Entity\MarketTradeGoodsActivity;
+use Phparch\SpaceTraders\Entity;
+use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
 use Phparch\SpaceTradersRest\Event\SystemMarketData;
 
@@ -24,7 +24,7 @@ class ListenerService
     public function onContractAccepted(ContractAccepted $event): void {
         $contract = $event->accepted->contract;
 
-        $record = new EventRecord(
+        $record = new Entity\EventRecord(
             name: "Contract Accepted",
             source: $event::class,
             description: <<<EOF
@@ -40,29 +40,24 @@ class ListenerService
             'type' => $contract->type->value,
         ]);
 
-        $this->entityManager->persist($record);
-        $this->entityManager->flush();
+         /** @var Repository\EventRecord $repo */
+        $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
+        $repo->save($record);
     }
 
     public function onSystemMarketData(SystemMarketData $marketData): void {
         // TODO - cache trade good activity based on day or hour?
         // TODO move this logic to a repository class
-        $goods = MarketTradeGoodsActivity::fromTradeGoodsValue(
+        $goods = Entity\MarketTradeGoodsActivity::fromTradeGoodsValue(
             $marketData->market->symbol,
             $marketData->market->tradeGoods,
             new \DateTimeImmutable('now')
         );
         $ts = new \DateTimeImmutable('midnight today');
+        /** @var Repository\MarketTradeGoodsActivity $repo */
+        $repo = $this->entityManager->getRepository(Entity\MarketTradeGoodsActivity::class);
         foreach ($goods as $good) {
-            $exists = $this->entityManager->getRepository(MarketTradeGoodsActivity::class)
-                ->findOneBy(
-                    criteria: [
-                        'waypointSymbol' => $good->waypointSymbol->waypoint,
-                        'symbol' => $good->symbol->value,
-                        'timestamp' => $ts,
-                    ]
-                );
-            if (!$exists) {
+            if (!$repo->ifExists($good, $ts)) {
                 $this->entityManager->persist($good);
             }
         }
@@ -70,7 +65,7 @@ class ListenerService
         $this->entityManager->flush();
 
         // TODO log that we saved new market data for this waypoint
-        $log = new EventRecord(
+        $log = new Entity\EventRecord(
             name: "Saved market data ",
             source: __CLASS__ . '::' . __FUNCTION__,
             description: "Saved market trade good activity data for {$marketData->market->symbol}."

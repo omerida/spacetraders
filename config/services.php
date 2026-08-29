@@ -11,7 +11,9 @@ use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use League\Route;
 use Phparch\SpaceTraders;
 use Phparch\SpaceTraders\Data;
+use Phparch\SpaceTraders\Entity;
 use Phparch\SpaceTraders\Middleware;
+use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTraders\Routes;
 use Phparch\SpaceTraders\ServiceContainer;
 use Phparch\SpaceTraders\TwigExtensions;
@@ -131,6 +133,14 @@ return [
 
         $connection = ServiceContainer::get(DBAL\Connection::class);
         return new EntityManager($connection, $config);
+    },
+    Repository\EventRecord::class => static function(): Repository\EventRecord {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\EventRecord::class);
+    },
+    Repository\MarketTradeGoodsActivity::class => static function(): Repository\MarketTradeGoodsActivity {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\MarketTradeGoodsActivity::class);
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(

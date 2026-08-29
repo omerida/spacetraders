@@ -8,8 +8,9 @@ use Phparch\SpaceTradersRest\Value\Goods;
 use Phparch\SpaceTradersRest\Value\TradegoodType;
 use Phparch\SpaceTradersRest\Value\Waypoint;
 use Phparch\SpaceTraders\Doctrine\Type\WaypointSymbolType;
+use Phparch\SpaceTraders\Repository;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: Repository\MarketTradeGoodsActivity::class)]
 #[ORM\Table(name: 'market_trade_goods_activity')]
 class MarketTradeGoodsActivity
 {
