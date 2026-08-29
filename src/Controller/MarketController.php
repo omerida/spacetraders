@@ -9,7 +9,8 @@ use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
-use Phparch\SpaceTradersRest\Value\Waypoint\Symbol;
+use Phparch\SpaceTradersRest\Value\Market\TradeGoods;
+use Phparch\SpaceTradersRest\Value\Waypoint;
 use Psr\Http\Message\ResponseInterface;
 
 class MarketController implements RequestAware, TwigAware
@@ -18,7 +19,7 @@ class MarketController implements RequestAware, TwigAware
     use TwigAwareController;
 
     public function __construct(
-        private Client\Systems $client,
+        private readonly Client\Systems $client,
     ) {
     }
 
@@ -31,7 +32,7 @@ class MarketController implements RequestAware, TwigAware
         methods: ['GET'],
         strategy: 'application'
     )]
-    public function systemsWaypoints(): ResponseInterface
+    public function systemsMarket(): ResponseInterface
     {
         $query = $this->getRequest()->getQueryParams();
         $id = $query['id'] ?? null;
@@ -45,13 +46,27 @@ class MarketController implements RequestAware, TwigAware
             throw new BadRequestException("Invalid characters in waypoint ID");
         }
 
-        $point = new Symbol($id);
+        $point = new Waypoint\Symbol($id);
 
         $market = $this->client->market(
             system: $point->system,
             waypoint: $point->waypoint
         );
 
+        $goods = [];
+        if ($market->tradeGoods) {
+            usort(
+                $market->tradeGoods,
+                function (TradeGoods $a, TradeGoods $b) {
+                    if ($a->type === $b->type) {
+                        return $a->symbol->name <=> $b->symbol->name;
+                    }
+
+                    return $a->type->value <=> $b->type->value;
+                }
+            );
+        }
+        // Sort trade good by type and symbol
         return $this->render('systems/market.html.twig', [
             'headTitle' => 'Market ' . $market->symbol,
             'symbol' => $market->symbol,
