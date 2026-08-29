@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
+use Doctrine\DBAL\Types\Type;
 use GuzzleHttp\Psr7;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route;
+use Phparch\SpaceTraders\Doctrine\Type\WaypointSymbolType;
 use Phparch\SpaceTraders\Routes\Mapper;
 use Phparch\SpaceTraders\ServiceContainer;
 
@@ -17,6 +19,10 @@ ServiceContainer::config($services);
 ServiceContainer::setEnv($_ENV);
 // Register dynamic services
 ServiceContainer::autodiscover();
+// Register Doctrine Types
+
+
+Type::addType(WaypointSymbolType::NAME, WaypointSymbolType::class);
 
 $request = Psr7\ServerRequest::fromGlobals();
 

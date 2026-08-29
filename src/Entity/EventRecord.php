@@ -5,8 +5,9 @@ namespace Phparch\SpaceTraders\Entity;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Phparch\SpaceTraders\Repository;
 
-#[ORM\Entity()]
+#[ORM\Entity(repositoryClass: Repository\EventRecord::class)]
 #[ORM\Table(name: 'event_record')]
 class EventRecord
 {

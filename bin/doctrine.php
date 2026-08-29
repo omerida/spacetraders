@@ -18,7 +18,7 @@ ServiceContainer::setEnv($_ENV);
 ServiceContainer::autodiscover();
 
 // replace with mechanism to retrieve EntityManager in your app
-$entityManager = ServiceContainer::get(Doctrine\ORM\EntityManager::class);
+$entityManager = ServiceContainer::get(Doctrine\ORM\EntityManagerInterface::class);
 $commands = [
     // If you want to add your own custom console commands,
     // you can do so here.
