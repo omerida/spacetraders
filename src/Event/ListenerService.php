@@ -16,6 +16,9 @@ use Phparch\SpaceTradersRest\Event\SystemMarketData;
  */
 class ListenerService
 {
+    /**
+     * Record when player accepts a contract.
+     */
     public function __construct(
         private EntityManagerInterface $entityManager,
     ) {
@@ -45,35 +48,37 @@ class ListenerService
         $repo->save($record);
     }
 
+    /**
+     * Save trade good prices, activity when we get detailed information from
+     * a ship at a marketplace.
+     */
     public function onSystemMarketData(SystemMarketData $marketData): void {
-        // TODO - cache trade good activity based on day or hour?
-        // TODO move this logic to a repository class
         $goods = Entity\MarketTradeGoodsActivity::fromTradeGoodsValue(
             $marketData->market->symbol,
             $marketData->market->tradeGoods,
             new \DateTimeImmutable('now')
         );
-        $ts = new \DateTimeImmutable('midnight today');
+
         /** @var Repository\MarketTradeGoodsActivity $repo */
-        $repo = $this->entityManager->getRepository(Entity\MarketTradeGoodsActivity::class);
-        foreach ($goods as $good) {
-            if (!$repo->ifExists($good, $ts)) {
-                $this->entityManager->persist($good);
-            }
-        }
-
-        $this->entityManager->flush();
-
-        // TODO log that we saved new market data for this waypoint
-        $log = new Entity\EventRecord(
-            name: "Saved market data ",
-            source: __CLASS__ . '::' . __FUNCTION__,
-            description: "Saved market trade good activity data for {$marketData->market->symbol}."
+        $repo = $this->entityManager->getRepository(
+            Entity\MarketTradeGoodsActivity::class
         );
-        $log->setDataFromArray([
-            'waypointSymbol' => $marketData->market->symbol->waypoint
-        ]);
-        $this->entityManager->persist($log);
-        $this->entityManager->flush();
+        $saved = $repo->saveNewData($goods);
+
+        if ($saved) {
+            $record = new Entity\EventRecord(
+                name: "Saved market data ",
+                source: __CLASS__ . '::' . __FUNCTION__,
+                description: "Saved market trade good activity data for "
+                    . $marketData->market->symbol
+            );
+            $record->setDataFromArray([
+                'waypointSymbol' => $marketData->market->symbol->waypoint
+            ]);
+
+            /** @var Repository\EventRecord $repo */
+            $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
+            $repo->save($record, flush: true);
+        }
     }
 }

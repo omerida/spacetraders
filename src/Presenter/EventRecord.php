@@ -2,12 +2,12 @@
 
 namespace Phparch\SpaceTraders\Presenter;
 
-use Phparch\SpaceTraders\Entity\EventRecord;
+use Phparch\SpaceTraders\Entity;
 
-class EventRecordPresenter
+class EventRecord
 {
     public function __construct(
-        private EventRecord $event,
+        private Entity\EventRecord $event,
     ) {
     }
 

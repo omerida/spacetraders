@@ -7,7 +7,7 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Controller;
 use Phparch\SpaceTraders\Entity\EventRecord;
 use Phparch\SpaceTraders\Interface;
-use Phparch\SpaceTraders\Presenter\EventRecordPresenter;
+use Phparch\SpaceTraders\Presenter;
 use Phparch\SpaceTraders\Repository;
 use Psr\Http\Message\ResponseInterface;
 
@@ -34,7 +34,7 @@ class EventLogController implements Interface\RequestAware, Interface\TwigAware
     {
         return $this->render('events/list.html.twig', [
             'events' => array_map(
-                fn(EventRecord $record) => new EventRecordPresenter($record),
+                fn(EventRecord $record) => new Presenter\EventRecord($record),
                 $this->repository->getLatest(50)
             ),
         ]);

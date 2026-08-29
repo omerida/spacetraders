@@ -39,4 +39,28 @@ class MarketTradeGoodsActivity extends EntityRepository
 
         return false;
     }
+
+    /**
+     * Return false if nothing saved or the count of new items
+     * @param Entity\MarketTradeGoodsActivity[] $goods
+     * @return false|int
+     */
+    public function saveNewData(array $goods): int
+    {
+        $ts = new \DateTimeImmutable('midnight today');
+        $saved = 0;
+        foreach ($goods as $good) {
+            if (!$this->ifExists($good, $ts)) {
+                $this->save($good);
+                $saved++;
+            }
+        }
+
+        if ($saved > 0) {
+            $this->getEntityManager()->flush();
+            return $saved;
+        }
+
+        return false;
+    }
 }
