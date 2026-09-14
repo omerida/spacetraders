@@ -4,6 +4,7 @@ namespace Phparch\SpaceTraders\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Phparch\SpaceTraders\Entity;
+use Phparch\SpaceTradersRest\Value\Waypoint;
 
 /**
  * @extends EntityRepository<MarketTradeGoodsActivity>
@@ -40,6 +41,42 @@ class MarketTradeGoodsActivity extends EntityRepository
         return false;
     }
 
+    /**
+     * @return list<Entity\MarketTradeGoodsActivity>
+     */
+    public function getLatestForWaypoint(Waypoint\Symbol $symbol): array {
+        // We want to return the latest, if we have anything
+        $latest = $this->findOneBy(
+            criteria: [
+                'waypointSymbol' => $symbol->waypoint,
+            ],
+            orderBy: [
+                'timestamp' => 'DESC',
+            ]
+        );
+
+        if (!$latest instanceof Entity\MarketTradeGoodsActivity) {
+            return [];
+        }
+
+        $goods = $this->findBy(
+            criteria: [
+                'waypointSymbol' => $symbol->waypoint,
+                'timestamp' => $latest->timestamp,
+            ],
+            orderBy: [
+                'timestamp' => 'DESC',
+                'symbol' => 'ASC',
+            ]
+        );
+
+        if ($goods) {
+            /** @var list<Entity\MarketTradeGoodsActivity> $goods */
+            return $goods;
+        }
+
+        return [];
+    }
     /**
      * Return false if nothing saved or the count of new items
      * @param Entity\MarketTradeGoodsActivity[] $goods
