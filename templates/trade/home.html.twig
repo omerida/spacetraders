@@ -15,6 +15,16 @@
 
 <div class="well">
     <button id="clear-good-filter">Show All Goods</button>
+
+    <label style="margin-right: 10px;">
+        <input type="checkbox" class="type-filter" value="EXPORT" checked> Export
+    </label>
+    <label style="margin-right: 10px;">
+        <input type="checkbox" class="type-filter" value="IMPORT" checked> Import
+    </label>
+    <label style="margin-right: 10px;">
+        <input type="checkbox" class="type-filter" value="EXCHANGE" checked> Exchange
+    </label>
 </div>
 
 
@@ -28,7 +38,7 @@
             <th>Activity</th>
             <th>Volume</th>
             <th>Purchase Price</th>
-            <th>Sellk Price</th>
+            <th>Sell Price</th>
             <th>Date</th>
         </tr>
     </thead>
@@ -40,7 +50,7 @@
                 <td>{{ good.type.value|machine2readable }}</td>
                 <td>{{ good.supply.value|machine2readable }}</td>
                 <td>{{ good.activity.value ?? ''|machine2readable }}</td>
-                <td>{{ good.volume}}</td>
+                <td>{{ good.tradeVolume }}</td>
                 <td>{{ good.purchasePrice|number_format}}</td>
                 <td>{{ good.sellPrice|number_format}}</td>
                 <td>{{ good.timestamp|date('Y-m-d') }}</td>

@@ -17,19 +17,46 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 // 2. Handle the click event on the cell
                 cellClick: function (e, cell) {
-                    // Prevent default anchor tag navigation
                     e.preventDefault();
+                    let clickedGood = cell.getValue();
+                    let currentFilters = table.getFilters();
 
-                    var clickedGood = cell.getValue();
+                    // Check if we are already filtering by this good
+                    let isFiltered = currentFilters.some(function (filter) {
+                        return filter.field === "good" && filter.value === clickedGood;
+                    });
 
-                    // Set the filter on the "good" column to match the clicked value
-                    table.setFilter("good", "=", clickedGood);
+                    if (isFiltered) {
+                        table.clearFilter(); // Clear filter if clicked again
+                    } else {
+                        table.setFilter("good", "=", clickedGood); // Apply filter
+                    }
                 }
             }
         ]
     });
 
-    document.getElementById("clear-good-filter").addEventListener("click", function() {
+    // Custom filter function for Tabulator
+    function typeFilterFunction(data) {
+        // Collect all currently checked checkbox values
+        var checkedTypes = Array.from(document.querySelectorAll('.type-filter:checked'))
+            .map(cb => cb.value.toUpperCase());
+
+        // Show row if its type is included in the checked values list
+        return data.type && checkedTypes.includes(data.type.toUpperCase());
+    }
+
+    // Apply the initial filter when table loads
+    table.setFilter(typeFilterFunction);
+
+    // Re-trigger the filter whenever any checkbox changes state
+    document.querySelectorAll('.type-filter').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            table.refreshFilter(); // Re-evaluates active filters
+        });
+    });
+
+    document.getElementById("clear-good-filter").addEventListener("click", function () {
         table.clearFilter(); // Removes all active filters
     });
 
