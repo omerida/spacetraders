@@ -27,7 +27,6 @@
     </label>
 </div>
 
-
 <table class="table" id="trade-data">
     <thead>
         <tr>
@@ -51,8 +50,8 @@
                 <td>{{ good.supply.value|machine2readable }}</td>
                 <td>{{ good.activity.value ?? ''|machine2readable }}</td>
                 <td>{{ good.tradeVolume }}</td>
-                <td>{{ good.purchasePrice|number_format}}</td>
-                <td>{{ good.sellPrice|number_format}}</td>
+                <td>{{ good.purchasePrice|number_format }}</td>
+                <td>{{ good.sellPrice|number_format }}</td>
                 <td>{{ good.timestamp|date('Y-m-d') }}</td>
             </tr>
         {% else %}

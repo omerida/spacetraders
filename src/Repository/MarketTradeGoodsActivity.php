@@ -78,9 +78,12 @@ class MarketTradeGoodsActivity extends EntityRepository
         return [];
     }
 
+    /**
+     * @return list<Entity\MarketTradeGoodsActivity>
+     */
     public function getAllLatest(): array {
         $goods = $this->findAll();
-
+        /** @var list<Entity\MarketTradeGoodsActivity> $goods */
         return $goods;
     }
 
