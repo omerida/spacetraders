@@ -1,3 +1,5 @@
+{% import 'macros/helpers.html.twig' as helpers %}
+
 {% if contract.fulfilled %}
     {% set state = 'Fulfilled' %}
 {% elseif contract.accepted %}
@@ -49,7 +51,7 @@
                         {% for item in contract.terms.deliver %}
                             <li>
                                 {{ item.unitsRequired }} units of {{ item.tradeSymbol }} to
-                                {{ helpers.drawer_link_grow(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
+                                {{ helpers.modal_link_grow(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
                                 <span>(Progress: {{ item.unitsFulfilled }} / {{ item.unitsRequired }})</span>
                             </li>
                         {% endfor %}
