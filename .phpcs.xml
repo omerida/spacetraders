@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
 <ruleset name="spacetraders" namespace="Spacetraders\CS\Standard">
-    <file>./cli/</file>
     <file>./src/</file>
 
     <rule ref="Squiz.ControlStructures.ControlSignature">
