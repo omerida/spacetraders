@@ -2,9 +2,12 @@ logs/
 vendor/
 .git
 .env
+.env.*
 .idea
 /docker/data/*.rdb
 tmp/
 /.twig-cs-fixer.cache
 data/spacetraders.sqlite
 /.composer/
+templates_cache/
+.churn.cache

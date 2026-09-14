@@ -25,7 +25,7 @@ jobs:
 
       - name: Run PHPCodeSniffer
         if: always()
-        run: phpcs -q --report=checkstyle cli src | cs2pr
+        run: phpcs -q --report=checkstyle src | cs2pr
 
       - name: Run PHPArkitect
         if: always()
