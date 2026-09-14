@@ -191,7 +191,7 @@ class WaypointController implements RequestAware, TwigAware
 
         $id = strtoupper($id);
         if (!preg_match('/[A-Z0-9\-]+/', $id)) {
-            throw new BadRequestException("Invalid characters in waypoing ID");
+            throw new BadRequestException("Invalid characters in waypoint ID");
         }
 
         return new Symbol($id);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac3eba5841cd864bbcc068795c193779",
+    "content-hash": "495f12ee73bb1348c36f33fd8cc67d1e",
     "packages": [
         {
             "name": "crell/attributeutils",
@@ -2280,16 +2280,16 @@
         },
         {
             "name": "phparch/spacetraders-rest",
-            "version": "0.3.0",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omerida/spacetraders-rest.git",
-                "reference": "a388ae6fb0e2eb749094bbdb64df5df3da6c3092"
+                "reference": "27ae604466caba4f58cbe135046f13021ac6703b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/a388ae6fb0e2eb749094bbdb64df5df3da6c3092",
-                "reference": "a388ae6fb0e2eb749094bbdb64df5df3da6c3092",
+                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/27ae604466caba4f58cbe135046f13021ac6703b",
+                "reference": "27ae604466caba4f58cbe135046f13021ac6703b",
                 "shasum": ""
             },
             "require": {
@@ -2386,10 +2386,10 @@
             ],
             "description": "Space Traders API client in PHP",
             "support": {
-                "source": "https://github.com/omerida/spacetraders-rest/tree/0.3.0",
+                "source": "https://github.com/omerida/spacetraders-rest/tree/0.3.1",
                 "issues": "https://github.com/omerida/spacetraders-rest/issues"
             },
-            "time": "2026-07-10T03:55:55+00:00"
+            "time": "2026-09-14T02:41:08+00:00"
         },
         {
             "name": "phpoption/phpoption",

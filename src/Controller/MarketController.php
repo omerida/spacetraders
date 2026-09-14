@@ -9,6 +9,7 @@ use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\Value\Market\TradeGoods;
 use Phparch\SpaceTradersRest\Value\TradegoodType;
 use Phparch\SpaceTradersRest\Value\Waypoint;
@@ -21,6 +22,7 @@ class MarketController implements RequestAware, TwigAware
 
     public function __construct(
         private readonly Client\Systems $client,
+        private readonly Repository\MarketTradeGoodsActivity $marketRepo,
     ) {
     }
 
@@ -95,6 +97,25 @@ class MarketController implements RequestAware, TwigAware
                 $market->tradeGoods,
                 fn($a) => $a->type === TradegoodType::EXCHANGE
             );
+        } elseif ($goods = $this->marketRepo->getLatestForWaypoint($market->symbol)) {
+            // Show latest historical info
+            $imports_tg = $exchanges_tg = $exports_tg = [];
+            foreach ($goods as $good) {
+                switch ($good->type) {
+                    case TradegoodType::IMPORT:
+                        $imports_tg[] = $good;
+                        break;
+
+                    case TradegoodType::EXPORT:
+                        $exports_tg[] = $good;
+                        break;
+
+                    case TradegoodType::EXCHANGE:
+                        $exchanges_tg[] = $good;
+                        break;
+                }
+            }
+            $tg_message = 'As of ' . $goods[0]->timestamp->format('Y-m-d');
         }
 
         return $this->render('systems/market.html.twig', [
@@ -108,6 +129,7 @@ class MarketController implements RequestAware, TwigAware
             'importDetails' => $imports_tg ?? [],
             'exchangeDetails' => $exchanges_tg ?? [],
             'exportDetails' => $exports_tg ?? [],
+            'tgMessage' => $tg_message ?? '',
         ]);
     }
 }
