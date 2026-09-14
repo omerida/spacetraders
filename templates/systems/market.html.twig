@@ -57,22 +57,83 @@
     <div class="card">
         <h2 class="title">Trade Goods</h2>
         <div class="info">
-            {% if tradeGoods is defined and tradeGoods is not empty %}
+            {% if exchangeDetails is defined and exchangeDetails is not empty %}
+                <h3>Exchange</h3>
                 <table>
                     <thead>
                     <tr>
                         <th>Symbol</th>
-                        <th>Type</th>
                         <th>Supply</th>
+                        <th>Trade Vol.</th>
+                        <th>Purchase</th>
+                        <th>Sell</th>
                         <th>Activity</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in tradeGoods %}
+                    {% for item in exchangeDetails %}
                         <tr>
                             <td>{{ item.symbol.value|machine2readable }}</td>
-                            <td>{{ item.type.value|machine2readable }}</td>
                             <td>{{ item.supply.value|machine2readable }}</td>
+                            <td>{{ item.tradeVolume }}</td>
+                            <td>{{ item.purchasePrice|number_format }}</td>
+                            <td>{{ item.sellPrice|number_format }}</td>
+                            <td>{{ (item.activity.value ?: '')|machine2readable }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if importDetails is defined and importDetails is not empty %}
+                <h3>Imports</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Supply</th>
+                        <th>Trade Vol.</th>
+                        <th>Purchase</th>
+                        <th>Sell</th>
+                        <th>Activity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in importDetails %}
+                        <tr>
+                            <td>{{ item.symbol.value|machine2readable }}</td>
+                            <td>{{ item.supply.value|machine2readable }}</td>
+                            <td>{{ item.tradeVolume }}</td>
+                            <td>{{ item.purchasePrice|number_format }}</td>
+                            <td>{{ item.sellPrice|number_format }}</td>
+                            <td>{{ (item.activity.value ?: '')|machine2readable }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if exportDetails is defined and exportDetails is not empty %}
+                <h3>Exports</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Supply</th>
+                        <th>Trade Vol.</th>
+                        <th>Purchase</th>
+                        <th>Sell</th>
+                        <th>Activity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in exportDetails %}
+                        <tr>
+                            <td>{{ item.symbol.value|machine2readable }}</td>
+                            <td>{{ item.supply.value|machine2readable }}</td>
+                            <td>{{ item.tradeVolume }}</td>
+                            <td>{{ item.purchasePrice|number_format }}</td>
+                            <td>{{ item.sellPrice|number_format }}</td>
                             <td>{{ (item.activity.value ?: '')|machine2readable }}</td>
                         </tr>
                     {% endfor %}
