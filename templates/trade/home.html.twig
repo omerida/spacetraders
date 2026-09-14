@@ -1,0 +1,55 @@
+{% import 'macros/helpers.html.twig' as helpers %}
+{% extends 'base.html.twig' %}
+{% set breadcrumbs = [
+        {label: 'Trade', url: '.'},
+    ]
+%}
+
+{% block head %}
+    <link href="https://unpkg.com/tabulator-tables@6.5.0/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@6.5.0/dist/js/tabulator.min.js"></script>
+    <script type="text/javascript" src="/js/trade-home.js"></script>
+{% endblock %}
+{% block content %}
+<h1>Market Trade Activity</h1>
+
+<div class="well">
+    <button id="clear-good-filter">Show All Goods</button>
+</div>
+
+
+<table class="table" id="trade-data">
+    <thead>
+        <tr>
+            <th>Waypoint</th>
+            <th>Good</th>
+            <th>Type</th>
+            <th>Supply</th>
+            <th>Activity</th>
+            <th>Volume</th>
+            <th>Purchase Price</th>
+            <th>Sellk Price</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for good in goods %}
+            <tr>
+                <td>{{ good.waypointSymbol.waypoint }}</td>
+                <td>{{ good.symbol.value|machine2readable }}</td>
+                <td>{{ good.type.value|machine2readable }}</td>
+                <td>{{ good.supply.value|machine2readable }}</td>
+                <td>{{ good.activity.value ?? ''|machine2readable }}</td>
+                <td>{{ good.volume}}</td>
+                <td>{{ good.purchasePrice|number_format}}</td>
+                <td>{{ good.sellPrice|number_format}}</td>
+                <td>{{ good.timestamp|date('Y-m-d') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No event records found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

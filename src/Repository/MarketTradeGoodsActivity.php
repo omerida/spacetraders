@@ -77,6 +77,13 @@ class MarketTradeGoodsActivity extends EntityRepository
 
         return [];
     }
+
+    public function getAllLatest(): array {
+        $goods = $this->findAll();
+
+        return $goods;
+    }
+
     /**
      * Return false if nothing saved or the count of new items
      * @param Entity\MarketTradeGoodsActivity[] $goods
