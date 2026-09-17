@@ -25,3 +25,28 @@ For any PR, the commit hook will check the following requirements for a branch n
 2. Must include an issue number (digits) followed by a dash.
 3. Must end with a descriptive slug (letters, numbers, dashes).
 
+## Database Tables
+
+### Migrations
+
+We are using Doctrine/Migrations to manage tables in our database. Common commands:
+
+1. Create a migrations for a new or modified entity. Use `--formatted` so that:
+   PHPCodeSniffer does not complain about lines > 100 chars.
+
+```sh
+./bin/doctrine-migrations.sh diff --formatted
+```
+
+2. See status of executed and pending migrations
+
+```sh
+./bin/doctrine-migrations.sh status
+```
+
+3. Run pending migrations
+
+```sh
+./bin/doctrine-migrations.sh migrate
+```
+
