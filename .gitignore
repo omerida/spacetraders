@@ -7,7 +7,7 @@ vendor/
 /docker/data/*.rdb
 tmp/
 /.twig-cs-fixer.cache
-data/spacetraders.sqlite
+data/*.sqlite
 /.composer/
 templates_cache/
 .churn.cache
