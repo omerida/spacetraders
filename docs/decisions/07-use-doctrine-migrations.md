@@ -17,7 +17,6 @@ We need a more robust and production-ready way to manage database schemas than c
   * PRO: Used it on a previous project. No dependency on Doctrine
   * CON: More setup work and doesn't leverage Doctrine entities.
 
-
 ## Decision Outcome
 
 Use Doctrine Migrations to manage schemas because it integrates with our chosen DBAL.
