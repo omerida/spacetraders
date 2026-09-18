@@ -31,6 +31,18 @@ function drawMap(waypoints) {
     });
 
     const scaleBy = 1.1; // How much to zoom on each step
+    const lodZoomThreshold = 2.8; // Zoom level at which orbitals appear
+
+    // Helper to toggle visibility of satellite objects
+    const updateLOD = (currentScale) => {
+        const isZoomedIn = currentScale >= lodZoomThreshold;
+        pointsLayer.find('.waypointGroup').forEach(group => {
+            if (group.getAttr('isOrbital')) {
+                group.visible(isZoomedIn);
+            }
+        });
+    };
+
     // Adding zoom on scroll-wheel
     stage.on('wheel', (e) => {
       // 1. Prevent default scroll
@@ -67,6 +79,9 @@ function drawMap(waypoints) {
       pointsLayer.find('.waypointGroup').forEach(group => {
          group.scale({ x: inverseScale, y: inverseScale });
       });
+
+      // --- Level of Detail Logic ---
+      updateLOD(newScale);
 
       stage.batchDraw(); // Redraw the stage efficiently
     });
@@ -136,6 +151,9 @@ function drawMap(waypoints) {
         pointsLayer.add(waypointGroup);
     }
     stage.add(pointsLayer);
+
+    // Initial check on load based on starting scale (1.2)
+    updateLOD(stage.scaleX());
 }
 
 function getMapSymbol(point, customX = null, customY = null) {
@@ -177,7 +195,8 @@ function getMapSymbol(point, customX = null, customY = null) {
     const waypointGroup = new Konva.Group({
         x: map_x,
         y: map_y,
-        name: 'waypointGroup' // Named for easy selection during wheel event
+        name: 'waypointGroup',
+        isOrbital: !!point.orbits // Attach custom property if waypoint orbits another body
     });
 
     // Icon Centered on (0,0) relative to waypointGroup
@@ -212,7 +231,7 @@ function getMapSymbol(point, customX = null, customY = null) {
     }));
 
     const textNode = new Konva.Text({
-        text: point.symbol.waypoint.match(regex)[0],
+        text: point.symbol.waypoint ? point.symbol.waypoint.match(regex)[0] : point.symbol.match(regex)[0],
         fontSize: 12,
         padding: 5,
         fill: 'green',
@@ -226,7 +245,8 @@ function getMapSymbol(point, customX = null, customY = null) {
 
     // Click event on the whole group
     waypointGroup.on('click', () => {
-        showDrawer(point.symbol.waypoint);
+        const symbolStr = typeof point.symbol === 'object' ? point.symbol.waypoint : point.symbol;
+        showDrawer(symbolStr);
     });
 
     return waypointGroup;
@@ -255,7 +275,7 @@ function calculateOrbitalPositions(waypoints, orbitalRadius = 8) {
           const angle = (2 * Math.PI * index) / numOrbitals;
           orbitalNode.x = wp.x + Math.round(orbitalRadius * Math.cos(angle));
           orbitalNode.y = wp.y + Math.round(orbitalRadius * Math.sin(angle));
-          orbitalNode.orbits = parentSymbol;
+          orbitalNode.orbits = parentSymbol; // Store parent relation
         }
       });
     }
@@ -275,7 +295,7 @@ function getMapData(systemID) {
         })
         .then(data => {
             // Transform raw payload coordinates before drawing
-            const processedData = calculateOrbitalPositions(data);
+            const processedData = calculateOrbitalPositions(data, 10);
             drawMap(processedData);
         })
         .catch(error => {
