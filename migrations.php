@@ -16,7 +16,7 @@ return [
         'Phparch\SpaceTraders\Migrations' => __DIR__ . '/src/Migrations',
     ],
     // wrap multiple migrations into one transaction
-    'all_or_nothing' => true,  // default is false
+    'all_or_nothing' => true,  // default is falseg
     // use transactions
     'transactional' => true,
     'check_database_platform' => true,
