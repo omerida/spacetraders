@@ -129,6 +129,7 @@ function drawMap(waypoints) {
     }))
     stage.add(grid)
 
+    console.log(waypoints)
     const pointsLayer = new Konva.Layer();
     for (let i = 0; i < waypoints.length; i++) {
         const waypointGroup = getMapSymbol(waypoints[i]);
@@ -137,10 +138,15 @@ function drawMap(waypoints) {
     stage.add(pointsLayer);
 }
 
-function getMapSymbol(point) {
+function getMapSymbol(point, customX = null, customY = null) {
     const padding = 50;
-    const map_x = (point.x + 800) + padding;
-    const map_y = (1600 - (point.y + 800)) + padding;
+
+    // Use dynamic/calculated map coordinates if provided, otherwise standard system projection
+    const xCoord = customX !== null ? customX : point.x;
+    const yCoord = customY !== null ? customY : point.y;
+
+    const map_x = (xCoord + 800) + padding;
+    const map_y = (1600 - (yCoord + 800)) + padding;
 
     let width = 25;
     let height = 25;
@@ -226,6 +232,38 @@ function getMapSymbol(point) {
     return waypointGroup;
 }
 
+// Function to compute derived positions for orbital waypoints
+function calculateOrbitalPositions(waypoints, orbitalRadius = 8) {
+  // Map waypoints by symbol string/object symbol for quick lookup
+  const waypointMap = new Map();
+  waypoints.forEach(wp => {
+    const symbolStr = typeof wp.symbol === 'object' ? wp.symbol.waypoint : wp.symbol;
+    waypointMap.set(symbolStr, { ...wp });
+  });
+
+  // Calculate coordinates for child orbitals
+  waypoints.forEach(wp => {
+    if (wp.orbitals && wp.orbitals.length > 0) {
+      const parentSymbol = typeof wp.symbol === 'object' ? wp.symbol.waypoint : wp.symbol;
+      const numOrbitals = wp.orbitals.length;
+
+      wp.orbitals.forEach((orbitalRef, index) => {
+        const orbitalSymbol = typeof orbitalRef === 'string' ? orbitalRef : orbitalRef.symbol;
+        const orbitalNode = waypointMap.get(orbitalSymbol);
+
+        if (orbitalNode) {
+          const angle = (2 * Math.PI * index) / numOrbitals;
+          orbitalNode.x = wp.x + Math.round(orbitalRadius * Math.cos(angle));
+          orbitalNode.y = wp.y + Math.round(orbitalRadius * Math.sin(angle));
+          orbitalNode.orbits = parentSymbol;
+        }
+      });
+    }
+  });
+
+  return Array.from(waypointMap.values());
+}
+
 function getMapData(systemID) {
 
     fetch('/systems/waypoint/map/json?system=' + systemID)
@@ -236,7 +274,9 @@ function getMapData(systemID) {
             return response.json(); // Or .text() for plain text
         })
         .then(data => {
-            drawMap(data);
+            // Transform raw payload coordinates before drawing
+            const processedData = calculateOrbitalPositions(data);
+            drawMap(processedData);
         })
         .catch(error => {
             console.error('Fetch error:', error);
