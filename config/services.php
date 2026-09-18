@@ -3,7 +3,6 @@
 use Doctrine\DBAL;
 use Doctrine\ORM;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Psr7;
 use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;

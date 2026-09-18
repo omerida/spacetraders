@@ -10,7 +10,6 @@ use Phparch\SpaceTraders\ServiceContainer;
 
 require __DIR__ . '/../bootstrap.php';
 
-$connection = ServiceContainer::get(DBAL\Connection::class);
 $entityManager = ServiceContainer::get(EntityManagerInterface::class);
 return DependencyFactory::fromEntityManager(
     configurationLoader: new PhpFile(__DIR__ . '/../migrations.php'),
