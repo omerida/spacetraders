@@ -147,7 +147,7 @@ function drawMap(waypoints) {
     console.log(waypoints)
     const pointsLayer = new Konva.Layer();
     for (let i = 0; i < waypoints.length; i++) {
-        const waypointGroup = getMapSymbol(waypoints[i]);
+        const waypointGroup = getMapSymbol(waypoints[i], waypoints);
         pointsLayer.add(waypointGroup);
     }
     stage.add(pointsLayer);
@@ -156,10 +156,9 @@ function drawMap(waypoints) {
     updateLOD(stage.scaleX());
 }
 
-function getMapSymbol(point, customX = null, customY = null) {
+function getMapSymbol(point, allWaypoints = [], customX = null, customY = null) {
     const padding = 50;
 
-    // Use dynamic/calculated map coordinates if provided, otherwise standard system projection
     const xCoord = customX !== null ? customX : point.x;
     const yCoord = customY !== null ? customY : point.y;
 
@@ -191,15 +190,13 @@ function getMapSymbol(point, customX = null, customY = null) {
         case 'ASTEROID_BASE': imgSrc = '/assets/asteroid-blue.svg'; break;
     }
 
-    // Main parent container at the waypoint's exact coordinates
     const waypointGroup = new Konva.Group({
         x: map_x,
         y: map_y,
         name: 'waypointGroup',
-        isOrbital: !!point.orbits // Attach custom property if waypoint orbits another body
+        isOrbital: !!point.orbits
     });
 
-    // Icon Centered on (0,0) relative to waypointGroup
     const imageObj = new Image();
     imageObj.src = imgSrc;
 
@@ -217,33 +214,70 @@ function getMapSymbol(point, customX = null, customY = null) {
 
     waypointGroup.add(symbol);
 
-    // Label offset underneath icon relative to waypointGroup
+    // Label setup
     const regex = /[^-]+$/;
-    const label = new Konva.Label({
-        x: 0,
-        y: (height / 2) + 5
-    });
+    const label = new Konva.Label();
+
+    // --- Dynamic Label Styling & Positioning ---
+    let parentWp = null;
+    if (point.orbits && allWaypoints.length > 0) {
+        parentWp = allWaypoints.find(wp => {
+            const sym = typeof wp.symbol === 'object' ? wp.symbol.waypoint : wp.symbol;
+            return sym === point.orbits;
+        });
+    }
+
+    const symbolText = point.symbol.waypoint ? point.symbol.waypoint.match(regex)[0] : point.symbol.match(regex)[0];
+
+    // Style configuration based on orbital status
+    const tagFill = parentWp ? 'grey' : 'white';
+    const textFill = parentWp ? 'green' : 'black';
+    const tagOpacity = parentWp ? 0.25 : 0.85; // Raised opacity for white tags so grid lines don't show through
 
     label.add(new Konva.Tag({
-        fill: 'grey',
-        opacity: 0.25,
+        fill: tagFill,
+        opacity: tagOpacity,
         cornerRadius: 4
     }));
 
     const textNode = new Konva.Text({
-        text: point.symbol.waypoint ? point.symbol.waypoint.match(regex)[0] : point.symbol.match(regex)[0],
+        text: symbolText,
         fontSize: 12,
         padding: 5,
-        fill: 'green',
+        fill: textFill,
         align: 'center'
     });
 
     label.add(textNode);
-    label.offsetX(textNode.width() / 2); // Center label horizontally relative to group
+
+    // --- Dynamic Label Positioning ---
+    if (point.orbits && allWaypoints.length > 0) {
+        parentWp = allWaypoints.find(wp => {
+            const sym = typeof wp.symbol === 'object' ? wp.symbol.waypoint : wp.symbol;
+            return sym === point.orbits;
+        });
+    }
+
+    if (parentWp) {
+        // Position side-by-side for satellites
+        const isRightOfParent = point.x >= parentWp.x;
+        const xOffset = (width / 2) + 6;
+
+        if (isRightOfParent) {
+            label.position({ x: xOffset, y: -textNode.height() / 2 });
+            label.offsetX(0); // Left-aligned relative to label start
+        } else {
+            label.position({ x: -xOffset, y: -textNode.height() / 2 });
+            label.offsetX(textNode.width()); // Right-aligned relative to label start
+        }
+    } else {
+        // Standard position (below) for central bodies / non-orbitals
+        label.position({ x: 0, y: (height / 2) + 5 });
+        label.offsetX(textNode.width() / 2);
+    }
 
     waypointGroup.add(label);
 
-    // Click event on the whole group
     waypointGroup.on('click', () => {
         const symbolStr = typeof point.symbol === 'object' ? point.symbol.waypoint : point.symbol;
         showDrawer(symbolStr);
