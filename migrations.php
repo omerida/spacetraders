@@ -9,6 +9,8 @@ return [
         'executed_at_column_name' => 'executed_at',
         'execution_time_column_name' => 'execution_time',
     ],
+    // Ignore 'system_registry' and any table starting with 'sys_'
+    'schema_filter' => '/^(?!registry_)/',
 
     'migrations_paths' => [
         'Phparch\SpaceTraders\Migrations' => __DIR__ . '/src/Migrations',
