@@ -13,80 +13,8 @@ function getDistance(label1, label2) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-function simulatedAnnealing(initialLabels, minDistance) {
-    let labels = initialLabels.slice(); // Use a copy to avoid modifying the original
-    let currentEnergy = calculateEnergy(labels, minDistance);
-    let bestLabels = labels.slice();
-    let bestEnergy = currentEnergy;
-
-    // Parameters for the algorithm
-    const initialTemperature = 10000;
-    const coolingRate = 0.995;
-    const minTemperature = 1;
-
-    let temperature = initialTemperature;
-
-    while (temperature > minTemperature) {
-        // If we have an optimal solution (no distance violations), stop
-        if (currentEnergy === 0) {
-            break;
-        }
-
-        const randomIndex = Math.floor(Math.random() * labels.length);
-        const originalLabel = labels[randomIndex];
-        const newLabel = new WaypointLabel(
-            originalLabel.x,
-            originalLabel.y,
-            originalLabel.value
-        );
-
-        // Perturb the label's position
-        const maxMoveDistance = 10;
-        newLabel.x += (Math.random() - 0.5) * maxMoveDistance;
-        newLabel.y += (Math.random() - 0.5) * maxMoveDistance;
-
-        // Calculate the new energy with the minimum distance
-        const newLabels = labels.slice();
-        newLabels[randomIndex] = newLabel;
-        const newEnergy = calculateEnergy(newLabels, minDistance);
-        const energyChange = newEnergy - currentEnergy;
-
-        // The core decision: accept the new state?
-        if (energyChange < 0 || Math.random() < Math.exp(-energyChange / temperature)) {
-            labels = newLabels;
-            currentEnergy = newEnergy;
-
-            if (currentEnergy < bestEnergy) {
-                bestEnergy = currentEnergy;
-                bestLabels = labels.slice();
-            }
-        }
-
-        temperature *= coolingRate;
-    }
-
-    return bestLabels;
-}
-
-// Calculate the total energy (sum of all penalties for violating
-// the minimum distance)
-function calculateEnergy(labels, minDistance) {
-    let totalPenalty = 0;
-    for (let i = 0; i < labels.length; i++) {
-        for (let j = i + 1; j < labels.length; j++) {
-            const distance = getDistance(labels[i], labels[j]);
-            // If the distance is less than the minimum threshold, add a penalty
-            if (distance < minDistance) {
-                const penalty = (minDistance - distance) * (minDistance - distance); // Square the difference for a steeper penalty
-                totalPenalty += penalty;
-            }
-        }
-    }
-    return totalPenalty;
-}
-
 function drawMap(waypoints) {
-    // 1600 for cordinates + 50px padding on each side
+    // 1600 for coordinates + 50px padding on each side
     const canvas_width = 1700;
     const canvas_height = 1600;
 
@@ -136,18 +64,9 @@ function drawMap(waypoints) {
 
       // --- Label Size Compensation Logic ---
       const inverseScale = 1 / newScale;
-      pointsLayer.find('Text').forEach(textNode => {
-        textNode.scale({ x: inverseScale, y: inverseScale });
+      pointsLayer.find('.waypointGroup').forEach(group => {
+         group.scale({ x: inverseScale, y: inverseScale });
       });
-
-      pointsLayer.find('Image').forEach((image) => {
-        image.scale({ x: inverseScale, y: inverseScale });
-      });
-
-      pointsLayer.find('Tag').forEach((tag) => {
-        tag.scale({ x: inverseScale, y: inverseScale });
-      });
-
 
       stage.batchDraw(); // Redraw the stage efficiently
     });
@@ -162,15 +81,15 @@ function drawMap(waypoints) {
     }));
 
     // Decorate with stars
-   const numStars = 300;
+    const numStars = 400;
     const minOpacity = 0.4;
     const maxOpacity = 0.7;
 
-    for (let i =0; i < numStars; i++) {
+    for (let i = 0; i < numStars; i++) {
         const star = new Konva.Circle({
             x: Math.random() * canvas_width,
             y: Math.random() * canvas_height,
-            radius: 1.5,
+            radius: 1.1,
             fill: '#ccc',
             opacity: minOpacity + (Math.random() * (maxOpacity - minOpacity))
         })
@@ -211,162 +130,100 @@ function drawMap(waypoints) {
     stage.add(grid)
 
     const pointsLayer = new Konva.Layer();
-    allLabels = [];
     for (let i = 0; i < waypoints.length; i++) {
-        const [symbol, label] = getMapSymbol(waypoints[i])
-        allLabels.push(label)
-        pointsLayer.add(symbol)
+        const waypointGroup = getMapSymbol(waypoints[i]);
+        pointsLayer.add(waypointGroup);
     }
-
-    // Prevent overlap of labels
-    allLabels = simulatedAnnealing(allLabels, 2)
-    for (let i = 0; i < allLabels.length; i++) {
-        const label = new Konva.Label({
-            x: allLabels[i].x,
-            y: allLabels[i].y
-        })
-        label.add(new Konva.Tag({fill: 'black', opacity: 0.25}));
-
-        // Strip out the system from the waypoint to keep
-        // point labels small
-        const regex = /[^-]+$/;
-        label.add(new Konva.Text({
-            text: allLabels[i].value.match(regex),
-            fontSize: 12,
-            padding: 5,
-            fill: 'green'
-        }))
-        label.on('click', () => {
-            showDrawer(allLabels[i].value)
-        })
-        pointsLayer.add(label)
-    }
-    stage.add(pointsLayer)
+    stage.add(pointsLayer);
 }
 
 function getMapSymbol(point) {
-    // convert coordinates to canvas
-    // canvas coordinates go 0-1600
-    // sector coordinates go from -800 to 800 (assumption)
-    // This makes life easier, we just need to add 800
     const padding = 50;
     const map_x = (point.x + 800) + padding;
     const map_y = (1600 - (point.y + 800)) + padding;
-    var label = new WaypointLabel(
-        map_x + 10,
-        map_y - 3,
-        point.symbol.waypoint
-    )
+
+    let width = 25;
+    let height = 25;
+    let imgSrc = '/assets/uncertainty.svg';
 
     switch (point.type) {
         case 'PLANET':
-            var imageObj = new Image();
-            imageObj.src = '/assets/world.svg'
-            var symbol = new Konva.Image({
-                height: 30,
-                width: 40,
-                image: imageObj,
-            });
-            break;
-        case 'ENGINEERED_ASTEROID':
-            var imageObj = new Image();
-            imageObj.src = '/assets/asteroid-red.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
-
-        case 'JUMP_GATE':
-            var imageObj = new Image();
-            imageObj.src = '/assets/warp-gate.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
-        case 'FUEL_STATION':
-            var imageObj = new Image();
-            imageObj.src = '/assets/apollo-capsule-blue.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
-
-        case 'ORBITAL_STATION':
-            var imageObj = new Image();
-            imageObj.src = '/assets/orbital-station.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
-        case 'ASTEROID':
-            var imageObj = new Image();
-            imageObj.src = '/assets/asteroid-brown.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
-        case 'ASTEROID_BASE':
-            var imageObj = new Image();
-            imageObj.src = '/assets/asteroid-blue.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
+            imgSrc = '/assets/world.svg';
+            width = 40; height = 30;
             break;
         case 'GAS_GIANT':
-            var imageObj = new Image();
-            imageObj.src = '/assets/gas-giant.svg'
-            var symbol = new Konva.Image({
-                height: 35,
-                width: 35,
-                image: imageObj,
-            });
+            imgSrc = '/assets/gas-giant.svg';
+            width = 35; height = 35;
             break;
-
         case 'MOON':
-            var imageObj = new Image();
-            imageObj.src = '/assets/moon.svg'
-            var symbol = new Konva.Image({
-                height: 20,
-                width: 20,
-                image: imageObj,
-            });
+            imgSrc = '/assets/moon.svg';
+            width = 20; height = 20;
             break;
-        default:
-            console.log(point.type)
-            var imageObj = new Image();
-            imageObj.src = '/assets/uncertainty.svg'
-            var symbol = new Konva.Image({
-                height: 25,
-                width: 25,
-                image: imageObj,
-            });
-            break;
+        case 'ENGINEERED_ASTEROID': imgSrc = '/assets/asteroid-red.svg'; break;
+        case 'JUMP_GATE': imgSrc = '/assets/warp-gate.svg'; break;
+        case 'FUEL_STATION': imgSrc = '/assets/apollo-capsule-blue.svg'; break;
+        case 'ORBITAL_STATION': imgSrc = '/assets/orbital-station.svg'; break;
+        case 'ASTEROID': imgSrc = '/assets/asteroid-brown.svg'; break;
+        case 'ASTEROID_BASE': imgSrc = '/assets/asteroid-blue.svg'; break;
     }
 
-    symbol.on('click', () => {
-        showDrawer(point.symbol.waypoint)
-    })
-
-
-    var group = new Konva.Group({
+    // Main parent container at the waypoint's exact coordinates
+    const waypointGroup = new Konva.Group({
         x: map_x,
         y: map_y,
-    })
+        name: 'waypointGroup' // Named for easy selection during wheel event
+    });
 
-    group.add(symbol);
-    return [group, label];
+    // Icon Centered on (0,0) relative to waypointGroup
+    const imageObj = new Image();
+    imageObj.src = imgSrc;
+
+    const symbol = new Konva.Image({
+        height: height,
+        width: width,
+        image: imageObj,
+        offsetX: width / 2,
+        offsetY: height / 2
+    });
+
+    imageObj.onload = () => {
+        symbol.getLayer()?.batchDraw();
+    };
+
+    waypointGroup.add(symbol);
+
+    // Label offset underneath icon relative to waypointGroup
+    const regex = /[^-]+$/;
+    const label = new Konva.Label({
+        x: 0,
+        y: (height / 2) + 5
+    });
+
+    label.add(new Konva.Tag({
+        fill: 'grey',
+        opacity: 0.25,
+        cornerRadius: 4
+    }));
+
+    const textNode = new Konva.Text({
+        text: point.symbol.waypoint.match(regex)[0],
+        fontSize: 12,
+        padding: 5,
+        fill: 'green',
+        align: 'center'
+    });
+
+    label.add(textNode);
+    label.offsetX(textNode.width() / 2); // Center label horizontally relative to group
+
+    waypointGroup.add(label);
+
+    // Click event on the whole group
+    waypointGroup.on('click', () => {
+        showDrawer(point.symbol.waypoint);
+    });
+
+    return waypointGroup;
 }
 
 function getMapData(systemID) {
