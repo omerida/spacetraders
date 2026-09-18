@@ -129,6 +129,20 @@ return [
             paths: [__DIR__ .'/../src/Entity'],
             isDevMode: true,
         );
+        // Define which tables Doctrine is allowed to manage
+        $config->setSchemaAssetsFilter(function (string|AbstractAsset $assetName): bool {
+            $tableName = is_string($assetName) ? $assetName : $assetName->getName();
+
+            // Tables to EXCLUDE from Doctrine ORM diffs and schema updates
+            $ignoredTables = [
+                'registry_bool',
+                'registry_int',
+                'registry_text',
+            ];
+
+            return !in_array($tableName, $ignoredTables, true);
+        });
+
         $config->enableNativeLazyObjects(true);
 
         $connection = ServiceContainer::get(DBAL\Connection::class);
