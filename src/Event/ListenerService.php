@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Phparch\SpaceTraders\Entity;
 use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\Event\ContractAccepted;
+use Phparch\SpaceTradersRest\Event\ContractCargoDelivered;
+use Phparch\SpaceTradersRest\Event\ContractFulfilled;
 use Phparch\SpaceTradersRest\Event\SystemMarketData;
 
 /**
@@ -47,6 +49,56 @@ class ListenerService
         $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
         $repo->save($record);
     }
+
+    public function onContractCargoDelivered(ContractCargoDelivered $event): void {
+        $contract = $event->deliverCargo->contract;
+
+        $record = new Entity\EventRecord(
+            name: "Contract Cargo Delivered",
+            source: $event::class,
+            description: <<<EOF
+            One of our ships delivered cargo for a {$contract->type->value} contract.
+            The contract expires on {$contract->expiration->format(\DateTime::ATOM)}.
+            EOF
+        );
+
+        $record->setDataFromArray([
+            'id' => $contract->id,
+            'terms' => $contract->terms,
+            'expiration' => $contract->expiration->format(\DateTime::ATOM),
+            'type' => $contract->type->value,
+            'cargo' => $event->deliverCargo->cargo,
+        ]);
+
+         /** @var Repository\EventRecord $repo */
+        $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
+        $repo->save($record);
+    }
+
+    public function onContractFulfilled(ContractFulfilled $event): void {
+        $contract = $event->fulfilled->contract;
+
+        $record = new Entity\EventRecord(
+            name: "Contract Fulfilled",
+            source: $event::class,
+            description: <<<EOF
+            {$event->fulfilled->agent->symbol} accepted a {$contract->type->value} contract.
+            The contract expired on {$contract->expiration->format(\DateTime::ATOM)}.
+            EOF
+        );
+
+        $record->setDataFromArray([
+            'id' => $contract->id,
+            'terms' => $contract->terms,
+            'expiration' => $contract->expiration->format(\DateTime::ATOM),
+            'type' => $contract->type->value,
+        ]);
+
+         /** @var Repository\EventRecord $repo */
+        $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
+        $repo->save($record);
+    }
+
 
     /**
      * Save trade good prices, activity when we get detailed information from

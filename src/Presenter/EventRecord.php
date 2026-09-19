@@ -53,6 +53,18 @@ class EventRecord
                     return sprintf('/contracts/get/?id=%s', $id);
                 }
                 break;
+            case 'Phparch\SpaceTradersRest\Event\ContractFulfilled':
+                if ($id = $this->event->getData()['id']) {
+                    assert(is_string($id));
+                    return sprintf('/contracts/get/?id=%s', $id);
+                }
+                break;
+            case 'Phparch\SpaceTradersRest\Event\ContractCargoDelivered':
+                if ($id = $this->event->getData()['id']) {
+                    assert(is_string($id));
+                    return sprintf('/contracts/get/?id=%s', $id);
+                }
+                break;
         }
 
         return null;
