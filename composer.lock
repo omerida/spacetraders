@@ -2441,16 +2441,16 @@
         },
         {
             "name": "phparch/spacetraders-rest",
-            "version": "0.3.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omerida/spacetraders-rest.git",
-                "reference": "b0660b229283baf7dcec779a067965ac6f3be28b"
+                "reference": "5ff71c9b333a2e7433f8325d0034ebdd55c2aab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/b0660b229283baf7dcec779a067965ac6f3be28b",
-                "reference": "b0660b229283baf7dcec779a067965ac6f3be28b",
+                "url": "https://api.github.com/repos/omerida/spacetraders-rest/zipball/5ff71c9b333a2e7433f8325d0034ebdd55c2aab0",
+                "reference": "5ff71c9b333a2e7433f8325d0034ebdd55c2aab0",
                 "shasum": ""
             },
             "require": {
@@ -2547,10 +2547,10 @@
             ],
             "description": "Space Traders API client in PHP",
             "support": {
-                "source": "https://github.com/omerida/spacetraders-rest/tree/0.3.2",
+                "source": "https://github.com/omerida/spacetraders-rest/tree/0.3.3",
                 "issues": "https://github.com/omerida/spacetraders-rest/issues"
             },
-            "time": "2026-09-19T02:29:06+00:00"
+            "time": "2026-09-19T18:10:54+00:00"
         },
         {
             "name": "phpoption/phpoption",
