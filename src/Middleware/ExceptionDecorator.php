@@ -45,23 +45,38 @@ class ExceptionDecorator implements MiddlewareInterface
 
         $headers = [];
         $minimalTemplate = false;
-        if (in_array($mode, ['modal', 'drawer'])) {
-            if (
-                $val = json_encode([
-                'target' => '.errors',
-                'mode' => $mode,
-                ])
-            ) {
-                $headers['X-Up-Open-Layer'] = $val;
-            }
-            $minimalTemplate = true;
+        switch ($mode) {
+            case 'drawer':
+            case 'modal':
+                if (
+                    $val = json_encode([
+                        'target' => '.errors',
+                        'mode' => $mode,
+                        JSON_THROW_ON_ERROR
+                    ])
+                ) {
+                    $headers['X-Up-Open-Layer'] = $val;
+                }
+                $minimalTemplate = true;
+                break;
+            case 'root':
+                $minimalTemplate = true;
+                if (
+                    $val = json_encode([
+                        'target' => '.errors',
+                        'mode' => 'modal',
+                        JSON_THROW_ON_ERROR
+                    ])
+                ) {
+                    $headers['X-Up-Open-Layer'] = $val;
+                }
+                break;
         }
 
         $response = new Response(
             status: $status,
             headers: $headers
         );
-
 
         $response->getBody()->write(
             $this->twig->render('error-message.html.twig', [
