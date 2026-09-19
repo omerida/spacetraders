@@ -50,7 +50,7 @@
                     <ul>
                         {% for item in contract.terms.deliver %}
                             <li>
-                                {{ item.unitsRequired }} units of {{ item.tradeSymbol }} to
+                                {{ item.unitsRequired }} units of {{ item.tradeSymbol.value }} to
                                 {{ helpers.modal_link_grow(viewWaypointPath(item.destinationSymbol), item.destinationSymbol) }}
                                 <span>(Progress: {{ item.unitsFulfilled }} / {{ item.unitsRequired }})</span>
                             </li>
