@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
+use Phparch\SpaceTraders\Presenter\ContractSummary;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Exception\APIAuthentication;
@@ -25,6 +26,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         private Client\ShipTravel $shipTravel,
         private Client\Fleet $fleet,
         private Client\Systems $systems,
+        private Client\Contracts $contracts,
     ) {
     }
 
@@ -49,7 +51,20 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             waypoint: $ship->nav->route->destination->symbol
         );
 
-        $atContractWaypoint = true;
+        $contracts = $this->getContractsForWaypoint($waypoint);
+        $atContractWaypoint = !empty($contracts);
+
+        $contractGoods = [];
+        $contractSummaries = [];
+        foreach ($contracts as $contract) {
+            $contractSummaries[] = new ContractSummary($contract);
+            if ($contract->terms->deliver) {
+                foreach ($contract->terms->deliver as $term) {
+                    $contractGoods[] = $term->tradeSymbol;
+                }
+            }
+        }
+
 
         $flightModes = [];
         foreach (FlightMode::cases() as $case) {
@@ -64,6 +79,8 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             'flightModes' => $flightModes,
             'atFuelStation' => $atFuelStation,
             'atContractWaypoint' => $atContractWaypoint,
+            'contractSummaries' => $contractSummaries,
+            'contractGoods' => $contractGoods,
             'atMarket' => $waypoint->hasMarket(),
         ]);
     }
@@ -369,5 +386,32 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         }
 
         return new Waypoint\Symbol($waypoint);
+    }
+
+    /**
+     * @return \Phparch\SpaceTradersRest\Value\Contract[]
+     * @throws APIAuthentication
+     * @throws APIFailure
+     * @throws GuzzleException
+     * @throws \JsonException
+     */
+    private function getContractsForWaypoint(Waypoint $waypoint): array {
+        $contracts = $this->contracts->MyContracts()->contracts;
+
+        $contracts = array_filter(
+            $contracts,
+            function ($contract) use ($waypoint) {
+                if ($contract->terms->deliver) {
+                    foreach ($contract->terms->deliver as $term) {
+                        if ($term->destinationSymbol === $waypoint->symbol->waypoint) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        );
+
+        return $contracts;
     }
 }
