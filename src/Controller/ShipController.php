@@ -237,15 +237,15 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
     }
 
     /**
-     * @return array<mixed>
      * @throws BadRequestException
      */
     #[Route(
         name: 'jettison_goods',
         path: '/ship/jettison-goods',
-        methods: ['POST']
+        methods: ['POST'],
+        strategy: 'application'
     )]
-    public function jettisonCargo(): array
+    public function jettisonCargo(): ResponseInterface
     {
         $ship = $this->getShipIdFromPost();
 
@@ -265,7 +265,11 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
 
         $units = $post['units'] ?? 0;
 
-        return (array) $this->shipActions->jettisonCargo($ship, $good, $units);
+        $response = $this->shipActions->jettisonCargo($ship, $good, $units);
+
+        return $this->render('ships/ship-sell-goods.html.twig', [
+            'cargo' => $response->cargo,
+        ]);
     }
 
     /**
