@@ -6,7 +6,7 @@
     </tr>
     <tr>
         <td>{{ cooldown.totalSeconds|number_format }}</td>
-        <td>{{ cooldown.remainingSeconds|number_format }}</td>
+        <td data-countdown="true">{{ cooldown.remainingSeconds|number_format }}</td>
         <td>{{ cooldown.expiration.date|date }}</td>
     </tr>
 </table>
