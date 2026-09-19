@@ -9,6 +9,7 @@ use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
 use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
 use Phparch\SpaceTraders\Interface\RequestAware;
 use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTradersRest\Value\Goods\Symbol;
 use Psr\Http\Message\ResponseInterface;
 
 class ContractsController implements RequestAware, TwigAware
@@ -86,6 +87,59 @@ class ContractsController implements RequestAware, TwigAware
         $contract = $this->client->details($get['id']);
         return $this->render('contracts/details.html.twig', [
             'contract' => $contract,
+        ]);
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    #[Route(
+        name: 'contracts_deliver_cargo',
+        path: '/contracts/deliver_cargo',
+        methods: ['POST'],
+        strategy: 'application'
+    )]
+    public function deliverCargo(): ResponseInterface
+    {
+        /**
+         * @var array{contract?: string, good?: string, units?: int} $post
+         */
+        $post = (array) $this->getRequest()->getParsedBody();
+
+        $good = strtoupper($post['good'] ?? '');
+        if (!$good) {
+            throw new BadRequestException("Please specify good to sell");
+        }
+
+        if (!($good = Symbol::tryFrom($good))) {
+            throw new BadRequestException("Unknown good to sell.");
+        }
+
+        $ship = $post['ship'] ?? null;
+        if (!$ship || !is_string($ship)) {
+            throw new BadRequestException("Ship POST param missing");
+        }
+
+        $contract = $post['contract'] ?? null;
+        if (!$contract || !is_string($contract)) {
+            throw new BadRequestException("Contract ID POST param missing");
+        }
+
+        $units = $post['units'] ?? 0;
+        if ($units == 0 || !is_numeric($units)) {
+            throw new BadRequestException("Units POST param missing or zero");
+        }
+        $units = (int) $units;
+
+        $response = $this->client->deliverCargo(
+            id: $contract,
+            shipSymbol: $ship,
+            good: $good,
+            units: $units
+        );
+
+        return $this->render('ships/ship-sell-goods.html.twig', [
+            'cargo' => $response->cargo,
         ]);
     }
 }

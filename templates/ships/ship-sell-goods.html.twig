@@ -2,8 +2,10 @@
     , {cargo_details: cargo},
 ) }}
 
+{% if transaction %}
 <div class="cargo-result">
     {{ include('partials/marketplace-transaction-table.html.twig'
         , {transaction: transaction},
     ) }}
 </div>
+{% endif %}

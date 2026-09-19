@@ -5,29 +5,19 @@ namespace Phparch\SpaceTraders\Controller;
 use GuzzleHttp\Exception\GuzzleException;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
-use Phparch\SpaceTraders\Controller\Trait\RequestAwareController;
-use Phparch\SpaceTraders\Controller\Trait\TwigAwareController;
-use Phparch\SpaceTraders\Interface\RequestAware;
-use Phparch\SpaceTraders\Interface\TwigAware;
+use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Exception\APIAuthentication;
 use Phparch\SpaceTradersRest\Exception\APIFailure;
-use Phparch\SpaceTradersRest\Value\Goods\Symbol;
-use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
-use Phparch\SpaceTradersRest\Value\Waypoint;
-use Psr\Http\Message\ResponseInterface;
 
-class FleetController implements RequestAware, TwigAware
+class FleetController implements Interface\RequestAware, Interface\TwigAware
 {
-    use RequestAwareController;
-    use TwigAwareController;
+    use Trait\RequestAwareController;
+    use Trait\TwigAwareController;
 
     public function __construct(
-        private Client\ShipActions $shipActions,
-        private Client\ShipTravel $shipTravel,
         private Client\Fleet $fleet,
-        private Client\Systems $systems,
     ) {
     }
 
@@ -51,303 +41,11 @@ class FleetController implements RequestAware, TwigAware
 
     /**
      * @return array<mixed>
-     * @throws BadRequestException
-     */
-    #[Route(name: 'dock_ship', path: '/ship/dock', methods: ['POST'])]
-    public function dockShip(): array
-    {
-        $ship = $this->getShipIdFromPost();
-        return (array) $this->shipTravel->dockShip($ship);
-    }
-
-    /**
-     * @return ResponseInterface
      * @throws APIAuthentication
      * @throws APIFailure
      * @throws BadRequestException
      * @throws GuzzleException
      * @throws \JsonException
-     */
-    #[Route(
-        name: 'set_ship_nav_mode',
-        path: '/ship/set-flight-mode',
-        methods: ['POST'],
-        strategy: 'application'
-    )]
-    public function setShipNavMode(): ResponseInterface
-    {
-        $ship = $this->getShipIdFromPost();
-        /**
-         * @var array{order: string} $post
-         */
-        $post = (array) $this->getRequest()->getParsedBody();
-
-        $flightMode = strtoupper($post['flightmode'] ?? '');
-        if (!$flightMode) {
-            throw new BadRequestException("Please specify the flight mode");
-        }
-
-        if (!FlightMode::tryFrom($flightMode)) {
-            throw new BadRequestException("Unknown flight mode.");
-        }
-
-        $response = $this->shipTravel->setNavMode($ship, $flightMode);
-        return $this->render('ships/set-nav-mode.html.twig', [
-            'nav' => $response->nav,
-            'fuel' => $response->fuel,
-        ]);
-    }
-
-    /**
-     * @throws BadRequestException
-     * @throws GuzzleException
-     * @throws \JsonException
-     * @throws APIAuthentication
-     * @throws APIFailure
-     */
-    #[Route(
-        name: 'order_ship',
-        path: '/ship/orders',
-        methods: ['POST'],
-        strategy: 'application'
-    )]
-    public function orderShip(): ResponseInterface
-    {
-        $ship = $this->getShipIdFromPost();
-
-        /**
-         * @var array{order: string} $post
-         */
-        $post = (array) $this->getRequest()->getParsedBody();
-
-        $order = strtolower($post['order'] ?? '');
-
-        switch ($order) {
-            case 'dock':
-                $response = $this->shipTravel->dockShip($ship);
-                return $this->render('partials/ship-nav-table.html.twig', [
-                    'nav' => $response->nav,
-                ]);
-
-            case 'orbit':
-                $response = $this->shipTravel->orbitShip($ship);
-                return $this->render('partials/ship-nav-table.html.twig', [
-                    'nav' => $response->nav,
-                ]);
-
-            case 'extract':
-                $response = $this->shipActions->extractResources($ship);
-                return $this->render('ships/ship-extract.html.twig', [
-                    'cooldown' => $response->cooldown,
-                    'cargo' => $response->cargo,
-                    'extraction' => $response->extraction,
-                ]);
-            case 'refuel':
-                $response = $this->shipActions->refuelShip($ship);
-                return $this->render('ships/ship-refuel.html.twig', [
-                    'agent' => $response->agent,
-                    'fuel' => $response->fuel,
-                    'transaction' => $response->transaction
-                ]);
-            default:
-                throw new BadRequestException("Unknown or missing order");
-        }
-    }
-
-    /**
-     * @return array<mixed>
-     * @throws APIAuthentication
-     * @throws APIFailure
-     * @throws BadRequestException
-     * @throws GuzzleException
-     * @throws \JsonException
-     */
-    #[Route(name: 'refuel_ship', path: '/ship/refuel', methods: ['POST'])]
-    public function refuelShip(): array
-    {
-        $ship = $this->getShipIdFromPost();
-        return (array) $this->shipActions->refuelShip($ship);
-    }
-
-    /**
-     * @throws APIAuthentication
-     * @throws APIFailure
-     * @throws BadRequestException
-     * @throws GuzzleException
-     * @throws \JsonException
-     */
-    #[Route(
-        name: 'sell_goods',
-        path: '/ship/sell-goods',
-        methods: ['POST'],
-        strategy: 'application'
-    )]
-    public function sellGoods(): ResponseInterface
-    {
-        $ship = $this->getShipIdFromPost();
-
-        /**
-         * @var array{good: string, units: int} $post
-         */
-        $post = (array) $this->getRequest()->getParsedBody();
-
-        $good = strtoupper($post['good'] ?? '');
-        if (!$good) {
-            throw new BadRequestException("Please specify good to sell");
-        }
-
-        if (!Symbol::tryFrom($good)) {
-            throw new BadRequestException("Unknown good to sell.");
-        }
-
-        $units = $post['units'] ?? 0;
-
-        $response = $this->shipActions->sellCargo($ship, $good, $units);
-
-        return $this->render('ships/ship-sell-goods.html.twig', [
-            'cargo' => $response->cargo,
-            'transaction' => $response->transaction,
-            'agent' => $response->agent
-        ]);
-    }
-
-    /**
-     * @return array<mixed>
-     * @throws BadRequestException
-     */
-    #[Route(
-        name: 'jettison_goods',
-        path: '/ship/jettison-goods',
-        methods: ['POST']
-    )]
-    public function jettisonCargo(): array
-    {
-        $ship = $this->getShipIdFromPost();
-
-        /**
-         * @var array{good?: string, units?: int} $post
-         */
-        $post = (array) $this->getRequest()->getParsedBody();
-
-        $good = strtoupper($post['good'] ?? '');
-        if (!$good) {
-            throw new BadRequestException("Please specify good to sell");
-        }
-
-        if (!Symbol::tryFrom($good)) {
-            throw new BadRequestException("Unknown good to sell.");
-        }
-
-        $units = $post['units'] ?? 0;
-
-        return (array) $this->shipActions->jettisonCargo($ship, $good, $units);
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'orbit_ship', path: '/ship/orbit', methods: ['POST'])]
-    public function orbitShip(): array
-    {
-        $ship = $this->getShipIdFromPost();
-        return (array) $this->shipTravel->orbitShip($ship);
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'extract_ship', path: '/ship/extract', methods: ['POST'])]
-    public function extractShip(): array
-    {
-        $ship = $this->getShipIdFromPost();
-        return (array) $this->shipActions->extractResources($ship);
-    }
-
-    #[Route(
-        name: 'ship_info',
-        path: '/ship/info',
-        methods: ['GET'],
-        strategy: 'application'
-    )]
-    public function shipInfo(): ResponseInterface
-    {
-        $shipID = $this->getShipID();
-        $ship = $this->fleet->getShip($shipID);
-
-        $atFuelStation = (
-            $ship->nav->route->destination->isFuelStation()
-            && !$ship->nav->isInTransit()
-        );
-
-        $waypoint = $this->systems->systemLocation(
-            system: $ship->nav->route->destination->systemSymbol,
-            waypoint: $ship->nav->route->destination->symbol
-        );
-
-        $flightModes = [];
-        foreach (FlightMode::cases() as $case) {
-            $flightModes[] = [
-                'value' => $case->value,
-                'name' => $case->name,
-            ];
-        }
-
-        return $this->render('ships/info.html.twig', [
-            'ship' => $ship,
-            'flightModes' => $flightModes,
-            'atFuelStation' => $atFuelStation,
-            'atMarket' => $waypoint->hasMarket(),
-        ]);
-    }
-
-    #[Route(
-        name: 'navigate_ship',
-        path: '/ship/navigate',
-        methods: ['POST'],
-        strategy: 'application'
-    )]
-    public function navigateShip(): ResponseInterface
-    {
-        $ship = $this->getShipIdFromPost();
-        $waypoint = $this->getWaypointFromPost();
-        $response =  $this->shipTravel->navigateShip($ship, $waypoint);
-
-        return $this->render('ships/navigate-ship.html.twig', [
-            'nav' => $response->nav,
-            'fuel' => $response->fuel,
-            'events' => $response->events,
-        ]);
-    }
-
-    #[Route(
-        name: 'ship_cargo',
-        path: '/ship/cargo',
-        methods: ['GET'],
-        strategy: 'application'
-    )]
-    public function shipCargo(): ResponseInterface
-    {
-        $ship = $this->getShipID();
-
-        $response = $this->fleet->getShipCargo($ship);
-        return $this->render('ships/cargo.html.twig', [
-            'ship' => $ship,
-            'cargo_details' => $response,
-        ]);
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    #[Route(name: 'ship_cooldown', path: '/ship/cooldown', methods: ['GET'])]
-    public function shipCooldown(): array
-    {
-        $ship = $this->getShipID();
-        return (array) $this->fleet->getShipCooldown($ship);
-    }
-
-    /**
-     * @return array<mixed>
      */
     #[Route(
         name: 'ship_mounts',
@@ -358,30 +56,6 @@ class FleetController implements RequestAware, TwigAware
     {
         $ship = $this->getShipID();
         return (array) $this->fleet->getShipMounts($ship);
-    }
-
-    private function getShipIdFromPost(): string
-    {
-        $post = (array) $this->getRequest()->getParsedBody();
-        $id = $post['ship'] ?? null;
-
-        if (!$id || !is_string($id)) {
-            throw new BadRequestException("Ship POST param missing");
-        }
-
-        return $id;
-    }
-
-    private function getWaypointFromPost(): Waypoint\Symbol
-    {
-        $post = (array) $this->getRequest()->getParsedBody();
-        $waypoint = $post['waypoint'] ?? null;
-
-        if (!$waypoint || !is_string($waypoint)) {
-            throw new BadRequestException("Waypoint param missing");
-        }
-
-        return new Waypoint\Symbol($waypoint);
     }
 
     private function getShipID(): string
