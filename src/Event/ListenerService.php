@@ -47,7 +47,7 @@ class ListenerService
 
          /** @var Repository\EventRecord $repo */
         $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
-        $repo->save($record);
+        $repo->save($record, flush: true);
     }
 
     public function onContractCargoDelivered(ContractCargoDelivered $event): void {
@@ -72,7 +72,7 @@ class ListenerService
 
          /** @var Repository\EventRecord $repo */
         $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
-        $repo->save($record);
+        $repo->save($record, flush: true);
     }
 
     public function onContractFulfilled(ContractFulfilled $event): void {
@@ -96,7 +96,7 @@ class ListenerService
 
          /** @var Repository\EventRecord $repo */
         $repo = $this->entityManager->getRepository(Entity\EventRecord::class);
-        $repo->save($record);
+        $repo->save($record, flush: true);
     }
 
 
