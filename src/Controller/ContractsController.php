@@ -147,28 +147,27 @@ class ContractsController implements RequestAware, TwigAware
      * @throws BadRequestException
      */
     #[Route(
-        name: 'contracts_fulfill_contract',
-        path: '/contracts/fulfill_contract',
+        name: 'contracts_fulfill',
+        path: '/contracts/fulfill',
         methods: ['POST'],
         strategy: 'application'
     )]
     public function fulfill(): ResponseInterface
     {
         /**
-         * @var array{contract?: string, good?: string, units?: int} $post
+         * @var array{contract?: string} $post
          */
         $post = (array) $this->getRequest()->getParsedBody();
-
         $contract = $post['contract'] ?? null;
         if (!$contract || !is_string($contract)) {
             throw new BadRequestException("Contract ID POST param missing");
         }
 
-        $response = $this->client->fulfill(id: $contract);
+        $response = $this->client->fulfill($contract);
 
-        /* @todo Fix this output to be a status bar or something */
-        return $this->render('ships/ship-sell-goods.html.twig', [
-            'cargo' => $response->contract,
+        return $this->render('contracts/fulfilled.html.twig', [
+            'contract' => $response->contract,
+            'agent'    => $response->agent,
         ]);
     }
 }

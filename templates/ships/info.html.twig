@@ -130,8 +130,8 @@
                         <li>You can fulfill contract {{ item.id }}.
                             {% embed 'forms/unpoly-form.html.twig'
                                 with {
-                                    action: '/contracts/fulfill_contract',
-                                    up_target: '.ship-cargo',
+                                    action: '/contracts/fulfill',
+                                    up_modal: true,
                                 }
                             %}
                                 {% block form_body %}
