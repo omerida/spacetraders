@@ -49,6 +49,8 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             waypoint: $ship->nav->route->destination->symbol
         );
 
+        $atContractWaypoint = true;
+
         $flightModes = [];
         foreach (FlightMode::cases() as $case) {
             $flightModes[] = [
@@ -61,6 +63,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             'ship' => $ship,
             'flightModes' => $flightModes,
             'atFuelStation' => $atFuelStation,
+            'atContractWaypoint' => $atContractWaypoint,
             'atMarket' => $waypoint->hasMarket(),
         ]);
     }
