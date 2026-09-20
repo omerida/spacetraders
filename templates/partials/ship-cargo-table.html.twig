@@ -12,7 +12,7 @@
         <td>{{ item.units }}</td>
         <td>
             <button type="button"
-                    class="jettison-btn warn"
+                    class="btn jettison-btn warn"
                     data-good="{{ item.name }}"
                     data-units="{{ item.units }}"
                     data-symbol="{{ item.symbol.value }}"
@@ -46,8 +46,10 @@
             </label>
 
             <div class="actions">
-              <button type="button" up-dismiss class="btn">Cancel</button>
-              <button type="submit" class="btn primary">Confirm Jettison</button>
+              <button type="button" up-dismiss
+                      class="btn btn-cancel"
+              >Cancel</button>
+              <button type="submit" class="btn btn-primary">Confirm Jettison</button>
             </div>
         {% endblock %}
     {% endembed %}

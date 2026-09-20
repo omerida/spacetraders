@@ -6,6 +6,15 @@
     --color-nav: #fff;
     --color-error: #900;
     --color-error-bg:#fee;
+    --color-btn-bg: #ccc;
+    --color-btn-txt: #111;
+    --color-btn-hover-bg: #aaf;
+    --color-btn-primary-bg: #66f;
+    --color-btn-primary-txt: #fff;
+    --color-danger-bg: #966;
+    --color-danger-txt: #fff;
+    --color-btn-border: #ccc;
+    --radius-btn-border: 5px;
 }
 
 /* screen layout */
@@ -22,8 +31,6 @@
         grid-area: game-main;
     }
 }
-
-
 
 body {
     font-size: 16px;
@@ -145,8 +152,50 @@ table {
     }
 }
 
+input[type=submit],
+.btn {
+    border: 1px solid var(--color-btn-border);
+    background-color: var(--color-btn-bg);
+    color: var(--color-btn-txt);
+    padding: .25em 1rem;
+    border-radius: var(--radius-btn-border);
+    display: inline-block;
+}
 
+.btn-cancel {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-txt);
+}
 
+.btn-primary {
+    background-color: var(--color-btn-primary-bg);
+    color: var(--color-btn-primary-txt);
+    font-weight: bold;
+}
+
+input[type=submit]:hover,
+.btn:hover {
+    background-color: var(--color-btn-hover-bg);
+}
+
+form {
+    .actions {
+        margin-top:1rem;
+        display: flex;
+        gap: 0px;
+    }
+
+    .actions .btn {
+        margin: 0;
+    }
+
+    .actions .btn:first-of-type {
+        border-radius: var(--radius-btn-border) 0 0 var(--radius-btn-border);
+    }
+    .actions .btn:last-of-type {
+        border-radius: 0 var(--radius-btn-border) var(--radius-btn-border) 0;
+    }
+}
 
 /* Flex layout for putting children in rows that wrap */
 .flex {
