@@ -63,14 +63,13 @@
                 {% block form_body %}
                     <input type="hidden" name="ship"
                            value="{{ ship.symbol|e('html_attr') }}">
-                    <select name="order" required>
-                        <option value="">--Select Order--</option>
-                        <option value="orbit">Orbit</option>
-                        <option value="dock">Dock</option>
-                        <option value="extract">Extract</option>
-                        <option value="refuel">Refuel</option>
-                    </select>
-                    <input type="submit" class="btn" value="Issue Order">
+
+                    <div class="actions">
+                        <button type="submit" name="order" value="extract" class="btn">Extract</button>
+                        <button type="submit" name="order" value="refuel" class="btn">Refuel</button>
+                        <button type="submit" name="order" value="orbit" class="btn">Orbit</button>
+                        <button type="submit" name="order" value="dock" class="btn">Dock</button>
+                    </div>
 
                 {% endblock %}
             {% endembed %}
@@ -100,11 +99,12 @@
                 {% block form_body %}
                     {% import 'macros/helpers.html.twig' as helpers %}
                     <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                    <select name="flightmode" required>
-                        <option value="">--Select Flight Mode--</option>
-                        {{ helpers.select_options(flightModes) }}
-                    </select>
-                    <input type="submit" value="Set Flight Mode">
+                    <div class="actions">
+                        {% for mode in flightModes %}
+                            <button type="submit" name="flightmode" value="{{ mode.value }}"
+                                    class="btn">{{ mode.value|machine2readable }}</button>
+                        {% endfor %}
+                    </div>
                 {% endblock %}
             {% endembed %}
 
