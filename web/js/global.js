@@ -22,3 +22,26 @@ up.compiler('table.ship-cooldown', function(table) {
         clearInterval(countdownInterval);
     };
 });
+
+up.compiler('.jettison-btn', function(button) {
+  button.addEventListener('click', () => {
+    // Read the dynamic dataset values from the button
+    const { good, units, symbol } = button.dataset;
+
+    // Grab template content
+    const template = document.querySelector('#jettison-template');
+    if (!template) return;
+
+    // Replace placeholders with real values
+    let modalHTML = template.innerHTML
+        .replace(/\${good}/g, good)
+        .replace(/\${units}/g, units)
+        .replace(/\${symbol}/g, symbol);
+
+    // Open Unpoly modal with rendered HTML
+    up.layer.open({
+      mode: 'modal',
+      content: modalHTML
+    });
+  });
+});

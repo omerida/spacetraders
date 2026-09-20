@@ -1,0 +1,14 @@
+{#
+For forms that are in a modal that should be dismissed automatically
+and update a parent element
+#}
+<form action="{{ action }}" method="post"
+      up-submit
+      up-target="{{ up_target }}"
+      up-layer="parent"
+      up-dismis="true"
+      up-transition="cross-fade"
+>
+    {% block form_body %}
+    {% endblock %}
+</form>
