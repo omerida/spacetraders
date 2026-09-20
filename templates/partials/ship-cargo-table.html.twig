@@ -2,17 +2,54 @@
     <tr>
         <th>Good</th>
         <th>Units</th>
+        <th>&nbsp;</th>
     </tr>
     {% for item in cargo_details.inventory %}
     <tr>
-        <td class="left"><b>{{ item.name }}</b><br>
+        <td class="left clamp-640"><b>{{ item.name }}</b><br>
             {{ item.description }} <em>{{ item.symbol.value }}</em>
         </td>
         <td>{{ item.units }}</td>
+        <td>
+            <button type="button"
+                    class="jettison-btn warn"
+                    data-good="{{ item.name }}"
+                    data-units="{{ item.units }}"
+                    data-symbol="{{ item.symbol.value }}"
+            >Jettison</button>
+        </td>
     </tr>
     {% endfor %}
     <tr>
         <th class="right">Capacity</th>
         <th class="nowrap">{{ cargo_details.units }} / {{ cargo_details.capacity }}</th>
+        <th>&nbsp;</th>
     </tr>
 </table>
+
+<template id="jettison-template">
+  <div class="modal-body">
+    <h3>Confirm Jettison</h3>
+    <p>Are you sure you want to jettison <strong>${good}</strong> into space?</p>
+
+    {% embed 'forms/unpoly-modal-form.html.twig'
+        with {
+        action: '/ship/jettison-goods',
+        up_target: '.ship-cargo',
+    } %}
+        {% block form_body %}
+            <input type="hidden" name="good" value="${symbol}">
+            <input type="hidden" name="ship"
+                   value="{{ ship.symbol|e('html_attr') }}">
+            <label>Units
+                <input type="number" name="units" placeholder="units" value="${units}" required>
+            </label>
+
+            <div class="actions">
+              <button type="button" up-dismiss class="btn">Cancel</button>
+              <button type="submit" class="btn primary">Confirm Jettison</button>
+            </div>
+        {% endblock %}
+    {% endembed %}
+  </div>
+</template>

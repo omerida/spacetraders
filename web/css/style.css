@@ -240,6 +240,10 @@ div.card {
     max-width: max(19%, 19vw);
 }
 
+.clamp-640 {
+    width: clamp(320px, 640px, 50vw);
+}
+
 ul.tags {
     list-style: none;
     margin: 0;
