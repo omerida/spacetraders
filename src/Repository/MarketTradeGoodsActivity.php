@@ -25,13 +25,13 @@ class MarketTradeGoodsActivity extends EntityRepository
 
     public function ifExists(
         Entity\MarketTradeGoodsActivity $entity,
-        \DateTimeImmutable $ts,
+        \DateTimeImmutable $timestamp,
     ): false|Entity\MarketTradeGoodsActivity {
         $exists = $this->findOneBy(
             criteria: [
                 'waypointSymbol' => $entity->waypointSymbol->waypoint,
                 'symbol' => $entity->symbol->value,
-                'timestamp' => $ts,
+                'timestamp' => $timestamp,
             ]
         );
         if ($exists instanceof Entity\MarketTradeGoodsActivity) {
@@ -93,10 +93,10 @@ class MarketTradeGoodsActivity extends EntityRepository
      */
     public function saveNewData(array $goods): false|int
     {
-        $ts = new \DateTimeImmutable('midnight today');
+        $timestamp = new \DateTimeImmutable('midnight today');
         $saved = 0;
         foreach ($goods as $good) {
-            if (!$this->ifExists($good, $ts)) {
+            if (!$this->ifExists($good, $timestamp)) {
                 $this->save($good);
                 $saved++;
             }
