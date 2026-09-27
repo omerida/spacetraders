@@ -63,7 +63,10 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             if ($contract->terms->deliver) {
                 foreach ($contract->terms->deliver as $term) {
                     $contractGoods[] = $term->tradeSymbol;
-                    if ($term->unitsFulfilled >= $term->unitsRequired) {
+                    if (
+                        $term->unitsFulfilled >= $term->unitsRequired
+                        && !$contract->fulfilled
+                    ) {
                         $fulfilledContracts[] = $contract;
                     }
                 }
@@ -298,8 +301,6 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         return (array) $this->shipActions->extractResources($ship);
     }
 
-
-
     #[Route(
         name: 'navigate_ship',
         path: '/ship/navigate',
@@ -408,7 +409,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
     private function getContractsForWaypoint(Waypoint $waypoint): array {
         $contracts = $this->contracts->MyContracts()->contracts;
 
-        $contracts = array_filter(
+        return array_filter(
             $contracts,
             function ($contract) use ($waypoint) {
                 if ($contract->terms->deliver) {
@@ -421,7 +422,5 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
                 return false;
             }
         );
-
-        return $contracts;
     }
 }
