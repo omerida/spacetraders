@@ -59,63 +59,63 @@ class MarketController implements RequestAware, TwigAware
         //@todo - this should be in the client package
         if ($market->imports) {
             // sort by name
-            usort($market->imports, fn($a, $b) => $a->name <=> $b->name);
+            usort($market->imports, fn($good1, $good2) => $good1->name <=> $good2->name);
         }
 
         if ($market->exports) {
             // sort by name
-            usort($market->exports, fn($a, $b) => $a->name <=> $b->name);
+            usort($market->exports, fn($good1, $good2) => $good1->name <=> $good2->name);
         }
 
         if ($market->exchange) {
             // sort by name
-            usort($market->exchange, fn($a, $b) => $a->name <=> $b->name);
+            usort($market->exchange, fn($good1, $good2) => $good1->name <=> $good2->name);
         }
 
         if ($market->tradeGoods) {
             // Sort trade good by type and symbol
             usort(
                 $market->tradeGoods,
-                function (TradeGoods $a, TradeGoods $b) {
-                    if ($a->type === $b->type) {
-                        return $a->symbol->name <=> $b->symbol->name;
+                function (TradeGoods $good1, TradeGoods $good2) {
+                    if ($good1->type === $good2->type) {
+                        return $good1->symbol->name <=> $good2->symbol->name;
                     }
 
-                    return $a->type->value <=> $b->type->value;
+                    return $good1->type->value <=> $good2->type->value;
                 }
             );
 
-            $imports_tg = array_filter(
+            $importsGoods = array_filter(
                 $market->tradeGoods,
-                fn($a) => $a->type === TradegoodType::IMPORT
+                fn($good) => $good->type === TradegoodType::IMPORT
             );
-            $exports_tg = array_filter(
+            $exportsGoods = array_filter(
                 $market->tradeGoods,
-                fn($a) => $a->type === TradegoodType::EXPORT
+                fn($good) => $good->type === TradegoodType::EXPORT
             );
-            $exchanges_tg = array_filter(
+            $exchangesGoods = array_filter(
                 $market->tradeGoods,
-                fn($a) => $a->type === TradegoodType::EXCHANGE
+                fn($good) => $good->type === TradegoodType::EXCHANGE
             );
         } elseif ($goods = $this->marketRepo->getLatestForWaypoint($market->symbol)) {
             // Show latest historical info
-            $imports_tg = $exchanges_tg = $exports_tg = [];
+            $importsGoods = $exchangesGoods = $exportsGoods = [];
             foreach ($goods as $good) {
                 switch ($good->type) {
                     case TradegoodType::IMPORT:
-                        $imports_tg[] = $good;
+                        $importsGoods[] = $good;
                         break;
 
                     case TradegoodType::EXPORT:
-                        $exports_tg[] = $good;
+                        $exportsGoods[] = $good;
                         break;
 
                     case TradegoodType::EXCHANGE:
-                        $exchanges_tg[] = $good;
+                        $exchangesGoods[] = $good;
                         break;
                 }
             }
-            $tg_message = 'As of ' . $goods[0]->timestamp->format('Y-m-d');
+            $tradeGoodMsg = 'As of ' . $goods[0]->timestamp->format('Y-m-d');
         }
 
         return $this->render('systems/market.html.twig', [
@@ -126,10 +126,10 @@ class MarketController implements RequestAware, TwigAware
             'exchange' => $market->exchange,
             'transactions' => $market->transactions,
             'tradeGoods' => $market->tradeGoods,
-            'importDetails' => $imports_tg ?? [],
-            'exchangeDetails' => $exchanges_tg ?? [],
-            'exportDetails' => $exports_tg ?? [],
-            'tgMessage' => $tg_message ?? '',
+            'importDetails' => $importsGoods ?? [],
+            'exchangeDetails' => $exchangesGoods ?? [],
+            'exportDetails' => $exportsGoods ?? [],
+            'tgMessage' => $tradeGoodMsg ?? '',
         ]);
     }
 }

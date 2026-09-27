@@ -7,10 +7,10 @@ use Doctrine\DBAL;
 class SystemRegistry extends KeyValueStore
 {
     public function __construct(
-        private DBAL\Connection $db,
+        private DBAL\Connection $dbconn,
     ) {
         parent::__construct(
-            $this->db,
+            $this->dbconn,
             'registry'
         );
     }

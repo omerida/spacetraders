@@ -15,7 +15,7 @@ class KeyValueStore
     private $cache_bool = [];
 
     public function __construct(
-        private DBAL\Connection $db,
+        private DBAL\Connection $dbconn,
         private readonly string $table_prefix,
     ) {
     }
@@ -80,7 +80,7 @@ class KeyValueStore
     }
 
     private function queryTable(string $type, string $key): DBAL\Result {
-        return $this->db->executeQuery(
+        return $this->dbconn->executeQuery(
             "SELECT val FROM `{$this->table_prefix}_{$type}` WHERE `name` = :key",
             [strtolower($key)],
             [DBAL\ParameterType::STRING]
@@ -97,7 +97,7 @@ class KeyValueStore
             'int' => DBAL\ParameterType::INTEGER,
             'bool' => DBAL\ParameterType::BOOLEAN,
         };
-        return (int) $this->db->executeStatement(
+        return (int) $this->dbconn->executeStatement(
             <<<SQL
             INSERT INTO `{$this->table_prefix}_{$type}` 
                 VALUES (?, ?, datetime('now'), datetime('now'))
