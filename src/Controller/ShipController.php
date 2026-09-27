@@ -54,13 +54,18 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         $contracts = $this->getContractsForWaypoint($waypoint);
         $atContractWaypoint = !empty($contracts);
 
+        // Which ones can we deliver
         $contractGoods = [];
         $contractSummaries = [];
+        $fulfilledContracts = [];
         foreach ($contracts as $contract) {
             $contractSummaries[] = new ContractSummary($contract);
             if ($contract->terms->deliver) {
                 foreach ($contract->terms->deliver as $term) {
                     $contractGoods[] = $term->tradeSymbol;
+                    if ($term->unitsFulfilled >= $term->unitsRequired) {
+                        $fulfilledContracts[] = $contract;
+                    }
                 }
             }
         }
@@ -81,6 +86,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             'atContractWaypoint' => $atContractWaypoint,
             'contractSummaries' => $contractSummaries,
             'contractGoods' => $contractGoods,
+            'fulfilledContracts' => $fulfilledContracts,
             'atMarket' => $waypoint->hasMarket(),
         ]);
     }

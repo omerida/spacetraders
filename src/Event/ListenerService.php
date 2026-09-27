@@ -77,13 +77,15 @@ class ListenerService
 
     public function onContractFulfilled(ContractFulfilled $event): void {
         $contract = $event->fulfilled->contract;
+        $deadline = "The contract deadline was on ";
+        $deadline .= "{$contract->terms->deadline->format(\DateTime::ATOM)}.";
 
         $record = new Entity\EventRecord(
             name: "Contract Fulfilled",
             source: $event::class,
             description: <<<EOF
-            {$event->fulfilled->agent->symbol} accepted a {$contract->type->value} contract.
-            The contract expired on {$contract->expiration->format(\DateTime::ATOM)}.
+            {$event->fulfilled->agent->symbol} fulfilled a {$contract->type->value} contract.
+            {$deadline}
             EOF
         );
 

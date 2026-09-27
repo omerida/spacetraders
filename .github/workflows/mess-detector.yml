@@ -28,7 +28,7 @@ jobs:
       - name: Run PHPMD
         id: phpmd-results
         if: always()
-        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src,cli html phpmd.xml | tee report.html
+        run: phpmd --ignore-violations-on-exit --ignore-errors-on-exit src html phpmd.xml | tee report.html
 
       - name: Convert HTML to GitHub-flavored Markdown
         uses: docker://pandoc/core:3.5

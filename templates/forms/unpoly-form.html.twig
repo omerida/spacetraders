@@ -1,7 +1,12 @@
 <form action="{{ action }}" method="post"
       up-submit
-      up-target="{{ up_target }}"
       up-transition="cross-fade"
+      {% if up_modal is true %}
+        up-layer="new modal"
+      {% else %}
+        up-target="{{ up_target }}"
+      {% endif %}
+
 >
     {% block form_body %}
     {% endblock %}
