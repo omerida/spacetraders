@@ -78,9 +78,7 @@ final class ServiceContainer
 
     public static function autodiscover(): void
     {
-        $ref = new BetterReflection();
-        // TODO - is there a way to do this with an external dependency?
-        //self::registerApiClients($ref, self::$env['USE_APCU'] === 1);
+        //$ref = new BetterReflection();
     }
 
     /**

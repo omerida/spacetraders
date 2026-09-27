@@ -105,6 +105,8 @@ class ListenerService
     /**
      * Save trade good prices, activity when we get detailed information from
      * a ship at a marketplace.
+     *
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function onSystemMarketData(SystemMarketData $marketData): void {
         $goods = Entity\MarketTradeGoodsActivity::fromTradeGoodsValue(
