@@ -15,6 +15,7 @@
     --color-danger-txt: #fff;
     --color-btn-border: #ccc;
     --radius-btn-border: 5px;
+    --color-attention-bg: #eda;
 }
 
 /* screen layout */
@@ -292,6 +293,15 @@ div.card {
 
 .clamp-640 {
     width: clamp(320px, 640px, 50vw);
+}
+
+p.warning {
+    &::before {
+        content: "⚠ ";
+    }
+
+    padding: .5em;
+    background-color: var(--color-attention-bg)
 }
 
 ul.tags {

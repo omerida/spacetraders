@@ -124,13 +124,36 @@
                     <li><em>{{ item.shortContractID }}:</em> {{ item.summary }}</li>
                 {% endfor %}
             </ul>
+                {% if fulfilledContracts %}
+                    <ul>
+                    {% for item in fulfilledContracts %}
+                        <li>You can fulfill contract {{ item.id }}.
+                            {% embed 'forms/unpoly-form.html.twig'
+                                with {
+                                    action: '/contracts/fulfill_contract',
+                                    up_target: '.ship-cargo',
+                                }
+                            %}
+                                {% block form_body %}
+                                    <input type="hidden"
+                                           name="contract"
+                                           value="{{ item.id }}">
+                                    <input type="submit"
+                                           value="Fulfill Contract">
+                                {% endblock %}
+                            {% endembed %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
 
                 {% if ship.nav.isDocked %}
                     {% embed 'forms/unpoly-form.html.twig'
                         with {
-                        action: '/contracts/deliver_cargo',
-                        up_target: '.ship-cargo',
-                    } %}
+                            action: '/contracts/deliver_cargo',
+                            up_target: '.ship-cargo',
+                        }
+                    %}
                         {% block form_body %}
                             <input type="hidden" name="ship"
                                    value="{{ ship.symbol|e('html_attr') }}">
@@ -155,7 +178,7 @@
                         {% endblock %}
                     {% endembed %}
                 {% else %}
-                    <p>Dock if you want to deliver contract goods.</p>
+                    <p class="warning">>Dock if you want to deliver contract goods.</p>
                 {% endif %}
 
             <hr>
@@ -192,7 +215,7 @@
                         {% endblock %}
                     {% endembed %}
                 {% else %}
-                    <p>Dock to buy and sell goods here</p>
+                    <p class="warning">Dock to buy and sell goods here</p>
                 {% endif %}
             {% endif %}
             </form>
