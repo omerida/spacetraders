@@ -108,7 +108,13 @@ class MarketTradeGoodsActivity extends EntityRepository
      * @return list<Entity\MarketTradeGoodsActivity>
      */
     public function getAll(): array {
-        $goods = $this->findAll();
+        // Can't use findAll() if we want a custom sort.
+        $goods = $this->createQueryBuilder('p')
+            ->orderBy('p.timestamp', 'DESC')
+            ->addOrderBy('p.waypointSymbol', 'ASC')
+            ->addOrderBy('p.symbol', 'ASC')
+            ->getQuery()
+            ->getResult();
         /** @var list<Entity\MarketTradeGoodsActivity> $goods */
         return $goods;
     }
