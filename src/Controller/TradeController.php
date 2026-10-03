@@ -24,7 +24,7 @@ class TradeController implements RequestAware, TwigAware
         methods: ['GET'],
         strategy: 'application'
     )]
-    public function tradeHome(): ResponseInterface
+    public function home(): ResponseInterface
     {
         // This may get overwhelming fast
         $goods = $this->marketRepo->getAllLatest();
@@ -32,5 +32,24 @@ class TradeController implements RequestAware, TwigAware
         return $this->render('trade/home.html.twig', [
             'goods' => $goods,
         ]);
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    #[Route(
+        name: 'trade_prices',
+        path: '/trade/prices',
+        methods: ['GET'],
+        strategy: 'json'
+    )]
+    public function prices(): array
+    {
+        $query = $this->getRequest()->getQueryParams();
+
+        return match ($query['mode']) {
+            'all' => $this->marketRepo->getAll(),
+            default => $this->marketRepo->getAllLatest(),
+        };
     }
 }

@@ -82,7 +82,39 @@ class MarketTradeGoodsActivity extends EntityRepository
      * @return list<Entity\MarketTradeGoodsActivity>
      */
     public function getAllLatest(): array {
-        $goods = $this->findAll();
+        // Get the latest ID for each (waypointSymbol, symbol) combination
+        $subQuery = $this->createQueryBuilder('l')
+            ->select('MAX(l.id)')
+            ->groupBy('l.waypointSymbol, l.symbol');
+
+        // Fetch latest prices for each waypoint
+        /** @var list<Entity\MarketTradeGoodsActivity> $goods */
+        $goods = $this->createQueryBuilder('p')
+            ->where(
+                $this->createQueryBuilder('p')
+                    ->expr()
+                    ->in('p.id', $subQuery->getDQL())
+            )
+            ->orderBy('p.timestamp', 'DESC')
+            ->addOrderBy('p.waypointSymbol', 'ASC')
+            ->addOrderBy('p.symbol', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $goods;
+    }
+
+    /**
+     * @return list<Entity\MarketTradeGoodsActivity>
+     */
+    public function getAll(): array {
+        // Can't use findAll() if we want a custom sort.
+        $goods = $this->createQueryBuilder('p')
+            ->orderBy('p.timestamp', 'DESC')
+            ->addOrderBy('p.waypointSymbol', 'ASC')
+            ->addOrderBy('p.symbol', 'ASC')
+            ->getQuery()
+            ->getResult();
         /** @var list<Entity\MarketTradeGoodsActivity> $goods */
         return $goods;
     }

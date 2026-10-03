@@ -1,63 +1,106 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Convert the existing HTML table to a dynamic Tabulator table
+    // Custom filter function for Tabulator checkboxes
+    function typeFilterFunction(data) {
+        let checkedBoxes = document.querySelectorAll('.type-filter:checked');
+
+        // If no checkboxes exist or none are checked, display all rows by default
+        if (checkedBoxes.length === 0) {
+            return true;
+        }
+
+        let checkedTypes = Array.from(checkedBoxes).map(cb => cb.value.toUpperCase());
+        return data.type && checkedTypes.includes(data.type.toUpperCase());
+    }
+
     let table = new Tabulator("#trade-data", {
-        // Tabulator automatically imports headers and data from HTML table,
-        // but you can add features here:
-        layout: "fitColumns", // Stretch columns to fill table width
-        pagination: "local",  // Enable local pagination
+        ajaxURL: "/trade/prices",
+        ajaxParams: { mode: "latest" },
+        layout: "fitColumns",
+        pagination: "local",
         paginationSize: 30,
         columns: [
             {
                 title: "Good",
-                field: "good",
-                // 1. Style the cell content so it looks like a clickable link/button
-                formatter: function (cell, formatterParams, onRendered) {
+                field: "symbol",
+                formatter: function (cell) {
                     var value = cell.getValue();
                     return `<a href="#" class="good-filter-link" style="color: #0066cc; text-decoration: underline; cursor: pointer;">${value}</a>`;
                 },
-                // 2. Handle the click event on the cell
                 cellClick: function (e, cell) {
                     e.preventDefault();
                     let clickedGood = cell.getValue();
+
                     let currentFilters = table.getFilters();
+                    let symbolFilter = currentFilters.find(f => f.field === "symbol");
 
-                    // Check if we are already filtering by this good
-                    let isFiltered = currentFilters.some(function (filter) {
-                        return filter.field === "good" && filter.value === clickedGood;
-                    });
-
-                    if (isFiltered) {
-                        table.clearFilter(); // Clear filter if clicked again
+                    if (symbolFilter && symbolFilter.value === clickedGood) {
+                        table.removeFilter("symbol", "=", clickedGood);
                     } else {
-                        table.setFilter("good", "=", clickedGood); // Apply filter
+                        table.setFilter([
+                            ...currentFilters.filter(f => f.field !== "symbol"),
+                            { field: "symbol", type: "=", value: clickedGood }
+                        ]);
                     }
                 }
-            }
+            },
+            { title: "Type", field: "type" },
+            { title: "Supply", field: "supply" },
+            { title: "Activity", field: "activity" },
+            { title: "Volume", field: "tradeVolume" },
+            { title: "Buy Price", field: "purchasePrice" },
+            { title: "Sell Price", field: "sellPrice" },
+            { title: "Market", field: "waypointSymbol.waypoint" },
+            {
+                title: "Timestamp",
+                field: "timestamp",
+                formatter: function (cell) {
+                    let value = cell.getValue();
+                    if (!value) return "";
+                    if (typeof value === "object" && value.date) {
+                        value = value.date;
+                    }
+                    const date = new Date(value.replace(' ', 'T'));
+                    return new Intl.DateTimeFormat('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    }).format(date).toUpperCase();
+                },
+            },
         ]
     });
 
-    // Custom filter function for Tabulator
-    function typeFilterFunction(data) {
-        // Collect all currently checked checkbox values
-        var checkedTypes = Array.from(document.querySelectorAll('.type-filter:checked'))
-            .map(cb => cb.value.toUpperCase());
+    // Apply filters and bind listeners AFTER table built and initial ajax data is loaded
+    table.on("dataLoaded", function () {
+        // Apply type filter only if user has actively checked any type filter boxes
+        if (document.querySelectorAll('.type-filter:checked').length > 0) {
+            table.setFilter(typeFilterFunction);
+        }
+    });
 
-        // Show row if its type is included in the checked values list
-        return data.type && checkedTypes.includes(data.type.toUpperCase());
-    }
-
-    // Apply the initial filter when table loads
-    table.setFilter(typeFilterFunction);
-
-    // Re-trigger the filter whenever any checkbox changes state
-    document.querySelectorAll('.type-filter').forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            table.refreshFilter(); // Re-evaluates active filters
+    table.on("tableBuilt", function () {
+        document.querySelectorAll('.type-filter').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Apply or refresh the filter when checkboxes are toggled
+                table.setFilter(typeFilterFunction);
+            });
         });
-    });
 
-    document.getElementById("clear-good-filter").addEventListener("click", function () {
-        table.clearFilter(); // Removes all active filters
-    });
+        const clearBtn = document.getElementById("clear-good-filter");
+        if (clearBtn) {
+            clearBtn.addEventListener("click", function () {
+                table.removeFilter("symbol", "=");
+            });
+        }
 
+        const latestToggle = document.getElementById('latest-prices-toggle');
+        if (latestToggle) {
+            latestToggle.addEventListener('change', (e) => {
+                table.setData(
+                    "/trade/prices",
+                    { mode: e.target.checked ? "latest" : "all" }
+                );
+            });
+        }
+    });
 });
