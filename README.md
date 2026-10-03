@@ -50,3 +50,10 @@ We are using Doctrine/Migrations to manage tables in our database. Common comman
 ./bin/doctrine-migrations.sh migrate
 ```
 
+## Server Resets
+
+Before starting a new game after a server reset, you should clear out old data from game tables. With the following command:
+
+```sh
+ ./bin/doctrine.sh app:db:truncate-tables
+ ```
