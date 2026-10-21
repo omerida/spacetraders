@@ -278,6 +278,10 @@ div.card {
     max-width: max(24%, 24vw);
 }
 
+.one-half {
+    max-width: max(49%, 49vw);
+}
+
 .one-third {
     max-width: max(32%, 32vw);
 }

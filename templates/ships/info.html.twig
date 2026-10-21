@@ -14,104 +14,7 @@
             {{ include('partials/ship-nav-table.html.twig'
                 , {nav: ship.nav}) }}
         </details>
-
-        <details class="card one-third" open="open">
-            <summary>Data</summary>
-            <h3>Fuel</h3>
-            {{ include('partials/ship-fuel-table.html.twig'
-                , {fuel: ship.fuel}) }}
-
-            <h3>Cooldown</h3>
-            {{ include('partials/ship-cooldown-table.html.twig'
-                , {cooldown: ship.cooldown}) }}
-        </details>
-        <details class="card one-third" open="open">
-            <summary>Crew</summary>
-            <table>
-                <tr>
-                    <th>Current</th>
-                    <th>Capacity</th>
-                    <th>Required</th>
-                </tr>
-                <tr>
-                    <td>{{ ship.crew.current }}</td>
-                    <td>{{ ship.crew.capacity }}</td>
-                    <td>{{ ship.crew.required }}</td>
-                </tr>
-                <tr>
-                    <th>Morale</th>
-                    <th>Wages</th>
-                    <th>Rotation</th>
-                </tr>
-                <tr>
-                    <td>{{ ship.crew.morale }}</td>
-                    <td>{{ ship.crew.wages|number_format }}</td>
-                    <td>{{ ship.crew.rotation.value|machine2readable }}</td>
-                </tr>
-            </table>
-        </details>
-    </div>
-    <div class="flex">
-        <details class="card one-third" open="open">
-            <summary>Ship Orders</summary>
-
-            {% embed 'forms/unpoly-form.html.twig' with {
-                action: '/ship/orders',
-                up_target: '.ship-nav-status:maybe, .ship-cooldown:maybe,
-                        .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe',
-            } %}
-                {% block form_body %}
-                    <input type="hidden" name="ship"
-                           value="{{ ship.symbol|e('html_attr') }}">
-
-                    <div class="actions">
-                        <button type="submit" name="order" value="extract" class="btn">Extract</button>
-                        <button type="submit" name="order" value="refuel" class="btn">Refuel</button>
-                        <button type="submit" name="order" value="orbit" class="btn">Orbit</button>
-                        <button type="submit" name="order" value="dock" class="btn">Dock</button>
-                    </div>
-
-                {% endblock %}
-            {% endembed %}
-
-            <h3>Navigate</h3>
-
-            {% embed 'forms/unpoly-form.html.twig'
-                with {
-                action: '/ship/navigate',
-                up_target: '.ship-nav-status',
-            } %}
-                {% block form_body %}
-                    <input type="hidden" name="ship"
-                           value="{{ ship.symbol|e('html_attr') }}">
-                    <input type="text" name="waypoint"
-                           placeholder="waypoint" required>
-                    <input type="submit" value="Navigate Ship">
-                {% endblock %}
-            {% endembed %}
-
-            <h3>Set Flight Mode</h3>
-            {% embed 'forms/unpoly-form.html.twig'
-                with {
-                action: '/ship/set-flight-mode',
-                up_target: '.ship-nav-status',
-            } %}
-                {% block form_body %}
-                    {% import 'macros/helpers.html.twig' as helpers %}
-                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
-                    <div class="actions">
-                        {% for mode in flightModes %}
-                            <button type="submit" name="flightmode" value="{{ mode.value }}"
-                                    class="btn">{{ mode.value|machine2readable }}</button>
-                        {% endfor %}
-                    </div>
-                {% endblock %}
-            {% endembed %}
-
-            <div class="order-result"></div>
-        </details>
-
-        <details class="card two-thirds" open="open">
+<details class="card two-thirds" open="open">
             <summary>Cargo</summary>
 
             {{ include('partials/ship-cargo-table.html.twig'
@@ -221,6 +124,107 @@
             </form>
 
             <div class="cargo-result"></div>
+        </details>
+    </div>
+    <div class="flex">
+         <details class="card one-third" open="open">
+            <summary>Ship Orders</summary>
+
+            {% embed 'forms/unpoly-form.html.twig' with {
+                action: '/ship/orders',
+                up_target: '.ship-nav-status:maybe, .ship-cooldown:maybe,
+                        .ship-cargo:maybe, .ship-fuel:maybe, .order-result:maybe',
+            } %}
+                {% block form_body %}
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+
+                    <div class="actions">
+                        <button type="submit" name="order" value="extract" class="btn">Extract</button>
+                        <button type="submit" name="order" value="refuel" class="btn">Refuel</button>
+                        <button type="submit" name="order" value="orbit" class="btn">Orbit</button>
+                        <button type="submit" name="order" value="dock" class="btn">Dock</button>
+                    </div>
+
+                {% endblock %}
+            {% endembed %}
+
+            <h3>Navigate</h3>
+
+            {% embed 'forms/unpoly-form.html.twig'
+                with {
+                action: '/ship/navigate',
+                up_target: '.ship-nav-status',
+            } %}
+                {% block form_body %}
+                    <input type="hidden" name="ship"
+                           value="{{ ship.symbol|e('html_attr') }}">
+                    <input type="text" name="waypoint"
+                           placeholder="waypoint" required>
+                    <input type="submit" value="Navigate Ship">
+                {% endblock %}
+            {% endembed %}
+
+            <h3>Set Flight Mode</h3>
+            {% embed 'forms/unpoly-form.html.twig'
+                with {
+                action: '/ship/set-flight-mode',
+                up_target: '.ship-nav-status',
+            } %}
+                {% block form_body %}
+                    {% import 'macros/helpers.html.twig' as helpers %}
+                    <input type="hidden" name="ship" value="{{ ship.symbol }}">
+                    <div class="actions">
+                        {% for mode in flightModes %}
+                            <button type="submit" name="flightmode" value="{{ mode.value }}"
+                                    class="btn">{{ mode.value|machine2readable }}</button>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+            {% endembed %}
+
+            <div class="order-result"></div>
+        </details>
+        <details class="card two-thirds" open="open">
+            <summary>Order Queue</summary>
+
+        </details>
+    </div>
+    <div class="flex">
+        <details class="card one-half" open="open">
+            <summary>Data</summary>
+            <h3>Fuel</h3>
+            {{ include('partials/ship-fuel-table.html.twig'
+                , {fuel: ship.fuel}) }}
+
+            <h3>Cooldown</h3>
+            {{ include('partials/ship-cooldown-table.html.twig'
+                , {cooldown: ship.cooldown}) }}
+        </details>
+        <details class="card one-half" open="open">
+            <summary>Crew</summary>
+            <table>
+                <tr>
+                    <th>Current</th>
+                    <th>Capacity</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.current }}</td>
+                    <td>{{ ship.crew.capacity }}</td>
+                    <td>{{ ship.crew.required }}</td>
+                </tr>
+                <tr>
+                    <th>Morale</th>
+                    <th>Wages</th>
+                    <th>Rotation</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.morale }}</td>
+                    <td>{{ ship.crew.wages|number_format }}</td>
+                    <td>{{ ship.crew.rotation.value|machine2readable }}</td>
+                </tr>
+            </table>
         </details>
 
     </div>
