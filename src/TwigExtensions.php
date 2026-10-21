@@ -41,6 +41,12 @@ class TwigExtensions
         return self::pathWithParams("/systems/shipyard", ['id' => $id]);
     }
 
+    #[AsTwigFunction('newShipOrderPath')]
+    public static function newShipOrderPath(string $id): string
+    {
+        return self::pathWithParams("/ship/order/new", ['ship' => $id]);
+    }
+
     #[AsTwigFunction('viewWaypointPath')]
     public static function viewWaypointPath(string $waypointID): string
     {

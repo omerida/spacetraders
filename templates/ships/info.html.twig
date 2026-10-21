@@ -14,7 +14,7 @@
             {{ include('partials/ship-nav-table.html.twig'
                 , {nav: ship.nav}) }}
         </details>
-<details class="card two-thirds" open="open">
+        <details class="card two-thirds" open="open">
             <summary>Cargo</summary>
 
             {{ include('partials/ship-cargo-table.html.twig'
@@ -187,7 +187,30 @@
         </details>
         <details class="card two-thirds" open="open">
             <summary>Order Queue</summary>
+            <!-- Queue Mode Toggle -->
+            <form action="/ship/order/queue-mode" method="POST" up-target="#ship-order-queue-card">
+                <input type="hidden" name="ship" value="{{ ship.symbol | escape('html_attr') }}">
+                <select name="mode" class="form-select form-select-sm" onchange="this.form.requestSubmit()">
+                    <option value="LOOP" {{ ship.queueMode == 'LOOP' ? 'selected' }}>LOOP</option>
+                    <option value="ONCE" {{ ship.queueMode == 'ONCE' ? 'selected' }}>ONCE</option>
+                    <option value="PAUSED" {{ ship.queueMode == 'PAUSED' ? 'selected' }}>PAUSED</option>
+                </select>
+            </form>
 
+            {% if orders is empty %}
+                <p class="warning">No active orders queued for this ship.</p>
+            {% else %}
+                {% for order in orders %}
+
+                {% endfor %}
+            {% endif %}
+
+            <!-- Trigger Unpoly Modal for Adding an Order -->
+            <!-- TODO: class="btn btn-primary" -->
+            {{ helpers.modal_link_grow(
+                newShipOrderPath(ship.symbol),
+                '+ Add Order'
+            ) }}
         </details>
     </div>
     <div class="flex">
