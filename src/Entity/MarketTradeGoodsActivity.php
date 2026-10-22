@@ -23,15 +23,15 @@ class MarketTradeGoodsActivity
     private ?int $id;
 
     public function __construct(
-        #[ORM\Column(type: WaypointSymbolType::NAME, length: 256)]
+        #[ORM\Column(type: WaypointSymbolType::NAME, length: 255)]
         public readonly Waypoint\Symbol $waypointSymbol,
-        #[ORM\Column(type: Types::STRING, length: 256, enumType: Goods\Symbol::class)]
+        #[ORM\Column(type: Types::TEXT, enumType: Goods\Symbol::class)]
         public readonly Goods\Symbol $symbol,
-        #[ORM\Column(type: Types::STRING, length: 256, enumType: TradegoodType::class)]
+        #[ORM\Column(type: Types::TEXT, enumType: TradegoodType::class)]
         public readonly TradegoodType $type,
-        #[ORM\Column(type: Types::STRING, length: 256, enumType: Goods\SupplyLevel::class)]
+        #[ORM\Column(type: Types::TEXT, enumType: Goods\SupplyLevel::class)]
         public readonly Goods\SupplyLevel $supply,
-        #[ORM\Column(type: Types::STRING, length: 256, enumType: Goods\TradeActivityLevel::class)]
+        #[ORM\Column(type: Types::TEXT, enumType: Goods\TradeActivityLevel::class)]
         public readonly ?Goods\TradeActivityLevel $activity,
         #[ORM\Column(type: Types::INTEGER)]
         public readonly int $tradeVolume,

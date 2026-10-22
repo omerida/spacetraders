@@ -76,7 +76,19 @@ return [
         assert(is_string($_ENV['DATABASE_DSN']));
         $dsn = $_ENV['DATABASE_DSN'];
         $dsnParser = new DBAL\Tools\DsnParser();
-        return DBAL\DriverManager::getConnection($dsnParser->parse($dsn));
+
+        $config = new DBAL\Configuration();
+        $config->setSchemaAssetsFilter(
+            static function(string|object $assetName): bool {
+                $name = is_object($assetName) ? $assetName->getName() : $assetName;
+                return !str_starts_with($name, 'registry_');
+            }
+        );
+
+        return DBAL\DriverManager::getConnection(
+            $dsnParser->parse($dsn),
+            $config,
+        );
     },
     Data\SystemRegistry::class => static function(): Data\SystemRegistry {
         return new Data\SystemRegistry(
@@ -129,7 +141,6 @@ return [
             isDevMode: true,
         );
         $config->enableNativeLazyObjects(true);
-
         $connection = ServiceContainer::get(DBAL\Connection::class);
         return new EntityManager($connection, $config);
     },
