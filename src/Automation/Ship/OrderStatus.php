@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Automation;
+namespace Phparch\SpaceTraders\Automation\Ship;
 
-enum ShipOrderStatus: string
+enum OrderStatus: string
 {
     case PENDING = 'PENDING';
     case PROCESSING = 'PROCESSING';

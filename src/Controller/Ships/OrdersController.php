@@ -43,6 +43,9 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         return $id;
     }
 
+    /**
+     * @phpstan-ignore method.unused
+     */
     private function getShipIdFromPost(): string
     {
         $post = (array) $this->getRequest()->getParsedBody();

@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Automation;
+namespace Phparch\SpaceTraders\Automation\Ship;
 
-enum ShipQueueMode: string
+enum QueueMode: string
 {
     case LOOP = 'LOOP';
     case ONCE = 'ONCE';

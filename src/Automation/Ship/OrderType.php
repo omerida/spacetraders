@@ -1,8 +1,8 @@
 <?php
 
-namespace Phparch\SpaceTraders\Automation;
+namespace Phparch\SpaceTraders\Automation\Ship;
 
-enum ShipOrderType: string
+enum OrderType: string
 {
     case TRAVEL = 'TRAVEL';
     case EXTRACT_RESOURCES = 'EXTRACT_GOODS';

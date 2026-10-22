@@ -1,30 +1,29 @@
 <?php
 
-namespace Phparch\SpaceTraders\Entity;
+namespace Phparch\SpaceTraders\Entity\Ship;
 
 use Doctrine\DBAL\Types\Types;
-use Phparch\SpaceTraders\Automation\ShipOrderType;
-use Phparch\SpaceTraders\Automation\ShipOrderStatus;
 use Doctrine\ORM\Mapping as ORM;
+use Phparch\SpaceTraders\Automation\Ship\OrderType;
+use Phparch\SpaceTraders\Automation\Ship\OrderStatus;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'ship_orders')]
-class ShipOrder
+class Order
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(enumType: ShipOrderStatus::class)]
-    private ShipOrderStatus $status = ShipOrderStatus::PENDING;
-
+    #[ORM\Column(enumType: OrderStatus::class)]
+    private OrderStatus $status = OrderStatus::PENDING;
 
     public function __construct(
         #[ORM\Column(type: Types::STRING, length: 255)]
         private string $shipSymbol,
-        #[ORM\Column(enumType: ShipOrderType::class)]
-        private ShipOrderType $type,
+        #[ORM\Column(enumType: OrderType::class)]
+        private OrderType $type,
         /** @var array<string, mixed> */
         #[ORM\Column(type: 'json')]
         private array $payload = [],
@@ -38,7 +37,7 @@ class ShipOrder
         return $this->id;
     }
 
-    public function getStatus(): ShipOrderStatus
+    public function getStatus(): OrderStatus
     {
         return $this->status;
     }
@@ -48,7 +47,7 @@ class ShipOrder
         return $this->shipSymbol;
     }
 
-    public function getType(): ShipOrderType
+    public function getType(): OrderType
     {
         return $this->type;
     }
