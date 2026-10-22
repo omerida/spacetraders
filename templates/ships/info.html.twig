@@ -189,7 +189,7 @@
             <summary>Order Queue</summary>
             <!-- Queue Mode Toggle -->
             <form action="/ship/order/queue-mode" method="POST" up-target="#ship-order-queue-card">
-                <input type="hidden" name="ship" value="{{ ship.symbol | escape('html_attr') }}">
+                <input type="hidden" name="ship" value="{{ ship.symbol|escape('html_attr') }}">
                 <select name="mode" class="form-select form-select-sm" onchange="this.form.requestSubmit()">
                     <option value="LOOP" {{ ship.queueMode == 'LOOP' ? 'selected' }}>LOOP</option>
                     <option value="ONCE" {{ ship.queueMode == 'ONCE' ? 'selected' }}>ONCE</option>
@@ -209,7 +209,7 @@
             <!-- TODO: class="btn btn-primary" -->
             {{ helpers.modal_link_grow(
                 newShipOrderPath(ship.symbol),
-                '+ Add Order'
+                '+ Add Order',
             ) }}
         </details>
     </div>

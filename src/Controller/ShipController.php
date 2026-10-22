@@ -7,6 +7,7 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Presenter\ContractSummary;
+use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Exception\APIAuthentication;
@@ -27,6 +28,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         private Client\Fleet $fleet,
         private Client\Systems $systems,
         private Client\Contracts $contracts,
+        private Repository\Ship\OrderQueue $orderQueueRepo,
     ) {
     }
 
@@ -81,6 +83,10 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
                 'name' => $case->name,
             ];
         }
+
+        // Order Queue
+        $queue = $this->orderQueueRepo->getForShip($shipID);
+        $orders = $queue->getOrders();
 
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,

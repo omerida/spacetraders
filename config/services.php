@@ -80,8 +80,19 @@ return [
         $config = new DBAL\Configuration();
         $config->setSchemaAssetsFilter(
             static function(string|object $assetName): bool {
-                $name = is_object($assetName) ? $assetName->getName() : $assetName;
-                return !str_starts_with($name, 'registry_');
+
+                if (is_string($assetName)) {
+                    $name = $assetName;
+                    return !str_starts_with($name, 'registry_');
+                }
+
+                if (method_exists($assetName, 'getName')) {
+                    $name = $assetName->getName();
+                    assert(is_string($name));
+                    return !str_starts_with($name, 'registry_');
+                }
+
+                throw new \RuntimeException("Unknown asset type");
             }
         );
 
@@ -151,6 +162,10 @@ return [
     Repository\MarketTradeGoodsActivity::class => static function(): Repository\MarketTradeGoodsActivity {
         $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
         return $em->getRepository(Entity\MarketTradeGoodsActivity::class);
+    },
+    Repository\Ship\OrderQueue::class => static function(): Repository\Ship\OrderQueue {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\Ship\OrderQueue::class);
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(

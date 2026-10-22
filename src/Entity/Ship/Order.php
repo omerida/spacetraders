@@ -20,8 +20,10 @@ class Order
     private OrderStatus $status = OrderStatus::PENDING;
 
     public function __construct(
-        #[ORM\Column(type: Types::STRING, length: 255)]
-        private string $shipSymbol,
+        // Many orders belong to one ship queue
+        #[ORM\ManyToOne(targetEntity: OrderQueue::class, inversedBy: 'orders')]
+        #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        private OrderQueue $queue,
         #[ORM\Column(enumType: OrderType::class)]
         private OrderType $type,
         /** @var array<string, mixed> */
@@ -42,9 +44,9 @@ class Order
         return $this->status;
     }
 
-    public function getShipSymbol(): string
+    public function getQueue(): OrderQueue
     {
-        return $this->shipSymbol;
+        return $this->queue;
     }
 
     public function getType(): OrderType

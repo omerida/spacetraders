@@ -7,13 +7,16 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Controller\Trait;
 use Psr\Http\Message\ResponseInterface;
+use Phparch\SpaceTraders\Repository;
 
 class OrdersController implements Interface\RequestAware, Interface\TwigAware
 {
     use Trait\RequestAwareController;
     use Trait\TwigAwareController;
 
-    public function __construct() {
+    public function __construct(
+        private Repository\Ship\OrderQueue $orderQueueRepo,
+    ) {
     }
 
     #[Route(
@@ -25,6 +28,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
     public function newOrder(): ResponseInterface
     {
         $shipID = $this->getShipID();
+        $queue = $this->orderQueueRepo->getForShip($shipID);
 
         return $this->render('ships/orders/new.html.twig', [
         ]);
