@@ -1,7 +1,39 @@
 {% extends 'minimal.html.twig' %}
 
+{% set orderTypes = {
+    TRAVEL: 'Travel',
+    EXTRACT: 'Extract',
+    SELL_GOODS: 'Sell Goods',
+} %}
+
 {% block content %}
 
-FORM  HERE
+    <header class="order-modal-header">
+        <h2>Queue New Ship Order</h2>
+    </header>
 
+    <div class="flex">
+        <sidebar class="well flex-col">
+            {% for typeKey, label in orderTypes %}
+                {{ _self.sidebar_button(typeKey, label, currentType, shipID) }}
+            {% endfor %}
+
+        </sidebar>
+        <aside id="order-form-panel">
+            {{ include('ships/orders/_form_' ~ currentType|lower ~ '.html.twig', {
+                shipID: shipID,
+            }, true, true) }}
+
+        </aside>
+    </div>
 {% endblock %}
+
+{% macro sidebar_button(type, label, activeType, shipID) %}
+    <a href="{{ newShipOrderForm(shipID, type) }}"
+       class="btn order-type-btn{% if type == activeType %} up-active{% endif %}"
+       up-target="#order-form-panel"
+       up-layer="current"
+       up-active>
+        {{ label }}
+    </a>
+{% endmacro %}

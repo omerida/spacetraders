@@ -215,6 +215,23 @@ form {
     }
 }
 
+/* Flex layout for putting children in rows that wrap */
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom:1rem;
+    align-content: stretch;
+
+    /* Expand children to fill width
+     */
+    > * {
+        flex-grow: 1;
+    }
+}
+
+
 /* A simple card to be used with details element*/
 .card {
     border-radius: 0 0 .5rem .5rem;

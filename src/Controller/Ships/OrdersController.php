@@ -31,6 +31,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $queue = $this->orderQueueRepo->getForShip($shipID);
 
         return $this->render('ships/orders/new.html.twig', [
+            'shipID' => $shipID,
         ]);
     }
 
