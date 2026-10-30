@@ -6,6 +6,7 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Entity\Ship\Order;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Controller\Trait;
+use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Psr\Http\Message\ResponseInterface;
 use Phparch\SpaceTraders\Repository;
@@ -111,8 +112,19 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
         $this->orderRepo->save($order, flush: true);
 
+        // Order Queue
+        $queue = $this->orderQueueRepo->getForShip($shipID);
+        $orderSummaries = array_map(
+            fn($order) => new ShipOrderSummary($order),
+            $queue->getOrders()->toArray()
+        );
+
         return $this->render(
             '/ships/orders/queue.html.twig',
+            [
+                'ship' => $shipID,
+                'orders' => $orderSummaries,
+            ]
         );
     }
 

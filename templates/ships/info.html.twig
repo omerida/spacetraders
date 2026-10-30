@@ -198,14 +198,11 @@
             </form>
 
             <div class="ship-order-queue">
-
             {% if orders is empty %}
                 <p class="warning">No active orders queued for this ship.</p>
             {% else %}
-                {% for order in orders %}
-                    {{ include('partials/ship-orders-table.html.twig',
-                        {ship: ship, orders: orders}) }}
-                {% endfor %}
+                {{ include('partials/ship-orders-table.html.twig',
+                    {ship: ship, orders: orders}) }}
             {% endif %}
             </div>
 
