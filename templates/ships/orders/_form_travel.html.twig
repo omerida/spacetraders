@@ -1,0 +1,33 @@
+<aside id="order-form-panel">
+    <form action="{{ newShipOrderCreate('ship_order_create') }}"
+          method="POST"
+          up-submit
+          up-target="#ship-order-queue-card"
+          class="order-form">
+        <input type="hidden" name="shipID" value="{{ shipSymbol }}">
+        <input type="hidden" name="type" value="TRAVEL">
+
+        <div class="form-group">
+            <label for="destination">Destination Waypoint</label>
+            <input type="text"
+                   id="destination"
+                   name="payload[destination]"
+                   placeholder="e.g. X1-DF55-2025C"
+                   required>
+        </div>
+        <fieldset>
+            <legend>Flight Mode</legend>
+            {% for mode in flightModes %}
+                <label>
+                    <input type="radio" name="flightmode" value="{{ mode.value }}" />
+                        {{ mode.value|machine2readable }}
+                </label>
+            {% endfor %}
+        </fieldset>
+
+        <div class="actions">
+            <button type="button" class="btn btn-secondary" up-dismiss>Cancel</button>
+            <button type="submit" class="btn btn-primary">Queue Travel Order</button>
+        </div>
+    </form>
+</aside>

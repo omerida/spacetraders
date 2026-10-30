@@ -2,12 +2,13 @@
 
 namespace Phparch\SpaceTraders\Controller\Ships;
 
-use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Controller\Trait;
+use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Psr\Http\Message\ResponseInterface;
 use Phparch\SpaceTraders\Repository;
+use Phparch\SpaceTraders\Automation\Ship\OrderType;
 
 class OrdersController implements Interface\RequestAware, Interface\TwigAware
 {
@@ -35,6 +36,43 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         ]);
     }
 
+    #[Route(
+        name: 'form_ship_order',
+        path: '/ship/order/form',
+        methods: ['GET'],
+        strategy: 'application'
+    )]
+    public function formOrder(): ResponseInterface
+    {
+        $shipID = $this->getShipID();
+
+        /**
+         * @var array{order?: string} $query
+         */
+        $query = $this->getRequest()->getQueryParams();
+        $order = $query['order'] ?? null;
+        if (!$order) {
+            throw new \RuntimeException('Order not found');
+        }
+
+        if (!($order = OrderType::tryFrom($order))) {
+            throw new \RuntimeException("Unknown order type.");
+        }
+
+        $flightModes = array_map(
+            fn($case) => ['value' => $case->value, 'name' => $case->name],
+            FlightMode::cases()
+        );
+
+        return $this->render(
+            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            [
+                'shipID' => $shipID,
+                'flightModes' => $flightModes,
+            ]
+        );
+    }
+
 
     private function getShipID(): string
     {
@@ -42,7 +80,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $id = $query['ship'] ?? null;
 
         if (!$id || !is_string($id)) {
-            throw new BadRequestException("Ship GET param missing");
+            throw new \RuntimeException("Ship GET param missing");
         }
 
         return $id;
@@ -57,7 +95,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $id = $post['ship'] ?? null;
 
         if (!$id || !is_string($id)) {
-            throw new BadRequestException("Ship POST param missing");
+            throw new \RuntimeException("Ship POST param missing");
         }
 
         return $id;

@@ -13,7 +13,7 @@
     </header>
 
     <div class="flex">
-        <sidebar class="well flex-col">
+        <sidebar class="well well-btns flex-col">
             {% for typeKey, label in orderTypes %}
                 {{ _self.sidebar_button(typeKey, label, currentType, shipID) }}
             {% endfor %}
@@ -29,11 +29,13 @@
 {% endblock %}
 
 {% macro sidebar_button(type, label, activeType, shipID) %}
-    <a href="{{ newShipOrderForm(shipID, type) }}"
-       class="btn order-type-btn{% if type == activeType %} up-active{% endif %}"
-       up-target="#order-form-panel"
-       up-layer="current"
-       up-active>
+    <button type="button"
+            up-href="{{ newShipOrderForm(shipID, type) }}"
+            up-follow
+            class="btn order-type-btn{% if type == activeType %} up-active{% endif %}"
+            up-target="#order-form-panel"
+            up-layer="current"
+            up-active>
         {{ label }}
-    </a>
+    </button>
 {% endmacro %}

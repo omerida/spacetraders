@@ -50,7 +50,13 @@ class TwigExtensions
     #[AsTwigFunction('newShipOrderForm')]
     public static function newShipOrderForm(string $id, string $order): string
     {
-        return self::pathWithParams("/ship/order/new", ['ship' => $id, 'order' => $order]);
+        return self::pathWithParams("/ship/order/form", ['ship' => $id, 'order' => $order]);
+    }
+
+    #[AsTwigFunction('newShipOrderCreate')]
+    public static function newShipOrderCreate(): string
+    {
+        return self::pathWithParams("/ship/order/create", []);
     }
 
     #[AsTwigFunction('viewWaypointPath')]

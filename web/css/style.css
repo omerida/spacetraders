@@ -180,6 +180,14 @@ input[type=submit]:hover,
 }
 
 form {
+    fieldset, .form-group {
+        margin: 0.5rem 0 1rem;
+    }
+
+    legend {
+        font-weight: bold;
+    }
+
     .actions {
         margin:1rem 0 0.5rem;
         display: flex;
@@ -361,8 +369,13 @@ ul.tags {
 }
 
 .well {
-    padding: 1rem;
-    border: 5px inset #ccc;
+    padding: 0.5rem;
+    border: 3px solid var(--color-alternate);
+    border-radius: var(--radius-btn-border);
     margin: 0.5rem 0 1rem;
+
+    &.well-btns {
+        gap: 0.25rem;
+    }
 }
 
