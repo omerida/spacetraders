@@ -207,11 +207,14 @@
             </div>
 
             <!-- Trigger Unpoly Modal for Adding an Order -->
-            <!-- TODO: class="btn btn-primary" -->
-            {{ helpers.modal_link_grow(
-                newShipOrderPath(ship.symbol),
-                '+ Add Order',
-            ) }}
+            <form>
+                <div class="actions">
+                {{ helpers.modal_btn_grow(
+                    newShipOrderPath(ship.symbol),
+                    'Add Order',
+                ) }}
+                </div>
+            </form>
         </details>
     </div>
     <div class="flex">
