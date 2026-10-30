@@ -163,6 +163,10 @@ return [
         $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
         return $em->getRepository(Entity\MarketTradeGoodsActivity::class);
     },
+    Repository\Ship\Order::class => static function(): Repository\Ship\Order {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\Ship\Order::class);
+    },
     Repository\Ship\OrderQueue::class => static function(): Repository\Ship\OrderQueue {
         $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
         return $em->getRepository(Entity\Ship\OrderQueue::class);

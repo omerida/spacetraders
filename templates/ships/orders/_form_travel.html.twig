@@ -4,7 +4,7 @@
           up-submit
           up-target="#ship-order-queue-card"
           class="order-form">
-        <input type="hidden" name="shipID" value="{{ shipSymbol }}">
+        <input type="hidden" name="shipID" value="{{ shipID }}">
         <input type="hidden" name="type" value="TRAVEL">
 
         <div class="form-group">
@@ -19,7 +19,9 @@
             <legend>Flight Mode</legend>
             {% for mode in flightModes %}
                 <label>
-                    <input type="radio" name="flightmode" value="{{ mode.value }}" />
+                    <input type="radio" name="payload[flightmode]" value="{{ mode.value }}"
+                        {{ flightMode == mode.value ? 'checked' : '' }}
+                    />
                         {{ mode.value|machine2readable }}
                 </label>
             {% endfor %}

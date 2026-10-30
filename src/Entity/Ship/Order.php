@@ -6,8 +6,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Phparch\SpaceTraders\Automation\Ship\OrderType;
 use Phparch\SpaceTraders\Automation\Ship\OrderStatus;
+use Phparch\SpaceTraders\Repository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: Repository\Ship\Order::class)]
 #[ORM\Table(name: 'ship_orders')]
 class Order
 {
