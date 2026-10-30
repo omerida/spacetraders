@@ -7,6 +7,7 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Presenter\ContractSummary;
+use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
@@ -86,7 +87,10 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
 
         // Order Queue
         $queue = $this->orderQueueRepo->getForShip($shipID);
-        $orders = $queue->getOrders();
+        $orderSummaries = array_map(
+            fn($order) => new ShipOrderSummary($order),
+            $queue->getOrders()->toArray()
+        );
 
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,
@@ -96,6 +100,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             'contractSummaries' => $contractSummaries,
             'contractGoods' => $contractGoods,
             'fulfilledContracts' => $fulfilledContracts,
+            'orders' => $orderSummaries,
             'atMarket' => $waypoint->hasMarket(),
         ]);
     }

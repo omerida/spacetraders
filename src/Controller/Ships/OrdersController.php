@@ -116,7 +116,6 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         );
     }
 
-
     private function getShipID(): string
     {
         $query = $this->getRequest()->getQueryParams();

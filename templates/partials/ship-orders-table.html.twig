@@ -1,0 +1,16 @@
+<table class="ship-orders">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Order</th>
+        <th>Status</th>
+        <th>Details</th>
+    </tr>
+    {% for order in orders %}
+    <tr data-id="{{ order.id }}">
+        <td>{{ loop.index }}</td>
+        <td>{{ order.type|machine2readable }}</td>
+        <td>{{ order.status|machine2readable }}</td>
+        <td>{{ order.getPayload() }}</td>
+    </tr>
+    {% endfor %}
+</table>

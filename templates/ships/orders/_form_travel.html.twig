@@ -2,7 +2,7 @@
     <form action="{{ newShipOrderCreate('ship_order_create') }}"
           method="POST"
           up-submit
-          up-target="#ship-order-queue-card"
+          up-target="ship-order-queue"
           class="order-form">
         <input type="hidden" name="shipID" value="{{ shipID }}">
         <input type="hidden" name="type" value="TRAVEL">
