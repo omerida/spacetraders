@@ -83,8 +83,14 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $shipID = $this->getShipID();
         $queue = $this->orderQueueRepo->getForShip($shipID);
 
+        $orderTypes = array_map(
+            fn($type) => ['name' => $type->name, 'value' => $type->value],
+            OrderType::cases()
+        );
+
         return $this->render('ships/orders/new.html.twig', [
             'shipID' => $shipID,
+            'orderTypes' => $orderTypes,
         ]);
     }
 

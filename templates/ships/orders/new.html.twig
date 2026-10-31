@@ -1,21 +1,15 @@
 {% extends 'minimal.html.twig' %}
 
-{% set orderTypes = {
-    TRAVEL: 'Travel',
-    EXTRACT: 'Extract',
-    SELL_GOODS: 'Sell Goods',
-} %}
 
 {% block content %}
-
     <header class="order-modal-header">
         <h2>Queue New Ship Order</h2>
     </header>
 
     <div class="flex">
         <sidebar class="well well-btns flex-col">
-            {% for typeKey, label in orderTypes %}
-                {{ _self.sidebar_button(typeKey, label, currentType, shipID) }}
+            {% for type in orderTypes %}
+                {{ _self.sidebar_button(type.value, type.name, currentType, shipID) }}
             {% endfor %}
 
         </sidebar>
@@ -36,6 +30,6 @@
             up-target="#order-form-panel"
             up-layer="current"
             up-active>
-        {{ label }}
+        {{ label|machine2readable }}
     </button>
 {% endmacro %}
