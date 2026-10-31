@@ -3,14 +3,15 @@
 namespace Phparch\SpaceTraders\Controller\Ships;
 
 use Phparch\SpaceTraders\Attribute\Route;
+use Phparch\SpaceTraders\Automation\Ship\OrderType;
+use Phparch\SpaceTraders\Controller\Trait;
 use Phparch\SpaceTraders\Entity\Ship\Order;
 use Phparch\SpaceTraders\Interface;
-use Phparch\SpaceTraders\Controller\Trait;
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
+use Phparch\SpaceTraders\Repository;
+use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Psr\Http\Message\ResponseInterface;
-use Phparch\SpaceTraders\Repository;
-use Phparch\SpaceTraders\Automation\Ship\OrderType;
 
 class OrdersController implements Interface\RequestAware, Interface\TwigAware
 {
@@ -20,16 +21,64 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
     public function __construct(
         private Repository\Ship\OrderQueue $orderQueueRepo,
         private Repository\Ship\Order $orderRepo,
+        private Client\Fleet $fleet,
     ) {
     }
 
+    #[Route(
+        name: 'delete_ship_order',
+        path: '/ship/order/delete',
+        methods: ['POST', 'DELETE'],
+        strategy: 'application'
+    )]
+    public function delete(): ResponseInterface
+    {
+        /**
+         * @var array{order?: string} $params
+         */
+        $params = $this->getRequest()->getParsedBody();
+
+        $shipID = $params['symbol'] ?? null;
+        if (!$shipID || !is_string($shipID)) {
+            throw new \RuntimeException("Ship POST param missing");
+        }
+
+        $orderID = $params['id'] ?? null;
+        if (!$orderID) {
+            throw new \RuntimeException('Order ID not found');
+        }
+
+        // validate it exists
+        $order = $this->orderRepo->load($orderID);
+        // check that this order belongs to the queue
+        $queue = $this->orderQueueRepo->getForOrder($order);
+        if ($queue->getShipSymbol() !== $shipID) {
+            throw new \RuntimeException("Ship ID does not match");
+        }
+
+        $this->orderRepo->delete($order);
+
+        // Prep display of remaining orders
+        $queue = $this->orderQueueRepo->getForShip($shipID);
+        $orderSummaries = array_map(
+            fn($order) => new ShipOrderSummary($order),
+            $queue->getOrders()->toArray()
+        );
+        return $this->render(
+            '/ships/orders/queue.html.twig',
+            [
+                'ship' => $ship = $this->fleet->getShip($shipID),
+                'orders' => $orderSummaries,
+            ]
+        );
+    }
     #[Route(
         name: 'new_ship_order',
         path: '/ship/order/new',
         methods: ['GET'],
         strategy: 'application'
     )]
-    public function newOrder(): ResponseInterface
+    public function new(): ResponseInterface
     {
         $shipID = $this->getShipID();
         $queue = $this->orderQueueRepo->getForShip($shipID);

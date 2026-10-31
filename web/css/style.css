@@ -12,6 +12,8 @@
     --color-btn-primary-bg: #66f;
     --color-btn-primary-txt: #fff;
     --color-danger-bg: #966;
+    --color-danger-light-bg: #988;
+    --color-danger-dark-bg: #844;
     --color-danger-txt: #fff;
     --color-btn-border: #ccc;
     --radius-btn-border: 5px;
@@ -161,11 +163,59 @@ input[type=submit],
     padding: .25em 1rem;
     border-radius: var(--radius-btn-border);
     display: inline-block;
+
+    :focus-visible {
+        outline: 2px solid #0066cc;
+        outline-offset: 2px;
+    }
 }
 
 .btn-cancel {
     background-color: var(--color-danger-bg);
     color: var(--color-danger-txt);
+}
+
+.btn-delete {
+/* Layout & sizing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-danger-light-bg);
+  border-radius: 8px;
+
+  background-color: var(--color-danger-light-bg);
+  color: var(--color-btn-primary-txt); /* Sets the stroke color via currentColor */
+  cursor: pointer;
+
+  /* Smooth state transitions */
+  transition: background-color 0.15s ease-in-out,
+              border-color 0.15s ease-in-out,
+              transform 0.1s ease-in-out;
+
+  &:hover {
+    background-color: var(--color-danger-dark-bg);
+    border-color: #b71c1c;
+    color: #ffffff;
+  }
+
+  &:focus-visible {
+    background-color: var(--color-danger-dark-bg);
+    border-color: var(--color-btn-primary-txt);
+    color: var(--color-btn-primary-txt);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  /* Optional: Ensure SVG inside scales properly */
+  & svg {
+    display: block;
+    pointer-events: none;
+  }
 }
 
 .btn-primary {

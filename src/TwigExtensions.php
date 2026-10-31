@@ -53,6 +53,12 @@ class TwigExtensions
         return self::pathWithParams("/ship/order/form", ['ship' => $id, 'order' => $order]);
     }
 
+    #[AsTwigFunction('deleteShipOrderPath')]
+    public static function deleteShipOrderPath(): string
+    {
+        return self::pathWithParams("/ship/order/delete", []);
+    }
+
     #[AsTwigFunction('newShipOrderCreate')]
     public static function newShipOrderCreate(): string
     {

@@ -13,6 +13,14 @@ class ShipOrderSummary
     {
     }
 
+    public function getID(): int {
+        if ($id = $this->order->getID()) {
+            return $id;
+        }
+
+        throw new \RuntimeException('Order ID not set');
+    }
+
     public function getType(): string
     {
         return $this->order->getType()->value;
