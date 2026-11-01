@@ -18,6 +18,8 @@ class TruncateTablesCommand extends Command
     private const TABLES_TO_TRUNCATE = [
         'event_record',
         'market_trade_goods_activity',
+        'ship_order_queue',
+        'ship_orders',
     ];
 
     public function __construct(
