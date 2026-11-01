@@ -5,7 +5,7 @@
         <h2>Queue New Ship Order</h2>
     </header>
 
-    <div class="flex">
+    <div class="sidebar-modal">
         <sidebar class="well well-btns flex-col">
             {% for type in orderTypes %}
                 {{ _self.sidebar_button(type.value, type.name, currentType, shipID) }}

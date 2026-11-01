@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTraders\Presenter;
 
+use Phparch\SpaceTraders\Automation\Ship\OrderType;
 use Phparch\SpaceTraders\Entity\Ship\Order;
 use Twig\Markup;
 
@@ -35,7 +36,10 @@ class ShipOrderSummary
     {
 
         switch ($this->getType()) {
-            case 'TRAVEL':
+            case OrderType::EXTRACT_RESOURCES->value:
+                return $this->formatExtractPayload();
+
+            case OrderType::TRAVEL->value:
                 return $this->formatTravelPayload();
 
             default:
@@ -71,6 +75,32 @@ class ShipOrderSummary
             $flightmode
         );
 
+        // Avoids using raw filter
+        return new Markup($html, 'UTF-8');
+    }
+
+    private function formatExtractPayload(): Markup {
+        /**
+         * @var array{
+         *   keep: string[],
+         * } $payload
+         */
+        $payload = $this->order->getPayload();
+
+        $html = '';
+        if ($payload['keep']) {
+            $goods = [];
+            foreach ($payload['keep'] as $value) {
+                $value = strtolower($value);
+                $value = str_replace('_', ' ', $value);
+                $value = ucwords($value);
+
+                $good = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                $goods[] = '<em>' . $good . '</em>';
+            }
+
+            $html .= 'Only keep: ' . implode(', ', $goods);
+        }
         // Avoids using raw filter
         return new Markup($html, 'UTF-8');
     }

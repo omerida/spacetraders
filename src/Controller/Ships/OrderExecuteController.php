@@ -6,9 +6,7 @@ use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Automation\Executor;
 use Phparch\SpaceTraders\Controller\Trait;
 use Phparch\SpaceTraders\Interface;
-use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTraders\Repository;
-use Phparch\SpaceTradersRest\Client;
 use Psr\Http\Message\ResponseInterface;
 
 class OrderExecuteController implements Interface\RequestAware, Interface\TwigAware

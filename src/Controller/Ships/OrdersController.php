@@ -10,7 +10,9 @@ use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\Client;
+use Phparch\SpaceTradersRest\Value\Goods;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
+use Phparch\SpaceTradersRest\Value\TradegoodType;
 use Psr\Http\Message\ResponseInterface;
 
 class OrdersController implements Interface\RequestAware, Interface\TwigAware
@@ -117,6 +119,21 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
             throw new \RuntimeException("Unknown order type.");
         }
 
+        $stub = strtolower($order->value);
+        $stub = ucwords($stub, '_');
+        $stub = str_replace('_', '', $stub);
+        $method = 'showForm' . $stub;
+
+        if (!method_exists($this, 'showForm' . $stub)) {
+            throw new \RuntimeException("Unknown method showForm" . $stub);
+        }
+
+        $response = $this->{$method}($order, $shipID);
+        assert($response instanceof ResponseInterface);
+        return $response;
+    }
+
+    private function showFormTravel(OrderType $order, string $shipID): ResponseInterface {
         $flightModes = array_map(
             fn($case) => ['value' => $case->value, 'name' => $case->name],
             FlightMode::cases()
@@ -128,6 +145,23 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
                 'shipID' => $shipID,
                 'flightModes' => $flightModes,
                 'flightMode' => FlightMode::CRUISE->value
+            ]
+        );
+    }
+
+    private function showFormExtractResources(OrderType $order, string $shipID): ResponseInterface {
+        $goods = array_map(
+            fn($good) => ['value' => $good->value, 'name' => $good->name],
+            Goods\Symbol::cases()
+        );
+
+        usort($goods, fn($a, $b) => $a['value'] <=> $b['value']);
+
+        return $this->render(
+            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            [
+                'shipID' => $shipID,
+                'goods' => $goods,
             ]
         );
     }

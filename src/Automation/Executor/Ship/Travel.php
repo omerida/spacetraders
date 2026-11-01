@@ -64,10 +64,10 @@ class Travel extends AbstractExecutor
         }
 
         // 0 - blastoff
-//        $this->shipTravel->navigateShip(
-//            $this->shipSymbol,
-//            $this->waypoint
-//        );
+        $this->shipTravel->navigateShip(
+            $this->shipSymbol,
+            $this->waypoint
+        );
 
         // go on to the next order
         $this->advance = true;
