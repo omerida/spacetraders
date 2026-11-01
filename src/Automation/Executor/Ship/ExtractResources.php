@@ -10,6 +10,8 @@ use Phparch\SpaceTradersRest\Value\Goods\Symbol;
 
 class ExtractResources extends AbstractExecutor
 {
+    private ?\Phparch\SpaceTradersRest\Value\Fleet\ExtractResources $details = null;
+
     /**
      * @var array{int, value-of<Symbol>}
      */
@@ -43,9 +45,8 @@ class ExtractResources extends AbstractExecutor
             $this->shipTravel->orbitShip($this->shipSymbol);
         }
 
-        $this->shipActions->extractResources($ship->symbol);
-
         // ship cargo has changed
+        $this->details = $this->shipActions->extractResources($ship->symbol);
         $ship = $this->fleet->getShip($this->shipSymbol);
         $this->jettison($ship);
     }
@@ -63,6 +64,7 @@ class ExtractResources extends AbstractExecutor
             parameters: [
                 'ship' => $ship,
                 'orders' => $orderSummaries,
+                'details' => $this->details,
             ]
         );
 
@@ -71,7 +73,8 @@ class ExtractResources extends AbstractExecutor
             value: implode(', ', [
                 '.ship-order-queue',
                 '.ship-cargo',
-                '.ship-cooldown'
+                '.ship-cooldown',
+                '.order-result'
             ])
         );
 
