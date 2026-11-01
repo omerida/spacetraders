@@ -36,7 +36,7 @@ final class Version20260917014208 extends AbstractMigration
               symbol CLOB NOT NULL,
               type CLOB NOT NULL,
               supply CLOB NOT NULL,
-              activity CLOB NOT NULL,
+              activity CLOB NULL,
               tradeVolume INTEGER NOT NULL,
               purchasePrice INTEGER NOT NULL,
               sellPrice INTEGER NOT NULL,
