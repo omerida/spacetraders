@@ -1,0 +1,25 @@
+{#
+Updates after an extract resources has been executed
+
+Expected parameters:
+
+    ship: Ship value object
+    orders: Collection of Ship Orders
+
+
+#}
+
+{{ include('partials/ship-cargo-table.html.twig'
+    , {cargo_details: ship.cargo}) }}
+
+{{ include('partials/ship-cooldown-table.html.twig'
+                , {cooldown: ship.cooldown}) }}
+
+<div class="ship-order-queue">
+{% if orders is empty %}
+    <p class="warning">No active orders queued for this ship.</p>
+{% else %}
+    {{ include('partials/ship/orders-table.html.twig',
+        {ship: ship, orders: orders}) }}
+{% endif %}
+</div>

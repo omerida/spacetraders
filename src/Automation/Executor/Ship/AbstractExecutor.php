@@ -18,6 +18,7 @@ abstract class AbstractExecutor implements Executor\ExecutorInterface
         protected readonly string $shipSymbol,
         protected Client\Fleet $fleet,
         protected Client\ShipTravel $shipTravel,
+        protected Client\ShipActions $shipActions,
         protected Repository\Ship\OrderQueue $orderQueueRepo,
     ) {
     }

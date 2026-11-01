@@ -15,11 +15,13 @@ class OrderFactory
      */
     private static array $shipOrderMap = [
         OrderType::TRAVEL->value => Ship\Travel::class,
+        OrderType::EXTRACT_RESOURCES->value => Ship\ExtractResources::class,
     ];
 
     public function __construct(
         private Client\Fleet $fleet,
         private Client\ShipTravel $shipTravel,
+        private Client\ShipActions $shipActions,
         protected Repository\Ship\OrderQueue $orderQueueRepo,
     ) {
     }
@@ -35,6 +37,7 @@ class OrderFactory
                 shipSymbol: $queue->getShipSymbol(),
                 fleet: $this->fleet,
                 shipTravel: $this->shipTravel,
+                shipActions: $this->shipActions,
                 orderQueueRepo: $this->orderQueueRepo,
             );
 
