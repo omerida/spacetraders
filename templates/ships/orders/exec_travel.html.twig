@@ -1,0 +1,23 @@
+{#
+Updates after a travel order has been executed
+
+Expected parameters:
+
+    ship: Ship value object
+    orders: Collection of Ship Orders
+
+
+#}
+
+{{ include('partials/ship/nav-table.html.twig', {
+    nav: ship.nav,
+}) }}
+
+<div class="ship-order-queue">
+{% if orders is empty %}
+    <p class="warning">No active orders queued for this ship.</p>
+{% else %}
+    {{ include('partials/ship/orders-table.html.twig',
+        {ship: ship, orders: orders}) }}
+{% endif %}
+</div>

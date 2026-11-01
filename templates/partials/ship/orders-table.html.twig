@@ -20,7 +20,9 @@ Expected parameteers:
         {% set params = {symbol: ship.symbol, id: order.id} %}
     <tr data-id="{{ order.id }}">
         <td>{{ loop.index }}</td>
-        <td>{{ order.type|machine2readable }}</td>
+        <td>{{ order.type|machine2readable }}
+            {{ helpers.play_btn('/ship/order/execute', params, '.ship-order-queue') }}
+        </td>
         <td>{{ order.status|machine2readable }}</td>
         <td>{{ order.getPayload() }}</td>
         <td>{{ helpers.delete_btn(

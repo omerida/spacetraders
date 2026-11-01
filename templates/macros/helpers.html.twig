@@ -74,6 +74,34 @@
     {% endfor %}
 {% endmacro %}
 
+{% macro play_btn(href, params, target, title, confirm) %}
+    <button type="button"
+            title="{{ title ?: 'Exceute' }}"
+            up-confirm="{{ confirm ?: 'Are you sure you want to execute?' }}"
+            up-follow
+            up-method="POST"
+            up-target="{{ target }}"
+            up-href="{{ href }}"
+            up-params="{{ params|json_encode }}"
+            class="btn-icon btn-play" aria-label="{{ title ?: 'Execute' }} ">
+    {{ _self.icon_play(18) }}
+    </button>
+{% endmacro %}
+
+{% macro delete_btn(href, params, target, title, confirm) %}
+    <button type="button"
+            title="{{ title ?: 'Delete this' }}"
+            up-confirm="{{ confirm ?: 'Are you sure you want to delete?' }}"
+            up-follow
+            up-method="DELETE"
+            up-target="{{ target }}"
+            up-href="{{ href }}"
+            up-params="{{ params|json_encode }}"
+            class="btn-icon btn-delete" aria-label="{{ title ?: 'Delete' }} ">
+    {{ _self.icon_trash(18) }}
+    </button>
+{% endmacro %}
+
 {% macro icon_trash(size = 16) %}
     <svg aria-hidden="true"
          xmlns="http://www.w3.org/2000/svg"
@@ -91,17 +119,17 @@
     </svg>
 {% endmacro %}
 
-{% macro delete_btn(href, params, target, title, confirm) %}
-    <button type="button"
-            title="{{ title ?: 'Delete this' }}"
-            up-confirm="{{ confirm ?: 'Are you sure you want to delete?' }}"
-            up-follow
-            up-method="DELETE"
-            up-target="{{ target }}"
-            up-href="{{ href }}"
-            up-params="{{ params|json_encode }}"
-            class="btn-delete" aria-label="{{ title ?: 'Delete' }} ">
-    {{ _self.icon_trash(18) }}
-    </button>
-
+{% macro icon_play(size = 16) %}
+    <svg aria-hidden="true"
+         xmlns="http://www.w3.org/2000/svg"
+         width="16"
+         height="16"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <polygon points="6 3 20 12 6 21 6 3"></polygon>
+    </svg>
 {% endmacro %}

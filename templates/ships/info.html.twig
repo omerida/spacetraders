@@ -6,12 +6,8 @@
     <div class="flex">
         <details class="card one-third" open="open">
             <summary>Navigation</summary>
-            <h3>Current Waypoint</h3>
-            {{ helpers.drawer_link_grow(
-                viewWaypointPath(ship.nav.waypointSymbol),
-                ship.nav.waypointSymbol) }}
             <h3>Route</h3>
-            {{ include('partials/ship-nav-table.html.twig'
+            {{ include('partials/ship/nav-table.html.twig'
                 , {nav: ship.nav}) }}
         </details>
         <details class="card two-thirds" open="open">
@@ -201,7 +197,7 @@
             {% if orders is empty %}
                 <p class="warning">No active orders queued for this ship.</p>
             {% else %}
-                {{ include('partials/ship-orders-table.html.twig',
+                {{ include('partials/ship/orders-table.html.twig',
                     {ship: ship, orders: orders}) }}
             {% endif %}
             </div>

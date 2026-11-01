@@ -5,7 +5,7 @@
         {% if orders is empty %}
             <p class="warning">No active orders queued for this ship.</p>
         {% else %}
-            {{ include('partials/ship-orders-table.html.twig',
+            {{ include('partials/ship/orders-table.html.twig',
                 {ship: ship, orders: orders}) }}
         {% endif %}
     </div>
