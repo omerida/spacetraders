@@ -168,6 +168,23 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         );
     }
 
+    private function showFormSellGoods(OrderType $order, string $shipID): ResponseInterface {
+        $goods = array_map(
+            fn($good) => ['value' => $good->value, 'name' => $good->name],
+            Goods\Symbol::cases()
+        );
+
+        usort($goods, fn($a, $b) => $a['value'] <=> $b['value']);
+
+        return $this->render(
+            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            [
+                'shipID' => $shipID,
+                'goods' => $goods,
+            ]
+        );
+    }
+
     private function showFormRefuel(OrderType $order, string $shipID): ResponseInterface {
         return $this->render(
             'ships/orders/_form_refuel.html.twig',

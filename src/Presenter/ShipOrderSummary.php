@@ -45,6 +45,8 @@ class ShipOrderSummary
             case OrderType::REFUEL->value:
                 return $this->formatRefuelPayload();
 
+            case OrderType::SELL_GOODS->value:
+                return $this->formatSellGoodsPayload();
             default:
                 return json_encode($this->order->getPayload(), JSON_THROW_ON_ERROR);
         }
@@ -110,5 +112,31 @@ class ShipOrderSummary
 
     private function formatRefuelPayload(): Markup {
         return new Markup('Refuel if possible at current waypoint.', 'UTF-8');
+    }
+
+    private function formatSellGoodsPayload(): Markup {
+        /**
+         * @var array{
+         *   keep: string[],
+         * } $payload
+         */
+        $payload = $this->order->getPayload();
+
+        $html = '';
+        if ($payload['sell']) {
+            $goods = [];
+            foreach ($payload['sell'] as $value) {
+                $value = strtolower($value);
+                $value = str_replace('_', ' ', $value);
+                $value = ucwords($value);
+
+                $good = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                $goods[] = '<em>' . $good . '</em>';
+            }
+
+            $html .= 'Sell all quantities of: ' . implode(', ', $goods);
+        }
+        // Avoids using raw filter
+        return new Markup($html, 'UTF-8');
     }
 }
