@@ -66,9 +66,7 @@ class Refuel extends AbstractExecutor
         $response = $response->withHeader(
             header: 'X-Up-Target',
             value: implode(', ', [
-                '.ship-order-queue',
                 '.ship-fuel',
-                '.order-result'
             ])
         );
 

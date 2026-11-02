@@ -77,14 +77,21 @@
 
 {% macro play_btn(href, params, target, title, confirm) %}
     <button type="button"
-            title="{{ title ?: 'Exceute' }}"
-            up-confirm="{{ confirm ?: 'Are you sure you want to execute?' }}"
+            title="{{ title ?: 'Execute' }}"
             up-follow
             up-method="POST"
+            {% if target %}
             up-target="{{ target }}"
+            {% endif %}
+            up-layer="any"
+            up-fallback="false"
+            up-abort="false"
+            up-flock="false"
+            up-transition="none"
             up-href="{{ href }}"
             up-params="{{ params|json_encode }}"
-            class="btn-icon btn-play" aria-label="{{ title ?: 'Execute' }} ">
+            class="btn-icon btn-play"
+            aria-label="{{ title ?: 'Execute' }}">
     {{ _self.icon_play(18) }}
     </button>
 {% endmacro %}

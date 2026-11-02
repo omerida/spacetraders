@@ -8,6 +8,18 @@ Expected parameteers:
 
 {% import 'macros/helpers.html.twig' as helpers %}
 
+{# Map order type keys to their required Unpoly target fragments #}
+{# .ship-cargo, .ship-cooldown:maybe, ', #}
+{% set order_target_map = {
+    TRAVEL: '.ship-nav-status, .ship-cooldown',
+    EXTRACT_RESOURCES: '.order-result',
+    REFUEL: '.ship-fuel, .ship-cooldown, .order-result',
+    SELL_CARGO: '.ship-cargo, .ship-credits, .order-result',
+    JETTISON: '.ship-cargo, .order-result',
+} %}
+
+{% set default_target = '.order-result' %}
+
 <table class="ship-orders">
     <tr>
         <th>&nbsp;</th>
@@ -18,10 +30,12 @@ Expected parameteers:
     </tr>
     {% for order in orders %}
         {% set params = {symbol: ship.symbol, id: order.id} %}
+        {% set target_selector = order_target_map[order.type]|default(default_target) %}
     <tr data-id="{{ order.id }}">
-        <td>{{ loop.index }}</td>
+        <td>{{ loop.index }}
+            {{ helpers.play_btn('/ship/order/execute', params, target_selector) }}
+        </td>
         <td>{{ order.type|machine2readable }}
-            {{ helpers.play_btn('/ship/order/execute', params, '.ship-order-queue') }}
         </td>
         <td>{{ order.status|machine2readable }}</td>
         <td>{{ order.getPayload() }}</td>

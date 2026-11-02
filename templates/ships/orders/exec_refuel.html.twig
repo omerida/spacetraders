@@ -4,19 +4,9 @@ Updates after a refuel order has been executed
 Expected parameters:
 
     ship: Ship value object
-    orders: Collection of Ship Orders
     refule: RefuelShip response
 
 #}
 
 {{ include('ships/ship-refuel.html.twig'
     , {agent: agent, fuel: fuel, transaction: transactin}) }}
-
-<div class="ship-order-queue">
-{% if orders is empty %}
-    <p class="warning">No active orders queued for this ship.</p>
-{% else %}
-    {{ include('partials/ship/orders-table.html.twig',
-        {ship: ship, orders: orders}) }}
-{% endif %}
-</div>

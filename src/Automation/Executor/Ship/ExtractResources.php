@@ -68,15 +68,15 @@ class ExtractResources extends AbstractExecutor
             ]
         );
 
-        $response = $response->withHeader(
-            header: 'X-Up-Target',
-            value: implode(', ', [
-                '.ship-order-queue',
-                '.ship-cargo',
-                '.ship-cooldown',
-                '.order-result'
-            ])
-        );
+//        $response = $response->withHeader(
+//            header: 'X-Up-Target',
+//            value: implode(', ', [
+//                '.order-result'
+//            //                '.ship-cargo',
+//            //                '.ship-cooldown:maybe',
+//            //                '.order-result:maybe'
+//            ])
+//        );
 
         return $response;
     }
