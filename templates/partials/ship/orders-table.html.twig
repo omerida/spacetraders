@@ -9,10 +9,10 @@ Expected parameteers:
 {% import 'macros/helpers.html.twig' as helpers %}
 
 {# Map order type keys to their required Unpoly target fragments #}
-{# .ship-cargo, .ship-cooldown:maybe, ', #}
+{# ', #}
 {% set order_target_map = {
     TRAVEL: '.ship-nav-status, .ship-cooldown',
-    EXTRACT_RESOURCES: '.order-result',
+    EXTRACT_RESOURCES: '.order-result, .ship-cargo:maybe, .ship-cooldown:maybe',
     REFUEL: '.ship-fuel, .ship-cooldown, .order-result',
     SELL_CARGO: '.ship-cargo, .ship-credits, .order-result',
     JETTISON: '.ship-cargo, .order-result',
