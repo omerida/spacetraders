@@ -1,3 +1,10 @@
+/* Animation defaults */
+up.fragment.config.navigateOptions.transition = 'fade'
+up.layer.config.modal.openAnimation = 'move-from-top'
+up.layer.config.modal.closeAnimation = 'move-to-bottom'
+up.motion.config.easing = 'ease-in-out'
+up.motion.config.duration = 250
+
 /* Makes cells with a countdown timer tick down. */
 up.compiler('table.ship-cooldown', function(table) {
     const countdownCell = table.querySelector('td[data-countdown="true"]');

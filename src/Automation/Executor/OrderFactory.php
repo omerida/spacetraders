@@ -16,6 +16,7 @@ class OrderFactory
     private static array $shipOrderMap = [
         OrderType::TRAVEL->value => Ship\Travel::class,
         OrderType::EXTRACT_RESOURCES->value => Ship\ExtractResources::class,
+        OrderType::REFUEL->value => Ship\Refuel::class,
     ];
 
     public function __construct(

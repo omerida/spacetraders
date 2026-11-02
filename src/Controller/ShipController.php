@@ -105,7 +105,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         ]);
     }
 
-/**
+    /**
      * @return ResponseInterface
      * @throws APIAuthentication
      * @throws APIFailure

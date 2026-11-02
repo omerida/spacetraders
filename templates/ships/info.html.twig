@@ -124,7 +124,7 @@
     </div>
     <div class="flex">
          <details class="card one-third" open="open">
-            <summary>Ship Orders</summary>
+            <summary>Ship Commands</summary>
 
             {% embed 'forms/unpoly-form.html.twig' with {
                 action: '/ship/orders',
@@ -207,7 +207,7 @@
                 <div class="actions">
                 {{ helpers.modal_btn_grow(
                     newShipOrderPath(ship.symbol),
-                    'Add Order',
+                    'Add Order', '.content', false, 'new',
                 ) }}
                 </div>
             </form>
@@ -217,7 +217,7 @@
         <details class="card one-half" open="open">
             <summary>Data</summary>
             <h3>Fuel</h3>
-            {{ include('partials/ship-fuel-table.html.twig'
+            {{ include('partials/ship/fuel-table.html.twig'
                 , {fuel: ship.fuel}) }}
 
             <h3>Cooldown</h3>

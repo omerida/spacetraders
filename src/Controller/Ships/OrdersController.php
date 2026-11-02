@@ -166,6 +166,15 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         );
     }
 
+    private function showFormRefuel(OrderType $order, string $shipID): ResponseInterface {
+        return $this->render(
+            'ships/orders/_form_refuel.html.twig',
+            [
+                'shipID' => $shipID,
+            ]
+        );
+    }
+
     #[Route(
         name: 'create_ship_order',
         path: '/ship/order/create',
@@ -211,7 +220,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         return $this->render(
             '/ships/orders/queue.html.twig',
             [
-                'ship' => $shipID,
+                'ship' => $this->fleet->getShip($shipID),
                 'orders' => $orderSummaries,
             ]
         );

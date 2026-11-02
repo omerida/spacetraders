@@ -42,6 +42,9 @@ class ShipOrderSummary
             case OrderType::TRAVEL->value:
                 return $this->formatTravelPayload();
 
+            case OrderType::REFUEL->value:
+                return $this->formatRefuelPayload();
+
             default:
                 return json_encode($this->order->getPayload(), JSON_THROW_ON_ERROR);
         }
@@ -103,5 +106,9 @@ class ShipOrderSummary
         }
         // Avoids using raw filter
         return new Markup($html, 'UTF-8');
+    }
+
+    private function formatRefuelPayload(): Markup {
+        return new Markup('Refuel if possible at current waypoint.', 'UTF-8');
     }
 }

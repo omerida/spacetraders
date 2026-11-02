@@ -3,7 +3,6 @@
 namespace Phparch\SpaceTraders\Automation\Executor\Ship;
 
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
-use Phparch\SpaceTradersRest\Value\Ship;
 use Phparch\SpaceTradersRest\Value\Ship\Status;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
 use Phparch\SpaceTradersRest\Value\Waypoint;

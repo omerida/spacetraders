@@ -52,7 +52,7 @@
        up-layer="new drawer">{{ text ?: path }}</a>
 {% endmacro %}
 
-{% macro modal_btn_grow(path, text, cache, target) %}
+{% macro modal_btn_grow(path, text, cache, target, layer) %}
     <button type="button" class="btn"
        up-href="{{ path|e('html_attr') }}"
        up-follow
@@ -61,7 +61,8 @@
        up-size="grow"
        up-animation="move-from-top"
        up-cache="{{ cache ? 'true' : 'false' }}"
-       up-layer="swap modal">{{ text ?: path }}</button>
+       up-mode="modal"
+       up-layer="{{ layer ?: 'swap modal' }}">{{ text ?: path }}</button>
 {% endmacro %}
 
 {% macro link(path, text) %}
