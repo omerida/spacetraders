@@ -101,8 +101,13 @@
             title="{{ title ?: 'Delete this' }}"
             up-confirm="{{ confirm ?: 'Are you sure you want to delete?' }}"
             up-follow
-            up-method="DELETE"
+            up-method="POST"
             up-target="{{ target }}"
+            up-layer="any"
+            up-fallback="false"
+            up-abort="false"
+            up-flock="false"
+            up-transition="none"
             up-href="{{ href }}"
             up-params="{{ params|json_encode }}"
             class="btn-icon btn-delete" aria-label="{{ title ?: 'Delete' }} ">

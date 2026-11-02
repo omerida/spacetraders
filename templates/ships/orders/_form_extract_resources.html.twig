@@ -3,7 +3,8 @@
           method="POST"
           up-submit
           up-target=".ship-order-queue"
-          up-layer="parent"
+          up-layer="any"
+          up-transition="none"
           class="order-form">
         <input type="hidden" name="shipID" value="{{ shipID }}">
         <input type="hidden" name="type" value="EXTRACT_RESOURCES">

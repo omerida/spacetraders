@@ -66,13 +66,15 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
             fn($order) => new ShipOrderSummary($order),
             $queue->getOrders()->toArray()
         );
-        return $this->render(
+        $response = $this->render(
             '/ships/orders/queue.html.twig',
             [
-                'ship' => $ship = $this->fleet->getShip($shipID),
+                'ship' => $this->fleet->getShip($shipID),
                 'orders' => $orderSummaries,
             ]
         );
+
+        return $response->withHeader('X-Up-Dismiss-Layer', 'true');
     }
     #[Route(
         name: 'new_ship_order',
@@ -217,13 +219,15 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
             $queue->getOrders()->toArray()
         );
 
-        return $this->render(
+        $response = $this->render(
             '/ships/orders/queue.html.twig',
             [
                 'ship' => $this->fleet->getShip($shipID),
                 'orders' => $orderSummaries,
             ]
         );
+
+        return $response->withHeader('X-Up-Dismiss-Layer', 'true');
     }
 
     private function getShipID(): string

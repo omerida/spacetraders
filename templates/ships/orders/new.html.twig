@@ -16,19 +16,21 @@
             {{ include('ships/orders/_form_' ~ currentType|lower ~ '.html.twig', {
                 shipID: shipID,
             }, true, true) }}
-
         </aside>
     </div>
 {% endblock %}
 
 {% macro sidebar_button(type, label, activeType, shipID) %}
+    {% set isCurrent = (value == currentType) %}
     <button type="button"
+            class="btn order-type-btn {{ isCurrent ? 'active' : '' }}"
             up-href="{{ newShipOrderForm(shipID, type) }}"
-            up-follow
-            class="btn order-type-btn{% if type == activeType %} up-active{% endif %}"
+            up-method="GET"
             up-target="#order-form-panel"
             up-layer="current"
-            up-active>
+            up-follow
+            up-transition="none"
+            up-fallback="false">
         {{ label|machine2readable }}
     </button>
 {% endmacro %}
