@@ -10,11 +10,10 @@ Expected parameteers:
 
 {# Map order type keys to their required Unpoly target fragments #}
 {% set order_target_map = {
-    TRAVEL: '.ship-nav-status, .ship-fuel, .ship-cooldown',
+    TRAVEL: '.ship-nav-status, .ship-fuel:maybe',
     EXTRACT_RESOURCES: '.order-result, .ship-cargo:maybe, .ship-cooldown:maybe',
-    REFUEL: '.ship-fuel, .ship-cooldown, .order-result',
-    SELL_CARGO: '.ship-cargo, .ship-credits, .order-result',
-    JETTISON: '.ship-cargo, .order-result',
+    REFUEL: '.ship-fuel, .ship-cooldown:maybe, .order-result:maybe',
+    SELL_CARGO: '.ship-cargo',
 } %}
 
 {% set default_target = '.order-result' %}
