@@ -14,9 +14,10 @@ class OrderFactory
      * @var array<value-of<OrderType>, class-string<AbstractExecutor>>
      */
     private static array $shipOrderMap = [
-        OrderType::TRAVEL->value => Ship\Travel::class,
         OrderType::EXTRACT_RESOURCES->value => Ship\ExtractResources::class,
         OrderType::REFUEL->value => Ship\Refuel::class,
+        OrderType::SELL_GOODS->value => Ship\SellGoods::class,
+        OrderType::TRAVEL->value => Ship\Travel::class,
     ];
 
     public function __construct(

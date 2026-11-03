@@ -4,8 +4,6 @@ namespace Phparch\SpaceTraders\Automation\Executor\Ship;
 
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTradersRest\Value\Ship\Status;
-use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
-use Phparch\SpaceTradersRest\Value\Waypoint;
 use Phparch\SpaceTradersRest\Value\Fleet\RefuelShip;
 use Psr\Http\Message\ResponseInterface;
 
@@ -13,12 +11,6 @@ class Refuel extends AbstractExecutor
 {
     private ?RefuelShip $refuel = null;
 
-    /**
-     * @param array{
-     *     destination?: string,
-     *     flightmode?: string
-     * } $payload
-     */
     public function setPayload(array $payload): void {
         /* no payload for this command */
     }
@@ -53,7 +45,7 @@ class Refuel extends AbstractExecutor
         assert($this->refuel instanceof RefuelShip);
 
         $response = $this->render(
-            template: '/ships/orders/exec_refuel.html.twig',
+            template: '/ships/orders/results/refuel.html.twig',
             parameters: [
                 'ship' => $ship,
                 'orders' => $orderSummaries,
@@ -61,13 +53,6 @@ class Refuel extends AbstractExecutor
                 'fuel' => $this->refuel->fuel,
                 'transaction' => $this->refuel->transaction
             ]
-        );
-
-        $response = $response->withHeader(
-            header: 'X-Up-Target',
-            value: implode(', ', [
-                '.ship-fuel',
-            ])
         );
 
         return $response;

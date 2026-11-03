@@ -13,7 +13,7 @@
 
         </sidebar>
         <aside id="order-form-panel">
-            {{ include('ships/orders/_form_' ~ currentType|lower ~ '.html.twig', {
+            {{ include('ships/orders/form/' ~ currentType|lower ~ '.html.twig', {
                 shipID: shipID,
             }, true, true) }}
         </aside>

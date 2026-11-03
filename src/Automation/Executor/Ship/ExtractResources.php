@@ -60,7 +60,7 @@ class ExtractResources extends AbstractExecutor
             $queue->getOrders()->toArray()
         );
         $response = $this->render(
-            template: '/ships/orders/exec_extract_resources.html.twig',
+            template: '/ships/orders/results/extract_resources.html.twig',
             parameters: [
                 'ship' => $ship,
                 'orders' => $orderSummaries,

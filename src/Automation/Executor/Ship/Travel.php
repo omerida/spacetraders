@@ -83,16 +83,11 @@ class Travel extends AbstractExecutor
         );
 
         $response = $this->render(
-            template: '/ships/orders/exec_travel.html.twig',
+            template: '/ships/orders/results/travel.html.twig',
             parameters: [
                 'ship' => $ship,
                 'orders' => $orderSummaries,
             ]
-        );
-
-        $response = $response->withHeader(
-            header: 'X-Up-Target',
-            value: '.ship-order-queue, .ship-nav-status'
         );
 
         return $response;

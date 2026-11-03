@@ -117,7 +117,7 @@ class ShipOrderSummary
     private function formatSellGoodsPayload(): Markup {
         /**
          * @var array{
-         *   keep: string[],
+         *   sell: string[],
          * } $payload
          */
         $payload = $this->order->getPayload();

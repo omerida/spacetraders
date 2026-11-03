@@ -402,11 +402,11 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
     {
         $post = (array) $this->getRequest()->getParsedBody();
         $waypoint = $post['waypoint'] ?? null;
-        $waypoint = trim($waypoint);
         if (!$waypoint || !is_string($waypoint)) {
             throw new BadRequestException("Waypoint param missing");
         }
 
+        $waypoint = trim($waypoint);
         return new Waypoint\Symbol($waypoint);
     }
 
