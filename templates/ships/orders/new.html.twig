@@ -10,7 +10,6 @@
             {% for type in orderTypes %}
                 {{ _self.sidebar_button(type.value, type.name, currentType, shipID) }}
             {% endfor %}
-
         </sidebar>
         <aside id="order-form-panel">
             {{ include('ships/orders/form/' ~ currentType|lower ~ '.html.twig', {

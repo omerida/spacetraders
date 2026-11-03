@@ -1,0 +1,14 @@
+{#
+Updates after a refuel order has been executed
+
+Expected parameters:
+
+    ship: Ship value object
+    agent: agent from RefuelShip response
+    fuel: fuel from RefuelShip response
+    transaction: transaction from RefuelShip response
+
+#}
+
+{{ include('ships/ship-refuel.html.twig'
+    , {agent: agent, fuel: fuel, transaction: transaction}) }}

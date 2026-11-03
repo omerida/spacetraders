@@ -2,36 +2,26 @@
 
 <table class="ship-nav-status">
     <tr>
-        <th>Current Status</th>
-        <th>Flight Mode</th>
+        <th>Status</th>
+        <th>Path</th>
+        <th>Time</th>
     </tr>
     <tr>
-        <td><b>{{ nav.status.value|machine2readable }}</b></td>
-        <td><b>{{ nav.flightMode.value|machine2readable }}</b></td>
-    </tr>
-    <tr>
-        <th>Destination</th>
-        <th>Origin</th>
-    </tr>
-    <tr>
-        <td>{{ helpers.drawer_link_grow(
+        <td><b>{{ nav.status.value|machine2readable }}<br>
+            <em>{{ nav.flightMode.value|machine2readable }}</em></td>
+        <td class="left">
+            <b>From:</b> {{ helpers.drawer_link_grow(
                 viewWaypointPath(nav.route.destination.symbol),
                 nav.route.destination.symbol) }}
-            <em>{{ nav.route.destination.type.value }}</em>
-        </td>
-        <td>
-            {{ helpers.drawer_link_grow(
+            <em>{{ nav.route.destination.type.value }}</em><br>
+            <b>To:</b> {{ helpers.drawer_link_grow(
                 viewWaypointPath(nav.route.origin.symbol),
                 nav.route.origin.symbol) }}
             <em>{{ nav.route.origin.type.value }}</em>
         </td>
-    </tr>
-    <tr>
-        <th>Departure Time</th>
-        <th>Arrival Time</th>
-    </tr>
-    <tr>
-        <td>{{ nav.route.departureTime.date|date }}</td>
-        <td>{{ nav.route.arrival.date|date }}</td>
+        <td class="left">
+            <b>Departure:</b> {{ nav.route.departureTime.date|date }}<br>
+            <b>Arrival:</b> {{ nav.route.arrival.date|date }}
+        </td>
     </tr>
 </table>

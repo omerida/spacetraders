@@ -65,13 +65,10 @@ class SellGoods extends AbstractExecutor
     public function getResponse(): ResponseInterface
     {
         $ship = $this->fleet->getShip($this->shipSymbol);
-        $response = $this->render(
-            template: '/ships/orders/results/sell_goods.html.twig',
-            parameters: [
-                'ship' => $ship,
-            ]
-        );
 
-        return $response;
+        // TODO need a way to collect transactions and show all of them
+        return $this->render('ships/ship-sell-goods.html.twig', [
+            'cargo' => $ship->cargo,
+        ]);
     }
 }

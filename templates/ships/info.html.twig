@@ -4,12 +4,50 @@
 {% block content %}
     <h1>{{ ship.symbol }}</h1>
     <div class="flex">
-        <details class="card one-third" open="open">
-            <summary>Navigation</summary>
-            <h3>Route</h3>
+        <div>
+            <h3>Navigation</h3>
             {{ include('partials/ship/nav-table.html.twig'
                 , {nav: ship.nav}) }}
+        </div>
+        <div>
+            <h3>Fuel</h3>
+            {{ include('partials/ship/fuel-table.html.twig'
+                , {fuel: ship.fuel}) }}
+        </div>
+        <div>
+            <h3>Cooldown</h3>
+            {{ include('partials/ship-cooldown-table.html.twig'
+                , {cooldown: ship.cooldown}) }}
+        </div>
+
+    </div>
+    <div class="flex">
+        <details class="card one-third" open="open">
+            <summary>Crew</summary>
+            <table>
+                <tr>
+                    <th>Current</th>
+                    <th>Capacity</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.current }}</td>
+                    <td>{{ ship.crew.capacity }}</td>
+                    <td>{{ ship.crew.required }}</td>
+                </tr>
+                <tr>
+                    <th>Morale</th>
+                    <th>Wages</th>
+                    <th>Rotation</th>
+                </tr>
+                <tr>
+                    <td>{{ ship.crew.morale }}</td>
+                    <td>{{ ship.crew.wages|number_format }}</td>
+                    <td>{{ ship.crew.rotation.value|machine2readable }}</td>
+                </tr>
+            </table>
         </details>
+
         <details class="card two-thirds" open="open">
             <summary>Cargo</summary>
 
@@ -213,41 +251,7 @@
         </details>
     </div>
     <div class="flex">
-        <details class="card one-half" open="open">
-            <summary>Data</summary>
-            <h3>Fuel</h3>
-            {{ include('partials/ship/fuel-table.html.twig'
-                , {fuel: ship.fuel}) }}
 
-            <h3>Cooldown</h3>
-            {{ include('partials/ship-cooldown-table.html.twig'
-                , {cooldown: ship.cooldown}) }}
-        </details>
-        <details class="card one-half" open="open">
-            <summary>Crew</summary>
-            <table>
-                <tr>
-                    <th>Current</th>
-                    <th>Capacity</th>
-                    <th>Required</th>
-                </tr>
-                <tr>
-                    <td>{{ ship.crew.current }}</td>
-                    <td>{{ ship.crew.capacity }}</td>
-                    <td>{{ ship.crew.required }}</td>
-                </tr>
-                <tr>
-                    <th>Morale</th>
-                    <th>Wages</th>
-                    <th>Rotation</th>
-                </tr>
-                <tr>
-                    <td>{{ ship.crew.morale }}</td>
-                    <td>{{ ship.crew.wages|number_format }}</td>
-                    <td>{{ ship.crew.rotation.value|machine2readable }}</td>
-                </tr>
-            </table>
-        </details>
 
     </div>
     <div class="flex">
