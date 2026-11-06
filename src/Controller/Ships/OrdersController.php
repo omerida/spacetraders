@@ -187,7 +187,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
     private function showFormRefuel(OrderType $order, string $shipID): ResponseInterface {
         return $this->render(
-            'ships/orders/_form_refuel.html.twig',
+            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
             [
                 'shipID' => $shipID,
             ]
