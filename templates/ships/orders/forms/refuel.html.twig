@@ -1,0 +1,18 @@
+<aside id="order-form-panel">
+    <form action="{{ newShipOrderCreate('ship_order_create') }}"
+          method="POST"
+          up-submit
+          up-target=".ship-order-queue"
+          up-layer="any"
+          up-transition="none"
+          class="order-form">
+        <input type="hidden" name="shipID" value="{{ shipID }}">
+        <input type="hidden" name="type" value="REFUEL">
+        <p>Refuel at the current waypoint. Assumes ship can refuel</p>
+
+        <div class="actions">
+            <button type="button" class="btn btn-secondary" up-dismiss>Cancel</button>
+            <button type="submit" class="btn btn-primary">Queue Refuel Order</button>
+        </div>
+    </form>
+</aside>

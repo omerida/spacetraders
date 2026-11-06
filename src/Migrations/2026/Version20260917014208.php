@@ -24,7 +24,7 @@ final class Version20260917014208 extends AbstractMigration
               id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
               created_at DATETIME NOT NULL,
               data CLOB DEFAULT NULL,
-              name VARCHAR(512) NOT NULL,
+              name  NOT NULL,
               source VARCHAR(512) NOT NULL,
               description CLOB DEFAULT NULL
             )
@@ -32,11 +32,11 @@ final class Version20260917014208 extends AbstractMigration
         $this->addSql(<<<'SQL'
             CREATE TABLE market_trade_goods_activity (
               id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-              waypointSymbol VARCHAR(256) NOT NULL,
-              symbol VARCHAR(256) NOT NULL,
-              type VARCHAR(256) NOT NULL,
-              supply VARCHAR(256) NOT NULL,
-              activity VARCHAR(256) NOT NULL,
+              waypointSymbol CLOB NOT NULL,
+              symbol CLOB NOT NULL,
+              type CLOB NOT NULL,
+              supply CLOB NOT NULL,
+              activity CLOB NULL,
               tradeVolume INTEGER NOT NULL,
               purchasePrice INTEGER NOT NULL,
               sellPrice INTEGER NOT NULL,

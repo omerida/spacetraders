@@ -1,0 +1,51 @@
+{#
+Renders a Ships Orders
+
+Expected parameteers:
+    ship: ship value object
+    orders: collection of orders for this ship
+#}
+
+{% import 'macros/helpers.html.twig' as helpers %}
+
+{# Map order type keys to their required Unpoly target fragments #}
+{% set order_target_map = {
+    TRAVEL: '.ship-nav-status, .ship-fuel:maybe',
+    EXTRACT_RESOURCES: '.order-result, .ship-cargo:maybe, .ship-cooldown:maybe',
+    REFUEL: '.ship-fuel, .ship-cooldown:maybe, .order-result:maybe',
+    SELL_CARGO: '.ship-cargo',
+} %}
+
+{% set default_target = '.order-result' %}
+
+<table class="ship-orders">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Order</th>
+        <th>Status</th>
+        <th>Details</th>
+        <th>&nbsp;</th>
+    </tr>
+    {% for order in orders %}
+        {% set params = {symbol: ship.symbol, id: order.id} %}
+        {% set target_selector = order_target_map[order.type]|default(default_target) %}
+    <tr data-id="{{ order.id }}">
+        <td>{{ loop.index }}
+            {{ helpers.play_btn('/ship/order/execute', params, target_selector) }}
+        </td>
+        <td>{{ order.type|machine2readable }}
+        </td>
+        <td>{{ order.status|machine2readable }}</td>
+        <td>{{ order.getPayload() }}</td>
+        <td>{{ helpers.delete_btn(
+                deleteShipOrderPath(),
+                params,
+                '.ship-order-queue',
+                'Delete Order',
+                'Are you sure you want to delete this order?',
+            ) }}
+
+           </td>
+    </tr>
+    {% endfor %}
+</table>

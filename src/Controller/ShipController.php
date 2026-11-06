@@ -7,6 +7,8 @@ use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Presenter\ContractSummary;
+use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
+use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\APIException;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Exception\APIAuthentication;
@@ -27,6 +29,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         private Client\Fleet $fleet,
         private Client\Systems $systems,
         private Client\Contracts $contracts,
+        private Repository\Ship\OrderQueue $orderQueueRepo,
     ) {
     }
 
@@ -82,6 +85,13 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             ];
         }
 
+        // Order Queue
+        $queue = $this->orderQueueRepo->getForShip($shipID);
+        $orderSummaries = array_map(
+            fn($order) => new ShipOrderSummary($order),
+            $queue->getOrders()->toArray()
+        );
+
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,
             'flightModes' => $flightModes,
@@ -90,11 +100,12 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
             'contractSummaries' => $contractSummaries,
             'contractGoods' => $contractGoods,
             'fulfilledContracts' => $fulfilledContracts,
+            'orders' => $orderSummaries,
             'atMarket' => $waypoint->hasMarket(),
         ]);
     }
 
-/**
+    /**
      * @return ResponseInterface
      * @throws APIAuthentication
      * @throws APIFailure
@@ -391,11 +402,11 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
     {
         $post = (array) $this->getRequest()->getParsedBody();
         $waypoint = $post['waypoint'] ?? null;
-
         if (!$waypoint || !is_string($waypoint)) {
             throw new BadRequestException("Waypoint param missing");
         }
 
+        $waypoint = trim($waypoint);
         return new Waypoint\Symbol($waypoint);
     }
 

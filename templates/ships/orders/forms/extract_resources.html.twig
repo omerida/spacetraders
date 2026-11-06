@@ -1,0 +1,31 @@
+<aside id="order-form-panel">
+    <form action="{{ newShipOrderCreate('ship_order_create') }}"
+          method="POST"
+          up-submit
+          up-target=".ship-order-queue"
+          up-layer="any"
+          up-transition="none"
+          class="order-form">
+        <input type="hidden" name="shipID" value="{{ shipID }}">
+        <input type="hidden" name="type" value="EXTRACT_RESOURCES">
+
+        <p>Extract until cargo is full.</p>
+        <fieldset>
+            <legend>Keep Goods</legend>
+            <p>Only keep checked goods.</p>
+            <div class="option-list">
+            {% for good in goods %}
+                <label>
+                    <input type="checkbox" name="payload[keep][]" value="{{ good.value }}"
+                    />{{ good.value|machine2readable }}
+                </label>
+            {% endfor %}
+            </div>
+        </fieldset>
+
+        <div class="actions">
+            <button type="button" class="btn btn-secondary" up-dismiss>Cancel</button>
+            <button type="submit" class="btn btn-primary">Queue Extract Order</button>
+        </div>
+    </form>
+</aside>

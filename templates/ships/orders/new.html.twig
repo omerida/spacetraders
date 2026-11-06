@@ -1,0 +1,35 @@
+{% extends 'minimal.html.twig' %}
+
+{% block content %}
+    <header class="order-modal-header">
+        <h2>Queue New Ship Order</h2>
+    </header>
+
+    <div class="sidebar-modal">
+        <sidebar class="well well-btns flex-col">
+            {% for type in orderTypes %}
+                {{ _self.sidebar_button(type.value, type.name, currentType, shipID) }}
+            {% endfor %}
+        </sidebar>
+        <aside id="order-form-panel">
+            {{ include('ships/orders/form/' ~ currentType|lower ~ '.html.twig', {
+                shipID: shipID,
+            }, true, true) }}
+        </aside>
+    </div>
+{% endblock %}
+
+{% macro sidebar_button(type, label, activeType, shipID) %}
+    {% set isCurrent = (value == currentType) %}
+    <button type="button"
+            class="btn order-type-btn {{ isCurrent ? 'active' : '' }}"
+            up-href="{{ newShipOrderForm(shipID, type) }}"
+            up-method="GET"
+            up-target="#order-form-panel"
+            up-layer="current"
+            up-follow
+            up-transition="none"
+            up-fallback="false">
+        {{ label|machine2readable }}
+    </button>
+{% endmacro %}

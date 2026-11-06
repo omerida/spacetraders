@@ -5,13 +5,15 @@
     --color-nav-bg: #369;
     --color-nav: #fff;
     --color-error: #900;
-    --color-error-bg:#fee;
-    --color-btn-bg: #ccc;
+    --color-error-bg: #fee;
+    --color-btn-bg: #88a;
     --color-btn-txt: #111;
     --color-btn-hover-bg: #aaf;
     --color-btn-primary-bg: #66f;
     --color-btn-primary-txt: #fff;
     --color-danger-bg: #966;
+    --color-danger-light-bg: #988;
+    --color-danger-dark-bg: #844;
     --color-danger-txt: #fff;
     --color-btn-border: #ccc;
     --radius-btn-border: 5px;
@@ -24,6 +26,7 @@
     grid-template-areas: "game-aside game-main";
     grid-template-columns: max(300px, 30vw) auto;
     grid-gap: 0.5rem;
+
     aside {
         grid-area: game-aside;
     }
@@ -66,6 +69,7 @@ h5 {
 nav.main {
     padding: 0 0 .5rem;
 }
+
 nav.main ul {
     list-style-type: none;
     display: flex;
@@ -82,40 +86,40 @@ nav.main ul > li {
 
 nav.main ul > li a {
     color: var(--color-nav);
-    font-weight:bold;
+    font-weight: bold;
 }
 
 /* from https://www.w3.org/WAI/content-assets/wai-aria-practices/patterns/breadcrumb/examples/css/breadcrumb.css */
 nav.breadcrumb {
-  padding: 0.8em 1em;
-  border: 1px solid hsl(0deg 0% 90%);
-  border-radius: 4px;
-  background: hsl(300deg 14% 97%);
+    padding: 0.8em 1em;
+    border: 1px solid hsl(0deg 0% 90%);
+    border-radius: 4px;
+    background: hsl(300deg 14% 97%);
 }
 
 nav.breadcrumb ol {
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
 }
 
 nav.breadcrumb li {
-  display: inline;
+    display: inline;
 }
 
 nav.breadcrumb li + li::before {
-  display: inline-block;
-  margin: 0 0.25em;
-  transform: rotate(15deg);
-  border-right: 0.1em solid currentcolor;
-  height: 0.8em;
-  content: "";
+    display: inline-block;
+    margin: 0 0.25em;
+    transform: rotate(15deg);
+    border-right: 0.1em solid currentcolor;
+    height: 0.8em;
+    content: "";
 }
 
 nav.breadcrumb [aria-current="page"] {
-  color: #000;
-  font-weight: 700;
-  text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    text-decoration: none;
 }
 
 table {
@@ -123,6 +127,7 @@ table {
     border: 1px solid var(--color-emphasis);
     max-height: 45vh;
     overflow: auto;
+
     th {
         padding: 0.5rem 1.25rem;
         background-color: var(--color-emphasis);
@@ -149,7 +154,7 @@ table {
     }
 
     tr:nth-child(even) {
-      background-color: var(--color-alternate);
+        background-color: var(--color-alternate);
     }
 }
 
@@ -161,11 +166,66 @@ input[type=submit],
     padding: .25em 1rem;
     border-radius: var(--radius-btn-border);
     display: inline-block;
+
+    :focus-visible {
+        outline: 2px solid #0066cc;
+        outline-offset: 2px;
+    }
 }
 
 .btn-cancel {
     background-color: var(--color-danger-bg);
     color: var(--color-danger-txt);
+}
+
+.btn-icon {
+    /* Layout & sizing */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid var(--color-danger-light-bg);
+    border-radius: 8px;
+    background-color: var(--color-btn-bg);
+    color: var(--color-btn-primary-txt); /* Sets the stroke color via currentColor */
+    cursor: pointer;
+
+    /* Smooth state transitions */
+    transition: background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    transform 0.1s ease-in-out;
+    &:hover {
+        background-color: var(--color-btn-hover-bg);
+        border-color: #333;
+    }
+}
+
+.btn-delete {
+    background-color: var(--color-danger-light-bg);
+
+    &:hover {
+        background-color: var(--color-danger-dark-bg);
+        border-color: #b71c1c;
+    }
+
+    &:focus-visible {
+        background-color: var(--color-danger-dark-bg);
+        border-color: var(--color-btn-primary-txt);
+        color: var(--color-btn-primary-txt);
+    }
+
+    &:active {
+        transform: scale(0.94);
+    }
+
+    /* Optional: Ensure SVG inside scales properly */
+
+    & svg {
+        display: block;
+        pointer-events: none;
+    }
 }
 
 .btn-primary {
@@ -180,8 +240,16 @@ input[type=submit]:hover,
 }
 
 form {
+    fieldset, .form-group {
+        margin: 0.5rem 0 1rem;
+    }
+
+    legend {
+        font-weight: bold;
+    }
+
     .actions {
-        margin:1rem 0 0.5rem;
+        margin: 1rem 0 0.5rem;
         display: flex;
         gap: 1px;
     }
@@ -194,9 +262,36 @@ form {
     .actions .btn:first-of-type {
         border-radius: var(--radius-btn-border) 0 0 var(--radius-btn-border);
     }
+
     .actions .btn:last-of-type {
         border-radius: 0 var(--radius-btn-border) var(--radius-btn-border) 0;
     }
+
+    .option-list {
+        column-count: 4;
+        column-gap: 1rem;
+        max-height: 55vh;
+        overflow-y: scroll;
+        label {
+            display: block;
+        }
+    }
+}
+
+.sidebar-modal {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  & > sidebar {
+    min-width: 0;
+  }
+
+  & > aside {
+    min-width: 65vw;
+  }
 }
 
 /* Flex layout for putting children in rows that wrap */
@@ -205,15 +300,32 @@ form {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1.25rem;
-    margin-bottom:1rem;
+    margin-bottom: 1rem;
     align-content: stretch;
 
     /* Expand children to fill width
      */
+
     > * {
         flex-grow: 1;
     }
 }
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+    align-content: stretch;
+
+    > * {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
 
 /* A simple card to be used with details element*/
 .card {
@@ -222,6 +334,7 @@ form {
     padding: 0.5rem 1rem;
 
     /* Used when you don't have a details container */
+
     .title {
         padding: 0.5rem 1rem;
         background-color: var(--color-emphasis);
@@ -232,8 +345,8 @@ form {
     }
 
     summary::marker {
-      color: #fff;
-      font-size: 1.2em;
+        color: #fff;
+        font-size: 1.2em;
     }
 
     summary {
@@ -259,6 +372,7 @@ form {
             width: 100%;
             margin: 0.5rem 0;
         }
+
         ul, ol {
             padding-left: 1.5rem;
             margin-top: 0.25rem;
@@ -276,6 +390,10 @@ div.card {
 
 .one-fourth {
     max-width: max(24%, 24vw);
+}
+
+.one-half {
+    max-width: max(49%, 49vw);
 }
 
 .one-third {
@@ -330,18 +448,23 @@ ul.tags {
     display: none;
 }
 
-.errors{
+.errors {
     border: 1px solid var(--color-error);
     color: var(--color-error);
     background: var(--color-error-bg);
-    padding:1rem;
+    padding: 1rem;
     font-weight: bold;
     margin: 0.5rem 0;
 }
 
 .well {
-    padding: 1rem;
-    border: 5px inset #ccc;
+    padding: 0.5rem;
+    border: 3px solid var(--color-alternate);
+    border-radius: var(--radius-btn-border);
     margin: 0.5rem 0 1rem;
+
+    &.well-btns {
+        gap: 0.25rem;
+    }
 }
 

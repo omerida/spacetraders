@@ -1,0 +1,19 @@
+{#
+Updates after an extract resources has been executed
+
+Expected parameters:
+
+    ship: Ship value object
+    details: Extraction details
+#}
+{{ include('partials/ship-cargo-table.html.twig'
+    , {cargo_details: ship.cargo}) }}
+
+{{ include('partials/ship-cooldown-table.html.twig'
+    , {cooldown: ship.cooldown}) }}
+
+<div class="order-result">
+    {{ include('partials/ship-extraction-table.html.twig'
+        , {extraction: details.extraction},
+    ) }}
+</div>

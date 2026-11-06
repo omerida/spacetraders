@@ -76,7 +76,30 @@ return [
         assert(is_string($_ENV['DATABASE_DSN']));
         $dsn = $_ENV['DATABASE_DSN'];
         $dsnParser = new DBAL\Tools\DsnParser();
-        return DBAL\DriverManager::getConnection($dsnParser->parse($dsn));
+
+        $config = new DBAL\Configuration();
+        $config->setSchemaAssetsFilter(
+            static function(string|object $assetName): bool {
+
+                if (is_string($assetName)) {
+                    $name = $assetName;
+                    return !str_starts_with($name, 'registry_');
+                }
+
+                if (method_exists($assetName, 'getName')) {
+                    $name = $assetName->getName();
+                    assert(is_string($name));
+                    return !str_starts_with($name, 'registry_');
+                }
+
+                throw new \RuntimeException("Unknown asset type");
+            }
+        );
+
+        return DBAL\DriverManager::getConnection(
+            $dsnParser->parse($dsn),
+            $config,
+        );
     },
     Data\SystemRegistry::class => static function(): Data\SystemRegistry {
         return new Data\SystemRegistry(
@@ -129,7 +152,6 @@ return [
             isDevMode: true,
         );
         $config->enableNativeLazyObjects(true);
-
         $connection = ServiceContainer::get(DBAL\Connection::class);
         return new EntityManager($connection, $config);
     },
@@ -140,6 +162,14 @@ return [
     Repository\MarketTradeGoodsActivity::class => static function(): Repository\MarketTradeGoodsActivity {
         $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
         return $em->getRepository(Entity\MarketTradeGoodsActivity::class);
+    },
+    Repository\Ship\Order::class => static function(): Repository\Ship\Order {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\Ship\Order::class);
+    },
+    Repository\Ship\OrderQueue::class => static function(): Repository\Ship\OrderQueue {
+        $em = ServiceContainer::get(ORM\EntityManagerInterface::class);
+        return $em->getRepository(Entity\Ship\OrderQueue::class);
     },
     Routes\Scanner::class => static function () {
         return new Routes\Scanner(

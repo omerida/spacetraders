@@ -41,6 +41,30 @@ class TwigExtensions
         return self::pathWithParams("/systems/shipyard", ['id' => $id]);
     }
 
+    #[AsTwigFunction('newShipOrderPath')]
+    public static function newShipOrderPath(string $id): string
+    {
+        return self::pathWithParams("/ship/order/new", ['ship' => $id]);
+    }
+
+    #[AsTwigFunction('newShipOrderForm')]
+    public static function newShipOrderForm(string $id, string $order): string
+    {
+        return self::pathWithParams("/ship/order/form", ['ship' => $id, 'order' => $order]);
+    }
+
+    #[AsTwigFunction('deleteShipOrderPath')]
+    public static function deleteShipOrderPath(): string
+    {
+        return self::pathWithParams("/ship/order/delete", []);
+    }
+
+    #[AsTwigFunction('newShipOrderCreate')]
+    public static function newShipOrderCreate(): string
+    {
+        return self::pathWithParams("/ship/order/create", []);
+    }
+
     #[AsTwigFunction('viewWaypointPath')]
     public static function viewWaypointPath(string $waypointID): string
     {
