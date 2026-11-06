@@ -15,22 +15,22 @@ Orders are in-game actions that a ship can perform which can change its state. O
 Initial set of orders to implement
 
 1. Travel to a Waypoint
-   1.1. Set mode. Internal logic should handle going to orbit, and docking at destination.
+    1. Set mode. Internal logic should handle going to orbit, and docking at destination.
 2. Extract Resources
-   2.1. Set which goods you want to keep and automatically jettison the rest
-   2.2. Keep extracting if cargo is not full
-   2.3. Wait for cooldown if needed.
+    1. Set which goods you want to keep and automatically jettison the rest
+    1. Keep extracting if cargo is not full
+    1. Wait for cooldown if needed.
 3. Sell goods at a Marketplace
-   3.1. Travel handled as separate action
-   3.2. Check if good available to sell. 
+    1. Travel handled as separate action
+    1. Check if good available to sell. 
 4. Purchase set quantity of goods at a Marketplace
-   4.1. Travel handled as separate action
-   4.2. Check if enough credits are available to purchase.
-   4.3. Check if desired good, quantity is available -> if not availble go to next order?
-   4.4. Purchase the good.
+    1. Travel handled as separate action
+    2. Check if enough credits are available to purchase.
+    3. Check if desired good, quantity is available -> if not availble go to next order?
+    4. Purchase the good.
 5. Visit a marketplace to gather price data
 6. Refuel at Waypoint.  Refueling doesn't ask for a purchase quantity.
-   6.1. Initial implementation will rely on players tracking fuel consumption 
+    1. Initial implementation will rely on players tracking fuel consumption 
 
 Ship Queue and Order State is separate from the in-game state of a ship. The orders we queue may change in-game state more than once. For example, to travel, the order would first check if a ship is docked, if true, set it to orbit, then check the thrust, set to desired, and finally issue the travel command.
  
