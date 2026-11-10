@@ -5,6 +5,7 @@ namespace Phparch\SpaceTraders\Controller;
 use GuzzleHttp\Exception\GuzzleException;
 use League\Route\Http\Exception\BadRequestException;
 use Phparch\SpaceTraders\Attribute\Route;
+use Phparch\SpaceTraders\Entity\Ship\Order;
 use Phparch\SpaceTraders\Interface;
 use Phparch\SpaceTraders\Presenter\ContractSummary;
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
@@ -87,10 +88,9 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
 
         // Order Queue
         $queue = $this->orderQueueRepo->getForShip($shipID);
-        $orderSummaries = array_map(
-            fn($order) => new ShipOrderSummary($order),
-            $queue->orders->toArray()
-        );
+        $orderSummaries = $queue->orders
+            ->map(fn(Order $order) => new ShipOrderSummary($order))
+            ->toArray();
 
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,

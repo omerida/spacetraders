@@ -2,6 +2,7 @@
 
 namespace Phparch\SpaceTraders\Automation\Executor\Ship;
 
+use Phparch\SpaceTraders\Entity\Ship\Order;
 use Phparch\SpaceTraders\Presenter\ShipOrderSummary;
 use Phparch\SpaceTradersRest\Value\Ship;
 use Phparch\SpaceTradersRest\Value\Ship\Status;
@@ -55,10 +56,9 @@ class ExtractResources extends AbstractExecutor
     {
         $ship = $this->fleet->getShip($this->shipSymbol);
         $queue = $this->orderQueueRepo->getForShip($this->shipSymbol);
-        $orderSummaries = array_map(
-            fn($order) => new ShipOrderSummary($order),
-            $queue->orders->toArray()
-        );
+        $orderSummaries = $queue->orders
+            ->map(fn(Order $order) => new ShipOrderSummary($order))
+            ->toArray();
         $response = $this->render(
             template: '/ships/orders/results/extract_resources.html.twig',
             parameters: [

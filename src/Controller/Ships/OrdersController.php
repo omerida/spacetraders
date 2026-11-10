@@ -61,10 +61,10 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
         // Prep display of remaining orders
         $queue = $this->orderQueueRepo->getForShip($shipID);
-        $orderSummaries = array_map(
-            fn($order) => new ShipOrderSummary($order),
-            $queue->orders->toArray()
-        );
+        $orderSummaries = $queue->orders
+            ->map(fn(Order $order) => new ShipOrderSummary($order))
+            ->toArray();
+
         $response = $this->render(
             '/ships/orders/queue.html.twig',
             [
@@ -232,10 +232,9 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
         // Order Queue
         $queue = $this->orderQueueRepo->getForShip($shipID);
-        $orderSummaries = array_map(
-            fn($order) => new ShipOrderSummary($order),
-            $queue->orders->toArray()
-        );
+        $orderSummaries = $queue->orders
+            ->map(fn(Order $order) => new ShipOrderSummary($order))
+            ->toArray();
 
         $response = $this->render(
             '/ships/orders/queue.html.twig',
