@@ -49,7 +49,7 @@ class OrderQueue extends EntityRepository
         $queue = $this->createQueryBuilder('s')
             ->innerJoin('s.orders', 'o')
             ->where('o.id = :id')
-            ->setParameter('id', $order->getId())
+            ->setParameter('id', $order->id)
             ->getQuery()
             ->getOneOrNullResult();
 

@@ -15,7 +15,7 @@ class ShipOrderSummary
     }
 
     public function getID(): int {
-        if ($id = $this->order->getID()) {
+        if ($id = $this->order->id) {
             return $id;
         }
 
@@ -24,14 +24,17 @@ class ShipOrderSummary
 
     public function getType(): string
     {
-        return $this->order->getType()->value;
+        return $this->order->type->value;
     }
 
     public function getStatus(): string
     {
-        return $this->order->getStatus()->value;
+        return $this->order->status->value;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function getPayload(): string|Markup
     {
 
@@ -48,7 +51,7 @@ class ShipOrderSummary
             case OrderType::SELL_GOODS->value:
                 return $this->formatSellGoodsPayload();
             default:
-                return json_encode($this->order->getPayload(), JSON_THROW_ON_ERROR);
+                return json_encode($this->order->payload, JSON_THROW_ON_ERROR);
         }
     }
 
@@ -60,7 +63,7 @@ class ShipOrderSummary
          *   flightmod: string,
          * } $payload
          */
-        $payload = $this->order->getPayload();
+        $payload = $this->order->payload;
 
         // Sanitize untrusted dynamic data before wrapping in HTML
         $destination = htmlspecialchars(
@@ -90,7 +93,7 @@ class ShipOrderSummary
          *   keep: string[],
          * } $payload
          */
-        $payload = $this->order->getPayload();
+        $payload = $this->order->payload;
 
         $html = '';
         if ($payload['keep']) {
@@ -120,7 +123,7 @@ class ShipOrderSummary
          *   sell: string[],
          * } $payload
          */
-        $payload = $this->order->getPayload();
+        $payload = $this->order->payload;
 
         $html = '';
         if ($payload['sell']) {

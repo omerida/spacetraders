@@ -29,11 +29,11 @@ class OrderFactory
     }
 
     public function createForShipOrder(Entity\Ship\Order $order): AbstractExecutor {
-        $type = $order->getType();
+        $type = $order->type;
 
         if (array_key_exists($type->value, self::$shipOrderMap)) {
             $class = self::$shipOrderMap[$type->value];
-            $queue = $order->getQueue();
+            $queue = $order->queue;
 
             $exec = new $class(
                 shipSymbol: $queue->shipSymbol,
@@ -43,7 +43,7 @@ class OrderFactory
                 orderQueueRepo: $this->orderQueueRepo,
             );
 
-            $exec->setPayload($order->getPayload());
+            $exec->setPayload($order->payload);
             return $exec;
         }
 
