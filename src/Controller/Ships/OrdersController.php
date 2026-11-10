@@ -52,7 +52,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         // validate it exists
         $order = $this->orderRepo->load($orderID);
         // check that this order belongs to the queue
-        $queue = $this->orderQueueRepo->getForOrder($order);
+        $queue = $order->queue;
         if ($queue->shipSymbol !== $shipID) {
             throw new \RuntimeException("Ship ID does not match");
         }

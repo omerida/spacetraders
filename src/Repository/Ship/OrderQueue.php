@@ -44,19 +44,4 @@ class OrderQueue extends EntityRepository
 
         throw new \RuntimeException("Could not create new queue for ship");
     }
-
-    public function getForOrder(Entity\Ship\Order $order): Entity\Ship\OrderQueue {
-        $queue = $this->createQueryBuilder('s')
-            ->innerJoin('s.orders', 'o')
-            ->where('o.id = :id')
-            ->setParameter('id', $order->id)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if ($queue && $queue instanceof Entity\Ship\OrderQueue) {
-            return $queue;
-        }
-
-        throw new \InvalidArgumentException('No queue for order');
-    }
 }
