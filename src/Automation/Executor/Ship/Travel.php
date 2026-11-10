@@ -79,7 +79,7 @@ class Travel extends AbstractExecutor
         $queue = $this->orderQueueRepo->getForShip($this->shipSymbol);
         $orderSummaries = array_map(
             fn($order) => new ShipOrderSummary($order),
-            $queue->getOrders()->toArray()
+            $queue->orders->toArray()
         );
 
         $response = $this->render(

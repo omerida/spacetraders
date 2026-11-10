@@ -12,7 +12,6 @@ use Phparch\SpaceTraders\Repository;
 use Phparch\SpaceTradersRest\Client;
 use Phparch\SpaceTradersRest\Value\Goods;
 use Phparch\SpaceTradersRest\Value\Ship\FlightMode;
-use Phparch\SpaceTradersRest\Value\TradegoodType;
 use Psr\Http\Message\ResponseInterface;
 
 class OrdersController implements Interface\RequestAware, Interface\TwigAware
@@ -54,7 +53,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $order = $this->orderRepo->load($orderID);
         // check that this order belongs to the queue
         $queue = $this->orderQueueRepo->getForOrder($order);
-        if ($queue->getShipSymbol() !== $shipID) {
+        if ($queue->shipSymbol !== $shipID) {
             throw new \RuntimeException("Ship ID does not match");
         }
 
@@ -64,7 +63,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $queue = $this->orderQueueRepo->getForShip($shipID);
         $orderSummaries = array_map(
             fn($order) => new ShipOrderSummary($order),
-            $queue->getOrders()->toArray()
+            $queue->orders->toArray()
         );
         $response = $this->render(
             '/ships/orders/queue.html.twig',
@@ -85,7 +84,9 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
     public function new(): ResponseInterface
     {
         $shipID = $this->getShipID();
-        $queue = $this->orderQueueRepo->getForShip($shipID);
+
+        // Creates a queue in the DB
+        $this->orderQueueRepo->getForShip($shipID);
 
         $orderTypes = array_map(
             fn($type) => ['name' => $type->name, 'value' => $type->value],
@@ -233,7 +234,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         $queue = $this->orderQueueRepo->getForShip($shipID);
         $orderSummaries = array_map(
             fn($order) => new ShipOrderSummary($order),
-            $queue->getOrders()->toArray()
+            $queue->orders->toArray()
         );
 
         $response = $this->render(

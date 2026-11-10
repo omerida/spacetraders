@@ -16,50 +16,26 @@ class OrderQueue
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    public private(set) ?int $id = null;
 
+    // phpcs:disable
     /**
      * @var Collection<int, Order>
      */
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'queue')]
-    private Collection $orders;
+    public Collection $orders {
+        get => $this->orders;
+    }
+    // phpcs:enable
 
     public function __construct(
         #[ORM\Column(type: Types::STRING, length: 255)]
-        private string $shipSymbol,
+        public private(set) string $shipSymbol,
         #[ORM\Column(enumType: QueueMode::class)]
-        private QueueMode $queueMode,
+        public private(set) QueueMode $queueMode,
         #[ORM\Column]
-        private int $current = 0
+        public int $current = 0
     ){
         $this->orders = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getShipSymbol(): string
-    {
-        return $this->shipSymbol;
-    }
-
-    public function getQueueMode(): QueueMode
-    {
-        return $this->queueMode;
-    }
-
-    public function getCurrent(): int
-    {
-        return $this->current;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
     }
 }

@@ -36,7 +36,7 @@ class OrderFactory
             $queue = $order->getQueue();
 
             $exec = new $class(
-                shipSymbol: $queue->getShipSymbol(),
+                shipSymbol: $queue->shipSymbol,
                 fleet: $this->fleet,
                 shipTravel: $this->shipTravel,
                 shipActions: $this->shipActions,

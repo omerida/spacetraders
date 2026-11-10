@@ -89,7 +89,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
         $queue = $this->orderQueueRepo->getForShip($shipID);
         $orderSummaries = array_map(
             fn($order) => new ShipOrderSummary($order),
-            $queue->getOrders()->toArray()
+            $queue->orders->toArray()
         );
 
         return $this->render('ships/info.html.twig', [
