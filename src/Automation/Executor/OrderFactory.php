@@ -14,13 +14,15 @@ class OrderFactory
      * @var array<value-of<OrderType>, class-string<AbstractExecutor>>
      */
     private static array $shipOrderMap = [
+        OrderType::DELIVER_CONTRACT_GOODS->value => Ship\DeliverContractGoods::class,
         OrderType::EXTRACT_RESOURCES->value => Ship\ExtractResources::class,
-        OrderType::REFUEL->value => Ship\Refuel::class,
-        OrderType::SELL_GOODS->value => Ship\SellGoods::class,
-        OrderType::TRAVEL->value => Ship\Travel::class,
+        OrderType::REFUEL->value            => Ship\Refuel::class,
+        OrderType::SELL_GOODS->value        => Ship\SellGoods::class,
+        OrderType::TRAVEL->value            => Ship\Travel::class,
     ];
 
     public function __construct(
+        private Client\Contracts $contracts,
         private Client\Fleet $fleet,
         private Client\ShipTravel $shipTravel,
         private Client\ShipActions $shipActions,
@@ -37,6 +39,7 @@ class OrderFactory
 
             $exec = new $class(
                 shipSymbol: $queue->shipSymbol,
+                contracts: $this->contracts,
                 fleet: $this->fleet,
                 shipTravel: $this->shipTravel,
                 shipActions: $this->shipActions,

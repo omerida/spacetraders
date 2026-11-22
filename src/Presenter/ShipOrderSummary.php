@@ -50,6 +50,10 @@ class ShipOrderSummary
 
             case OrderType::SELL_GOODS->value:
                 return $this->formatSellGoodsPayload();
+
+            case OrderType::DELIVER_CONTRACT_GOODS->value:
+                return $this->formatDeliverContractGoodsPayload();
+
             default:
                 return json_encode($this->order->payload, JSON_THROW_ON_ERROR);
         }
@@ -117,6 +121,25 @@ class ShipOrderSummary
         return new Markup('Refuel if possible at current waypoint.', 'UTF-8');
     }
 
+    private function formatDeliverContractGoodsPayload(): Markup {
+        /**
+         * @var array{
+         *   deliver: string[],
+         *   contract: string,
+         * } $payload
+         */
+        $payload = $this->order->payload;
+
+        $html = '';
+        if ($payload['deliver']) {
+            $html .= 'Deliver all quantities of: ';
+            $html .= $this->buildGoodList($payload['deliver']);
+            $html .= '<br>Contract: <em>' . $payload['contract'] . '</em>';
+        }
+        // Avoids using raw filter
+        return new Markup($html, 'UTF-8');
+    }
+
     private function formatSellGoodsPayload(): Markup {
         /**
          * @var array{
@@ -127,19 +150,26 @@ class ShipOrderSummary
 
         $html = '';
         if ($payload['sell']) {
-            $goods = [];
-            foreach ($payload['sell'] as $value) {
-                $value = strtolower($value);
-                $value = str_replace('_', ' ', $value);
-                $value = ucwords($value);
-
-                $good = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-                $goods[] = '<em>' . $good . '</em>';
-            }
-
-            $html .= 'Sell all quantities of: ' . implode(', ', $goods);
+            $html .= 'Sell all quantities of: ';
+            $html .= $this->buildGoodList($payload['sell']);
         }
         // Avoids using raw filter
         return new Markup($html, 'UTF-8');
+    }
+
+    /**
+     * @param string[] $payload
+     */
+    private function buildGoodList(array $payload): string {
+        $goods = [];
+        foreach ($payload as $value) {
+            $value = strtolower($value);
+            $value = str_replace('_', ' ', $value);
+            $value = ucwords($value);
+
+            $good = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $goods[] = '<em>' . $good . '</em>';
+        }
+        return implode(', ', $goods);
     }
 }
