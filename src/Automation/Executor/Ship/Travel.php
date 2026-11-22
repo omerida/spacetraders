@@ -29,6 +29,7 @@ class Travel extends AbstractExecutor
             throw new \InvalidArgumentException("Flight mode is required");
         }
 
+        $payload['destination'] = trim($payload['destination']);
         $this->waypoint = new Waypoint\Symbol($payload['destination']);
         if (!($mode = FlightMode::tryFrom($payload['flightmode']))) {
             throw new \InvalidArgumentException(

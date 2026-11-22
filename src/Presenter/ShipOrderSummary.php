@@ -125,6 +125,7 @@ class ShipOrderSummary
         /**
          * @var array{
          *   deliver: string[],
+         *   contract: string,
          * } $payload
          */
         $payload = $this->order->payload;
@@ -133,6 +134,7 @@ class ShipOrderSummary
         if ($payload['deliver']) {
             $html .= 'Deliver all quantities of: ';
             $html .= $this->buildGoodList($payload['deliver']);
+            $html .= '<br>Contract: <em>' . $payload['contract'] . '</em>';
         }
         // Avoids using raw filter
         return new Markup($html, 'UTF-8');

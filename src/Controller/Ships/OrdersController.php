@@ -241,6 +241,11 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
         $payload = $post['payload'] ?? [];
 
+        if (isset($payload['destination']) && is_string($payload['destination'])) {
+            $payload['destination'] = trim($payload['destination']);
+            assert(is_string($payload['destination']));
+        }
+
         $order = new Order(
             queue: $this->orderQueueRepo->getForShip($shipID),
             type: $type,

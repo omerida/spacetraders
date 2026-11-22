@@ -16,6 +16,7 @@ abstract class AbstractExecutor implements Executor\ExecutorInterface
 
     public function __construct(
         protected readonly string $shipSymbol,
+        protected Client\Contracts $contracts,
         protected Client\Fleet $fleet,
         protected Client\ShipTravel $shipTravel,
         protected Client\ShipActions $shipActions,

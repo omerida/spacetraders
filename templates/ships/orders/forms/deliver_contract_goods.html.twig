@@ -13,6 +13,12 @@
         <fieldset>
             <legend>Deliver Contract Goods</legend>
             <p>Deliver entire quantity of checked goods.</p>
+            <p>
+            <label>
+                Contract ID:
+                <input type="text" name="payload[contract]" placeholder="Contract ID" />
+            </label>
+            </p>
             <div class="option-list">
             {% for good in goods %}
                 <label>
