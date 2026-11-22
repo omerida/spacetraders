@@ -11,13 +11,13 @@
             <em>{{ nav.flightMode.value|machine2readable }}</em></td>
         <td class="left">
             <b>From:</b> {{ helpers.drawer_link_grow(
-                viewWaypointPath(nav.route.destination.symbol),
-                nav.route.destination.symbol) }}
-            <em>{{ nav.route.destination.type.value }}</em><br>
-            <b>To:</b> {{ helpers.drawer_link_grow(
                 viewWaypointPath(nav.route.origin.symbol),
                 nav.route.origin.symbol) }}
-            <em>{{ nav.route.origin.type.value }}</em>
+            <em>{{ nav.route.origin.type.value }}</em><br>
+            <b>To:</b> {{ helpers.drawer_link_grow(
+                viewWaypointPath(nav.route.destination.symbol),
+                nav.route.destination.symbol) }}
+            <em>{{ nav.route.destination.type.value }}</em>
         </td>
         <td class="left">
             <b>Departure:</b> {{ nav.route.departureTime.date|date }}<br>

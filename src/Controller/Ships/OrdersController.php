@@ -85,6 +85,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
     public function new(): ResponseInterface
     {
         $shipID = $this->getShipID();
+
         $queue = $this->orderQueueRepo->getForShip($shipID);
 
         $orderTypes = array_map(
@@ -95,6 +96,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         return $this->render('ships/orders/new.html.twig', [
             'shipID' => $shipID,
             'orderTypes' => $orderTypes,
+            'queue' => $queue,
         ]);
     }
 
@@ -142,7 +144,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         );
 
         return $this->render(
-            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            'ships/orders/forms/' . strtolower($order->value) . '.html.twig',
             [
                 'shipID' => $shipID,
                 'flightModes' => $flightModes,
@@ -160,7 +162,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         usort($goods, fn($a, $b) => $a['value'] <=> $b['value']);
 
         return $this->render(
-            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            'ships/orders/forms/' . strtolower($order->value) . '.html.twig',
             [
                 'shipID' => $shipID,
                 'goods' => $goods,
@@ -177,7 +179,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         usort($goods, fn($a, $b) => $a['value'] <=> $b['value']);
 
         return $this->render(
-            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            'ships/orders/forms/' . strtolower($order->value) . '.html.twig',
             [
                 'shipID' => $shipID,
                 'goods' => $goods,
@@ -187,7 +189,7 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
 
     private function showFormRefuel(OrderType $order, string $shipID): ResponseInterface {
         return $this->render(
-            'ships/orders/_form_' . strtolower($order->value) . '.html.twig',
+            'ships/orders/forms/' . strtolower($order->value) . '.html.twig',
             [
                 'shipID' => $shipID,
             ]
