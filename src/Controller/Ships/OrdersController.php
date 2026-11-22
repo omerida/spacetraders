@@ -136,6 +136,25 @@ class OrdersController implements Interface\RequestAware, Interface\TwigAware
         return $response;
     }
 
+    private function showFormDeliverContractGoods(
+        OrderType $order, string $shipID
+    ): ResponseInterface {
+        $goods = array_map(
+            fn($good) => ['value' => $good->value, 'name' => $good->name],
+            Goods\Symbol::cases()
+        );
+
+        usort($goods, fn($a, $b) => $a['value'] <=> $b['value']);
+
+        return $this->render(
+            'ships/orders/forms/' . strtolower($order->value) . '.html.twig',
+            [
+                'shipID' => $shipID,
+                'goods' => $goods,
+            ]
+        );
+    }
+
     private function showFormTravel(OrderType $order, string $shipID): ResponseInterface {
         $flightModes = array_map(
             fn($case) => ['value' => $case->value, 'name' => $case->name],
