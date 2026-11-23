@@ -13,6 +13,7 @@ abstract class AbstractExecutor implements Executor\ExecutorInterface
 {
     private Environment $twig;
     protected bool $advance = false;
+    protected ?\DateTimeImmutable $nextCheck = null;
 
     public function __construct(
         protected readonly string $shipSymbol,
@@ -27,6 +28,11 @@ abstract class AbstractExecutor implements Executor\ExecutorInterface
     public function shouldAdvance(): bool
     {
         return $this->advance;
+    }
+
+    public function getNextCheck(): ?\DateTimeImmutable
+    {
+        return $this->nextCheck;
     }
 
     public function setTwigEnvironment(Environment $twig): void

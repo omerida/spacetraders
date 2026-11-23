@@ -69,7 +69,7 @@
     "phparkitect/phparkitect": "^0.7.0",
     "rector/rector": "^2.3",
     "phpunit/phpunit": "^13",
-    "phpstan/phpstan-doctrine": "^2.0"
+    "phpstan/phpstan-doctrine": "^2.1"
   },
   "extra": {
     "hooks": {

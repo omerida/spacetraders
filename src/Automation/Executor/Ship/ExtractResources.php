@@ -50,6 +50,15 @@ class ExtractResources extends AbstractExecutor
         $this->details = $this->shipActions->extractResources($ship->symbol);
         $ship = $this->fleet->getShip($this->shipSymbol);
         $this->jettison($ship);
+
+        $ship = $this->fleet->getShip($this->shipSymbol);
+        if ($ship->cargo->capacity === $ship->cargo->units) {
+            $this->advance = true;
+            $this->nextCheck = null;
+        } else {
+            $this->advance = false;
+            $this->nextCheck = $this->details?->cooldown->expiration;
+        }
     }
 
     public function getResponse(): ResponseInterface
@@ -67,17 +76,6 @@ class ExtractResources extends AbstractExecutor
                 'details' => $this->details,
             ]
         );
-
-//        $response = $response->withHeader(
-//            header: 'X-Up-Target',
-//            value: implode(', ', [
-//                '.order-result'
-//            //                '.ship-cargo',
-//            //                '.ship-cooldown:maybe',
-//            //                '.order-result:maybe'
-//            ])
-//        );
-
         return $response;
     }
 

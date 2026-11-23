@@ -22,6 +22,7 @@ class Refuel extends AbstractExecutor
         // no need to buy fuel
         if ($ship->fuel->current === $ship->fuel->capacity) {
             $this->advance = true;
+            $this->nextCheck = null;
             return;
         }
 
@@ -32,6 +33,7 @@ class Refuel extends AbstractExecutor
 
         $this->refuel = $this->shipActions->refuelShip($ship->symbol);
         $this->advance = true;
+        $this->nextCheck = null;
     }
 
     public function getResponse(): ResponseInterface

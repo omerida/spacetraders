@@ -40,8 +40,18 @@ class OrderQueue
             type: Types::DATETIME_IMMUTABLE,
             nullable: true
         )]
-        public private(set) null|\DateTimeImmutable $nextCheck = null
+        public null|\DateTimeImmutable $nextCheck = null
     ){
         $this->orders = new ArrayCollection();
+    }
+
+    public function advanceCurrent(): void {
+        $new = $this->current + 1;
+        // TODO check if queue should wrap, or if it is set to
+        // non-loop queue mode, should set itself to paused?
+        if ($new === $this->orders->count()) {
+            $new = 0;
+        }
+        $this->current = $new;
     }
 }

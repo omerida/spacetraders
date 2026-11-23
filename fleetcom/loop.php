@@ -7,9 +7,11 @@ use Revolt\EventLoop;
 
 require __DIR__ . '/../bootstrap.php';
 
+const WATCH_INTERVAL = 10;
+
 $watcher = ServiceContainer::get(\Phparch\SpaceTraders\Automation\Watcher::class);
 
-EventLoop::repeat(5, function() use ($watcher) {
+EventLoop::repeat(WATCH_INTERVAL, function() use ($watcher) {
     echo date(\DateTime::RFC2822) . "\n";
     $watcher->run();
 });

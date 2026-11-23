@@ -2,6 +2,8 @@
 
 namespace Phparch\SpaceTraders\Repository\Ship;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 use Phparch\SpaceTraders\Automation\Ship\QueueMode;
 use Phparch\SpaceTraders\Entity;
@@ -43,5 +45,33 @@ class OrderQueue extends EntityRepository
         }
 
         throw new \RuntimeException("Could not create new queue for ship");
+    }
+
+    /**
+     * @return Entity\Ship\OrderQueue[]
+     */
+    public function withOrdersPending(int $limit = 10): array {
+
+        // TODO check that the queue status is not PAUSED
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $or = $qb->expr()->orX();
+        $or->add(
+            $qb->expr()->isNull('q.nextCheck')
+        );
+        $or->add(
+            $qb->expr()->lt('q.nextCheck', 'CURRENT_TIMESTAMP()')
+        );
+
+
+        $query = $qb ->select('q')
+            ->from(Entity\Ship\OrderQueue::class, 'q')
+            ->where($or)
+            ->orderBy('q.nextCheck', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        /** @var Entity\Ship\OrderQueue[] $queues */
+        $queues = $query->getResult();
+        return $queues;
     }
 }
