@@ -34,7 +34,13 @@ class OrderQueue
         #[ORM\Column(enumType: QueueMode::class)]
         public private(set) QueueMode $queueMode,
         #[ORM\Column]
-        public int $current = 0
+        public int $current = 0,
+        #[ORM\Column(
+            name: 'next_check',
+            type: Types::DATETIME_IMMUTABLE,
+            nullable: true
+        )]
+        public private(set) null|\DateTimeImmutable $nextCheck = null
     ){
         $this->orders = new ArrayCollection();
     }
