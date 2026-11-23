@@ -7,7 +7,7 @@ use Revolt\EventLoop;
 
 require __DIR__ . '/../bootstrap.php';
 
-const WATCH_INTERVAL = 10;
+const WATCH_INTERVAL = 4;
 
 $watcher = ServiceContainer::get(\Phparch\SpaceTraders\Automation\Watcher::class);
 

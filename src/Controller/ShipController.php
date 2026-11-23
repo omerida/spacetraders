@@ -94,6 +94,7 @@ class ShipController implements Interface\RequestAware, Interface\TwigAware
 
         return $this->render('ships/info.html.twig', [
             'ship' => $ship,
+            'queue' => $queue,
             'flightModes' => $flightModes,
             'atFuelStation' => $atFuelStation,
             'atContractWaypoint' => $atContractWaypoint,

@@ -13,7 +13,8 @@ Expected parameteers:
     TRAVEL: '.ship-nav-status, .ship-fuel:maybe',
     EXTRACT_RESOURCES: '.order-result, .ship-cargo:maybe, .ship-cooldown:maybe',
     REFUEL: '.ship-fuel, .ship-cooldown:maybe, .order-result:maybe',
-    SELL_CARGO: '.ship-cargo',
+    SELL_CARGO: '.ship-cargo:maybe',
+    DELIVER_CONTRACT_GOODS: '.ship-cargo:maybe',
 } %}
 
 {% set default_target = '.order-result' %}
