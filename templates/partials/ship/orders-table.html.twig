@@ -4,6 +4,7 @@ Renders a Ships Orders
 Expected parameteers:
     ship: ship value object
     orders: collection of orders for this ship
+    current: current ship order to highlight
 #}
 
 {% import 'macros/helpers.html.twig' as helpers %}
@@ -19,34 +20,36 @@ Expected parameteers:
 
 {% set default_target = '.order-result' %}
 
-<table class="ship-orders">
-    <tr>
-        <th>&nbsp;</th>
-        <th>Order</th>
-        <th>Status</th>
-        <th>Details</th>
-        <th>&nbsp;</th>
-    </tr>
-    {% for order in orders %}
-        {% set params = {symbol: ship.symbol, id: order.id} %}
-        {% set target_selector = order_target_map[order.type]|default(default_target) %}
-    <tr data-id="{{ order.id }}">
-        <td>{{ loop.index }}
-            {{ helpers.play_btn('/ship/order/execute', params, target_selector) }}
-        </td>
-        <td>{{ order.type|machine2readable }}
-        </td>
-        <td>{{ order.status|machine2readable }}</td>
-        <td>{{ order.getPayload() }}</td>
-        <td>{{ helpers.delete_btn(
-                deleteShipOrderPath(),
-                params,
-                '.ship-order-queue',
-                'Delete Order',
-                'Are you sure you want to delete this order?',
-            ) }}
+<div class="table-wrapper">
+    <table class="ship-orders">
+        <tr>
+            <th>&nbsp;</th>
+            <th>Order</th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>&nbsp;</th>
+        </tr>
+        {% for order in orders %}
+            {% set params = {symbol: ship.symbol, id: order.id} %}
+            {% set target_selector = order_target_map[order.type]|default(default_target) %}
+            <tr class="{{ loop.index == current ? 'highlight': '' }}">
+                <td>{{ loop.index }}
+                    {{ helpers.play_btn('/ship/order/execute', params, target_selector) }}
+                </td>
+                <td>{{ order.type|machine2readable }}
+                </td>
+                <td>{{ order.status|machine2readable }}</td>
+                <td>{{ order.getPayload() }}</td>
+                <td>{{ helpers.delete_btn(
+                        deleteShipOrderPath(),
+                        params,
+                        '.ship-order-queue',
+                        'Delete Order',
+                        'Are you sure you want to delete this order?',
+                    ) }}
 
-           </td>
-    </tr>
-    {% endfor %}
-</table>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

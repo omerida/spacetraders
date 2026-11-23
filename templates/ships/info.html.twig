@@ -232,7 +232,6 @@
                     <b>Next Check:</b> {{ queue.nextCheck|date }}
                     <b>Current Order:</b> {{ queue.current+1 }}
                 </form>
-
             </div>
 
             <div class="ship-order-queue">
@@ -240,7 +239,7 @@
                 <p class="warning">No active orders queued for this ship.</p>
             {% else %}
                 {{ include('partials/ship/orders-table.html.twig',
-                    {ship: ship, orders: orders}) }}
+                    {ship: ship, orders: orders, current: queue.current+1}) }}
             {% endif %}
             </div>
 
