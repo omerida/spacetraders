@@ -69,7 +69,7 @@
     "phparkitect/phparkitect": "^0.7.0",
     "rector/rector": "^2.3",
     "phpunit/phpunit": "^13",
-    "phpstan/phpstan-doctrine": "^2.0"
+    "phpstan/phpstan-doctrine": "^2.1"
   },
   "extra": {
     "hooks": {
@@ -90,7 +90,7 @@
     "fix-code": ["@phpcbf", "@fix-twig"],
     "phpmd": "vendor/bin/phpmd analyze src phpmd.xml",
     "phpstan": "vendor/bin/phpstan --memory-limit=1G",
-    "phpunit": "vendor/bin/phpunit tests",
+    "phpunit": "vendor/bin/phpunit --display-all-issues tests",
     "phpcs": "vendor/bin/phpcs -s",
     "phpcbf": "vendor/bin/phpcbf",
     "churn": "vendor/bin/churn",

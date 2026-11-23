@@ -2,20 +2,22 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Phparch\SpaceTraders\ServiceContainer;
 use Revolt\EventLoop;
 
+require __DIR__ . '/../bootstrap.php';
 
-EventLoop::repeat(5, function (string $id): void {
-    static $time = 0;
+const WATCH_INTERVAL = 4;
 
-    echo "++ $time Executing callback created by EventLoop::repeat()" . PHP_EOL;
+$watcher = ServiceContainer::get(\Phparch\SpaceTraders\Automation\Watcher::class);
 
-    $time += 5;
+EventLoop::repeat(WATCH_INTERVAL, function() use ($watcher) {
+    echo date(\DateTime::RFC2822) . "\n";
+    $watcher->run();
 });
 
-
 // What to do when a SIGINT signal is received
-EventLoop::onSignal(SIGINT, function (): void {
+EventLoop::onSignal( UV::SIGINT, function (): void {
     echo "Caught SIGINT! exiting ...\n";
     exit;
 });

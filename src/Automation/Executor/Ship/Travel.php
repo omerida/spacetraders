@@ -48,6 +48,7 @@ class Travel extends AbstractExecutor
         // 3- Are we already at expected waypoint
         if ($current === $this->waypoint) {
             $this->advance = true;
+            $this->nextCheck = null;
             return;
         }
 
@@ -65,13 +66,14 @@ class Travel extends AbstractExecutor
         }
 
         // 0 - blastoff
-        $this->shipTravel->navigateShip(
+        $response = $this->shipTravel->navigateShip(
             $this->shipSymbol,
             $this->waypoint
         );
 
-        // go on to the next order
+        // go on to the next order once we arrive
         $this->advance = true;
+        $this->nextCheck = $response->nav->route->arrival;
     }
 
     public function getResponse(): ResponseInterface

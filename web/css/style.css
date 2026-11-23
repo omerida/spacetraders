@@ -122,11 +122,28 @@ nav.breadcrumb [aria-current="page"] {
     text-decoration: none;
 }
 
+.table-wrapper {
+    max-height: 33vh;
+    overflow: auto;
+    border: 1px solid var(--color-emphasis);
+
+    th {
+        position: sticky;
+        top: 0;
+    }
+
+    table {
+        width: 100%;
+    }
+}
+
 table {
     border-collapse: collapse;
-    border: 1px solid var(--color-emphasis);
-    max-height: 45vh;
-    overflow: auto;
+    border-spacing: 2px;
+
+    tr.highlight {
+        outline: 1px solid var(--color-emphasis)
+    }
 
     th {
         padding: 0.5rem 1.25rem;

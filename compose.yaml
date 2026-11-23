@@ -14,6 +14,17 @@ services:
       - .:/var/www
       - ./.composer:/.composer/
       - ./docker/99_php_custom.ini:/usr/local/etc/php/conf.d/99_php_custom.ini:delegated
+  php-daemon:
+    build:
+      context: docker/
+      dockerfile: Dockerfile-daemon
+    user: "1000:1000" # Runs the container processes as user 1000 and group 1000
+    environment:
+      PHP_IDE_CONFIG: "serverName=localhost"
+    volumes:
+      - .:/var/www
+      - ./.composer:/.composer/
+      - ./docker/99_php_custom.ini:/usr/local/etc/php/conf.d/99_php_custom.ini:delegated
   cache:
     image: registry.redict.io/redict
     ports:

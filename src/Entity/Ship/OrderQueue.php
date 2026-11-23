@@ -34,8 +34,24 @@ class OrderQueue
         #[ORM\Column(enumType: QueueMode::class)]
         public private(set) QueueMode $queueMode,
         #[ORM\Column]
-        public int $current = 0
+        public int $current = 0,
+        #[ORM\Column(
+            name: 'next_check',
+            type: Types::DATETIME_IMMUTABLE,
+            nullable: true
+        )]
+        public null|\DateTimeImmutable $nextCheck = null
     ){
         $this->orders = new ArrayCollection();
+    }
+
+    public function advanceCurrent(): void {
+        $new = $this->current + 1;
+        // TODO check if queue should wrap, or if it is set to
+        // non-loop queue mode, should set itself to paused?
+        if ($new === $this->orders->count()) {
+            $new = 0;
+        }
+        $this->current = $new;
     }
 }

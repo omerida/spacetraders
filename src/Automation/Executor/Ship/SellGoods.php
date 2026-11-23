@@ -60,6 +60,7 @@ class SellGoods extends AbstractExecutor
         }
 
         $this->advance = true;
+        $this->nextCheck = null;
     }
 
     public function getResponse(): ResponseInterface

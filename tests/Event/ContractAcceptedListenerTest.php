@@ -24,7 +24,7 @@ class ContractAcceptedListenerTest extends TestCase
         // of our Listener service.
         $container = new Container([
             ListenerService::class => function () {
-                $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+                $entityManagerMock = $this->createStub(EntityManagerInterface::class);
 
                 $mock = $this->getMockBuilder(ListenerService::class)
                     ->setConstructorArgs([$entityManagerMock])
@@ -63,7 +63,7 @@ class ContractAcceptedListenerTest extends TestCase
         // We must create the mock directly and not in the
         // container so that phpunit knows about our
         // expects() for the mocked method.
-        $entityManagerMock = $this->createMock(EntityManagerInterface::class);
+        $entityManagerMock = $this->createStub(EntityManagerInterface::class);
 
         $mockListener = $this->getMockBuilder(ListenerService::class)
             ->setConstructorArgs([$entityManagerMock])
