@@ -32,7 +32,7 @@ Expected parameteers:
         {% for order in orders %}
             {% set params = {symbol: ship.symbol, id: order.id} %}
             {% set target_selector = order_target_map[order.type]|default(default_target) %}
-            <tr class="{{ loop.index == current ? 'highlight': '' }}">
+            <tr class="{{ loop.index == current ? 'highlight' : '' }}">
                 <td>{{ loop.index }}
                     {{ helpers.play_btn('/ship/order/execute', params, target_selector) }}
                 </td>

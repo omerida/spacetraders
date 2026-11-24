@@ -55,18 +55,36 @@ class DeliverContractGoods extends AbstractExecutor
             $this->shipTravel->dockShip($this->shipSymbol);
         }
 
+        // get contract
+        $contract = $this->contracts->details($this->contract);
+
+        if ($contract->fulfilled) {
+            $this->advance = true;
+            $this->nextCheck = null;
+            return;
+        }
+
         foreach ($ship->cargo->inventory as $item) {
             if (!in_array($item->symbol, $this->goods)) {
                 continue;
             }
 
-            // sell indicated goods
-            $this->contracts->deliverCargo(
-                id: $this->contract,
-                shipSymbol: $ship->symbol,
-                good: $item->symbol,
-                units: $item->units,
+            // figure out how many units to deliver
+            $remaining = (
+                $contract->terms->deliver[0]->unitsRequired
+                - $contract->terms->deliver[0]->unitsFulfilled
             );
+
+            $unitsToDeliver = ($remaining > $item->units) ? $item->units : $remaining;
+
+            if ($unitsToDeliver > 0) {            // sell indicated goods
+                $this->contracts->deliverCargo(
+                    id: $this->contract,
+                    shipSymbol: $ship->symbol,
+                    good: $item->symbol,
+                    units: $unitsToDeliver,
+                );
+            }
         }
 
         $this->advance = true;
